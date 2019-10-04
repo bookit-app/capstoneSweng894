@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import { ButtonCustom } from '../../components/common/ButtonCustom'
 import { auth } from '../../config/firebaseConfig'
 import AccountImage from '../../components/account/AccountImage'
@@ -35,7 +35,11 @@ class LogInEmail extends React.Component {
             loading: false
         });
 
-        this.props.navigation.navigate('Loading')
+        // return(
+        //     <Button
+        //         onPress={() => this.props.navigation.navigate('LogOut')}
+        //     />
+        // )
     }
 
     onLogInFail(){
@@ -63,7 +67,7 @@ class LogInEmail extends React.Component {
 
     render(){
         return(
-        <View>
+        <ScrollView style={styles.scrollView}>
             <View style={styles.imgSty}>
                 <AccountImage
                     imageHolder={false}
@@ -89,7 +93,7 @@ class LogInEmail extends React.Component {
                     {'Forgot Password?'}
                 </ButtonCustom>
                 <ButtonCustom
-                    onPress={() => this.props.navigation.navigate('LogInSocial')}
+                    onPress={() => this.props.navigation.navigate('LogIn with Social')}
                     buttonStyle={styles.btnBtmStyle}
                     textStyle={styles.txtBtnStyle}
                 >
@@ -99,13 +103,13 @@ class LogInEmail extends React.Component {
             <View>
                 <AccountOptions
                     onPress={() => this.props.navigation.navigate('SignUp')}
-                    buttonStyle={styles.btnBtmStyle}
-                    textStyle={styles.txtBtnStyle}
-                    viewStyle={styles.bottomView}
+                    buttonStyle={BtnButton.btnBtmStyle}
+                    textStyle={BtnButton.txtBtnStyle}
+                    viewStyle={BtnButton.bottomView}
                     children={'Create an Account'}
                 />
             </View>
-        </View>
+        </ScrollView>
 
         )
     }
@@ -116,6 +120,9 @@ const styles = {
       fontSize: 20,
       alignSelf: 'center',
       color: 'red'
+    },
+    scrollView: {
+      marginHorizontal: 20,
     },
     imgSty: {
         justifyContent: 'center',
@@ -171,5 +178,22 @@ const LogInBtnSty = {
       alignItems: 'center',
     }
   };
+
+const BtnButton ={
+    btnBtmStyle: {
+        textColor: 'black',
+        flex: 1
+    },
+    txtBtnStyle: {
+        color: 'gray'
+    },
+    bottomView:{
+        paddingUp: 10,
+        alignItems: 'center',
+        borderTopColor: 'color',
+        borderTopWidth: 2,
+        marginBottom: 20,
+        }
+}
 
 export default LogInEmail

@@ -1,6 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
-import { withNavigation } from 'react-navigation'
+import { View, ScrollView } from 'react-native'
 import AccountImage from '../../components/account/AccountImage'
 import AccountButtons from '../../components/account/AccountButtons'
 import AccountOptions from '../../components/account/AccountOptions'
@@ -8,7 +7,7 @@ import AccountOptions from '../../components/account/AccountOptions'
 class SignUpOptions extends React.Component {
     render(){
         return (
-            <View>
+            <ScrollView style={styles.scrollView}>
                 <View style={styles.imgSty}>
                     <AccountImage
                         imageHolder={false}
@@ -30,13 +29,13 @@ class SignUpOptions extends React.Component {
                 <View>
                     <AccountOptions
                         onPress={() => this.props.navigation.navigate('Login')}
-                        buttonStyle={styles.btnBtmStyle}
-                        textStyle={styles.txtBtnStyle}
-                        viewStyle={styles.bottomView}
-                        children={'Already have account? Login'}
+                        buttonStyle={BtnButton.btnBtmStyle}
+                        textStyle={BtnButton.txtBtnStyle}
+                        viewStyle={BtnButton.bottomView}
+                        children={'Already have account?'}
                     />  
                 </View>
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -46,6 +45,9 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         padding: 50
+    },
+    scrollView: {
+      marginHorizontal: 20,
     },
     Row: {
         display: 'flex',
@@ -75,6 +77,23 @@ const styles = {
         marginBottom: 20,
       }
 
+}
+
+const BtnButton ={
+  btnBtmStyle: {
+      textColor: 'black',
+      flex: 1
+  },
+  txtBtnStyle: {
+      color: 'gray'
+  },
+  bottomView:{
+      paddingUp: 10,
+      alignItems: 'center',
+      borderTopColor: 'color',
+      borderTopWidth: 2,
+      marginBottom: 20,
+    }
 }
 
 const SocialBtnSty = {

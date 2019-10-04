@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import { withNavigation } from 'react-navigation'
+import { ButtonCustom } from '../../components/common/ButtonCustom'
 import AccountImage from '../../components/account/AccountImage'
 import AccountButtons from '../../components/account/AccountButtons'
 import AccountOptions from '../../components/account/AccountOptions'
 
+
 class LogInOption extends Component {
     render(){
         return (
-            <View>
+            <ScrollView style={styles.scrollView}>
                 <View style={styles.imgSty}>
                     <AccountImage
                         imageHolder={false}
@@ -30,23 +32,13 @@ class LogInOption extends Component {
                 <View>
                     <AccountOptions
                         onPress={() => this.props.navigation.navigate('SignUp')}
-                        buttonStyle={styles.btnBtmStyle}
-                        textStyle={styles.txtBtnStyle}
-                        viewStyle={styles.bottomView}
+                        buttonStyle={BtnButton.btnBtmStyle}
+                        textStyle={BtnButton.txtBtnStyle}
+                        viewStyle={BtnButton.bottomView}
                         children={'Create an Account'}
                     />  
                 </View>
-                
-                <View style={styles.bottomView}>
-                    <ButtonCustom
-                        onPress={() => this.props.navigation.navigate('SignUp')}
-                        buttonStyle={styles.btnBtmStyle}
-                        textStyle={styles.txtBtnStyle}
-                    >
-                        {'Create an Account'}
-                    </ButtonCustom>
-                </View>
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -56,6 +48,9 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         padding: 50
+    },
+    scrollView: {
+      marginHorizontal: 20,
     },
     Row: {
         display: 'flex',
@@ -84,7 +79,23 @@ const styles = {
         borderBottomWidth: 2,
         marginBottom: 20,
       }
+}
 
+const BtnButton ={
+    btnBtmStyle: {
+        textColor: 'black',
+        flex: 1
+    },
+    txtBtnStyle: {
+        color: 'gray'
+    },
+    bottomView:{
+        paddingUp: 10,
+        alignItems: 'center',
+        borderTopColor: 'color',
+        borderTopWidth: 2,
+        marginBottom: 20,
+      }
 }
 
 const SocialBtnSty = {
