@@ -7,7 +7,6 @@ import AccountLogIn from '../../components/account/AccountLogIn'
 import AccountOptions from '../../components/account/AccountOptions'
 import { Spinner } from '../../components/common'
 
-
 class LogInEmail extends React.Component {
     state ={
         email:'',
@@ -33,13 +32,9 @@ class LogInEmail extends React.Component {
             password: '',
             error: '',
             loading: false
-        });
+        }); 
 
-        // return(
-        //     <Button
-        //         onPress={() => this.props.navigation.navigate('LogOut')}
-        //     />
-        // )
+        this.props.navigation.navigate('Profile')
     }
 
     onLogInFail(){
@@ -81,21 +76,21 @@ class LogInEmail extends React.Component {
                 pdOnChange={password => this.setState({ password })}
             />   
             <View style={styles.Column}>
-                <Text style={styles.errorTextStyle}>
+                <Text style={ErrorText.errorTextStyle}>
                     {this.state.error}
                 </Text>
                 {this.onLogInButton()}
                 <ButtonCustom
                     onPress={() => this.props.navigation.navigate('ForgotPassword')}
-                    buttonStyle={styles.btnBtmStyle}
-                    textStyle={styles.txtBtnStyle}
+                    buttonStyle={ClearBtnSty.btnBtmStyle}
+                    textStyle={ClearBtnSty.txtBtnStyle}
                 >
                     {'Forgot Password?'}
                 </ButtonCustom>
                 <ButtonCustom
                     onPress={() => this.props.navigation.navigate('LogIn with Social')}
-                    buttonStyle={styles.btnBtmStyle}
-                    textStyle={styles.txtBtnStyle}
+                    buttonStyle={ClearBtnSty.btnBtmStyle}
+                    textStyle={ClearBtnSty.txtBtnStyle}
                 >
                     {'Login with Social Account'}
                 </ButtonCustom>
@@ -103,9 +98,9 @@ class LogInEmail extends React.Component {
             <View>
                 <AccountOptions
                     onPress={() => this.props.navigation.navigate('SignUp')}
-                    buttonStyle={BtnButton.btnBtmStyle}
-                    textStyle={BtnButton.txtBtnStyle}
-                    viewStyle={BtnButton.bottomView}
+                    buttonStyle={BottomBtnSty.btnBtmStyle}
+                    textStyle={BottomBtnSty.txtBtnStyle}
+                    viewStyle={BottomBtnSty.bottomView}
                     children={'Create an Account'}
                 />
             </View>
@@ -116,11 +111,6 @@ class LogInEmail extends React.Component {
 }
 
 const styles = {
-    errorTextStyle: {
-      fontSize: 20,
-      alignSelf: 'center',
-      color: 'red'
-    },
     scrollView: {
       marginHorizontal: 20,
     },
@@ -129,6 +119,18 @@ const styles = {
         alignItems: 'center',
         padding: 50
     },
+    Column: {
+        display: 'flex',
+        flexDirection: 'column',
+        flexBasis: 90,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        margin: 10
+      }
+}
+
+const ClearBtnSty = {
     btnBtmStyle: {
         textColor: 'black',
         flex: 1
@@ -142,15 +144,14 @@ const styles = {
         borderBottomColor: 'color',
         borderBottomWidth: 2,
         marginBottom: 20,
-      },
-    Column: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexBasis: 90,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        margin: 10
+      }
+}
+
+const ErrorText = {
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
       }
 }
 
@@ -179,7 +180,7 @@ const LogInBtnSty = {
     }
   };
 
-const BtnButton ={
+const BottomBtnSty ={
     btnBtmStyle: {
         textColor: 'black',
         flex: 1

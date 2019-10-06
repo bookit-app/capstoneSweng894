@@ -38,7 +38,7 @@ class SignOut extends React.Component {
         if(!this.state.isValiedUser){
             return(
                 <View styles={styles.btnView}>
-                    <Text style={styles.errorTextStyle}>
+                    <Text style={ErrorText.errorTextStyle}>
                         {this.state.error}
                     </Text>
                     <Button 
@@ -71,30 +71,17 @@ class SignOut extends React.Component {
 }
 
 const styles = {
-    errorTextStyle: {
-      fontSize: 20,
-      alignSelf: 'center',
-      color: 'red'
-    },
     btnView: {
         justifyContent: 'center',
         alignItems: 'center',
     }
 }
-const BtnButton ={
-    btnBtmStyle: {
-        textColor: 'black',
-        flex: 1
-    },
-    txtBtnStyle: {
-        color: 'gray'
-    },
-    bottomView:{
-        paddingUp: 10,
-        alignItems: 'center',
-        borderTopColor: 'color',
-        borderTopWidth: 2,
-        marginTop: 20,
+
+const ErrorText = {
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
       }
 }
 

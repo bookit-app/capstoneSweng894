@@ -29,10 +29,10 @@ class SignUpOptions extends React.Component {
                 <View>
                     <AccountOptions
                         onPress={() => this.props.navigation.navigate('Login')}
-                        buttonStyle={BtnButton.btnBtmStyle}
-                        textStyle={BtnButton.txtBtnStyle}
-                        viewStyle={BtnButton.bottomView}
-                        children={'Already have account?'}
+                        buttonStyle={BottomBtnSty.btnBtmStyle}
+                        textStyle={BottomBtnSty.txtBtnStyle}
+                        viewStyle={BottomBtnSty.bottomView}
+                        children={'Already have account? Login'}
                     />  
                 </View>
             </ScrollView>
@@ -79,7 +79,7 @@ const styles = {
 
 }
 
-const BtnButton ={
+const BottomBtnSty ={
   btnBtmStyle: {
       textColor: 'black',
       flex: 1

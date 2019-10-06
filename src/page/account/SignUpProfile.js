@@ -74,6 +74,8 @@ class SignUpProfile extends React.Component {
             isProvide: false,
             loading: false 
         })
+
+        this.props.navigation.navigate('Profile')
     }
 
     onProfileCreateFailed(){
@@ -101,14 +103,6 @@ class SignUpProfile extends React.Component {
 
     onIsProviderChge(index){
         console.log(index);
-        
-        // Constant.Gender.map( (v,i) => {
-        //     if(index === i){
-        //         this.setState({
-        //             gender: Constant.Gender[index].value
-        //         })
-        //     }
-        // })
     }
 
     render(){
@@ -141,15 +135,15 @@ class SignUpProfile extends React.Component {
                     onStateChge={state_ => this.setState({ state_ })}
                 />
                 <View style={styles.Column}>
-                    <Text style={styles.errorTextStyle}>
+                    <Text style={ErrorText.errorTextStyle}>
                         {this.state.error}
                     </Text>
                     {this.onRenderProfileButton()}
                     <AccountOptions
                         onPress={() => this.props.navigation.navigate('Login')}
-                        buttonStyle={BtnButton.btnBtmStyle}
-                        textStyle={BtnButton.txtBtnStyle}
-                        viewStyle={BtnButton.bottomView}
+                        buttonStyle={BottomBtnSty.btnBtmStyle}
+                        textStyle={BottomBtnSty.txtBtnStyle}
+                        viewStyle={BottomBtnSty.bottomView}
                         children={'Already have an Account? Login'}
                     />  
                 </View>
@@ -159,11 +153,6 @@ class SignUpProfile extends React.Component {
 }
 
 const styles = {
-    errorTextStyle: {
-        fontSize: 20,
-        alignSelf: 'center',
-        color: 'red'
-      },
     Row:{
         display: 'flex',
         flewDirection: 'row',
@@ -182,7 +171,15 @@ const styles = {
     },
 }
 
-const BtnButton ={
+const ErrorText = {
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
+      }
+}
+
+const BottomBtnSty ={
     btnBtmStyle: {
         textColor: 'black',
         flex: 1
