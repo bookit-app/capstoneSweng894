@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, ScrollView } from 'react-native'
 import { withNavigation } from 'react-navigation'
-import { ButtonCustom } from '../../components/common/ButtonCustom'
 import AccountImage from '../../components/account/AccountImage'
 import AccountButtons from '../../components/account/AccountButtons'
 import AccountOptions from '../../components/account/AccountOptions'
@@ -32,9 +31,9 @@ class LogInOption extends Component {
                 <View>
                     <AccountOptions
                         onPress={() => this.props.navigation.navigate('SignUp')}
-                        buttonStyle={BtnButton.btnBtmStyle}
-                        textStyle={BtnButton.txtBtnStyle}
-                        viewStyle={BtnButton.bottomView}
+                        buttonStyle={BottomBtnSty.btnBtmStyle}
+                        textStyle={BottomBtnSty.txtBtnStyle}
+                        viewStyle={BottomBtnSty.bottomView}
                         children={'Create an Account'}
                     />  
                 </View>
@@ -64,24 +63,10 @@ const styles = {
         alignItems: 'center',
         flex: 1,
         margin: 10
-      },
-    btnBtmStyle: {
-        textColor: 'black',
-        flex: 1
-    },
-    txtBtnStyle: {
-        color: 'gray'
-    },
-    bottomView:{
-        paddingUp: 10,
-        alignItems: 'center',
-        borderBottomColor: 'color',
-        borderBottomWidth: 2,
-        marginBottom: 20,
       }
 }
 
-const BtnButton ={
+const BottomBtnSty ={
     btnBtmStyle: {
         textColor: 'black',
         flex: 1
