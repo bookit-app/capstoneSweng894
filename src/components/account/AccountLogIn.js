@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Input, CardSection } from '../common'
+import { Input } from '../common'
 
 const  AccountLogIn = (props) => {
     return(

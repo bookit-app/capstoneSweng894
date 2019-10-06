@@ -25,8 +25,6 @@ import SignUpSocial from './page/account/SignUpSocial'
 
 import SignOut from './page/account/SignOut'
 
-import Login from './components/account/Login'
-
 const DrawerNav = createDrawerNavigator({
   "Login": {
     screen: LogInOptions,
@@ -51,9 +49,6 @@ const DrawerNav = createDrawerNavigator({
   },
   "Sign Up With Social": {
     screen: SignUpSocial
-  },
-  LogIn: {
-    screen: Login
   },
   Profile: {
     screen: Profile

@@ -20,11 +20,7 @@ class SignOut extends React.Component {
 
     onSuccessfullLogOut(){
         console.log("Success Log Out of Account");
-        return(
-            <Button
-                onPress={() => this.props.navigation.navigate('Login')}
-            />
-        )
+        this.props.navigation.navigate('Login')
     }
 
     onFailuredLogOut(){

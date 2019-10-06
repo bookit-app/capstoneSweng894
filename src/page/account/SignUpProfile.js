@@ -5,9 +5,9 @@ import { Spinner } from '../../components/common/Spinner'
 import { auth } from '../../config/firebaseConfig'
 import api from '../../api'
 import AccountImageUpload from '../../components/account/AccountImageUpload'
-import AccountDetail from '../../components/account/AccountDetails'
+import AccountDetails from '../../components/account/AccountDetails'
 import AccountOptions from '../../components/account/AccountOptions'
-import DateTimePicker from '@react-native-community/datetimepicker'
+// import DateTimePicker from '@react-native-community/datetimepicker'
 
 class SignUpProfile extends React.Component {
     state = {
@@ -18,7 +18,7 @@ class SignUpProfile extends React.Component {
         telephone:'',
         dob:'',
         gender:'',
-        address:'',
+        street:'',
         city:'',
         state_:'',
         error: '', 
@@ -28,31 +28,60 @@ class SignUpProfile extends React.Component {
     }
 
     onProfileSub(){
-        const { firstName, lastName, email, password, gender, isSocial, dob,  telephone, isProvide } = this.state
+        const { firstName, lastName, email, password, gender, dob,  telephone, street, city, state_, isSocial,  isProvide } = this.state
+
+        console.log(email);
+        console.log(password);
+        
+        this.setState({
+            error: '',
+            loading: true
+        })
 
         auth.createUserWithEmailAndPassword(email, password)
-            .then((user) =>{      
+            .then((user) =>{  
+                // console.log(user);
+                    
                 const payload = {
                     "uid": user.user.uid,
                     "firstName": firstName,
                     "lastName": lastName,
+                    "email": email,
                     "gender": gender,
-                    "isSocial": isSocial,
                     "birthday": dob,
+                    "phoneNumber": telephone,
+                    "address":{
+                        "streetAddress": street,
+                        "city": city,
+                        "state": state_,
+                        "zip": "12345"
+                    },
+                    "isSocial": isSocial,
                     "isProvider": isProvide,
-                    "phoneNumber": telephone
                 }
+
+                console.log(payload);
+                
 
                 api.insertProfile(payload)
                 .then(this.onProfileCreateSucccess.bind(this))
-                .catch(this.onProfileCreateFailed.bind(this))
+                .catch((error) => {
+                    console.log(error);
+                    
+                    this.setState({
+                        error: 'Profile Creation Failed',
+                        loading: false
+                    })
+                }
+                )
+                    // this.onProfileCreateFailed.bind(this)
             })
             .catch(this.onSignUpCreateFailed.bind(this))
     }
 
     onSignUpCreateFailed(){
         this.setState({
-            error: 'Accountion Creation Failed',
+            error: 'Account Creation Failed',
             loading: false
         })
     }
@@ -111,7 +140,7 @@ class SignUpProfile extends React.Component {
                 <AccountImageUpload
                     image={require('../../image/Placeholder150.png')}
                 />
-                <AccountDetail
+                <AccountDetails
                     Creation={true}
                     firstName={this.state.firstName}
                     onFirstNameChge={firstName => this.setState({ firstName })}
@@ -127,8 +156,8 @@ class SignUpProfile extends React.Component {
                     ondobChge={dob => this.setState({ dob })}
                     gender={this.state.gender}
                     onGenderChge={gender => this.setState({ gender })}
-                    address={this.state.address}
-                    onAddressChge={ address => this.setState({ address })}
+                    address={this.state.street}
+                    onAddressChge={ street => this.setState({ street })}
                     city={this.state.city}
                     onCityChge={city => this.setState({ city })}
                     state={this.state.state_}

@@ -1,0 +1,130 @@
+{
+  "project_info": {
+    "project_number": "847848697992",
+    "firebase_url": "https://sweng-581-capstone.firebaseio.com",
+    "project_id": "sweng-581-capstone",
+    "storage_bucket": "sweng-581-capstone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847848697992:android:80da0298199f5ededfef3d",
+        "android_client_info": {
+          "package_name": "com.bookit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847848697992-r91167r2kqkb9oksgmg1kd3gfkf9onoj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookit",
+            "certificate_hash": "5dd7bd323aa0b311ed53e7eb4e9c4c0ae4e436dd"
+          }
+        },
+        {
+          "client_id": "847848697992-ohmpi164l3haudjh2pim41am8hhc2dfc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookit",
+            "certificate_hash": "19d77178bf01128f35cfe19ab93625c3c1167f51"
+          }
+        },
+        {
+          "client_id": "847848697992-9r8pga6dlfdn6s7vacqtfsij00ti7dci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookit",
+            "certificate_hash": "8c8cb7cce51e9c685fa2e442e7b857b166087d44"
+          }
+        },
+        {
+          "client_id": "847848697992-fssskpuvr89j2dpksdt0o9v3v2i4dj5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLLe0PxzVDMdIjNGVHh3Es73AQw18AyNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847848697992-fssskpuvr89j2dpksdt0o9v3v2i4dj5i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847848697992:android:f8d89e5225ff7600dfef3d",
+        "android_client_info": {
+          "package_name": "com.capstonesweng894"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847848697992-p0qckrnek32bpsf1g8fbtv3oe9mvbj6j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.capstonesweng894",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "847848697992-fssskpuvr89j2dpksdt0o9v3v2i4dj5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLLe0PxzVDMdIjNGVHh3Es73AQw18AyNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847848697992-fssskpuvr89j2dpksdt0o9v3v2i4dj5i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847848697992:android:800e423585e6b914dfef3d",
+        "android_client_info": {
+          "package_name": "com.icreatevisions.bookit_serviceproviderapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847848697992-fssskpuvr89j2dpksdt0o9v3v2i4dj5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLLe0PxzVDMdIjNGVHh3Es73AQw18AyNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847848697992-fssskpuvr89j2dpksdt0o9v3v2i4dj5i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
