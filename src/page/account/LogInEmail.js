@@ -13,9 +13,9 @@ import AccountOptions from '../../components/account/AccountOptions'
 import { Spinner } from '../../components/common'
 
 class LogInEmail extends React.Component {
-    static navigationOptions = {
-        title: 'Login With Email',
-    };
+    // static navigationOptions = {
+    //     title: 'Login With Email',
+    // };
 
     state ={
         email:'',

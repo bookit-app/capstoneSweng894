@@ -5,9 +5,9 @@ import AccountButtons from '../../components/account/AccountButtons'
 import AccountOptions from '../../components/account/AccountOptions'
 
 class SignUpOptions extends React.Component {
-  static navigationOptions = {
-    title: 'Sign Up Options',
-  };
+  // static navigationOptions = {
+  //   title: 'Sign Up Options',
+  // };
     render(){
         return (
             <ScrollView style={styles.scrollView}>

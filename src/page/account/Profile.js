@@ -5,9 +5,6 @@ import { ScrollView } from 'react-native'
 import AccountDetails from '../../components/account/AccountDetails'
 
 class Profile extends React.Component {   
-    static navigationOptions = {
-        title: 'Profile',
-    }; 
 
     state = {
         firstName: '',
@@ -20,6 +17,7 @@ class Profile extends React.Component {
         address:'',
         city:'',
         state_:'',
+        zip: '',
         error: '', 
         isSocial: false,
         isProvide: false,
@@ -27,18 +25,16 @@ class Profile extends React.Component {
     }
 
     UNSAFE_componentWillMount(){
-        console.log(auth.currentUser.uid);
-        
         api.getProfileById(auth.currentUser.uid)
             .then(userData => {
-                var profile = userData.data
-                this.onProfileRec(profile)})
+                    var profile = userData.data
+                    this.onProfileRec(profile)
+                }
+            )
             .catch(this.onProfileNotUpdate.bind(this))
     }
 
     onProfileRec(profile){
-        console.log(profile);
-
         this.setState({
             firstName: profile.firstName,
             lastName: profile.lastName,
@@ -49,7 +45,7 @@ class Profile extends React.Component {
             address: profile.address.streetAddress,
             city: profile.address.city,
             state_: profile.address.state,
-
+            zip: profile.address.zip
         })
     }
 
@@ -84,6 +80,8 @@ class Profile extends React.Component {
                     onCityChge={city => this.setState({ city })}
                     state={this.state.state_}
                     onStateChge={state_ => this.setState({ state_ })}
+                    zip={this.state.zip}
+                    onZipChge={zip => this.setState({ zip })}
                 />
             </ScrollView>
         )

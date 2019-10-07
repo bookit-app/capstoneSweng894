@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, Picker, Text } from 'react-native'
-import { Input } from '../common'
+import { Platform, View, Text, TextInput } from 'react-native'
+import { Input, InputNumber } from '../common'
 import AccountLogIn from './AccountLogIn'
 
 const onUserCreation = (props) => {
@@ -81,20 +81,15 @@ const AccountDetails = (props) => {
                     label="State: "
                     value={props.state}
                     onChangeText={props.onStateChge}
+                />    
+                <InputNumber
+                    placeholder="12345"
+                    label="Zip: "
+                    value={props.zip}
+                    onChangeText={props.onZipChge}
                 />
-                {/* <Picker
-                    selectedValue={props.isProvider}
-                    onValueChange={props.onIsProviderChge}
-                >
-                    {Constant.Gender.map((v) =>{
-                        return <Picker.Item label={v.label} value={v.value}/>
-                    })}
-                </Picker> */}
-
             </View>
-
         </View>
-   
     )
 }
 
@@ -111,7 +106,15 @@ const styles = {
         alignItems: 'center',
         flex: 1,
         margin: 10
-    }
+    },
+    TextInputStyle: {  
+        textAlign: 'center',  
+        height: 40,  
+        borderRadius: 10,  
+        borderWidth: 2,  
+        borderColor: '#009688',  
+        marginBottom: 10  
+    }  
 }
 
 export default AccountDetails

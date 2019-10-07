@@ -1,22 +1,20 @@
 import React from 'react'
 import {
     ActivityIndicator,
+    AsyncStorage,
     StatusBar,
-    View
+    View,
 } from 'react-native'
 
 class Loader extends React.Component {
-    componentDidMount(){
+    constructor(){
+        super()
         this._bootOnLoader()
     }
 
     _bootOnLoader = async () => {
-        try {
-            import { auth } from '../../config/firebaseConfig'
-            this.props.navigation.navigate('App')
-        } catch (error) {
-            this.props.navigation.navigate('Auth')
-        }
+        const currentUserId = await AsyncStorage.getItem('CurrentUserId')
+        this.props.navigation.navigate( currentUserId ? 'Auth' :'App' )
     }
 
     render(){

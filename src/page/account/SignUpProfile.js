@@ -12,13 +12,8 @@ import api from '../../api'
 import AccountImageUpload from '../../components/account/AccountImageUpload'
 import AccountDetails from '../../components/account/AccountDetails'
 import AccountOptions from '../../components/account/AccountOptions'
-// import DateTimePicker from '@react-native-community/datetimepicker'
 
 class SignUpProfile extends React.Component {
-    static navigationOptions = {
-        title: 'SignUp with Profile',
-    };
-
     state = {
         firstName: '',
         lastName:'',
@@ -30,6 +25,7 @@ class SignUpProfile extends React.Component {
         street:'',
         city:'',
         state_:'',
+        zip: '',
         error: '', 
         isSocial: false,
         isProvide: false,
@@ -37,11 +33,7 @@ class SignUpProfile extends React.Component {
     }
 
     onProfileSub(){
-        const { firstName, lastName, email, password, gender, dob,  telephone, street, city, state_, isSocial,  isProvide } = this.state
-
-        console.log(email);
-        console.log(password);
-        
+        const { firstName, lastName, email, password, gender, dob,  telephone, street, city, state_, zip, isSocial,  isProvide } = this.state
         this.setState({
             error: '',
             loading: true
@@ -61,7 +53,7 @@ class SignUpProfile extends React.Component {
                         "streetAddress": street,
                         "city": city,
                         "state": state_,
-                        "zip": "12345"
+                        "zip": zip
                     },
                     "isSocial": isSocial,
                     "isProvider": isProvide,
@@ -69,16 +61,7 @@ class SignUpProfile extends React.Component {
 
                 api.insertProfile(payload)
                 .then(this.onProfileCreateSucccess.bind(this))
-                .catch((error) => {
-                    console.log(error);
-                    
-                    this.setState({
-                        error: 'Profile Creation Failed',
-                        loading: false
-                    })
-                }
-                )
-                    // this.onProfileCreateFailed.bind(this)
+                .catch(this.onProfileCreateFailed.bind(this))
             })
             .catch(this.onSignUpCreateFailed.bind(this))
     }
@@ -90,7 +73,7 @@ class SignUpProfile extends React.Component {
         })
     }
 
-    onProfileCreateSucccess(){
+    onProfileCreateSucccess = async() => {
         this.setState({
             firstName: '',
             lastName:'',
@@ -107,7 +90,11 @@ class SignUpProfile extends React.Component {
             isProvide: false,
             loading: false 
         })
-
+    
+        if(auth.currentUser !== null){
+            await AsyncStorage.setItem('CurrentUserId', auth.currentUser.uid)
+        }
+        
         this.props.navigation.navigate('Profile')
     }
 
@@ -166,6 +153,8 @@ class SignUpProfile extends React.Component {
                     onCityChge={city => this.setState({ city })}
                     state={this.state.state_}
                     onStateChge={state_ => this.setState({ state_ })}
+                    zip={this.state.zip}
+                    onZipChge={zip => this.setState({ zip })}
                 />
                 <View style={styles.Column}>
                     <Text style={ErrorText.errorTextStyle}>
