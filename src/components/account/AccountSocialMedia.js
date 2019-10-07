@@ -1,25 +1,22 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { Button } from '../common'
+import FaceBookProvider from './SocialMedia/FaceBookProvider'
 
-class LoginSocialMedia extends Component {
-
-
+class AccountSocialMedia extends Component {
     render(){
         return (
             <View>
-              <Button>
-                 Facebook
-              </Button>
-              <Button>
+              <FaceBookProvider />
+              {/* <Button>
                  Google
               </Button>
               <Button>
                 Twitter
-              </Button>
+              </Button> */}
             </View>
         )
     }
 }
 
-export default LoginSocialMedia
+export default AccountSocialMedia
