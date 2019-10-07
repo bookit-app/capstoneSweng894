@@ -12,13 +12,6 @@ const AccountButtons = (props) => {
             >
                 {props.txtOne}
             </ButtonCustom>
-            <ButtonCustom
-                onPress={props.btnTwo}
-                buttonStyle={props.btnTwoStyle}
-                textStyle={props.txtTwotyle}
-            >
-                {props.txtTwo}
-            </ButtonCustom>
         </View>
     )
 }

@@ -26,10 +26,6 @@ class LogInOption extends Component {
                         txtOne={'Login With Email'}
                         btnOneStyle={LogInBtnSty.buttonStyle}
                         txtOnetyle={LogInBtnSty.textStyle}
-                        btnTwo={() => this.props.navigation.navigate('LogIn with Social')}
-                        txtTwo={'Login With Social Account'}
-                        btnTwoStyle={SocialBtnSty.buttonStyle}
-                        txtTwotyle={SocialBtnSty.textStyle}
                     />
                 </View>
                 <View>

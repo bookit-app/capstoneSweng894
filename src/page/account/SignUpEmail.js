@@ -77,8 +77,6 @@ class SignUpEmail extends React.Component {
                 error={this.state.error}
                 onLogInButton={() => this.onLogInButton()}
                 fgLogic={false}
-                onSocialAccountClick={() => this.props.navigation.navigate('Sign Up With Social')}
-                socialAccountTxt={'Sign Up with Social Account'}
                 onOtherAccountOptionClick={() => this.props.navigation.navigate('Login')}
                 otherAccountTxt={'Already have an Account? Login'}            
             />

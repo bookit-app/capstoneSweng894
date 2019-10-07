@@ -51,13 +51,6 @@ const AccountForm = (props) => {
                    onForgotClick={props.onForgotClick}
                    forgotTxt={props.forgotTxt}
                 />
-                <ButtonCustom
-                    onPress={props.onSocialAccountClick}
-                    buttonStyle={ClearBtnSty.btnBtmStyle}
-                    textStyle={ClearBtnSty.txtBtnStyle}
-                >
-                    {props.socialAccountTxt}
-                </ButtonCustom>
             </View>
             <View>
                 <AccountOptions

@@ -23,10 +23,6 @@ class SignUpOptions extends React.Component {
                         txtOne={'Sign Up With Email'}
                         btnOneStyle={LogInBtnSty.buttonStyle}
                         txtOnetyle={LogInBtnSty.textStyle}
-                        btnTwo={() => this.props.navigation.navigate('Sign Up With Social')}
-                        txtTwo={'Sign Up Social Account'}
-                        btnTwoStyle={SocialBtnSty.buttonStyle}
-                        txtTwotyle={SocialBtnSty.textStyle}
                     />
                 </View>
                 <View>
