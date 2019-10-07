@@ -2,7 +2,9 @@ import React from 'react'
 import {
     View
 } from 'react-native'
-import { auth, auth_ } from '../../../config/firebaseConfig'
+// import { auth, auth_ } from '../../../config/firebaseConfig'
+import { SignUpFacebook, SignOutFacebook} from '../../../repository/authMethods'
+
 const FBSDK = require('react-native-fbsdk')
 const {
     LoginButton,
@@ -10,13 +12,18 @@ const {
 } = FBSDK
 
 class FaceBookProvider extends React.Component {
-  loginUserSuccess = () => {
-
+  loginUserSuccess(data){
+    console.log(data);
+    this.props.navigation.navigate('Profile', {
+      "isSocial": true
+    })
   }
 
-  loginSingUpFail = () => {
-
+  loginSingUpFail(error){
+    console.log(error);
+    
   }
+
 
     render() {
         return (
@@ -32,29 +39,18 @@ class FaceBookProvider extends React.Component {
                   } else {
                     AccessToken.getCurrentAccessToken().then(
                       (data) => {
-                        // alert(data.accessToken.toString())
-                        // const credential = auth.FacebookAuthProvider.credential(data.accessToken);
-                        // auth.signInWithCredential(credential)
-                        //   .then(loginUserSuccess(dispatch))
-                        //   .catch((error) => {
-                        //     loginSingUpFail(dispatch, error.message);
-                        //   });
-                        var provider = new auth_.FacebookAuthProvider()
-                        provider.setCustomParameters({
-                          'display': 'pop'
-                        })
+                        alert(data.accessToken.toString())
+                        const credential = auth_.FacebookAuthProvider.credential(data.accessToken);
 
-                        auth.signInWithPopup(provider)
-                          .then( (i) => {
-                            var token = i.credential.AccessToken;
-                            var user = i.user
-                          })
+                        auth.signInWithCredential(credential)
+                          .then((data) => this.loginUserSuccess(data.user))
+                          .catch((error) => this.loginSingUpFail(error));
                       }
                     )
                   }
                 }
               }
-              onLogoutFinished={() => auth.signOut()}
+              onLogoutFinished={() => SignOutFacebook()}
               />
           </View>
         )

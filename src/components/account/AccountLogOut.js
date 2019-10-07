@@ -20,12 +20,17 @@ class AccountLogOut extends React.Component {
 
     onSuccessfullLogOut(){
         console.log("Success Log Out of Account");
+        this.setState({
+            loading: false
+        })
+
         this.props.navigation.navigate('Login')
     }
 
     onFailuredLogOut(){
         this.setState({
-            error: "Failure to Log out of Account"
+            error: "Failure to Log out of Account",
+            loading: false
         })
     }
 
@@ -34,9 +39,9 @@ class AccountLogOut extends React.Component {
         if(!this.state.isValiedUser){
             return(
                 <View styles={styles.btnView}>
-                    <Text style={ErrorText.errorTextStyle}>
+                    {/* <Text style={ErrorText.errorTextStyle}>
                         {this.state.error}
-                    </Text>
+                    </Text> */}
                     <Button 
                         title={"SignOut"}
                         onPress={() => {

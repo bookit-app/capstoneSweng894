@@ -3,11 +3,11 @@ import {
     AsyncStorage
 } from 'react-native'
 import { ButtonCustom } from '../../components/common/ButtonCustom'
-import { Spinner } from '../../components/common'
 import { auth } from '../../config/firebaseConfig'
+import { Spinner } from '../../components/common'
 import AccountForm from '../../components/account/AccountForm'
 
-class LogInEmail extends React.Component {
+class SignUpEmail extends React.Component {
     state ={
         email:'',
         password: '',
@@ -21,7 +21,7 @@ class LogInEmail extends React.Component {
 
         this.setState({ error: '', loading: true})
 
-        auth.signInWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email,password)
             .then((data) => this.onLogInSuccess(data.user))
             .catch(this.onLogInFail.bind(this))
     }
@@ -44,7 +44,7 @@ class LogInEmail extends React.Component {
 
     onLogInFail(){
         this.setState({
-            error: 'Authentication Failed',
+            error: 'Creation Failure',
             loading: false
         })
     }
@@ -60,11 +60,10 @@ class LogInEmail extends React.Component {
                 buttonStyle={LogInBtnSty.buttonStyle}
                 textStyle={LogInBtnSty.textStyle}
             >
-                {'Login'}
+                {'Sign-Up'}
             </ButtonCustom>
         )
     }
-
     render(){
         return(
             <AccountForm
@@ -77,17 +76,16 @@ class LogInEmail extends React.Component {
                 onPasswordChge={password => this.setState({ password })}
                 error={this.state.error}
                 onLogInButton={() => this.onLogInButton()}
-                fgLogic={true}
-                onForgotClick={() => this.props.navigation.navigate('ForgotPassword')}
-                forgotTxt={'Forgot Password?'}
-                onSocialAccountClick={() => this.props.navigation.navigate('LogIn with Social')}
-                socialAccountTxt={'Login with Social Account'}
-                onOtherAccountOptionClick={() => this.props.navigation.navigate('SignUp')}
-                otherAccountTxt={'Create an Account'}
+                fgLogic={false}
+                onSocialAccountClick={() => this.props.navigation.navigate('Sign Up With Social')}
+                socialAccountTxt={'Sign Up with Social Account'}
+                onOtherAccountOptionClick={() => this.props.navigation.navigate('Login')}
+                otherAccountTxt={'Already have an Account? Login'}            
             />
         )
     }
 }
+
 
 const LogInBtnSty = {
     textStyle: {
@@ -114,4 +112,4 @@ const LogInBtnSty = {
     }
   };
 
-  export default LogInEmail
+export default SignUpEmail
