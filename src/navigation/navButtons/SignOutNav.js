@@ -5,9 +5,9 @@ import AccountLogOut from '../../components/account/AccountLogOut'
 class SignOutNav extends React.Component {
     render(){
         return (
-            <View style={navStyles.navBarSty}>
-                <AccountLogOut />
-            </View>
+            <AccountLogOut 
+                style={navStyles.navBarSty}
+            />
         )
     }
 }

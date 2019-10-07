@@ -12,8 +12,6 @@ import ForgotPassword from '../../page/account/ForgotPassword'
 import SignUpProfile from '../../page/account/SignUpProfile'
 import SignUpSocial from '../../page/account/SignUpSocial'
 
-import SignOut from '../../page/account/SignOut'
-
 import LogoNav from '../navButtons/LogoNav'
 import SignOutNav from '../navButtons/SignOutNav'
 
@@ -25,7 +23,6 @@ const AuthNavigator = createStackNavigator(
         "SignUp": SignUpOptions,
         "Sign Up With Email": SignUpProfile,
         "Sign Up With Social":  SignUpSocial,
-        "LogOut": SignOut,
         "Login": LogInOptions
     }, {
         initialRouteName: "Login",       
