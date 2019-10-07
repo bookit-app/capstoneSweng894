@@ -1,5 +1,10 @@
 import React from 'react'
-import { View, Text, ScrollView } from 'react-native'
+import { 
+    View, 
+    Text, 
+    ScrollView,
+    AsyncStorage
+} from 'react-native'
 import { ButtonCustom } from '../../components/common/ButtonCustom'
 import { auth } from '../../config/firebaseConfig'
 import AccountImage from '../../components/account/AccountImage'
@@ -8,6 +13,10 @@ import AccountOptions from '../../components/account/AccountOptions'
 import { Spinner } from '../../components/common'
 
 class LogInEmail extends React.Component {
+    static navigationOptions = {
+        title: 'Login With Email',
+    };
+
     state ={
         email:'',
         password: '',
@@ -26,13 +35,15 @@ class LogInEmail extends React.Component {
             .catch(this.onLogInFail.bind(this))
     }
 
-    onLogInSuccess(){
+    onLogInSuccess = async () => {
         this.setState({
             email: '',
             password: '',
             error: '',
             loading: false
         }); 
+        
+        await AsyncStorage.setItem('CurrentUserId', auth.currentUser.uid)
 
         this.props.navigation.navigate('Profile')
     }

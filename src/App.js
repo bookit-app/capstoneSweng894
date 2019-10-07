@@ -6,9 +6,9 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
 
-import { createAppContainer } from 'react-navigation'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createDrawerNavigator } from 'react-navigation-drawer'
 
 import Profile from './page/account/Profile'
@@ -55,4 +55,21 @@ const DrawerNav = createDrawerNavigator({
   }
 })
 
+// import Loader from './page/general/Loader'
+
+// import AppNavigator from './navigation/stack/AppNavigator'
+// import AuthNavigator from './navigation/stack/AuthNavigator'
+
+// const switchHolder = createSwitchNavigator(
+//   {
+//     AuthLoading: Loader,
+//     App: AppNavigator,
+//     Auth: AuthNavigator
+//   },
+//   {
+//     initialRouteName: 'AuthLoading'
+//   }
+// )
+
+// export default createAppContainer(switchHolder)
 export default createAppContainer(DrawerNav)

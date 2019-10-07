@@ -5,7 +5,7 @@ const api = axios.create({
 })
 
 export const insertProfile = payload => api.post('/profile', payload)
-export const getProfileById = id => api.get(`/profile/${id}`) 
+export const getProfileById = id => api.get(`/profile?profileId=${id}`) 
 
 const apis = {
     insertProfile,

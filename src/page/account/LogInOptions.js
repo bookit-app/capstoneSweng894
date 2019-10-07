@@ -4,9 +4,13 @@ import { withNavigation } from 'react-navigation'
 import AccountImage from '../../components/account/AccountImage'
 import AccountButtons from '../../components/account/AccountButtons'
 import AccountOptions from '../../components/account/AccountOptions'
-
+import ProfileNav from '../../navigation/navButtons/ProfileNav'
 
 class LogInOption extends Component {
+    static navigationOptions = {
+      headerTitle: <ProfileNav />
+    };
+    
     render(){
         return (
             <ScrollView style={styles.scrollView}>

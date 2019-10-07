@@ -1,5 +1,10 @@
 import React from 'react'
-import { View, ScrollView, Text } from 'react-native'
+import { 
+    View, 
+    ScrollView, 
+    Text,
+    AsyncStorage
+} from 'react-native'
 import { ButtonCustom } from '../../components/common/ButtonCustom'
 import { Spinner } from '../../components/common/Spinner'
 import { auth } from '../../config/firebaseConfig'
@@ -10,6 +15,10 @@ import AccountOptions from '../../components/account/AccountOptions'
 // import DateTimePicker from '@react-native-community/datetimepicker'
 
 class SignUpProfile extends React.Component {
+    static navigationOptions = {
+        title: 'SignUp with Profile',
+    };
+
     state = {
         firstName: '',
         lastName:'',
@@ -40,8 +49,6 @@ class SignUpProfile extends React.Component {
 
         auth.createUserWithEmailAndPassword(email, password)
             .then((user) =>{  
-                // console.log(user);
-                    
                 const payload = {
                     "uid": user.user.uid,
                     "firstName": firstName,
@@ -58,10 +65,7 @@ class SignUpProfile extends React.Component {
                     },
                     "isSocial": isSocial,
                     "isProvider": isProvide,
-                }
-
-                console.log(payload);
-                
+                }                
 
                 api.insertProfile(payload)
                 .then(this.onProfileCreateSucccess.bind(this))

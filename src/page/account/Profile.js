@@ -1,8 +1,14 @@
 import React from 'react'
-import { View, ScrollView, Text } from 'react-native'
+import api from '../../api'
+import { auth } from '../../config/firebaseConfig'
+import { ScrollView } from 'react-native'
 import AccountDetails from '../../components/account/AccountDetails'
 
-class Profile extends React.Component {    
+class Profile extends React.Component {   
+    static navigationOptions = {
+        title: 'Profile',
+    }; 
+
     state = {
         firstName: '',
         lastName:'',
@@ -20,11 +26,44 @@ class Profile extends React.Component {
         loading: false 
     }
 
+    UNSAFE_componentWillMount(){
+        console.log(auth.currentUser.uid);
+        
+        api.getProfileById(auth.currentUser.uid)
+            .then(userData => {
+                var profile = userData.data
+                this.onProfileRec(profile)})
+            .catch(this.onProfileNotUpdate.bind(this))
+    }
+
+    onProfileRec(profile){
+        console.log(profile);
+
+        this.setState({
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            dob: profile.birthday,
+            email: profile.email,
+            telephone: profile.phoneNumber,
+            gender: profile.gender == 'M'? 'Male': profile.gender == 'F' ? 'Female' : 'Other',
+            address: profile.address.streetAddress,
+            city: profile.address.city,
+            state_: profile.address.state,
+
+        })
+    }
+
+
+    onProfileNotUpdate(){
+        console.log('on Profile Not Updated');
+        alert('On Profile Not Updated')
+    }
+
     render(){
         return(
             <ScrollView style={styles.scrollView}>
                 <AccountDetails
-                    Creation={true}
+                    Creation={false}
                     firstName={this.state.firstName}
                     onFirstNameChge={firstName => this.setState({ firstName })}
                     lastName={this.state.lastName}
