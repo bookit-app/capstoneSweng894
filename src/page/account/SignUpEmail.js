@@ -7,6 +7,9 @@ import { auth } from '../../config/firebaseConfig'
 import { Spinner } from '../../components/common'
 import AccountForm from '../../components/account/AccountForm'
 
+/**
+ * Sign-Up page with Email/Password Only
+ */
 class SignUpEmail extends React.Component {
     state ={
         email:'',

@@ -4,10 +4,10 @@ import AccountImage from '../../components/account/AccountImage'
 import AccountButtons from '../../components/account/AccountButtons'
 import AccountOptions from '../../components/account/AccountOptions'
 
+/**
+ * Sign-Up Option Page
+ */
 class SignUpOptions extends React.Component {
-  // static navigationOptions = {
-  //   title: 'Sign Up Options',
-  // };
     render(){
         return (
             <ScrollView style={styles.scrollView}>

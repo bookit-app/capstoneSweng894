@@ -7,6 +7,9 @@ import { Spinner } from '../../components/common'
 import { auth } from '../../config/firebaseConfig'
 import AccountForm from '../../components/account/AccountForm'
 
+/**
+ * Log-In page with Email/Password Only
+ */
 class LogInEmail extends React.Component {
     state ={
         email:'',

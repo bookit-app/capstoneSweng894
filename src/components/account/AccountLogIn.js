@@ -2,6 +2,11 @@ import React from 'react'
 import { View } from 'react-native'
 import { Input } from '../common'
 
+/**
+ * Account Log-In/Sign-Up user & password fields 
+ * 
+ * @param {*} props 
+ */
 const  AccountLogIn = (props) => {
     return(
         <View>

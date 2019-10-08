@@ -1,6 +1,11 @@
 import React from 'react'
 import { TouchableOpacity, Image } from 'react-native'
 
+/**
+ * Account profile upload field
+ * 
+ * @param {*} props 
+ */
 const AccountImageUpload = (props) => {
     const image = typeof props.image == 'string' ? require('../../image/Placeholder150.png') : props.image
     

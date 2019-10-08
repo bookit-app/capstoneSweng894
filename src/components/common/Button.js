@@ -1,6 +1,10 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
+/**
+ * TouchableOpacity wrapping a Text field
+ * @param {*} param0 
+ */
 const Button = ({ onPress, children }) => {
 const { buttonStyle, textStyle } = styles;
 

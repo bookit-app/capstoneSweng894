@@ -10,6 +10,9 @@ import SignUpEmail from '../../page/account/SignUpEmail'
 import LogoNav from '../navButtons/LogoNav'
 import SignOutNav from '../navButtons/SignOutNav'
 
+/**
+ * Auth menu accessible page
+ */
 const AuthNavigator = createStackNavigator(
     {
         "LogIn with Email": LogInEmail,

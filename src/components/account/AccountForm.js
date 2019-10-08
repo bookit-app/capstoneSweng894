@@ -9,6 +9,11 @@ import AccountLogIn from './AccountLogIn'
 import AccountOptions from './AccountOptions'
 import { ButtonCustom } from '../common'
 
+/**
+ * Forgot password fields depending on field
+ * 
+ * @param {*} props 
+ */
 const ForgotPassword = (props) => {
     if(props.fgLogic){
         return ( 
@@ -25,6 +30,12 @@ const ForgotPassword = (props) => {
     }
 }
 
+/**
+ * Account creation form (email/password) 
+ * ONLY field necessary for firestore account creation
+ * 
+ * @param {*} props 
+ */
 const AccountForm = (props) => {
     return (
         <ScrollView style={styles.scrollView}>
@@ -64,7 +75,6 @@ const AccountForm = (props) => {
         </ScrollView>
     )
 }
-
 
 const styles = {
     scrollView: {
