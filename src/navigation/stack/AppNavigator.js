@@ -9,6 +9,9 @@ import Home from '../../page/general/Home'
 import LogoNav from '../navButtons/LogoNav'
 import SignOutNav from '../navButtons/SignOutNav'
 
+/**
+ * Application menu accessible page
+ */
 const AppNavigator = createStackNavigator(
     {
         "Profile": Profile,

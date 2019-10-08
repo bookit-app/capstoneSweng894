@@ -8,6 +8,9 @@ import {
 } from 'react-native'
 import AccountDetails from '../../components/account/AccountDetails'
 
+/**
+ * Profile Page 
+ */
 class Profile extends React.Component {   
     state = {
         firstName: '',

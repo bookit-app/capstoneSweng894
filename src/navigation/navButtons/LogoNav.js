@@ -1,6 +1,9 @@
 import React from 'react'
 import { ImageButton } from '../../components/common'
 
+/**
+ * Logo button for navigation bar
+ */
 class LogoNav extends React.Component {
     render(){
         return (

@@ -3,6 +3,9 @@ import { View, Text, Button } from 'react-native'
 import { auth } from '../../config/firebaseConfig'
 import { Spinner } from '../common'
 
+/**
+ * Account LogOut Component
+ */
 class AccountLogOut extends React.Component {
     state = {
         isValiedUser: auth.currentUser === null,
@@ -35,13 +38,9 @@ class AccountLogOut extends React.Component {
     }
 
     renderSignOutButton(){
-
         if(!this.state.isValiedUser){
             return(
                 <View styles={styles.btnView}>
-                    {/* <Text style={ErrorText.errorTextStyle}>
-                        {this.state.error}
-                    </Text> */}
                     <Button 
                         title={"SignOut"}
                         onPress={() => {

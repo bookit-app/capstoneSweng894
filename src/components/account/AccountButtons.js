@@ -2,6 +2,11 @@ import React from 'react'
 import { View } from 'react-native'
 import { ButtonCustom } from '../common/ButtonCustom' 
 
+/**
+ * General customizable button 
+ * 
+ * @param {*} props 
+ */
 const AccountButtons = (props) => {
     return (
         <View>

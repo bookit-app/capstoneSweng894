@@ -1,6 +1,11 @@
 import React from 'react'
 import { Image } from 'react-native'
 
+/**
+ * Account Image componemt for Account forms
+ * 
+ * @param {*} props 
+ */
 const AccountImage = (props) => {
     const ImageHolder = () => {
         console.log(props.imageHolder);

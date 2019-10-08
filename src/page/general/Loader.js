@@ -6,6 +6,12 @@ import {
     View,
 } from 'react-native'
 
+/**
+ * Loader page used to navigator depending on if 
+ * account is created in firebase
+ * 
+ * Still not Working
+ */
 class Loader extends React.Component {
     constructor(){
         super()

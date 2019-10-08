@@ -3,6 +3,11 @@ import { Platform, View, Text, TextInput } from 'react-native'
 import { Input, InputNumber } from '../common'
 import AccountLogIn from './AccountLogIn'
 
+/**
+ * Account Log-In/Sign-Up fields depending on flag
+ * 
+ * @param {*} props 
+ */
 const onUserCreation = (props) => {
     if(props.Creation)  {
         return(              
@@ -18,6 +23,11 @@ const onUserCreation = (props) => {
     }
 }
 
+/**
+ * Account profile form
+ * 
+ * @param {*} props 
+ */
 const AccountDetails = (props) => {
 
     return(
