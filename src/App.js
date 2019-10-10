@@ -6,24 +6,24 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React from 'react';
+import { createAppContainer } from 'react-navigation'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 
-import { createAppContainer, createSwitchNavigator } from 'react-navigation'
-// import { createDrawerNavigator } from 'react-navigation-drawer'
+import RootStack from './navigation/stack/RootStack'
+import reducer from './reducer'
 
-import Loader from './page/general/Loader'
+const store = createStore(reducer)
 
-import AppNavigator  from './navigation/stack/AppNavigator'
-import AuthNavigator  from './navigation/stack/AuthNavigator'
+const Navigation = createAppContainer(RootStack)
 
-  export default createAppContainer(createSwitchNavigator(
-  {
-    AuthLoading: Loader,
-    App: AppNavigator,
-    Auth: AuthNavigator
-  },
-  {
-    initialRouteName: 'Auth'
-  }
-))
+const App = () => {
+  return(
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  )
+}
 
+export default App

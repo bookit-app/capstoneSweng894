@@ -2,7 +2,7 @@ import React from 'react'
 import {
     View,
     Text,
-    ScrollView
+    ScrollView,
 } from 'react-native'
 import AccountImage from './AccountImage'
 import AccountLogIn from './AccountLogIn'
@@ -48,13 +48,15 @@ const AccountForm = (props) => {
             </View>
             <AccountLogIn
                 emailValue={props.email}
-                emailOnChange={props.onEmailChge}
-                pdValue={props.password}
-                pdOnChange={props.onPasswordChge}
+                emailOnChge={props.onEmailChge}
+                errorEmail={props.errorEmail}
+                passwordValue={props.password}
+                passwordOnChge={props.onPasswordChge}
+                errorPassword={props.errorPassword}
             />   
             <View style={styles.Column}>
                 <Text style={ErrorText.errorTextStyle}>
-                    {props.error}
+                    {props.errorAnth}
                 </Text>
                 <props.onLogInButton />
                 <ForgotPassword

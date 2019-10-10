@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { Input } from '../common'
 
 /**
@@ -10,20 +10,27 @@ import { Input } from '../common'
 const  AccountLogIn = (props) => {
     return(
         <View>
-            <Input
-                placeholder="user.email@dummy.com"
-                label="Email: "
-                value={props.emailValue}
-                onChangeText={props.emailOnChange}
-            />
-            <Input
-                secureTextEntry
-                placeholder="***************"
-                label={"Password: "}
-                value={props.pdValue}
-                onChangeText={props.pdOnChange}
-            />
+            <View>
+                <Input
+                    placeholder="user.email@dummy.com"
+                    label="Email: "
+                    value={props.emailValue}
+                    onChangeText={props.emailOnChge}
+                    error={props.errorEmail}
+                />
+            </View>
+            <View>
+                <Input
+                    secureTextEntry
+                    placeholder="*******************"
+                    label={"Password: "}
+                    value={props.passwordValue}
+                    onChangeText={props.passwordOnChge}
+                    error={props.errorPassword}
+                />
+            </View>
         </View>
     )
 }
+
 export default AccountLogIn

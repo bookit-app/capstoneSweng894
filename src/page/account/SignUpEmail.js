@@ -5,6 +5,7 @@ import {
 import { ButtonCustom } from '../../components/common/ButtonCustom'
 import { auth } from '../../config/firebaseConfig'
 import { Spinner } from '../../components/common'
+import LogInBtn from '../../components/styles/LogInBtn'
 import AccountForm from '../../components/account/AccountForm'
 
 /**
@@ -60,8 +61,8 @@ class SignUpEmail extends React.Component {
         return (    
             <ButtonCustom
                 onPress={this.onLogInSub.bind(this)}
-                buttonStyle={LogInBtnSty.buttonStyle}
-                textStyle={LogInBtnSty.textStyle}
+                buttonStyle={LogInBtn.buttonStyle}
+                textStyle={LogInBtn.textStyle}
             >
                 {'Sign-Up'}
             </ButtonCustom>
@@ -86,31 +87,5 @@ class SignUpEmail extends React.Component {
         )
     }
 }
-
-
-const LogInBtnSty = {
-    textStyle: {
-      alignSelf: 'center',
-      color: '#fff',
-      fontSize: 16,
-      fontWeight: '600',
-      paddingTop: 5,
-      paddingBottom: 5,        
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    buttonStyle: {
-      flex: 1,
-      backgroundColor:'#4FA6FD' ,
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: '#fff',
-      marginLeft: 10,
-      marginRight: 10,
-      width: 250, 
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-  };
 
 export default SignUpEmail

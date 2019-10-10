@@ -1,0 +1,5 @@
+<root>
+    <item name='com.facebook.react.ReactNativeHost'>
+        <annotation name='java.lang.Deprecated' />
+    </item>
+</root>

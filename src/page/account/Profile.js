@@ -6,6 +6,7 @@ import {
     ScrollView,
     AsyncStorage 
 } from 'react-native'
+import LogInBtn from '../../components/styles/LogInBtn'
 import AccountDetails from '../../components/account/AccountDetails'
 
 /**
@@ -153,8 +154,8 @@ class Profile extends React.Component {
         return (    
             <ButtonCustom
                 onPress={this.onProfileSub.bind(this)}
-                buttonStyle={LogInBtnSty.buttonStyle}
-                textStyle={LogInBtnSty.textStyle}
+                buttonStyle={LogInBtn.buttonStyle}
+                textStyle={LogInBtn.textStyle}
             >
                 {'Submit'}
             </ButtonCustom>
@@ -214,30 +215,5 @@ const styles = {
       marginHorizontal: 20,
     },
 }
-
-const LogInBtnSty = {
-    textStyle: {
-      alignSelf: 'center',
-      color: '#fff',
-      fontSize: 16,
-      fontWeight: '600',
-      paddingTop: 5,
-      paddingBottom: 5,        
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    buttonStyle: {
-      flex: 1,
-      backgroundColor:'#4FA6FD' ,
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: '#fff',
-      marginLeft: 10,
-      marginRight: 10,
-      width: 250, 
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-  };
   
 export default Profile
