@@ -109,8 +109,16 @@ const AccountDetails = (props) => {
                     error={props.errorZip}
                 />
             </View>
+            <View style={styles.Column}>
+                <Text style={ErrorText.errorTextStyle}>
+                    {props.error}
+                </Text>
+            </View>
             <View style={styles.RowBtn}>
                 <props.onSubmit />
+            </View>
+            <View style={styles.RowBtn}>
+                <props.onCancal />
             </View>
         </View>
     )
@@ -131,7 +139,26 @@ const styles = {
         flex: 1,
         flexDirection: 'row',
         paddingBottom: 15
-    }  
+    }  ,
+    error: {
+        marginTop: 10,
+        position: "absolute",
+        bottom: 0,
+        color: "red",
+        fontSize: 10,
+        textAlign: 'center',
+        backgroundColor:  '#ffffff'
+    }
+}
+
+const ErrorText = {
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red',
+        backgroundColor:  '#ffffff',
+        justifyContent: 'center'
+      }
 }
 
 export default AccountDetails

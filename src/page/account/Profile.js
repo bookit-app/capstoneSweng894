@@ -11,6 +11,7 @@ import {
 import validation from '../../validation'
 import LogInBtn from '../../components/styles/LogInBtn'
 import AccountDetails from '../../components/account/AccountDetails'
+import { Spinner } from '../../components/common'
 
 /**
  * Profile Page 
@@ -64,6 +65,9 @@ class Profile extends React.Component {
     }
 
     UNSAFE_componentWillMount(){
+        console.log('Profile');        
+        console.log(auth.currentUser);
+        
         api.getProfileById(auth.currentUser.uid)
             .then(userData => {
                     var profile = userData.data
@@ -97,53 +101,79 @@ class Profile extends React.Component {
     }
 
     onProfileSub(){
-        const { _uid, firstName, lastName, email, gender, dob,  telephone, street, city, state_, zip, isSocial,  isProvide, alreadyExist } = this.state
+        const { firstName, lastName, gender, dob,  telephone, street, city, state_, zip, isSocial,  isProvide, alreadyExist } = this.state
        
+        console.log('onProfileSub - Before in');
+        
+
         this.setState({
             error: '',
             loading: true
         })
- 
-        const payload = {
-            "uid": auth.currentUser.uid,
-            "firstName": firstName,
-            "lastName": lastName,
-            "email": auth.currentUser.email,
-            "gender": gender,
-            "birthday": dob,
-            "phoneNumber": telephone,
-            "address":{
-                "streetAddress": street,
-                "city": city,
-                "state": state_,
-                "zip": zip
-            },
-            "isSocial": isSocial,
-            "isProvider": isProvide,
-        }                
 
-        console.log(_uid);
-        console.log(payload);
+        var uid = auth.currentUser.uid
+        
 
-        if(!alreadyExist){
-            api.insertProfile(payload)
-                .then(this.onProfileCreateSucccess(_uid))
-                .catch(this.onProfileCreateFailed.bind(this))
-        } else {
-            api.updateProfileById(_uid, payload)
-                .then(this.onProfileCreateSucccess(_uid))
-                .then(this.onProfileCreateFailed(_uid))
-        }
-    }
+        // if(!alreadyExist){
+            console.log('onProfileSub - insert');
+            const payload = {
+                "uid": uid,
+                "firstName": firstName,
+                "lastName": lastName,
+                "gender": gender.charAt(0).toUpperCase(),
+                "email": auth.currentUser.email,
+                "birthday": dob,
+                "phoneNumber": telephone,
+                "address":{
+                    "streetAddress": street,
+                    "city": city,
+                    "state": state_,
+                    "zip": zip
+                },
+                "isSocial": isSocial,
+                "isProvider": isProvide,
+            }                
     
-    onSignUpCreateFailed(){
-        this.setState({
-            error: 'Account Creation Failed',
-            loading: false
-        })
+            console.log(uid);
+            console.log(payload);
+
+            api.insertProfile(payload)
+                .then((user) => {
+                    this.onProfileCreateSucccess()
+                    console.log('onSuccess: ', user);
+                })
+                .catch((error) => {
+                    this.onProfileCreateFailed(error)
+                    console.log('onError: ', error);                    
+                })
+        // } else {
+
+        //     console.log('onProfileSub - updated');
+        //     const payload = {
+        //         "uid": uid,
+        //         "phoneNumber": telephone,
+        //         "isSocial": isSocial,
+        //         "isProvider": isProvide,
+        //         "gender": gender.charAt(0).toUpperCase(),
+        //         "birthday": dob,
+        //         "address":{
+        //             "streetAddress": street,
+        //             "city": city,
+        //             "state": state_,
+        //             "zip": zip
+        //         },
+        //     }                
+    
+        //     console.log(uid);
+        //     console.log(payload);
+
+        //     api.updateProfileById(uid, payload)
+        //         .then(this.onProfileCreateSucccess.bind(this))
+        //         .then(this.onProfileCreateFailed.bind(this))
+        // }
     }
 
-    onProfileCreateSucccess = async(_uid) => {
+    onProfileCreateSucccess(){
         this.setState({
             firstName: '',
             lastName:'',
@@ -161,12 +191,16 @@ class Profile extends React.Component {
             loading: false 
         })
         
+        console.log('onProfileCreateSuccess');
+        
         this.props.navigation.navigate('Home')
     }
 
-    onProfileCreateFailed(){
+    onProfileCreateFailed(er){
+        console.log('onProfileCreateFailed');
+        
         this.setState({
-            error: 'Profile Creation Failed',
+            error: er,///!er ? 'Profile Creation Failed' : er,
             loading: false
         })
     }
@@ -185,6 +219,19 @@ class Profile extends React.Component {
                 {'Submit'}
             </ButtonCustom>
         )
+    }
+
+    onRenderProfileCancal(){
+        return (
+            <ButtonCustom
+            onPress={() => this.props.navigation.navigate('Home')}
+            buttonStyle={LogInBtn.buttonStyle}
+            textStyle={LogInBtn.textStyle}
+            >
+                {'Home'}
+            </ButtonCustom>
+        )
+        
     }
 
     render(){
@@ -226,7 +273,9 @@ class Profile extends React.Component {
                         zip={this.state.zip}
                         onZipChge={zip => this.verifyZip( zip )}
                         errorZip={this.state.zipError}
+                        error={this.state.error}
                         onSubmit={() => this.onRenderProfileButton()}
+                        onCancal={() => this.onRenderProfileCancal()}
                     />
                 </View>
             </ScrollView>
@@ -247,10 +296,12 @@ const styles = {
         justifyContent: 'space-between'
     },
     scrollView: {
-      marginHorizontal: 20,
+    //   marginHorizontal: 20,
+      backgroundColor:  '#ffffff'
     },
     View: {
-      justifyContent: 'center'
+      justifyContent: 'center',
+      backgroundColor:  '#ffffff'
     }
 }
   

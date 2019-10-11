@@ -26,7 +26,7 @@ function passwordValidator(password){
  * @param {*} firstName 
  */
 function nameValidator(firstName){
-    let reg = /[a-zA-z_-]{3-15}$/
+    let reg = /^[\w-!@#$%^&*]{3,15}$/
 
     return (reg.test(firstName))
 }

@@ -49,7 +49,7 @@ class LogInEmail extends React.Component {
                 fgLogic={true}
                 onForgotClick={() => this.props.navigation.navigate('ForgotPassword')}
                 forgotTxt={'Forgot Password?'}
-                onOtherAccountOptionClick={() => this.onOtherAccount("L")}
+                onOtherAccountOptionClick={() => this.onOtherAccount("S")}
                 otherAccountTxt={'Create an Account'}
             />  
         )

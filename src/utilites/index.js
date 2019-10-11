@@ -1,6 +1,7 @@
 
 import React from 'react'
 import firebase from 'firebase'
+import { auth } from '../config/firebaseConfig'
 import { ButtonCustom, Spinner } from '../components/common'
 import LogInBtn from '../components/styles/LogInBtn'
 
@@ -50,7 +51,7 @@ function onLogInButton(type){
  * to redux
  * @param {*} type - L for Log-In or other for Sign-Up
  */
-async function onLogInSuccess(user){
+async function onLogInSuccess(){
     this.setState({
         email: '',
         password: '',
@@ -61,7 +62,7 @@ async function onLogInSuccess(user){
         loading: false
     }); 
     
-    this.props.userSet(user)
+    // this.props.userSet(user)
     this.props.navigation.navigate('Profile')
 }
 
@@ -71,7 +72,7 @@ async function onLogInSuccess(user){
  */
 function onLogInFail(type){
     this.setState({
-        error: type == 'L'? 'Authentication Failed': 'Creation Failure',
+        error: type === 'L'? 'Authentication Failed': 'Creation Failure',
         loading: false
     })
 }
@@ -88,12 +89,18 @@ function onLogInSub(type){
 
         if(type === 'L'){
             firebase.auth().signInWithEmailAndPassword(email, password)
-                .then((data) => this.onLogInSuccess(data.user))
-                .catch(this.onLogInFail(type))
+                .then(this.onLogInSuccess.bind(this))
+                .catch((error) => {
+                    this.onLogInFail(type)
+                    console.log(error);
+                })
         } else {
-            firebase.auth().createUserWithEmailAndPassword(email,password)
-                .then((data) => this.onLogInSuccess(data.user))
-                .catch(this.onLogInFail(type))
+            auth.createUserWithEmailAndPassword(email,password)
+                .then(this.onLogInSuccess.bind(this))
+                .catch((error) => {
+                    this.onLogInFail(type)
+                    console.log(error);
+                })
         }
     } else {
         if(!email){

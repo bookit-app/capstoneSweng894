@@ -1,5 +1,5 @@
 import React from 'react'
-import firebase from 'firebase'
+// import firebase from 'firebase'
 import { createStackNavigator  } from 'react-navigation-stack'
 
 import LogInOptions from '../../page/account/LogInOptions'
@@ -11,7 +11,7 @@ import SignUpEmail from '../../page/account/SignUpEmail'
 import AccountLogOut from '../../components/account/AccountLogOut'
 
 import LogoNav from '../navButtons/LogoNav'
-import SignOutNav from '../navButtons/SignOutNav'
+// import SignOutNav from '../navButtons/SignOutNav'
 
 /**
  * Auth menu accessible page
@@ -27,8 +27,7 @@ const AuthNavigator = createStackNavigator(
     }, {
         initialRouteName: "Login",       
         defaultNavigationOptions : {
-            headerLeft: <LogoNav />,
-            headerRight: <SignOutNav signOut={firebase.auth().signOut()} />
+            headerRight: <LogoNav />,
         }
     }
 );

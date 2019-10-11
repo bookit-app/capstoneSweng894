@@ -56,7 +56,7 @@ const AccountForm = (props) => {
             />   
             <View style={styles.Column}>
                 <Text style={ErrorText.errorTextStyle}>
-                    {props.errorAnth}
+                    {props.error}
                 </Text>
                 <props.onLogInButton />
                 <ForgotPassword

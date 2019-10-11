@@ -47,7 +47,7 @@ class SignUpEmail extends React.Component {
                 error={this.state.error}
                 onLogInButton={() => this.onLogInButton('S')}
                 fgLogic={false}
-                onOtherAccountOptionClick={() => this.onOtherAccount("S")}
+                onOtherAccountOptionClick={() => this.onOtherAccount("L")}
                 otherAccountTxt={'Already have an Account? Login'}            
             />
         )

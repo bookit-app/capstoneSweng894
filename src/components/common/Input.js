@@ -46,15 +46,16 @@ const styles = {
     alignItems: 'center',
     flex: 1,
     margin: 10,
-    borderColor: 'black'
+    backgroundColor:  '#ffffff'
   },
   error: {
-    paddingTop: 10,
+    marginTop: 10,
     position: "absolute",
     bottom: 0,
     color: "red",
     fontSize: 10,
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundColor:  '#ffffff'
   }
 };
 
