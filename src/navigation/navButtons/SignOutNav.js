@@ -1,5 +1,4 @@
 import React from 'react'
-import { View } from 'react-native'
 import AccountLogOut from '../../components/account/AccountLogOut'
 
 /**
@@ -7,6 +6,8 @@ import AccountLogOut from '../../components/account/AccountLogOut'
  */
 class SignOutNav extends React.Component {
     render(){
+        console.log(this.props);
+        
         return (
             <AccountLogOut 
                 style={navStyles.navBarSty}

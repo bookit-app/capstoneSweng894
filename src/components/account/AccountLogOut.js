@@ -1,40 +1,26 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native'
-import { auth } from '../../config/firebaseConfig'
-import { Spinner } from '../common'
+import firebase from 'firebase'
 
 /**
  * Account LogOut Component
  */
 class AccountLogOut extends React.Component {
     state = {
-        isValiedUser: auth.currentUser === null,
-        error: '',
-        loading: false
-    }
-
-    justBeforeSuccess(){
-        this.setState({
-            loading: true
-        })
-        
-        return <Spinner size="small" />
+        isValiedUser: firebase.auth().currentUser === null,
+        error: ''
     }
 
     onSuccessfullLogOut(){
         console.log("Success Log Out of Account");
-        this.setState({
-            loading: false
-        })
 
-        this.props.navigation.navigate('Login')
-    }
+        // this.props.navigation.navigate('Login')
+        this.props.navigation.navigate('Home')
+    } 
 
-    onFailuredLogOut(){
-        this.setState({
-            error: "Failure to Log out of Account",
-            loading: false
-        })
+    onFailuredLogOut(er){
+        alert('Failure to Log out of Account')
+        console.log(er);
     }
 
     renderSignOutButton(){
@@ -42,21 +28,21 @@ class AccountLogOut extends React.Component {
             return(
                 <View styles={styles.btnView}>
                     <Button 
+                        style={styles.txtLabel}
                         title={"SignOut"}
                         onPress={() => {
-                            auth.signOut()
-                                .then(this.justBeforeSuccess.bind(this))
+                            firebase.auth().signOut()
                                 .then(this.onSuccessfullLogOut.bind(this))
-                                .catch(this.onFailuredLogOut.bind(this))
+                                .catch((er) => this.onFailuredLogOut(er))
                             }
                         }>
                         {'Sign Out'}
                     </Button>
                 </View>
             )
-        }else{
+        } else {
             return(
-                <Text>{this.state.isValiedUser ? "Not Sign In" : auth.currentUser.email}</Text>
+                <Text style={styles.txtLabel}>{this.state.isValiedUser ? "Not Sign In" : firebase.auth().currentUser.email}</Text>
             )
         }
     }
@@ -74,15 +60,11 @@ const styles = {
     btnView: {
         justifyContent: 'center',
         alignItems: 'center',
+        paddingRight: 10
+    }, 
+    txtLabel: {
+        paddingRight: 5
     }
-}
-
-const ErrorText = {
-    errorTextStyle: {
-        fontSize: 20,
-        alignSelf: 'center',
-        color: 'red'
-      }
 }
 
 export default AccountLogOut
