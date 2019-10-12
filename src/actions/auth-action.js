@@ -1,8 +1,8 @@
 import firebase from 'firebase'
 
-export const userSet = user => ({
+export const userSet = userId => ({
     type: 'USER_SET',
-    payload: user.uid
+    payload: userId
 })
 
 export const userAuthError = error => ({

@@ -1,6 +1,6 @@
 
 import * as EmailValidator from 'email-validator'
-import { thisExpression } from '@babel/types'
+import { stateList, Gender } from '../constant'
 
 /**
  * Email - Validates email includes @ and .com
@@ -56,9 +56,8 @@ function dateValidator(dob){
  * @param {*} gender 
  */
 function genderValidator(gender){
-    let fG = gender.charAt(0).toUpperCase()
-
-    return (fG === "M" || fG === "F" || fG === "O")
+    return (Gender.findIndex(z => 
+        z.label.toLowerCase() === gender.toLowerCase()) > 0)
 }
 
 /**
@@ -66,7 +65,7 @@ function genderValidator(gender){
  * @param {*} address 
  */
 function streetValidator(street){
-    return (street.length >= 1)
+    return (street.length > 0)
 }
 
 /**
@@ -82,9 +81,8 @@ function cityValidator(city){
  * @param {*} state 
  */
 function stateValidator(state){
-    let reg  = /^(?!:A[LKSZRAEP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY])$/
-
-    return (reg.test(state) && state > 1)
+    return (stateList.findIndex(i => 
+        i.value.toLowerCase() === state.toLowerCase()) > 0)
 }
 
 /**

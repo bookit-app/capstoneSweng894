@@ -44,7 +44,7 @@ class LogInEmail extends React.Component {
                 password={this.state.password}
                 onPasswordChge={password => this.verifyPassword( password )}
                 errorPassword={this.state.passwordError}
-                error={this.state.errorAnth}
+                error={this.state.error}
                 onLogInButton={() => this.onLogInButton('L')}
                 fgLogic={true}
                 onForgotClick={() => this.props.navigation.navigate('ForgotPassword')}

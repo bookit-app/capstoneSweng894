@@ -1,5 +1,6 @@
 import React from 'react'
 import api from '../../api'
+import { connect } from 'react-redux'
 import firebase from 'firebase'
 import { auth } from '../../config/firebaseConfig'
 import { ButtonCustom } from '../../components/common/ButtonCustom'
@@ -48,6 +49,7 @@ class Profile extends React.Component {
             isProvide: false,
             loading: false,
             _uid: '',
+            _token: '',
             alreadyExist: false
         }
 
@@ -67,16 +69,42 @@ class Profile extends React.Component {
     UNSAFE_componentWillMount(){
         console.log('Profile');        
         console.log(auth.currentUser);
-        
-        api.getProfileById(auth.currentUser.uid)
-            .then(userData => {
-                    var profile = userData.data
-                    this.onProfileRec(profile)
-                }
-            ).catch(this.onProfileNotFound.bind(this))
+
+        console.log('userId',this.state.userId);
+
+
+        try{        
+            auth.currentUser.getIdToken().then(
+                (token) => {
+                    
+                    console.log('getIdToken', token);
+                    
+
+                    this.setState({
+                        _token: token
+                    })
+
+                    api.getProfileById(auth.currentUser.uid, token)
+                        .then(userData => {
+                                var profile = userData.data
+                                this.onProfileRec(profile)
+                                console.log('api.getProfileById', userData);
+                                
+                            }
+                        ).catch( (error) => {
+                            this.onProfileNotFound.bind(this)
+                            console.log('error: ', error);
+                        })
+                    }
+            )
+        } catch (error){
+            console.log('UNSAFE_componentWillMount: ', error);   
+        }
     }
 
     onProfileRec(profile){
+        console.log('onProfileRec', profile);
+        
         this.setState({
             firstName: profile.firstName,
             lastName: profile.lastName,
@@ -101,8 +129,8 @@ class Profile extends React.Component {
     }
 
     onProfileSub(){
-        const { firstName, lastName, gender, dob,  telephone, street, city, state_, zip, isSocial,  isProvide, alreadyExist } = this.state
-       
+        const { _uid, _token, firstName, lastName, gender, dob,  telephone, street, city, state_, zip, isSocial,  isProvide, alreadyExist } = this.state
+        const { firstNameError, lastNameError, genderError, dobError, telephoneError, streetError, cityError, state_Error } = this.state
         console.log('onProfileSub - Before in');
         
 
@@ -112,32 +140,59 @@ class Profile extends React.Component {
         })
 
         var uid = auth.currentUser.uid
-        
 
-        // if(!alreadyExist){
-            console.log('onProfileSub - insert');
-            const payload = {
-                "uid": uid,
-                "firstName": firstName,
-                "lastName": lastName,
-                "gender": gender.charAt(0).toUpperCase(),
-                "email": auth.currentUser.email,
-                "birthday": dob,
-                "phoneNumber": telephone,
-                "address":{
-                    "streetAddress": street,
-                    "city": city,
-                    "state": state_,
-                    "zip": zip
-                },
-                "isSocial": isSocial,
-                "isProvider": isProvide,
-            }                
-    
-            console.log(uid);
-            console.log(payload);
+        if(!firstNameError && !lastNameError && !genderError && !dobError && !telephoneError && !streetError && !cityError && !state_Error
+            && firstName && lastName && gender && dob && telephone && street && city && state_) {
+           
+            if(!alreadyExist){
+                console.log('onProfileSub - insert');
 
-            api.insertProfile(payload)
+                const payload = {
+                    "uid": uid,
+                    "firstName": firstName,
+                    "lastName": lastName,
+                    "gender": gender.charAt(0).toUpperCase(),
+                    "email": auth.currentUser.email,
+                    "birthday": dob,
+                    "phoneNumber": telephone,
+                    "address":{
+                        "streetAddress": street,
+                        "city": city,
+                        "state": state_,
+                        "zip": zip
+                    },
+                    "isSocial": isSocial,
+                    "isProvider": isProvide,
+                }                
+
+                api.insertProfile(payload, _token)
+                    .then((user) => {
+                        this.onProfileCreateSucccess()
+                        console.log('onSuccess: ', user);
+                    })
+                    .catch((error) => {
+                        this.onProfileCreateFailed(error)
+                        console.log('onError: ', error);                    
+                    })
+            } else {
+
+                console.log('onProfileSub - updated');
+                const payload = {
+                    "uid": uid,
+                    "phoneNumber": telephone,
+                    "isSocial": isSocial,
+                    "isProvider": isProvide,
+                    "gender": gender.charAt(0).toUpperCase(),
+                    "birthday": dob,
+                    "address":{
+                        "streetAddress": street,
+                        "city": city,
+                        "state": state_,
+                        "zip": zip
+                    },
+                }                
+
+                api.updateProfileById(uid, payload, _token)
                 .then((user) => {
                     this.onProfileCreateSucccess()
                     console.log('onSuccess: ', user);
@@ -146,31 +201,68 @@ class Profile extends React.Component {
                     this.onProfileCreateFailed(error)
                     console.log('onError: ', error);                    
                 })
-        // } else {
+            }          
+        } else {
+            
+            this.setState({
+                error: 'Please fill out the profile',
+                loading: false
+            })
 
-        //     console.log('onProfileSub - updated');
-        //     const payload = {
-        //         "uid": uid,
-        //         "phoneNumber": telephone,
-        //         "isSocial": isSocial,
-        //         "isProvider": isProvide,
-        //         "gender": gender.charAt(0).toUpperCase(),
-        //         "birthday": dob,
-        //         "address":{
-        //             "streetAddress": street,
-        //             "city": city,
-        //             "state": state_,
-        //             "zip": zip
-        //         },
-        //     }                
-    
-        //     console.log(uid);
-        //     console.log(payload);
+            if(!firstName){
+                this.setState({
+                    firstNameError: 'Please provide first name'
+                })
+            }
+            
+            if(!lastName) {
+                this.setState({
+                    lastNameError: 'Please provide last name'
+                })
+            } 
+            
+            if(!gender){
+                this.setState({
+                    genderError: 'Please provide gender'
+                })
+            } 
+            
+            if(!dob){
+                this.setState({
+                    dobError: 'Please provide Date of Birth'
+                })
+            } 
+            
+            if(!telephone){
+                this.setState({
+                    telephoneError: 'Please provide telephone number'
+                })
+            } 
+            
+            if(!street){
+                this.setState({
+                    streetError: 'Please provide street address'
+                })
+            } 
+            
+            if(!city){
+                this.setState({
+                    cityError: 'Please provide city name'
+                })
+            } 
+            
+            if(!state_){
+                this.setState({
+                    state_Error: 'Please provide state 2 character letters'
+                })
+            }
 
-        //     api.updateProfileById(uid, payload)
-        //         .then(this.onProfileCreateSucccess.bind(this))
-        //         .then(this.onProfileCreateFailed.bind(this))
-        // }
+            if(!zip){
+                this.setState({
+                    zipError: 'Please provide zip'
+                })
+            }
+        }     
     }
 
     onProfileCreateSucccess(){
@@ -196,11 +288,11 @@ class Profile extends React.Component {
         this.props.navigation.navigate('Home')
     }
 
-    onProfileCreateFailed(er){
+    onProfileCreateFailed(error){
         console.log('onProfileCreateFailed');
         
         this.setState({
-            error: er,///!er ? 'Profile Creation Failed' : er,
+            error: error.message,
             loading: false
         })
     }
@@ -305,4 +397,11 @@ const styles = {
     }
 }
   
-export default Profile
+
+const mapStateToProps = (state) => {
+    return {
+        userId: state.userId
+    }
+}
+
+export default connect(mapStateToProps,null)(Profile)

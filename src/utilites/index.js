@@ -51,7 +51,7 @@ function onLogInButton(type){
  * to redux
  * @param {*} type - L for Log-In or other for Sign-Up
  */
-async function onLogInSuccess(){
+async function onLogInSuccess(user){
     this.setState({
         email: '',
         password: '',
@@ -61,8 +61,7 @@ async function onLogInSuccess(){
         error: '', 
         loading: false
     }); 
-    
-    // this.props.userSet(user)
+
     this.props.navigation.navigate('Profile')
 }
 
@@ -70,9 +69,9 @@ async function onLogInSuccess(){
  * On Failure handler from api which sets error message after failing
  * @param {*} type - L for Log-In or other for Sign-Up
  */
-function onLogInFail(type){
+function onLogInFail(error){
     this.setState({
-        error: type === 'L'? 'Authentication Failed': 'Creation Failure',
+        error: error.message,
         loading: false
     })
 }
@@ -86,19 +85,27 @@ function onLogInSub(type){
 
     if(!emailError && !passwordError && email && password){            
         this.setState({ error: '', loading: true})
+        
+        console.log('onLogInSub');
 
         if(type === 'L'){
             firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(this.onLogInSuccess.bind(this))
+                .then((data) => {
+                    var user = data.user;
+                    this.onLogInSuccess(user);
+                })
                 .catch((error) => {
-                    this.onLogInFail(type)
+                    this.onLogInFail(error);
                     console.log(error);
                 })
         } else {
             auth.createUserWithEmailAndPassword(email,password)
-                .then(this.onLogInSuccess.bind(this))
+                .then((data) => {
+                    var user = data.user;
+                    this.onLogInSuccess(user);
+                })
                 .catch((error) => {
-                    this.onLogInFail(type)
+                    this.onLogInFail(error);
                     console.log(error);
                 })
         }
