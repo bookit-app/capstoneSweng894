@@ -2,7 +2,8 @@ import React from 'react'
 import api from '../../api'
 import { connect } from 'react-redux'
 import firebase from 'firebase'
-import { auth } from '../../config/firebaseConfig'
+import auth from '../../repository/auth'
+import styles from '../styles/Profile.styles'
 import { ButtonCustom } from '../../components/common/ButtonCustom'
 import { 
     View,
@@ -10,7 +11,8 @@ import {
     AsyncStorage 
 } from 'react-native'
 import validation from '../../validation'
-import LogInBtn from '../../components/styles/LogInBtn'
+import LogInBtn from '../../components/styles/LogInBtn.styles'
+import DeleteProfileBtn from '../../components/styles/DeleteProfileBtn'
 import AccountDetails from '../../components/account/AccountDetails'
 import { Spinner } from '../../components/common'
 
@@ -66,30 +68,18 @@ class Profile extends React.Component {
         this.verifyZip = validation.verifyZip.bind(this)
     }
 
-    UNSAFE_componentWillMount(){
-        console.log('Profile');        
-        console.log(auth.currentUser);
-
-        console.log('userId',this.state.userId);
-
-
+    async UNSAFE_componentWillMount(){
         try{        
-            auth.currentUser.getIdToken().then(
+            firebase.auth().currentUser.getIdToken().then(
                 (token) => {
-                    
-                    console.log('getIdToken', token);
-                    
-
                     this.setState({
                         _token: token
                     })
 
-                    api.getProfileById(auth.currentUser.uid, token)
+                    api.getProfileById(firebase.auth().currentUser.uid, token)
                         .then(userData => {
                                 var profile = userData.data
-                                this.onProfileRec(profile)
-                                console.log('api.getProfileById', userData);
-                                
+                                this.onProfileRec(profile) 
                             }
                         ).catch( (error) => {
                             this.onProfileNotFound.bind(this)
@@ -139,7 +129,7 @@ class Profile extends React.Component {
             loading: true
         })
 
-        var uid = auth.currentUser.uid
+        var uid = firebase.auth().currentUser.uid
 
         if(!firstNameError && !lastNameError && !genderError && !dobError && !telephoneError && !streetError && !cityError && !state_Error
             && firstName && lastName && gender && dob && telephone && street && city && state_) {
@@ -152,7 +142,7 @@ class Profile extends React.Component {
                     "firstName": firstName,
                     "lastName": lastName,
                     "gender": gender.charAt(0).toUpperCase(),
-                    "email": auth.currentUser.email,
+                    "email": firebase.auth().currentUser.email,
                     "birthday": dob,
                     "phoneNumber": telephone,
                     "address":{
@@ -168,11 +158,9 @@ class Profile extends React.Component {
                 api.insertProfile(payload, _token)
                     .then((user) => {
                         this.onProfileCreateSucccess()
-                        console.log('onSuccess: ', user);
                     })
                     .catch((error) => {
-                        this.onProfileCreateFailed(error)
-                        console.log('onError: ', error);                    
+                        this.onProfileCreateFailed(error)                
                     })
             } else {
 
@@ -195,11 +183,10 @@ class Profile extends React.Component {
                 api.updateProfileById(uid, payload, _token)
                 .then((user) => {
                     this.onProfileCreateSucccess()
-                    console.log('onSuccess: ', user);
                 })
                 .catch((error) => {
                     this.onProfileCreateFailed(error)
-                    console.log('onError: ', error);                    
+                    // console.log('onError: ', error);                    
                 })
             }          
         } else {
@@ -297,6 +284,12 @@ class Profile extends React.Component {
         })
     }
 
+    onPrfileDelete(){
+        // api.deletedProfileById()
+        console.log('Delete profile');
+        
+    }
+
     onRenderProfileButton(){
         if(this.state.loading){
             return <Spinner size="small" />
@@ -313,17 +306,16 @@ class Profile extends React.Component {
         )
     }
 
-    onRenderProfileCancal(){
+    onRenderProfileDelete(){
         return (
             <ButtonCustom
-            onPress={() => this.props.navigation.navigate('Home')}
-            buttonStyle={LogInBtn.buttonStyle}
-            textStyle={LogInBtn.textStyle}
+                onPress={() => this.onPrfileDelete()}
+                buttonStyle={DeleteProfileBtn.buttonStyle}
+                textStyle={DeleteProfileBtn.textStyle}
             >
-                {'Home'}
+                {'Delete Profile'}
             </ButtonCustom>
         )
-        
     }
 
     render(){
@@ -367,40 +359,19 @@ class Profile extends React.Component {
                         errorZip={this.state.zipError}
                         error={this.state.error}
                         onSubmit={() => this.onRenderProfileButton()}
-                        onCancal={() => this.onRenderProfileCancal()}
+                        onDelete={() => this.onRenderProfileDelete()}
                     />
                 </View>
             </ScrollView>
         )
     }
 }
-
-const styles = {
-    Row: {
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'row',
-    },
-    Column: {
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between'
-    },
-    scrollView: {
-    //   marginHorizontal: 20,
-      backgroundColor:  '#ffffff'
-    },
-    View: {
-      justifyContent: 'center',
-      backgroundColor:  '#ffffff'
-    }
-}
   
 
 const mapStateToProps = (state) => {
     return {
-        userId: state.userId
+        userId: state.userId,
+        token: state.token
     }
 }
 

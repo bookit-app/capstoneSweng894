@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { View, ScrollView } from 'react-native'
-import { withNavigation } from 'react-navigation'
-import LogInBtn from '../../components/styles/LogInBtn'
-import BottomBtn from '../../components/styles/BottomBtn'
+import styles from '../styles/LogInOptions.styles'
+import LogInBtn from '../../components/styles/LogInBtn.styles'
+import BottomBtn from '../../components/styles/BottomBtn.styles'
 import AccountImage from '../../components/account/AccountImage'
 import AccountButtons from '../../components/account/AccountButtons'
 import AccountOptions from '../../components/account/AccountOptions'
@@ -42,28 +42,5 @@ class LogInOption extends Component {
     }
 }
 
-const styles = {
-    imgSty: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 50
-    },
-    scrollView: {
-      marginHorizontal: 20,
-    },
-    Row: {
-        display: 'flex',
-        flexDirection: 'row',
-      },
-    Column: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexBasis: 90,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        margin: 10
-      }
-}
 
-export default withNavigation(LogInOption)
+export default LogInOption

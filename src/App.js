@@ -15,15 +15,31 @@ import RootStack from './navigation/stack/RootStack'
 import reducer from './reducer'
 
 const store = createStore(reducer)
-
 const Navigation = createAppContainer(RootStack)
 
-const App = () => {
-  return(
-    <Provider store={store}>
-      <Navigation />
-    </Provider>
-  )
+import firebase from 'firebase'
+
+class App extends React.Component {
+  UNSAFE_componentWillMount(){
+    firebase.initializeApp({
+      apiKey: "AIzaSyDnT6gW3pqhWWl8EHyGQgKb2bc4D6SffXU",
+      authDomain: "sweng-581-capstone.firebaseapp.com",
+      databaseURL: "https://sweng-581-capstone.firebaseio.com",
+      projectId: "sweng-581-capstone",
+      storageBucket: "sweng-581-capstone.appspot.com",
+      messagingSenderId: "847848697992",
+      appId: "1:847848697992:web:1b7bf75e83a0ef62dfef3d",
+      measurementId: "G-D1PG6M1YMT"
+    })
+  }
+  
+  render(){
+    return(
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
+    )
+  }
 }
 
 export default App

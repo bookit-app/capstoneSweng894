@@ -12,12 +12,12 @@ import AuthNavigator from './AuthNavigator'
  */
 const RootStack = createSwitchNavigator(
     {
-        AuthLoading: Loader,
+        AuthLoader: Loader,
         App: AppNavigator,
         Auth: AuthNavigator
     },
     {
-        initialRouteName: 'Auth'
+        initialRouteName: 'AuthLoader'
     }
 )
 

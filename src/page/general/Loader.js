@@ -4,6 +4,7 @@ import {
     View,
 } from 'react-native'
 import firebase from 'firebase'
+import styles from '../styles/Loader.styles'
 
 /**
  * Loader page used to navigator depending on if 
@@ -12,7 +13,9 @@ import firebase from 'firebase'
 class Loader extends React.Component {
     componentDidMount(){
         firebase.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate(user ? 'App' : 'Auth' )
+            // console.log('componentDidMount', 'onAuthStateChanged');
+            // console.log('Route: ',user ? 'App' : 'Login');
+            this.props.navigation.navigate(user ? 'App' : 'Login' )
         })
     }
 
@@ -20,18 +23,9 @@ class Loader extends React.Component {
         return(
             <View style={styles.container}>
                 <ActivityIndicator />
-                {/* <StatusBar barStyle="default" /> */}
             </View>
         )
     }
 }
-
-const styles = {
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
-    }
-  }
 
 export default Loader;

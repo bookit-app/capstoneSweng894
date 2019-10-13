@@ -1,9 +1,8 @@
 
 import React from 'react'
 import firebase from 'firebase'
-import { auth } from '../config/firebaseConfig'
 import { ButtonCustom, Spinner } from '../components/common'
-import LogInBtn from '../components/styles/LogInBtn'
+import LogInBtn from '../components/styles/LogInBtn.styles'
 
 /**
  * On click handler for the Other account button that
@@ -99,7 +98,7 @@ function onLogInSub(type){
                     console.log(error);
                 })
         } else {
-            auth.createUserWithEmailAndPassword(email,password)
+            firebase.auth().createUserWithEmailAndPassword(email,password)
                 .then((data) => {
                     var user = data.user;
                     this.onLogInSuccess(user);

@@ -1,4 +1,5 @@
 import firebase from 'firebase'
+// import { auth } from '../repository/auth'
 
 export const userSet = userId => ({
     type: 'USER_SET',
@@ -9,6 +10,11 @@ export const userAuthError = error => ({
     type: 'AUTH_ERROR',
     payload: error
 })
+
+// export const userToken = () => ({
+//     type: 'TOKEN',
+//     payload: dispatch(auth.getCurrentToken())
+// })
 
 export const logIn = async (email, password) =>  dispatch => {
     console.log('Login');

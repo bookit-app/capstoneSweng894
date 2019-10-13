@@ -57,7 +57,7 @@ function dateValidator(dob){
  */
 function genderValidator(gender){
     return (Gender.findIndex(z => 
-        z.label.toLowerCase() === gender.toLowerCase()) > 0)
+        { return (z.label.toLowerCase() === gender.toLowerCase())}) > -1)
 }
 
 /**

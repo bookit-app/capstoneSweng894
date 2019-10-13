@@ -1,15 +1,4 @@
 import axios from 'axios'
-// import firebase from 'firebase'
-// import {auth} from '../config/firebaseConfig'
-
-/**
- * Setting the Bearer token from the curren
- */
-
-// var token = !auth ? '' : firebase.auth().currentUser.getIdToken
-// const api = axios.create({
-//     baseURL:'https://esp-vllmtwjp2a-uc.a.run.app'
-// })
 
 const baseURL = 'https://esp-vllmtwjp2a-uc.a.run.app';
 
@@ -24,7 +13,9 @@ export const insertProfile = (payload, token) => {
         "Content-Type": "application/json"
       }
     
-    console.log(payload);    
+    // console.log('insertProfile',headers);
+    // console.log('url',baseURL + '/profile');
+    // console.log('payload',payload);    
 
     return (
         axios({
@@ -46,6 +37,9 @@ export const getProfileById = (id, token) => {
         "Accept": "application/json"
       }
     
+    // console.log('getProfileById', headers);
+    // console.log('url', baseURL + `/profile/${id}`);
+
     return(
         axios({
             method: 'GET',
@@ -65,11 +59,9 @@ export const updateProfileById = (id, payload, token) => {
         "Content-Type": "application/json"
       }
 
-    // console.log('updateProfileById: ', headers);
-    
-    // var url = baseURL + `/profile`
-    
-    // console.log('updateProfileById: ', url);
+    //   console.log('updateProfileById',headers);
+    //   console.log('url',baseURL + '/profile');
+    //   console.log('payload',payload);  
 
     return(
         axios({
@@ -85,15 +77,14 @@ export const updateProfileById = (id, payload, token) => {
  * Handles deleting profile informaiton for specific account profile
  */
 export const deletedProfileById = (id, token) => {
-    //  api.delete(`/profile/${id}`)
-    // var headers =  { 'Authorization': 'Bearer ' + token }
-
     var headers = {
         "Authorization": "Bearer " + token,
         "Accept": "application/json"
       }
 
-    console.log('deletedProfileById: ', headers);
+    //   console.log('deletedProfileById',headers);
+    //   console.log('url',baseURL + '/profile');
+    //   console.log('payload',payload); 
     
     return (
         axios({

@@ -7,9 +7,7 @@ import { Image } from 'react-native'
  * @param {*} props 
  */
 const AccountImage = (props) => {
-    const ImageHolder = () => {
-        // console.log(props.imageHolder);
-        
+    const ImageHolder = () => {        
         if(!props.imageHolder){
             return (
                 <Image

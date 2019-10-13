@@ -1,4 +1,4 @@
-const BottomBtnSty ={
+export default {
     btnBtmStyle: {
         textColor: 'black',
         flex: 1
@@ -9,10 +9,8 @@ const BottomBtnSty ={
     bottomView:{
         paddingUp: 10,
         alignItems: 'center',
-        borderTopColor: 'color',
-        borderTopWidth: 2,
+        borderBottomColor: 'color',
+        borderBottomWidth: 2,
         marginBottom: 20,
       }
 }
-
-export default BottomBtnSty

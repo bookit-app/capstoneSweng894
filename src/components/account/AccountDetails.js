@@ -1,7 +1,10 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import { Input, InputNumber } from '../common'
+import { Input } from '../common'
+import ErrorText from '../styles/ErrorText.styles'
+import styles from '../styles/AccountDetails.styles'
 import AccountLogIn from './AccountLogIn'
+import AccountAddress from './AccountAddress'
 
 /**
  * Account Log-In/Sign-Up fields depending on flag
@@ -76,39 +79,21 @@ const AccountDetails = (props) => {
                     onChangeText={props.onGenderChge}
                     error={props.errorGender}
                 />
-                <Input
-                    placeholder="address"
-                    label="Address: "
-                    value={props.address}
-                    onChangeText={props.onAddressChge}
-                    error={props.errorAddress}
-                />
             </View>
-            <View style={styles.Row}>
-                <Input
-                    placeholder="city"
-                    label="City: "
-                    value={props.city}
-                    onChangeText={props.onCityChge}
-                    error={props.errorCity}
-                />
-                <Input
-                    placeholder="state"
-                    label="State: "
-                    value={props.state}
-                    onChangeText={props.onStateChge}
-                    error={props.errorState}
-                /> 
-            </View>
-            <View style={styles.Row}>   
-                <InputNumber
-                    placeholder="12345"
-                    label="Zip: "
-                    value={props.zip}
-                    onChangeText={props.onZipChge}
-                    error={props.errorZip}
-                />
-            </View>
+            <AccountAddress
+                address={props.address}
+                onAddressChge={props.onAddressChge}
+                errorAddress={props.errorAddress}
+                city={props.city}
+                onCityChge={props.onCityChge}
+                errorCity={props.errorCity}
+                state={props.state}
+                onStateChge={props.onStateChge}
+                errorState={props.errorState}
+                zip={props.zip}
+                onZipChge={props.onZipChge}
+                errorZip={props.errorZip}
+            />
             <View style={styles.Column}>
                 <Text style={ErrorText.errorTextStyle}>
                     {props.error}
@@ -118,47 +103,10 @@ const AccountDetails = (props) => {
                 <props.onSubmit />
             </View>
             <View style={styles.RowBtn}>
-                <props.onCancal />
+                <props.onDelete />
             </View>
         </View>
     )
-}
-
-const styles = {
-    Row: {
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'row',
-    },
-    Column: {
-        flexDirection: 'column',
-        justifyContent: 'center'
-    },
-    RowBtn: {
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'row',
-        paddingBottom: 15
-    }  ,
-    error: {
-        marginTop: 10,
-        position: "absolute",
-        bottom: 0,
-        color: "red",
-        fontSize: 10,
-        textAlign: 'center',
-        backgroundColor:  '#ffffff'
-    }
-}
-
-const ErrorText = {
-    errorTextStyle: {
-        fontSize: 20,
-        alignSelf: 'center',
-        color: 'red',
-        backgroundColor:  '#ffffff',
-        justifyContent: 'center'
-      }
 }
 
 export default AccountDetails
