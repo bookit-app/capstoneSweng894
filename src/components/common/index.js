@@ -7,3 +7,4 @@ export * from './Spinner';
 export * from './InputNumber';
 export * from './ImageButton';
 export * from './ButtonCustom';
+export * from './CheckBox'

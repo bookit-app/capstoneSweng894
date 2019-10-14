@@ -13,9 +13,25 @@ import styles from '../styles/Loader.styles'
 class Loader extends React.Component {
     componentDidMount(){
         firebase.auth().onAuthStateChanged(user => {
-            // console.log('componentDidMount', 'onAuthStateChanged');
-            // console.log('Route: ',user ? 'App' : 'Login');
-            this.props.navigation.navigate(user ? 'App' : 'Login' )
+            console.log('componentDidMount', 'onAuthStateChanged');
+
+            if(user){
+                try {
+                    var emailVerified = user.emailVerified
+                } catch (error){
+                    this.props.navigation.navigate('Login')
+                }
+
+                console.log('componentDidMount emailVerified', emailVerified);
+                
+                if(emailVerified){
+                    this.props.navigation.navigate(user ? 'App' : 'Login' )
+                } else {
+                    this.props.navigation.navigate('Login')
+                }
+            } else {
+                this.props.navigation.navigate(user ? 'App' : 'Login' )
+            }
         })
     }
 

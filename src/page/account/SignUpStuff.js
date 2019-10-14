@@ -11,13 +11,5 @@ class SignUpStuff extends React.Component {
 
 export default SignUpStuff
 //https://reactnavigation.org/docs/en/deep-linking.html
+//https://www.reactnativeschool.com/handling-deep-links-with-react-navigation
 
-// Add form validation on all auth Pages
-// - Sign-Up
-// - Log-In
-// - Profile
-
-// Minor Route changes
-// - Changed from stack to draw after Logging in.
-
-// - Updated Front to handle gateway Autherican

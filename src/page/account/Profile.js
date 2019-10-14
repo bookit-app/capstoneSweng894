@@ -1,20 +1,11 @@
 import React from 'react'
-import api from '../../api'
 import { connect } from 'react-redux'
-import firebase from 'firebase'
-import auth from '../../repository/auth'
 import styles from '../styles/Profile.styles'
-import { ButtonCustom } from '../../components/common/ButtonCustom'
-import { 
-    View,
-    ScrollView,
-    AsyncStorage 
-} from 'react-native'
+import { View, ScrollView } from 'react-native'
 import validation from '../../validation'
-import LogInBtn from '../../components/styles/LogInBtn.styles'
-import DeleteProfileBtn from '../../components/styles/DeleteProfileBtn'
+import utilites from '../../utilites'
 import AccountDetails from '../../components/account/AccountDetails'
-import { Spinner } from '../../components/common'
+import { NavigationEvents } from 'react-navigation'
 
 /**
  * Profile Page 
@@ -48,11 +39,14 @@ class Profile extends React.Component {
             zipError: '',
             error: '', 
             isSocial: false,
-            isProvide: false,
+            isProvide: '',
+            isProvider: false,
+            isProviderError: '',
             loading: false,
             _uid: '',
             _token: '',
-            alreadyExist: false
+            alreadyExist: false,
+            onType: false,
         }
 
         this.verifyEmail = validation.verifyEmail.bind(this)
@@ -62,268 +56,37 @@ class Profile extends React.Component {
         this.verifyTelephone = validation.verifyTelephone.bind(this)
         this.verifyDate = validation.verifyDate.bind(this)
         this.verifyGender = validation.verifyGender.bind(this)
+        this.verifyIsProvider = validation.verifyIsProvider.bind(this)
         this.verifyStreet = validation.verifyStreet.bind(this)
         this.verifyCity = validation.verifyCity.bind(this)
         this.verifyState = validation.verifyState.bind(this)
         this.verifyZip = validation.verifyZip.bind(this)
-    }
 
-    async UNSAFE_componentWillMount(){
-        try{        
-            firebase.auth().currentUser.getIdToken().then(
-                (token) => {
-                    this.setState({
-                        _token: token
-                    })
-
-                    api.getProfileById(firebase.auth().currentUser.uid, token)
-                        .then(userData => {
-                                var profile = userData.data
-                                this.onProfileRec(profile) 
-                            }
-                        ).catch( (error) => {
-                            this.onProfileNotFound.bind(this)
-                            console.log('error: ', error);
-                        })
-                    }
-            )
-        } catch (error){
-            console.log('UNSAFE_componentWillMount: ', error);   
-        }
-    }
-
-    onProfileRec(profile){
-        console.log('onProfileRec', profile);
-        
-        this.setState({
-            firstName: profile.firstName,
-            lastName: profile.lastName,
-            dob: profile.birthday,
-            email: profile.email,
-            telephone: profile.phoneNumber,
-            gender: profile.gender == 'M'? 'Male': profile.gender == 'F' ? 'Female' : 'Other',
-            street: profile.address.streetAddress,
-            city: profile.address.city,
-            state_: profile.address.state,
-            zip: profile.address.zip,
-            alreadyExist: true
-        })
+        this.onPrfileDelete = utilites.onPrfileDelete.bind(this)
+        this.onRenderProfileDelete = utilites.onRenderProfileDelete.bind(this)
+        this.onRenderProfileButton = utilites.onRenderProfileButton.bind(this)
+        this.onProfileCreateFailed = utilites.onProfileCreateFailed.bind(this)
+        this.onProfileCreateSucccess = utilites.onProfileCreateSucccess.bind(this)
+        this.onProfileNotFound = utilites.onProfileNotFound.bind(this)
+        this.onProfileRec = utilites.onProfileRec.bind(this)
+        this.onRefresh = utilites.onRefresh.bind(this)
+        this.onProfileSub = utilites.onProfileSub.bind(this)
     }
     
-    onProfileNotFound(){
-        console.log('Account was not found');   
-
-        this.setState({
-            alreadyExist: false
-        })
-    }
-
-    onProfileSub(){
-        const { _uid, _token, firstName, lastName, gender, dob,  telephone, street, city, state_, zip, isSocial,  isProvide, alreadyExist } = this.state
-        const { firstNameError, lastNameError, genderError, dobError, telephoneError, streetError, cityError, state_Error } = this.state
-        console.log('onProfileSub - Before in');
-        
-
-        this.setState({
-            error: '',
-            loading: true
-        })
-
-        var uid = firebase.auth().currentUser.uid
-
-        if(!firstNameError && !lastNameError && !genderError && !dobError && !telephoneError && !streetError && !cityError && !state_Error
-            && firstName && lastName && gender && dob && telephone && street && city && state_) {
-           
-            if(!alreadyExist){
-                console.log('onProfileSub - insert');
-
-                const payload = {
-                    "uid": uid,
-                    "firstName": firstName,
-                    "lastName": lastName,
-                    "gender": gender.charAt(0).toUpperCase(),
-                    "email": firebase.auth().currentUser.email,
-                    "birthday": dob,
-                    "phoneNumber": telephone,
-                    "address":{
-                        "streetAddress": street,
-                        "city": city,
-                        "state": state_,
-                        "zip": zip
-                    },
-                    "isSocial": isSocial,
-                    "isProvider": isProvide,
-                }                
-
-                api.insertProfile(payload, _token)
-                    .then((user) => {
-                        this.onProfileCreateSucccess()
-                    })
-                    .catch((error) => {
-                        this.onProfileCreateFailed(error)                
-                    })
-            } else {
-
-                console.log('onProfileSub - updated');
-                const payload = {
-                    "uid": uid,
-                    "phoneNumber": telephone,
-                    "isSocial": isSocial,
-                    "isProvider": isProvide,
-                    "gender": gender.charAt(0).toUpperCase(),
-                    "birthday": dob,
-                    "address":{
-                        "streetAddress": street,
-                        "city": city,
-                        "state": state_,
-                        "zip": zip
-                    },
-                }                
-
-                api.updateProfileById(uid, payload, _token)
-                .then((user) => {
-                    this.onProfileCreateSucccess()
-                })
-                .catch((error) => {
-                    this.onProfileCreateFailed(error)
-                    // console.log('onError: ', error);                    
-                })
-            }          
-        } else {
-            
-            this.setState({
-                error: 'Please fill out the profile',
-                loading: false
-            })
-
-            if(!firstName){
-                this.setState({
-                    firstNameError: 'Please provide first name'
-                })
-            }
-            
-            if(!lastName) {
-                this.setState({
-                    lastNameError: 'Please provide last name'
-                })
-            } 
-            
-            if(!gender){
-                this.setState({
-                    genderError: 'Please provide gender'
-                })
-            } 
-            
-            if(!dob){
-                this.setState({
-                    dobError: 'Please provide Date of Birth'
-                })
-            } 
-            
-            if(!telephone){
-                this.setState({
-                    telephoneError: 'Please provide telephone number'
-                })
-            } 
-            
-            if(!street){
-                this.setState({
-                    streetError: 'Please provide street address'
-                })
-            } 
-            
-            if(!city){
-                this.setState({
-                    cityError: 'Please provide city name'
-                })
-            } 
-            
-            if(!state_){
-                this.setState({
-                    state_Error: 'Please provide state 2 character letters'
-                })
-            }
-
-            if(!zip){
-                this.setState({
-                    zipError: 'Please provide zip'
-                })
-            }
-        }     
-    }
-
-    onProfileCreateSucccess(){
-        this.setState({
-            firstName: '',
-            lastName:'',
-            email:'',
-            password: '',
-            telephone:'',
-            dob:'',
-            gender:'',
-            address:'',
-            city:'',
-            state_:'',
-            error: '', 
-            isSocial: false,
-            isProvide: false,
-            loading: false 
-        })
-        
-        console.log('onProfileCreateSuccess');
-        
-        this.props.navigation.navigate('Home')
-    }
-
-    onProfileCreateFailed(error){
-        console.log('onProfileCreateFailed');
-        
-        this.setState({
-            error: error.message,
-            loading: false
-        })
-    }
-
-    onPrfileDelete(){
-        // api.deletedProfileById()
-        console.log('Delete profile');
-        
-    }
-
-    onRenderProfileButton(){
-        if(this.state.loading){
-            return <Spinner size="small" />
-        }
-
-        return (    
-            <ButtonCustom
-                onPress={this.onProfileSub.bind(this)}
-                buttonStyle={LogInBtn.buttonStyle}
-                textStyle={LogInBtn.textStyle}
-            >
-                {'Submit'}
-            </ButtonCustom>
-        )
-    }
-
-    onRenderProfileDelete(){
-        return (
-            <ButtonCustom
-                onPress={() => this.onPrfileDelete()}
-                buttonStyle={DeleteProfileBtn.buttonStyle}
-                textStyle={DeleteProfileBtn.textStyle}
-            >
-                {'Delete Profile'}
-            </ButtonCustom>
-        )
+    async componentDidMount(){
+        this.onRefresh()
     }
 
     render(){
         return(
             <ScrollView style={styles.scrollView}>
+                <NavigationEvents
+                    onDidBlur={() => this.onRefresh()}
+                />
                 <View>
                     <AccountDetails
                         Creation={false}
+                        Deletion={this.state.alreadyExist}
                         firstName={this.state.firstName}
                         onFirstNameChge={firstName => this.verifyFirstName( firstName )}
                         errorFirstName={this.state.firstNameError}
@@ -357,6 +120,9 @@ class Profile extends React.Component {
                         zip={this.state.zip}
                         onZipChge={zip => this.verifyZip( zip )}
                         errorZip={this.state.zipError}
+                        isProvider={this.state.isProvide}
+                        onProviderChge={isProvide => this.verifyIsProvider( isProvide )}
+                        errorIsProvider={this.state.isProviderError}
                         error={this.state.error}
                         onSubmit={() => this.onRenderProfileButton()}
                         onDelete={() => this.onRenderProfileDelete()}
@@ -366,7 +132,6 @@ class Profile extends React.Component {
         )
     }
 }
-  
 
 const mapStateToProps = (state) => {
     return {

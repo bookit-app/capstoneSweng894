@@ -61,6 +61,13 @@ function genderValidator(gender){
 }
 
 /**
+ * Is Provider - Validates if user is a provider
+ */
+function isProviderValidator(isProvide){
+    return (isProvide.toLowerCase() === 'yes' ? true : isProvide.toLowerCase() === 'no' ? true : false)
+}
+
+/**
  * Address - Validates the address is greater then 1
  * @param {*} address 
  */
@@ -206,6 +213,19 @@ function verifyGender(gender){
     }
 }
 
+function verifyIsProvider(isProvide){
+    this.setState({
+        isProvide: isProvide,
+        isProvider: isProviderValidator(isProvide)
+    })
+
+    if(isProviderValidator(isProvide)){
+        this.setState({ isProviderError : '' })
+    } else {
+        this.setState({ isProviderError : 'Is provider is not valid. Plase re-enter a valid response' })
+    }
+}
+
 /**
  * Street verifier
  * @param {*} street 
@@ -278,6 +298,7 @@ export default {
     verifyTelephone,
     verifyDate,
     verifyGender,
+    verifyIsProvider,
     verifyStreet,
     verifyCity,
     verifyState,

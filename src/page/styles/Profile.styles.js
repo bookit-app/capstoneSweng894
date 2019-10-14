@@ -11,7 +11,6 @@ export default {
         justifyContent: 'space-between'
     },
     scrollView: {
-    //   marginHorizontal: 20,
       backgroundColor:  '#ffffff'
     },
     View: {

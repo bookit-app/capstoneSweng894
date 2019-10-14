@@ -2,16 +2,28 @@ import axios from 'axios'
 
 const baseURL = 'https://esp-vllmtwjp2a-uc.a.run.app';
 
-/**
- * Handle inserting payload data to the profile collection in firestore
- * @param {*} payload 
- */
-export const insertProfile = (payload, token) => {
-    var headers = {
+export const createHeaderContent = (token) => {
+    return {
         "Authorization": "Bearer " + token,
         "Accept": "application/json",
         "Content-Type": "application/json"
-      }
+    }
+}
+
+export const createHeader = (token) => {
+    return {
+        "Authorization": "Bearer " + token,
+        "Accept": "application/json"
+    }
+}
+
+/**
+ * Handle inserting payload data to the profile collection in firestore
+ * @param {*} payload
+ * @param {*} token 
+ */
+export const insertProfile = (payload, token) => {
+    var headers = createHeaderContent(token)
     
     // console.log('insertProfile',headers);
     // console.log('url',baseURL + '/profile');
@@ -29,16 +41,14 @@ export const insertProfile = (payload, token) => {
 
 /**
  * Handles retriving profile information for specific account profile
- * @param {*} id ?profileId=
+ * @param {*} id
+ * @param {*} token 
  */
 export const getProfileById = (id, token) => {    
-    var headers = {
-        "Authorization": "Bearer " + token,
-        "Accept": "application/json"
-      }
+    var headers = createHeader(token)
     
-    // console.log('getProfileById', headers);
-    // console.log('url', baseURL + `/profile/${id}`);
+    console.log('getProfileById', headers);
+    console.log('url', baseURL + `/profile/${id}`);
 
     return(
         axios({
@@ -51,17 +61,16 @@ export const getProfileById = (id, token) => {
 
 /**
  * Handles update profile information for specific account profile
+ * @param {*} id
+ * @param {*} payload 
+ * @param {*} token 
  */
-export const updateProfileById = (id, payload, token) => {
-    var headers = {
-        "Authorization": "Bearer " + token,
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      }
+export const updateProfileById = (payload, token) => {
+    var headers = createHeaderContent(token)
 
-    //   console.log('updateProfileById',headers);
-    //   console.log('url',baseURL + '/profile');
-    //   console.log('payload',payload);  
+      console.log('updateProfileById',headers);
+      console.log('url',baseURL + '/profile');
+      console.log('payload',payload);  
 
     return(
         axios({
@@ -75,21 +84,41 @@ export const updateProfileById = (id, payload, token) => {
 
 /**
  * Handles deleting profile informaiton for specific account profile
+ * @param {*} id
+ * @param {*} token 
  */
 export const deletedProfileById = (id, token) => {
-    var headers = {
-        "Authorization": "Bearer " + token,
-        "Accept": "application/json"
-      }
+    var headers = createHeader(token)
 
-    //   console.log('deletedProfileById',headers);
-    //   console.log('url',baseURL + '/profile');
-    //   console.log('payload',payload); 
+      console.log('deletedProfileById',headers);
+      console.log('url',baseURL + `/profile/${id}`);
     
     return (
         axios({
             method: 'DELETE',
             url: baseURL + `/profile/${id}`,
+            headers: headers
+        })
+    )
+}
+
+/**
+ * Handle inserting payload data to the provider collection in firestore
+ * @param {*} payload 
+ * @param {*} token 
+ */
+export const insertServiceProvider = (payload, token) => {
+    var headers = createHeaderContent(token)
+
+    console.log('insertServiceProvider ', headers);
+    console.log('url ', baseURL + `/provider`);
+    console.log('payload ', payload);
+    
+    return (
+        axios({
+            method: 'POST',
+            url: baseURL + `/provider`,
+            payload: payload,
             headers: headers
         })
     )

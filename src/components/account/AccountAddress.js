@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Input, InputNumber } from '../common'
-import styles from '../styles/General.styles'
+import styles from '../styles/AccountAddress.styles'
 
 const AccountAddress = (props) => {
     return (
