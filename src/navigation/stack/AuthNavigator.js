@@ -22,8 +22,12 @@ const AuthNavigator = createStackNavigator(
         "SignUp": SignUpOptions,
         "Sign Up With Email": SignUpEmail,
         "Login": LogInOptions,
-        "SignUpstuff": SignUpStuff
-    }, {
+        "Sign Up staff": {
+            screen: SignUpStuff,
+            path: 'staff/:_uid',
+        }
+    }
+    , {
         initialRouteName: "Login"
     }
 );

@@ -15,7 +15,7 @@ import RootStack from './navigation/stack/RootStack'
 import reducer from './reducer'
 
 const store = createStore(reducer)
-const Navigation = createAppContainer(RootStack)
+const CapstoneSweng894 = createAppContainer(RootStack)
 
 import firebase from 'firebase'
 
@@ -34,9 +34,13 @@ class App extends React.Component {
   }
   
   render(){
+    const prefix = 'mystaff://'
+    
     return(
       <Provider store={store}>
-        <Navigation />
+        <CapstoneSweng894 
+          uriPrefix={prefix}
+        />
       </Provider>
     )
   }

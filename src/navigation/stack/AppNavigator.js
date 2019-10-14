@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { createDrawerNavigator,  } from 'react-navigation-drawer'
+import { createDrawerNavigator } from 'react-navigation-drawer'
 
 import Profile from '../../page/account/Profile'
 import Home from '../../page/general/Home'
