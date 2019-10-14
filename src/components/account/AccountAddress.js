@@ -8,14 +8,14 @@ const AccountAddress = (props) => {
         <View>
             <View style={styles.Row}>
                 <Input
-                    placeholder="address"
+                    placeholder="i.e. 100 Main Street"
                     label="Address: "
                     value={props.address}
                     onChangeText={props.onAddressChge}
                     error={props.errorAddress}
                 />
                 <Input
-                    placeholder="city"
+                    placeholder="i.e. Malven"
                     label="City: "
                     value={props.city}
                     onChangeText={props.onCityChge}
@@ -24,14 +24,14 @@ const AccountAddress = (props) => {
             </View>
              <View style={styles.Row}>   
                  <Input
-                    placeholder="state"
+                    placeholder="i.e. PA"
                     label="State: "
                     value={props.state}
                     onChangeText={props.onStateChge}
                     error={props.errorState}
                 /> 
                 <InputNumber
-                    placeholder="12345"
+                    placeholder="i.e. 19901"
                     label="Zip: "
                     value={props.zip}
                     onChangeText={props.onZipChge}
