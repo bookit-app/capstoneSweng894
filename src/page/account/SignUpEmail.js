@@ -1,72 +1,37 @@
 import React from 'react'
-import { 
-    AsyncStorage
-} from 'react-native'
-import { ButtonCustom } from '../../components/common/ButtonCustom'
-import { auth } from '../../config/firebaseConfig'
-import { Spinner } from '../../components/common'
+import { connect } from 'react-redux'
+import validation from '../../validation'
+import utilites from '../../utilites'
 import AccountForm from '../../components/account/AccountForm'
+
+import { userSet } from '../../actions/auth-action'
 
 /**
  * Sign-Up page with Email/Password Only
  */
 class SignUpEmail extends React.Component {
-    state ={
-        email:'',
-        password: '',
-        uid: '',
-        error: '', 
-        loading: false 
-    }
+    constructor(props){
+        super(props)
 
-    onLogInSub(){
-        const { email, password } = this.state;
-
-        this.setState({ error: '', loading: true})
-
-        auth.createUserWithEmailAndPassword(email,password)
-            .then((data) => this.onLogInSuccess(data.user))
-            .catch(this.onLogInFail.bind(this))
-    }
-
-    onLogInSuccess = async (user) => {
-        this.setState({
-            email: '',
+        this.state ={
+            email:'',
             password: '',
-            error: '',
-            loading: false
-        }); 
-        
-        await AsyncStorage.setItem('CurrentUserId', user.uid)
-
-        this.props.navigation.navigate('Profile', {
-            'CurrentUserId': user.uid,
-            'email':user.email
-        })
-    }
-
-    onLogInFail(){
-        this.setState({
-            error: 'Creation Failure',
-            loading: false
-        })
-    }
-
-    onLogInButton(){
-        if(this.state.loading){
-            return <Spinner size="small" />
+            emailError: '',
+            passwordError: '',
+            uid: '',
+            error: '', 
+            loading: false 
         }
-
-        return (    
-            <ButtonCustom
-                onPress={this.onLogInSub.bind(this)}
-                buttonStyle={LogInBtnSty.buttonStyle}
-                textStyle={LogInBtnSty.textStyle}
-            >
-                {'Sign-Up'}
-            </ButtonCustom>
-        )
+        
+        this.verifyEmail = validation.verifyEmail.bind(this)
+        this.verifyPassword = validation.verifyPassword.bind(this)
+        this.onOtherAccount = utilites.onOtherAccount.bind(this)
+        this.onLogInButton = utilites.onLogInButton.bind(this)
+        this.onLogInSuccess = utilites.onLogInSuccess.bind(this)
+        this.onLogInFail = utilites.onLogInFail.bind(this)
+        this.onLogInSub = utilites.onLogInSub.bind(this)
     }
+
     render(){
         return(
             <AccountForm
@@ -74,13 +39,15 @@ class SignUpEmail extends React.Component {
                 placeholder={require('../../image/Placeholder150.png')}
                 image={require('../../image/Placeholder150.png')}
                 email={this.state.email}
-                onEmailChge={email => this.setState({ email })}
+                onEmailChge={email => this.verifyEmail( email )}
+                errorEmail={this.state.emailError}
                 password={this.state.password}
-                onPasswordChge={password => this.setState({ password })}
+                onPasswordChge={password => this.verifyPassword( password )}
+                errorPassword={this.state.passwordError}
                 error={this.state.error}
-                onLogInButton={() => this.onLogInButton()}
+                onLogInButton={() => this.onLogInButton('S')}
                 fgLogic={false}
-                onOtherAccountOptionClick={() => this.props.navigation.navigate('Login')}
+                onOtherAccountOptionClick={() => this.onOtherAccount("L")}
                 otherAccountTxt={'Already have an Account? Login'}            
             />
         )
@@ -88,29 +55,10 @@ class SignUpEmail extends React.Component {
 }
 
 
-const LogInBtnSty = {
-    textStyle: {
-      alignSelf: 'center',
-      color: '#fff',
-      fontSize: 16,
-      fontWeight: '600',
-      paddingTop: 5,
-      paddingBottom: 5,        
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    buttonStyle: {
-      flex: 1,
-      backgroundColor:'#4FA6FD' ,
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: '#fff',
-      marginLeft: 10,
-      marginRight: 10,
-      width: 250, 
-      justifyContent: 'center',
-      alignItems: 'center',
+const mapDispatchToProps = (dispatch) => {
+    return {
+        userSet: (user) => dispatch(userSet(user))
     }
-  };
+}
 
-export default SignUpEmail
+export default connect(null, mapDispatchToProps)(SignUpEmail)

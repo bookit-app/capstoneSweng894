@@ -11,19 +11,24 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "email-validator": "^2.0.4",
     "firebase": "^7.0.0",
+    "mocha": "^6.2.1",
+    "nyc": "^14.1.1",
     "react": "16.9.0",
     "react-native": "0.61.1",
-    "react-native-fbsdk": "1.0.4",
+    "react-native-elements": "^1.2.6",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-phone-input": "^0.2.4",
+    "react-native-picker-select": "^6.3.3",
     "react-native-reanimated": "^1.3.0",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.10",
     "react-navigation-drawer": "^2.2.2",
     "react-navigation-stack": "^1.9.3",
     "react-redux": "^7.1.1",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "sinon": "^7.5.0"
   },
   "devDependencies": {
     "@babel/core": "7.6.2",

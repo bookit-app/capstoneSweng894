@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
 /**
- * TouchableOpacity wrapping a Text field
+ * TouchableOpacity wrapping a Text field for input and label
  * @param {*} param0 
  */
 const Button = ({ onPress, children }) => {
@@ -19,6 +19,7 @@ return (
 
 const styles = {
   textStyle: {
+    textAlign: 'center',
     alignSelf: 'center',
     color: '#007aff',
     fontSize: 16,

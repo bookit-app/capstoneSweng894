@@ -1,33 +1,44 @@
 import React from 'react'
 import {
     ActivityIndicator,
-    AsyncStorage,
-    StatusBar,
     View,
 } from 'react-native'
+import firebase from 'firebase'
+import styles from '../styles/Loader.styles'
 
 /**
  * Loader page used to navigator depending on if 
  * account is created in firebase
- * 
- * Still not Working
  */
 class Loader extends React.Component {
-    constructor(){
-        super()
-        this._bootOnLoader()
-    }
+    componentDidMount(){
+        firebase.auth().onAuthStateChanged(user => {
+            console.log('componentDidMount', 'onAuthStateChanged');
 
-    _bootOnLoader = async () => {
-        const currentUserId = await AsyncStorage.getItem('CurrentUserId')
-        this.props.navigation.navigate( currentUserId ? 'Auth' :'App' )
+            if(user){
+                try {
+                    var emailVerified = user.emailVerified
+                } catch (error){
+                    this.props.navigation.navigate('Login')
+                }
+
+                console.log('componentDidMount emailVerified', emailVerified);
+                
+                if(emailVerified){
+                    this.props.navigation.navigate(user ? 'App' : 'Login' )
+                } else {
+                    this.props.navigation.navigate('Login')
+                }
+            } else {
+                this.props.navigation.navigate(user ? 'App' : 'Login' )
+            }
+        })
     }
 
     render(){
         return(
-            <View>
+            <View style={styles.container}>
                 <ActivityIndicator />
-                <StatusBar barStyle="default" />
             </View>
         )
     }

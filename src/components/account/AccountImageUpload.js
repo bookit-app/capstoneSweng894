@@ -8,7 +8,6 @@ import { TouchableOpacity, Image } from 'react-native'
  */
 const AccountImageUpload = (props) => {
     const image = typeof props.image == 'string' ? require('../../image/Placeholder150.png') : props.image
-    
     return (
         <TouchableOpacity style={styles.imgStyle}>
             <Image source={image}  style={styles.image}/>   

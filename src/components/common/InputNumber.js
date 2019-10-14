@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, TextInput, View, Text } from 'react-native';
 
-const InputNumber = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
+const InputNumber = ({ label, value, onChangeText, placeholder, secureTextEntry, error }) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
 
   return (
@@ -17,6 +17,7 @@ const InputNumber = ({ label, value, onChangeText, placeholder, secureTextEntry 
         value={value}
         onChangeText={onChangeText}
       />
+      <Text style={styles.error}>{error}</Text>
     </View>
   );
 };
@@ -43,6 +44,12 @@ const styles = {
     alignItems: 'center',
     flex: 1,
     margin: 10
+  },
+  error: {
+    position: "absolute",
+    bottom: 0,
+    color: "red",
+    fontSize: 10
   }
 };
 

@@ -6,24 +6,44 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React from 'react';
+import { createAppContainer } from 'react-navigation'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 
-import { createAppContainer, createSwitchNavigator } from 'react-navigation'
-// import { createDrawerNavigator } from 'react-navigation-drawer'
+import RootStack from './navigation/stack/RootStack'
+import reducer from './reducer'
 
-import Loader from './page/general/Loader'
+const store = createStore(reducer)
+const CapstoneSweng894 = createAppContainer(RootStack)
 
-import AppNavigator  from './navigation/stack/AppNavigator'
-import AuthNavigator  from './navigation/stack/AuthNavigator'
+import firebase from 'firebase'
 
-  export default createAppContainer(createSwitchNavigator(
-  {
-    AuthLoading: Loader,
-    App: AppNavigator,
-    Auth: AuthNavigator
-  },
-  {
-    initialRouteName: 'Auth'
+class App extends React.Component {
+  UNSAFE_componentWillMount(){
+    firebase.initializeApp({
+      apiKey: "AIzaSyDnT6gW3pqhWWl8EHyGQgKb2bc4D6SffXU",
+      authDomain: "sweng-581-capstone.firebaseapp.com",
+      databaseURL: "https://sweng-581-capstone.firebaseio.com",
+      projectId: "sweng-581-capstone",
+      storageBucket: "sweng-581-capstone.appspot.com",
+      messagingSenderId: "847848697992",
+      appId: "1:847848697992:web:1b7bf75e83a0ef62dfef3d",
+      measurementId: "G-D1PG6M1YMT"
+    })
   }
-))
+  
+  render(){
+    const prefix = 'mystaff://'
+    
+    return(
+      <Provider store={store}>
+        <CapstoneSweng894 
+          uriPrefix={prefix}
+        />
+      </Provider>
+    )
+  }
+}
 
+export default App

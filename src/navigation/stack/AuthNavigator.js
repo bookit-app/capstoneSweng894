@@ -6,9 +6,11 @@ import SignUpOptions from '../../page/account/SignUpOptions'
 import LogInEmail from '../../page/account/LogInEmail'
 import ForgotPassword from '../../page/account/ForgotPassword'
 import SignUpEmail from '../../page/account/SignUpEmail'
+import SignUpStuff from '../../page/account/SignUpStuff'
+
+// import AccountLogOut from '../../components/account/AccountLogOut'
 
 import LogoNav from '../navButtons/LogoNav'
-import SignOutNav from '../navButtons/SignOutNav'
 
 /**
  * Auth menu accessible page
@@ -19,13 +21,14 @@ const AuthNavigator = createStackNavigator(
         "ForgotPassword": ForgotPassword,
         "SignUp": SignUpOptions,
         "Sign Up With Email": SignUpEmail,
-        "Login": LogInOptions
-    }, {
-        initialRouteName: "Login",       
-        defaultNavigationOptions : {
-            headerLeft: <LogoNav />,
-            headerRight: <SignOutNav />
+        "Login": LogInOptions,
+        "Sign Up staff": {
+            screen: SignUpStuff,
+            path: 'staff/:_uid',
         }
+    }
+    , {
+        initialRouteName: "Login"
     }
 );
 

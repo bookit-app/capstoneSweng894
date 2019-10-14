@@ -1,7 +1,12 @@
 import React from 'react'
-import { Platform, View, Text, TextInput } from 'react-native'
-import { Input, InputNumber } from '../common'
+import { View, Text } from 'react-native'
+import { Input } from '../common'
+import CheckBox from '../common/CheckBox'
+// import { CheckBox } from 'react-native-elements'
+import ErrorText from '../styles/ErrorText.styles'
+import styles from '../styles/AccountDetails.styles'
 import AccountLogIn from './AccountLogIn'
+import AccountAddress from './AccountAddress'
 
 /**
  * Account Log-In/Sign-Up fields depending on flag
@@ -10,16 +15,31 @@ import AccountLogIn from './AccountLogIn'
  */
 const onUserCreation = (props) => {
     if(props.Creation)  {
-        return(              
-            <AccountLogIn
-                emailValue={props.email}
-                emailOnChange={props.onEmailChge}
-                pdValue={props.password}
-                pdOnChange={props.onPasswordChge}
-            /> 
+        return(       
+            <View style={styles.Row}>       
+                <AccountLogIn
+                    emailValue={props.email}
+                    emailOnChange={props.onEmailChge}
+                    errorEmail={props.errorEmail}
+                    passwordValue={props.password}
+                    passwordOnChge={props.onPasswordChge}
+                    errorPassword={props.errorPassword}
+                /> 
+            </View>
         )   
-    } else {
-        return <Text>{props.Creation}</Text>
+    }
+}
+
+/**
+ * Account Deleted button depending on flag
+ */
+const onUserDeleted = (props) => {
+    if(props.Deletion){
+        return (
+            <View style={styles.RowBtn}>
+                <props.onDelete />
+            </View>
+        )
     }
 }
 
@@ -29,102 +49,83 @@ const onUserCreation = (props) => {
  * @param {*} props 
  */
 const AccountDetails = (props) => {
-
     return(
-        <View>
+        <View style={styles.Column}>
             <View style={styles.Row}>
                 <Input
-                    placeholder="first.name"
+                    placeholder="i.e. John"
                     label="First Name: "
                     value={props.firstName}
                     onChangeText={props.onFirstNameChge}
+                    error={props.errorFirstName}
                 />
                 <Input
-                    placeholder="last.name"
+                    placeholder="i.e. Williams"
                     label="Last Name: "
                     value={props.lastName}
                     onChangeText={props.onLastNameChge}
+                    error={props.errorLastName}
                 />
             </View>
-            <View style={styles.Row}>
-                {onUserCreation(props)}
-            </View>
+            {onUserCreation(props)}
             <View style={styles.Row}>
                 <Input
-                    placeholder="telephone"
+                    placeholder="i.e. 111-111-1111"
                     label="Telephone: "
                     value={props.telephone}
                     onChangeText={props.onTelephoneChge}
+                    error={props.errorTelephone}
                 />
-            </View>
-            <View style={styles.Row}>
                 <Input
-                    placeholder="dob"
+                    placeholder="i.ei 1987-01-01"
                     label="Date of Birth: "
                     value={props.dob}
                     onChangeText={props.ondobChge}
-                />
-                <Input 
-                    placeholder="gender"
-                    label="Gender: "
-                    value={props.gender}
-                    onChangeText={props.onGenderChge}
+                    error={props.errorDob}
                 />
             </View>
             <View style={styles.Row}>
-                <Input
-                    placeholder="address"
-                    label="Address: "
-                    value={props.address}
-                    onChangeText={props.onAddressChge}
+                <Input 
+                    placeholder="i.e. Male"
+                    label="Gender: "
+                    value={props.gender}
+                    onChangeText={props.onGenderChge}
+                    error={props.errorGender}
                 />
-                <Input
-                    placeholder="city"
-                    label="City: "
-                    value={props.city}
-                    onChangeText={props.onCityChge}
-                />
-            </View>
-            <View>
-                <Input
-                    placeholder="state"
-                    label="State: "
-                    value={props.state}
-                    onChangeText={props.onStateChge}
-                />    
-                <InputNumber
-                    placeholder="12345"
-                    label="Zip: "
-                    value={props.zip}
-                    onChangeText={props.onZipChge}
+
+                <Input 
+                    placeholder="i.e. Yes/No"
+                    label="Is Provider: "
+                    value={props.isProvider}
+                    onChangeText={props.onProviderChge}
+                    error={props.errorIsProvider}
                 />
             </View>
+            <AccountAddress
+                address={props.address}
+                onAddressChge={props.onAddressChge}
+                errorAddress={props.errorAddress}
+                city={props.city}
+                onCityChge={props.onCityChge}
+                errorCity={props.errorCity}
+                state={props.state}
+                onStateChge={props.onStateChge}
+                errorState={props.errorState}
+                zip={props.zip}
+                onZipChge={props.onZipChge}
+                errorZip={props.errorZip}
+            />
+            <View style={styles.Column}>
+                <Text style={ErrorText.errorTextStyle}>
+                    {props.error}
+                </Text>
+            </View>
+            <View style={styles.RowBtn}>
+                <props.onSubmit />
+            </View>
+            {onUserDeleted(props)}
         </View>
     )
-}
-
-const styles = {
-    Row:{
-        display: 'flex',
-        flewDirection: 'row',
-    },
-    Column: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexBasis: 90,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        margin: 10
-    },
-    TextInputStyle: {  
-        textAlign: 'center',  
-        height: 40,  
-        borderRadius: 10,  
-        borderWidth: 2,  
-        borderColor: '#009688',  
-        marginBottom: 10  
-    }  
 }
 
 export default AccountDetails

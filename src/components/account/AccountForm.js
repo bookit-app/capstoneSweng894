@@ -2,8 +2,12 @@ import React from 'react'
 import {
     View,
     Text,
-    ScrollView
+    ScrollView,
 } from 'react-native'
+import styles from '../styles/AccountForm.styles'
+import ClearBtnSty from '../styles/ClearBtnSty.styles'
+import ErrorText from '../styles/ErrorText.styles'
+import BottomBtnSty from '../styles/BottomBtn.styles'
 import AccountImage from './AccountImage'
 import AccountLogIn from './AccountLogIn'
 import AccountOptions from './AccountOptions'
@@ -48,9 +52,11 @@ const AccountForm = (props) => {
             </View>
             <AccountLogIn
                 emailValue={props.email}
-                emailOnChange={props.onEmailChge}
-                pdValue={props.password}
-                pdOnChange={props.onPasswordChge}
+                emailOnChge={props.onEmailChge}
+                errorEmail={props.errorEmail}
+                passwordValue={props.password}
+                passwordOnChge={props.onPasswordChge}
+                errorPassword={props.errorPassword}
             />   
             <View style={styles.Column}>
                 <Text style={ErrorText.errorTextStyle}>
@@ -74,93 +80,6 @@ const AccountForm = (props) => {
             </View>
         </ScrollView>
     )
-}
-
-const styles = {
-    scrollView: {
-      marginHorizontal: 20,
-    },
-    imgSty: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 50
-    },
-    Column: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexBasis: 90,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        margin: 10
-      }
-}
-
-const ClearBtnSty = {
-    btnBtmStyle: {
-        textColor: 'black',
-        flex: 1
-    },
-    txtBtnStyle: {
-        color: 'gray'
-    },
-    bottomView:{
-        paddingUp: 10,
-        alignItems: 'center',
-        borderBottomColor: 'color',
-        borderBottomWidth: 2,
-        marginBottom: 20,
-      }
-}
-
-const ErrorText = {
-    errorTextStyle: {
-        fontSize: 20,
-        alignSelf: 'center',
-        color: 'red'
-      }
-}
-
-const LogInBtnSty = {
-    textStyle: {
-      alignSelf: 'center',
-      color: '#fff',
-      fontSize: 16,
-      fontWeight: '600',
-      paddingTop: 5,
-      paddingBottom: 5,        
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    buttonStyle: {
-      flex: 1,
-      backgroundColor:'#4FA6FD' ,
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: '#fff',
-      marginLeft: 10,
-      marginRight: 10,
-      width: 250, 
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-  };
-
-const BottomBtnSty ={
-    btnBtmStyle: {
-        textColor: 'black',
-        flex: 1
-    },
-    txtBtnStyle: {
-        color: 'gray'
-    },
-    bottomView:{
-        paddingUp: 10,
-        alignItems: 'center',
-        borderTopColor: 'color',
-        borderTopWidth: 2,
-        marginBottom: 20,
-        }
 }
 
 export default AccountForm

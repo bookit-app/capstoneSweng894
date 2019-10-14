@@ -1,243 +1,143 @@
 import React from 'react'
-import api from '../../api'
-import { auth } from '../../config/firebaseConfig'
-import { ButtonCustom } from '../../components/common/ButtonCustom'
-import { 
-    ScrollView,
-    AsyncStorage 
-} from 'react-native'
+import { connect } from 'react-redux'
+import styles from '../styles/Profile.styles'
+import { View, ScrollView } from 'react-native'
+import validation from '../../validation'
+import utilites from '../../utilites'
 import AccountDetails from '../../components/account/AccountDetails'
+import { NavigationEvents } from 'react-navigation'
 
 /**
  * Profile Page 
  */
 class Profile extends React.Component {   
-    state = {
-        firstName: '',
-        lastName:'',
-        email:'',
-        password: '',
-        telephone:'',
-        dob:'',
-        gender:'',
-        street:'',
-        city:'',
-        state_:'',
-        zip: '',
-        error: '', 
-        isSocial: false,
-        isProvide: false,
-        loading: false,
-        _uid: ''
-    }
+    constructor(props){
+        super(props)
 
-    UNSAFE_componentWillMount(){
-        const { navigation } = this.props;
-
-        //need to find a way to get this information from the LogIn/SignUp Email
-        //Redux or Mobx applicant state
-        this.setState({
-            _uid: JSON.stringify(navigation.getParam('CurrentUserId', '')).toString(),
-            email: JSON.stringify(navigation.getParam('email', '')).toString()
-        })
-
-        api.getProfileById(auth.currentUser.uid)//JSON.stringify(navigation.getParam('CurrentUserId', '')).toString())
-            .then(userData => {
-                    var profile = userData.data
-                    this.onProfileRec(profile)
-                }
-            ).catch(this.onProfileNotFound.bind(this))
-    }
-
-    onProfileRec(profile){
-        this.setState({
-            firstName: profile.firstName,
-            lastName: profile.lastName,
-            dob: profile.birthday,
-            email: profile.email,
-            telephone: profile.phoneNumber,
-            gender: profile.gender == 'M'? 'Male': profile.gender == 'F' ? 'Female' : 'Other',
-            address: profile.address.streetAddress,
-            city: profile.address.city,
-            state_: profile.address.state,
-            zip: profile.address.zip
-        })
-    }
-    
-    onProfileNotFound(){
-        console.log('Account was not found');
-        
-    }
-
-    onProfileSub(){
-        const { _uid, firstName, lastName, email, gender, dob,  telephone, street, city, state_, zip, isSocial,  isProvide } = this.state
-       
-        this.setState({
-            error: '',
-            loading: true
-        })
-        
-        const { navigation } = this.props;
- 
-        const payload = {
-            "uid": auth.currentUser.uid,
-            "firstName": firstName,
-            "lastName": lastName,
-            "email": auth.currentUser.email,
-            "gender": gender,
-            "birthday": dob,
-            "phoneNumber": telephone,
-            "address":{
-                "streetAddress": street,
-                "city": city,
-                "state": state_,
-                "zip": zip
-            },
-            "isSocial": isSocial,
-            "isProvider": isProvide,
-        }                
-
-        console.log(_uid);
-        console.log(payload);
-
-        api.insertProfile(payload)
-            .then(this.onProfileCreateSucccess(_uid))
-            .catch(this.onProfileCreateFailed.bind(this))
-    }
-
-    
-    onSignUpCreateFailed(){
-        this.setState({
-            error: 'Account Creation Failed',
-            loading: false
-        })
-    }
-
-    onProfileCreateSucccess = async(_uid) => {
-        this.setState({
+        this.state = {
             firstName: '',
+            firstNameError: '',
             lastName:'',
+            lastNameError: '',
             email:'',
+            emailError: '',
             password: '',
+            passwordError: '',
             telephone:'',
+            telephoneError: '',
             dob:'',
+            dobError: '',
             gender:'',
-            address:'',
+            genderError: '',
+            street:'',
+            streetError: '',
             city:'',
+            cityError: '',
             state_:'',
+            state_Error: '',
+            zip: '',
+            zipError: '',
             error: '', 
             isSocial: false,
-            isProvide: false,
-            loading: false 
-        })
+            isProvide: '',
+            isProvider: false,
+            isProviderError: '',
+            loading: false,
+            _uid: '',
+            _token: '',
+            alreadyExist: false,
+            onType: false,
+        }
+
+        this.verifyEmail = validation.verifyEmail.bind(this)
+        this.verifyPassword = validation.verifyPassword.bind(this)
+        this.verifyFirstName = validation.verifyFirstName.bind(this)
+        this.verifyLastName = validation.verifyLastName.bind(this)
+        this.verifyTelephone = validation.verifyTelephone.bind(this)
+        this.verifyDate = validation.verifyDate.bind(this)
+        this.verifyGender = validation.verifyGender.bind(this)
+        this.verifyIsProvider = validation.verifyIsProvider.bind(this)
+        this.verifyStreet = validation.verifyStreet.bind(this)
+        this.verifyCity = validation.verifyCity.bind(this)
+        this.verifyState = validation.verifyState.bind(this)
+        this.verifyZip = validation.verifyZip.bind(this)
+
+        this.onPrfileDelete = utilites.onPrfileDelete.bind(this)
+        this.onRenderProfileDelete = utilites.onRenderProfileDelete.bind(this)
+        this.onRenderProfileButton = utilites.onRenderProfileButton.bind(this)
+        this.onProfileCreateFailed = utilites.onProfileCreateFailed.bind(this)
+        this.onProfileCreateSucccess = utilites.onProfileCreateSucccess.bind(this)
+        this.onProfileNotFound = utilites.onProfileNotFound.bind(this)
+        this.onProfileRec = utilites.onProfileRec.bind(this)
+        this.onRefresh = utilites.onRefresh.bind(this)
+        this.onProfileSub = utilites.onProfileSub.bind(this)
+    }
     
-        if(_uid !== null){
-            await AsyncStorage.setItem('CurrentUserId', _uid)
-        }
-        
-        this.props.navigation.navigate('Home')
-    }
-
-    onProfileCreateFailed(){
-        this.setState({
-            error: 'Profile Creation Failed',
-            loading: false
-        })
-    }
-
-    onRenderProfileButton(){
-        if(this.state.loading){
-            return <Spinner size="small" />
-        }
-
-        return (    
-            <ButtonCustom
-                onPress={this.onProfileSub.bind(this)}
-                buttonStyle={LogInBtnSty.buttonStyle}
-                textStyle={LogInBtnSty.textStyle}
-            >
-                {'Submit'}
-            </ButtonCustom>
-        )
+    async componentDidMount(){
+        this.onRefresh()
     }
 
     render(){
         return(
             <ScrollView style={styles.scrollView}>
-                <AccountDetails
-                    Creation={false}
-                    firstName={this.state.firstName}
-                    onFirstNameChge={firstName => this.setState({ firstName })}
-                    lastName={this.state.lastName}
-                    onLastNameChge={lastName => this.setState({ lastName })}
-                    email={this.state.email}
-                    onEmailChge={email => this.setState({ email })}
-                    password={this.state.password}
-                    onPasswordChge={password => this.setState({ password })}
-                    telephone={this.state.telephone}
-                    onTelephoneChge={telephone => this.setState({ telephone })}
-                    dob={this.state.dob}
-                    ondobChge={dob => this.setState({ dob })}
-                    gender={this.state.gender}
-                    onGenderChge={gender => this.setState({ gender })}
-                    address={this.state.street}
-                    onAddressChge={ street => this.setState({ street })}
-                    city={this.state.city}
-                    onCityChge={city => this.setState({ city })}
-                    state={this.state.state_}
-                    onStateChge={state_ => this.setState({ state_ })}
-                    zip={this.state.zip}
-                    onZipChge={zip => this.setState({ zip })}
+                <NavigationEvents
+                    onDidBlur={() => this.onRefresh()}
                 />
-                
-                {this.onRenderProfileButton()}
+                <View>
+                    <AccountDetails
+                        Creation={false}
+                        Deletion={this.state.alreadyExist}
+                        firstName={this.state.firstName}
+                        onFirstNameChge={firstName => this.verifyFirstName( firstName )}
+                        errorFirstName={this.state.firstNameError}
+                        lastName={this.state.lastName}
+                        onLastNameChge={lastName => this.verifyLastName( lastName )}
+                        errorLastName={this.state.lastNameError}
+                        email={this.state.email}
+                        onEmailChge={email => this.verifyEmail( email )}
+                        errorEmail={this.state.emailError}
+                        password={this.state.password}
+                        onPasswordChge={password => this.verifyPassword( password )}
+                        errorPassword={this.state.passwordError}
+                        telephone={this.state.telephone}
+                        onTelephoneChge={telephone => this.verifyTelephone( telephone )}
+                        errorTelephone={this.state.telephoneError}
+                        dob={this.state.dob}
+                        ondobChge={dob => this.verifyDate( dob )}
+                        errorDob={this.state.dobError}
+                        gender={this.state.gender}
+                        onGenderChge={gender => this.verifyGender( gender )}
+                        errorGender={this.state.genderError}
+                        address={this.state.street}
+                        onAddressChge={ street => this.verifyStreet( street )}
+                        errorAddress={this.state.streetError}
+                        city={this.state.city}
+                        onCityChge={city => this.verifyCity( city )}
+                        errorCity={this.state.cityError}
+                        state={this.state.state_}
+                        onStateChge={state_ => this.verifyState( state_ )}
+                        errorState={this.state.state_Error}
+                        zip={this.state.zip}
+                        onZipChge={zip => this.verifyZip( zip )}
+                        errorZip={this.state.zipError}
+                        isProvider={this.state.isProvide}
+                        onProviderChge={isProvide => this.verifyIsProvider( isProvide )}
+                        errorIsProvider={this.state.isProviderError}
+                        error={this.state.error}
+                        onSubmit={() => this.onRenderProfileButton()}
+                        onDelete={() => this.onRenderProfileDelete()}
+                    />
+                </View>
             </ScrollView>
         )
     }
 }
 
-const styles = {
-    Row:{
-        display: 'flex',
-        flewDirection: 'row',
-    },
-    Column: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexBasis: 90,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        margin: 10
-    },
-    scrollView: {
-      marginHorizontal: 20,
-    },
+const mapStateToProps = (state) => {
+    return {
+        userId: state.userId,
+        token: state.token
+    }
 }
 
-const LogInBtnSty = {
-    textStyle: {
-      alignSelf: 'center',
-      color: '#fff',
-      fontSize: 16,
-      fontWeight: '600',
-      paddingTop: 5,
-      paddingBottom: 5,        
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    buttonStyle: {
-      flex: 1,
-      backgroundColor:'#4FA6FD' ,
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: '#fff',
-      marginLeft: 10,
-      marginRight: 10,
-      width: 250, 
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-  };
-  
-export default Profile
+export default connect(mapStateToProps,null)(Profile)

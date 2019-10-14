@@ -13,7 +13,7 @@ const CheckBox = ({ selected, onPress, style, textStyle, size = 30, color = '#21
             color={color}
             name={ selected ? 'check-box' : 'check-box-outline-blank'}
         />
-        <Text style={textStyle}>{text}</Text>
+        <Text>{text}</Text>
     </TouchableOpacity>
 )
 
@@ -24,6 +24,4 @@ const styles = {
     }
 }
 
-export {
-    CheckBox
-}
+export default CheckBox
