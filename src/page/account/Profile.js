@@ -71,6 +71,7 @@ class Profile extends React.Component {
         this.onProfileRec = utilites.onProfileRec.bind(this)
         this.onRefresh = utilites.onRefresh.bind(this)
         this.onProfileSub = utilites.onProfileSub.bind(this)
+        this.onRenderPreference = utilites.onRenderPreference.bind(this)
     }
     
     async componentDidMount(){
@@ -126,6 +127,7 @@ class Profile extends React.Component {
                         error={this.state.error}
                         onSubmit={() => this.onRenderProfileButton()}
                         onDelete={() => this.onRenderProfileDelete()}
+                        onPref={() => this.onRenderPreference()}
                     />
                 </View>
             </ScrollView>

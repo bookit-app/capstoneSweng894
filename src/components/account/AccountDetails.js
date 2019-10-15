@@ -124,6 +124,9 @@ const AccountDetails = (props) => {
                 <props.onSubmit />
             </View>
             {onUserDeleted(props)}
+            <View style={styles.RowBtn}>
+                <props.onPref />
+            </View>
         </View>
     )
 }

@@ -8,10 +8,6 @@ import ForgotPassword from '../../page/account/ForgotPassword'
 import SignUpEmail from '../../page/account/SignUpEmail'
 import SignUpStuff from '../../page/account/SignUpStuff'
 
-// import AccountLogOut from '../../components/account/AccountLogOut'
-
-import LogoNav from '../navButtons/LogoNav'
-
 /**
  * Auth menu accessible page
  */

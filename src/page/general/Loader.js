@@ -15,23 +15,7 @@ class Loader extends React.Component {
         firebase.auth().onAuthStateChanged(user => {
             console.log('componentDidMount', 'onAuthStateChanged');
 
-            if(user){
-                try {
-                    var emailVerified = user.emailVerified
-                } catch (error){
-                    this.props.navigation.navigate('Login')
-                }
-
-                console.log('componentDidMount emailVerified', emailVerified);
-                
-                if(emailVerified){
-                    this.props.navigation.navigate(user ? 'App' : 'Login' )
-                } else {
-                    this.props.navigation.navigate('Login')
-                }
-            } else {
-                this.props.navigation.navigate(user ? 'App' : 'Login' )
-            }
+            this.props.navigation.navigate(user ? 'App' : 'Login' )
         })
     }
 

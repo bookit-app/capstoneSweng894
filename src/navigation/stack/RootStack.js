@@ -1,9 +1,10 @@
+import React from 'react'
 import {
     createSwitchNavigator
 } from 'react-navigation'
 
 import Loader from '../../page/general/Loader'
-import AppNavigator from './AppNavigator'
+import AppointmentNavigator from '../stack/AppointmentNavigator'
 import AuthNavigator from './AuthNavigator'
 
 /**
@@ -13,7 +14,7 @@ import AuthNavigator from './AuthNavigator'
 const RootStack = createSwitchNavigator(
     {
         AuthLoader: Loader,
-        App: AppNavigator,
+        App: AppointmentNavigator,
         Auth: AuthNavigator
     },
     {

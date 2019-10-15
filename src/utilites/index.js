@@ -3,7 +3,7 @@ import React from 'react'
 import { Alert } from 'react-native'
 import api from '../api'
 import firebase from 'firebase'
-import { ButtonCustom, Spinner } from '../components/common'
+import { Button, ButtonCustom, Spinner } from '../components/common'
 import LogInBtn from '../components/styles/LogInBtn.styles'
 import DeleteProfileBtn from '../components/styles/DeleteProfileBtn'
 
@@ -107,20 +107,8 @@ function onLogInSub(type){
         if(type === 'L'){
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then((data) => {            
-                    var emailVerified = data.user.emailVerified
-                    console.log('emailVerified: ', emailVerified);
-                    
-                    if(emailVerified) {
-                        var user = data.user;
-                        this.onLogInSuccess(user, type);
-                    } else {
-                        this.setState({
-                            loading: false
-                        })
-
-                        alert('Email is not valid. Please verify email before loggin in.')
-                        this.props.navigation.navigate('LogIn with Email')
-                    }
+                    var user = data.user;
+                    this.onLogInSuccess(user, type);
                 })
                 .catch((error) => {
                     this.onLogInFail(error);
@@ -492,6 +480,24 @@ function onProfileSub(){
     }     
 }
 
+/**
+ * Handles route from profile to preference 
+ */
+function onRenderPreference(){
+    // this.navigation.navigate('Preference')
+    // if(this.state.loading){
+    //     return <Spinner size="small" />
+    // }
+
+    return (    
+        <Button
+            onPress={() => this.props.navigation.navigate('Preference')}
+        >
+            {'Preference'}
+        </Button>
+    )
+}
+
 export default {
     onOtherAccount,
     onLogInButton,
@@ -507,5 +513,7 @@ export default {
     onProfileNotFound,
     onProfileRec,
     onRefresh,
-    onProfileSub
+    onProfileSub,
+
+    onRenderPreference
 }
