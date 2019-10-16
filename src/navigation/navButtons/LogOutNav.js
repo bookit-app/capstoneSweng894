@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Button, AsyncStorage } from 'react-native'
 import firebase from 'firebase'
-import styles from './LogOutNav.styles'
+import styles from '../styles/LogOutNav.styles'
 import { NavigationActions } from 'react-navigation'
 
 /**
@@ -52,4 +52,4 @@ class LogOutNav extends React.Component {
         )
     }
 }
-export default LogOutNav
+export {LogOutNav}

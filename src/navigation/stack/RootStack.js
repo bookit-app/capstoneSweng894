@@ -8,8 +8,7 @@ import AppTab from './general/AppTab'
 import AuthNavigator from './account/AuthNavigator'
 import SettingPrefNavigator from './account/SettingPrefNavigator'
 
-import LogOutNav from '../navButtons/LogOutNav'
-import LogoNav from '../navButtons/LogOutNav'
+import {LogOutNav, LogoNav} from '../navButtons'
 
 /**
  * RootStack handles managing the switch navigators for
