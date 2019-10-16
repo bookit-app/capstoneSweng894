@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Alert } from 'react-native'
 import api from '../api'
@@ -149,6 +148,10 @@ function onLogInSub(type){
 }
 
 /**
+ *  Profile functions -- Start
+ */
+
+/**
  * Handler that deleted the profile then the firebase account 
  * NOTE: User is prompt with alert
  */
@@ -274,7 +277,8 @@ function onProfileNotFound(){
     console.log('Account was not found');   
 
     this.setState({
-        alreadyExist: false
+        alreadyExist: false,
+        loading: false
     })
 }
 
@@ -297,7 +301,8 @@ function onProfileRec(profile){
         zip: profile.address.zip,
         isProvide: profile.isProvider ? 'Yes' : 'No',
         isProvider: profile.isProvider,
-        alreadyExist: true
+        alreadyExist: true,
+        loading: false
     })
 }
 
@@ -306,10 +311,9 @@ function onProfileRec(profile){
  */
 function onRefresh(){
     try{        
-        var _uid = JSON.stringify(this.props.navigation.getParam('_uid', 'NO-ID'))
-
-        console.log(_uid);
-        
+        // var _uid = JSON.stringify(this.props.navigation.getParam('_uid', 'NO-ID'))
+        console.log('onRefresh: ', this.state.token);
+    
 
         firebase.auth().currentUser.getIdToken().then(
             (token) => {
@@ -481,14 +485,13 @@ function onProfileSub(){
 }
 
 /**
+ *  Profile functions -- End
+ */
+
+/**
  * Handles route from profile to preference 
  */
 function onRenderPreference(){
-    // this.navigation.navigate('Preference')
-    // if(this.state.loading){
-    //     return <Spinner size="small" />
-    // }
-
     return (    
         <Button
             onPress={() => this.props.navigation.navigate('Preference')}

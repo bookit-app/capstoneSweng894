@@ -4,34 +4,19 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
-import ProfileNavigator from '../../navigation/stack/ProffileNavigator'
+import ProfileNavigator from '../account/ProfileNavigator'
+import AppointmentNavigator from '../appointment/AppointmentNavigator'
 
-import AppointmentDashboard from '../../page/appointment/AppointmentDashboard'
-import AppointmentList from '../../page/appointment/AppointmentList'
-import CreateAppointment from '../../page/appointment/CreateAppointment'
-import ReviewAppointment from '../../page/appointment/ReviewAppointment'
+import CreateAppointmentNavigator from '../appointment/CreateAppointmentNavigator'
+
 
 /**
- * Appointment Navigatior
+ * App Tab Navigator 
  */
-const AppointmentNavigation = createStackNavigator(
-    {
-        Dashboard: AppointmentDashboard,
-        List: AppointmentList,
-        Reivew: ReviewAppointment
-    }
-)
-
-const CreateAppointmentNavigation = createStackNavigator(
-    {
-       Create: CreateAppointment
-    }
-)
-
-const AppointmentTab = createBottomTabNavigator(
+const AppTab = createBottomTabNavigator(
     {
         Main: {
-            screen: AppointmentNavigation,
+            screen: AppointmentNavigator,
             navigationOptions: {
                 title: 'Main',
                 tabBarIcon: ({ tintColor }) => {
@@ -44,7 +29,7 @@ const AppointmentTab = createBottomTabNavigator(
             }
         },
         Create: {
-            screen: CreateAppointmentNavigation,
+            screen: CreateAppointmentNavigator,
             navigationOptions: {
                 title: 'Create',
                 tabBarIcon: ({ tintColor }) => {
@@ -68,9 +53,11 @@ const AppointmentTab = createBottomTabNavigator(
                     />
                 }
             }
-        }
-        
-    }
+        }      
+    },
+    {
+        swipeEnabled: true,
+    } 
 )
 
-export default createStackNavigator({ AppointmentTab }, { headerMode: "none"  })
+export default createStackNavigator({ AppTab }, { headerMode: "none"  })

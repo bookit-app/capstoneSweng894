@@ -243,6 +243,10 @@ export const stateList = [
     }
 ]
 
+export const preference = {
+    
+}
+
 export default {
     Gender,
     stateList

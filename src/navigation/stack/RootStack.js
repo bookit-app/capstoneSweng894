@@ -4,8 +4,12 @@ import {
 } from 'react-navigation'
 
 import Loader from '../../page/general/Loader'
-import AppointmentNavigator from '../stack/AppointmentNavigator'
-import AuthNavigator from './AuthNavigator'
+import AppTab from './general/AppTab'
+import AuthNavigator from './account/AuthNavigator'
+import SettingPrefNavigator from './account/SettingPrefNavigator'
+
+import LogOutNav from '../navButtons/LogOutNav'
+import LogoNav from '../navButtons/LogOutNav'
 
 /**
  * RootStack handles managing the switch navigators for
@@ -14,11 +18,16 @@ import AuthNavigator from './AuthNavigator'
 const RootStack = createSwitchNavigator(
     {
         AuthLoader: Loader,
-        App: AppointmentNavigator,
-        Auth: AuthNavigator
+        App: AppTab,
+        Auth: AuthNavigator,
+        Setting: SettingPrefNavigator
     },
     {
-        initialRouteName: 'AuthLoader'
+        initialRouteName: 'AuthLoader',
+        navigationOptions: {
+            headerLeft: <LogoNav />,
+            headerRight: <LogOutNav />
+        }
     }
 )
 

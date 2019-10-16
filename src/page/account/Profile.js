@@ -5,6 +5,7 @@ import { View, ScrollView } from 'react-native'
 import validation from '../../validation'
 import utilites from '../../utilites'
 import AccountDetails from '../../components/account/AccountDetails'
+import { Spinner } from '../../components/common'
 import { NavigationEvents } from 'react-navigation'
 
 /**
@@ -42,7 +43,7 @@ class Profile extends React.Component {
             isProvide: '',
             isProvider: false,
             isProviderError: '',
-            loading: false,
+            loading: true,
             _uid: '',
             _token: '',
             alreadyExist: false,
@@ -71,14 +72,19 @@ class Profile extends React.Component {
         this.onProfileRec = utilites.onProfileRec.bind(this)
         this.onRefresh = utilites.onRefresh.bind(this)
         this.onProfileSub = utilites.onProfileSub.bind(this)
-        this.onRenderPreference = utilites.onRenderPreference.bind(this)
+        this.onRenderPreference = utilites.onRenderPreference.bind(this)       
     }
     
     async componentDidMount(){
         this.onRefresh()
     }
 
+
     render(){
+        if(this.state.loading){
+            return <Spinner size="large" />
+        }
+
         return(
             <ScrollView style={styles.scrollView}>
                 <NavigationEvents
