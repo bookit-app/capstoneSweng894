@@ -6,7 +6,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case actions.SETTING_PREF:{
+        case actions.SET_PREF:{
 
             console.log('action.pref', action.pref);
             console.log('state.pref', state.pref);

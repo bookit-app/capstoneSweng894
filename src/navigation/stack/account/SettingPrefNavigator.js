@@ -1,8 +1,8 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
 
-import PreferencePage1 from '../../../page/preference/PreferencePage1'
-import PreferencePage2 from '../../../page/preference/PreferencePage2'
+import SettingPref1 from '../../../page/preference/SettingPref1'
+import SettingPref2 from '../../../page/preference/SettingPref2'
 import SkipNav from '../../../components/preference/SkipNav'
 
 /**
@@ -10,8 +10,8 @@ import SkipNav from '../../../components/preference/SkipNav'
  */
 const SettingPrefNavigator = createStackNavigator(
     {
-        "SettingPref1": PreferencePage1,
-        "SettingPref2": PreferencePage2
+        "SettingPref1": SettingPref1,
+        "SettingPref2": SettingPref2
     },
     {
         initialRouteName: "SettingPref1",

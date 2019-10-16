@@ -8,6 +8,7 @@ import firebase from 'firebase'
 import styles from '../styles/Loader.styles'
 import { userSet } from '../../actions/auth-action'
 import { settingPref } from '../../actions/setting-action'
+import { getProfileData } from '../../actions/profile-action'
 
 /**
  * Loader page used to navigator depending on if 
@@ -19,6 +20,8 @@ class Loader extends React.Component {
             if(user){
                 console.log('onAuthStateChanged', user);
                 this.props.userSet(user.uid)
+                // Still not working
+                // this.props.getProfileData()
             } else {
                 console.log('onAuthStateChanged', 'No one logged In');
             }
@@ -54,7 +57,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         userSet: (userId) => dispatch(userSet(userId)),
-        settingPref: (pref) => dispatch(settingPref(pref))
+        settingPref: (pref) => dispatch(settingPref(pref)),
+        getProfileData: () => dispatch(getProfileData())
     }
 }
 

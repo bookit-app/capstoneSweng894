@@ -4,15 +4,15 @@ import { Text, View } from 'react-native'
 import { ButtonCustom } from '../../components/common'
 import { settingPref } from '../../actions/setting-action'
 
-class PreferencePage2 extends React.Component {
+class ProfilePref1 extends React.Component {
     onMoveToTab(){
         this.props.settingPref(true)
-        this.props.navigation.navigate('App')
+        this.props.navigation.navigate('Profile')
     }
     render(){
         return(
             <View>
-                <Text>{'PreferencePage2'}</Text>
+                <Text>{'Profile Pref 1'}</Text>
                 <View>
                     <ButtonCustom
                         onPress={this.onMoveToTab.bind(this)}
@@ -32,4 +32,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(PreferencePage2)
+export default connect(null, mapDispatchToProps)(ProfilePref1)

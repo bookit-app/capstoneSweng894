@@ -485,6 +485,28 @@ function onProfileSub(){
 }
 
 /**
+ * Handles retrive profile info -- NOT WORKING 
+ */
+function getProfile(){
+    try {
+        firebase.auth().currentUser.getIdToken().then(
+            (token) => {
+                api.getProfileById(firebase.auth().currentUser.uid, token)
+                    .then(userData => {
+                            var profile = userData.data
+                            return profile;
+                        }
+                    ).catch( (error) => {
+                        return error
+                    })
+                }
+        )
+    } catch(error) {
+        return null
+    }
+}
+
+/**
  *  Profile functions -- End
  */
 
@@ -500,6 +522,7 @@ function onRenderPreference(){
         </Button>
     )
 }
+
 
 export default {
     onOtherAccount,
@@ -517,6 +540,7 @@ export default {
     onProfileRec,
     onRefresh,
     onProfileSub,
+    getProfile,
 
     onRenderPreference
 }
