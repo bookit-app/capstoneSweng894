@@ -24,4 +24,4 @@ const styles = {
     }
 }
 
-export default CheckBox
+export {CheckBox}

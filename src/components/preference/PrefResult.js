@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const PrefResult = (props) => {
+const PrefResult = () => {
     return (
         <View>
             <Text>
@@ -11,4 +11,4 @@ const PrefResult = (props) => {
     )
 }
 
-export default PrefResult
+export { PrefResult }

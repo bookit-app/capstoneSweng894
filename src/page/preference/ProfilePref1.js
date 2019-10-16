@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import SkipNav from '../../components/preference/SkipNav'
+import {SkipNav, PrefTop} from '../../components/preference'
 import style from '../styles/PreferencePage1.styles'
 
 class ProfilePref1 extends React.Component {
@@ -11,6 +11,9 @@ class ProfilePref1 extends React.Component {
                     <SkipNav
                         onClickMoveToNext={() => this.props.navigation.navigate('Pref2')} 
                     />
+                    <PrefTop>
+                        {'Testing Testing'}
+                    </PrefTop>
                 </View>
                 <Text>{'ProfilePref1'}</Text>
             </View>

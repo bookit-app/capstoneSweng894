@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const PrefChoice = (props) => {
+const PrefChoice = () => {
     return (
         <View>
             <Text>
@@ -11,4 +11,4 @@ const PrefChoice = (props) => {
     )
 }
 
-export default PrefChoice
+export {PrefChoice}

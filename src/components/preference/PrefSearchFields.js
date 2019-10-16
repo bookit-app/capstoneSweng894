@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const PrefSearchFields = (props) => {
+const PrefSearchFields = () => {
     return (
         <View>
             <Text>
@@ -11,4 +11,4 @@ const PrefSearchFields = (props) => {
     )
 }
 
-export default PrefSearchFields
+export { PrefSearchFields } 

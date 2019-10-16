@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import SkipNav from '../../components/preference/SkipNav'
+import { SkipNav } from '../../components/preference' 
 import style from '../styles/PreferencePage1.styles'
 
 class SettingPref1 extends React.Component {
