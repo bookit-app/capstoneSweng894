@@ -11,6 +11,7 @@ const SkipNav = (props) => {
         <View style={styles.view}>
             <ButtonCustom
                 onPress={props.onClickMoveToNext}
+                textStyle={styles.txtLabel}
             >
                 {'Skip'}
             </ButtonCustom>

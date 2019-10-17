@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import { actions } from './type'
+
 export const userSet = userId => ({
     type: actions.USER_SET,
     payload: userId 

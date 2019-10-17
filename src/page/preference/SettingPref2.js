@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Text, View } from 'react-native'
 import { ButtonCustom } from '../../components/common'
-import { settingPref } from '../../actions/setting-action'
+import { preference } from '../../actions'
 
 class SettingPref2 extends React.Component {
     onMoveToTab(){
@@ -28,7 +28,7 @@ class SettingPref2 extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        settingPref: (pref) => dispatch(settingPref(pref))
+        settingPref: (pref) => dispatch(preference.settingPref(pref))
     }
 }
 

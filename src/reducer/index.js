@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import auth from './auth'
-import setPref from './setPref'
+import preference from './preference'
 import profile from './profile'
 
 /**
@@ -8,6 +8,6 @@ import profile from './profile'
  */
 export default combineReducers({
     auth,
-    setPref,
+    preference,
     profile
 })

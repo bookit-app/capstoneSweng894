@@ -1,12 +1,21 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import style from '../styles/PrefTop.styles'
+import { SkipNav } from '../preference'
+import styles from '../styles/PrefTop.styles'
 
-const PrefTop = ({children}) => {
+const PrefTop = (props) => {
     return (
-        <View>
-            <Text style={style.headerTxt}>
-                {'Pre Top: ' + children}
+        <View style={styles.container}>
+            <View style={styles.headerContainer}>
+                <SkipNav
+                    onClickMoveToNext={props.onClickMoveToNext} 
+                />
+            </View>
+            <Text style={styles.headerTxt}>
+                {props.header}
+            </Text>
+            <Text style={styles.subHeaderText}>
+                {props.subHeader}
             </Text>
         </View>
     )

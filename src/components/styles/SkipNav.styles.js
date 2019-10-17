@@ -2,10 +2,14 @@ export default {
     btnView: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingRight: 10
+        paddingRight: 10,
+        height: 10,
+        width: 10
     }, 
     txtLabel: {
-        paddingRight: 5
+        color: 'blue',
+        fontSize: 15,
+        fontWeight: 'bold'
     },
     view: {
         margin: 5

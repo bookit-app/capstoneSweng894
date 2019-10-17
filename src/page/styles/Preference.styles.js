@@ -1,21 +1,7 @@
 export default {
-    headerTxt: {
-        color:'blue',
-        fontSize: 25,
-        fontWeight: 'bold'
-    },
-    subHeaderText: {
-        color: 'blue',
-        fontSize: 15
-    },
-    container: {
-        paddingLeft: 10
-    },
-    headerContainer: {
+    topView: {
         justifyContent: 'flex-end',
-        flexDirection: 'row'
-    },
-    Row: {
+        flexDirection: 'column',
         display: 'flex',
         flex: 1,
         flexDirection: 'row',
@@ -24,8 +10,17 @@ export default {
         borderRadius: 10,
         margin: 5
     },
+    Row: {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+        margin: 5
+    },
     Column: {
         flexDirection: 'column',
         justifyContent: 'center'
     },
+    scrollView: {
+        marginHorizontal: 20,
+      },
 }

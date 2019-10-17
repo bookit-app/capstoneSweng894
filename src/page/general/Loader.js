@@ -6,9 +6,7 @@ import {
 } from 'react-native'
 import firebase from 'firebase'
 import styles from '../styles/Loader.styles'
-import { userSet } from '../../actions/auth-action'
-import { settingPref } from '../../actions/setting-action'
-import { getProfileData } from '../../actions/profile-action'
+import { auth, preference, profile } from '../../actions'
 
 /**
  * Loader page used to navigator depending on if 
@@ -50,15 +48,15 @@ class Loader extends React.Component {
 const mapStateToProps = (state) => {
       return {
         userId: state.userId,
-        pref: state.setPref.pref
+        pref: state.preference.pref
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userSet: (userId) => dispatch(userSet(userId)),
-        settingPref: (pref) => dispatch(settingPref(pref)),
-        getProfileData: () => dispatch(getProfileData())
+        userSet: (userId) => dispatch(auth.userSet(userId)),
+        settingPref: (pref) => dispatch(preference.settingPref(pref)),
+        getProfileData: () => dispatch(profile.getProfileData())
     }
 }
 
