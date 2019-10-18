@@ -32,9 +32,7 @@ function onOtherAccount(type){
  * with a Log-In or Sign-up api call
  * @param {*} type - L for Log-In or other for Sign-Up
  */
-function onLogInButton(type){
-    console.log('onLogInButton', type);
-    
+function onLogInButton(type){    
     if(this.state.loading){
         return <Spinner size="small" />
     }
@@ -287,7 +285,7 @@ function onProfileNotFound(){
  * @param {*} profile 
  */
 function onProfileRec(profile){
-    console.log('onProfileRec', profile);
+    // console.log('onProfileRec', profile);
     this.setState({
         firstName: profile.firstName,
         lastName: profile.lastName,
@@ -324,7 +322,6 @@ function onRefresh(){
                 api.getProfileById(firebase.auth().currentUser.uid, token)
                     .then(userData => {
                             var profile = userData.data
-                            console.log(profile);
                             
                             this.onProfileRec(profile) 
                         }
@@ -523,6 +520,34 @@ function onRenderPreference(){
     )
 }
 
+/**
+ * Preference
+ */
+
+function onPreferencePage1Confirmed(){
+    var payload = {
+        "uid": firebase.auth().currentUser.uid,
+        "preferences": {
+            day: parseInt(this.state.day.Value),
+            hairStyle: {
+                "style": this.state.styleOn.style,
+                "type": this.state.styleOn.type
+            },
+            staffClassification: this.state.staffClassification,
+            time: this.state.time.Value
+        }
+    }
+
+    console.log('onPreferencePage1Confirmed', payload);
+    api.updateProfileById(payload, this.props.token)
+        .then(i => {   
+            this.props.setPreference(payload)
+            this.props.navigation.navigate('Pref2')
+        }).catch(e => {
+            console.log('error: ', e);
+        })
+}
+
 
 export default {
     onOtherAccount,
@@ -542,5 +567,7 @@ export default {
     onProfileSub,
     getProfile,
 
-    onRenderPreference
+    onRenderPreference,
+
+    onPreferencePage1Confirmed
 }

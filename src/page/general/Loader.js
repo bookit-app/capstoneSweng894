@@ -18,8 +18,17 @@ class Loader extends React.Component {
             if(user){
                 console.log('onAuthStateChanged', user);
                 this.props.userSet(user.uid)
+
+                user.getIdToken()
+                    .then(token =>{
+                        this.props.tokenSet(token)
+                    })
+
                 // Still not working
                 // this.props.getProfileData()
+                // console.log('onAuthStateChanged UserId', this.props.userId);
+                console.log('onAuthStateChanged token', this.props.token);
+                
             } else {
                 console.log('onAuthStateChanged', 'No one logged In');
             }
@@ -46,8 +55,11 @@ class Loader extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log('Loader mapStateToProps', state);
+    
       return {
-        userId: state.userId,
+        userId: state.auth.userId,
+        token: state.auth.token,
         pref: state.preference.pref
     }
 }
@@ -55,6 +67,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         userSet: (userId) => dispatch(auth.userSet(userId)),
+        tokenSet: (token) => dispatch(auth.tokenSet(token)),
         settingPref: (pref) => dispatch(preference.settingPref(pref)),
         getProfileData: () => dispatch(profile.getProfileData())
     }

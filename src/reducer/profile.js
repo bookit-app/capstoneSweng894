@@ -7,14 +7,11 @@ const initialState = {
 export default (state = initialState, action) =>{
     switch (action.type) {
         case actions.GET_PROFILE:{
-            console.log('action.profile: ', action.profile);
-            console.log('state.profile: ', state.profile);
-            
             var a = {...state,
                 profile: action.profile
             }
 
-            console.log('actions.GET_Profile', a);
+            console.log('actions.GET_Profile', action.profile);
             
             return a
         }    

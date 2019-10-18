@@ -40,6 +40,28 @@ export const insertProfile = (payload, token) => {
 }
 
 /**
+ * Handle inserting payload data to the provider collection in firestore
+ * @param {*} payload 
+ * @param {*} token 
+ */
+export const insertServiceProvider = (payload, token) => {
+    var headers = createHeaderContent(token)
+
+    // console.log('insertServiceProvider ', headers);
+    // console.log('url ', baseURL + `/provider`);
+    // console.log('payload ', payload);
+    
+    return (
+        axios({
+            method: 'POST',
+            url: baseURL + `/provider`,
+            payload: payload,
+            headers: headers
+        })
+    )
+}
+
+/**
  * Handles retriving profile information for specific account profile
  * @param {*} id
  * @param {*} token 
@@ -47,13 +69,34 @@ export const insertProfile = (payload, token) => {
 export const getProfileById = (id, token) => {    
     var headers = createHeader(token)
     
-    console.log('getProfileById', headers);
-    console.log('url', baseURL + `/profile/${id}`);
+    // console.log('getProfileById', headers);
+    // console.log('url', baseURL + `/profile/${id}`);
 
     return(
         axios({
             method: 'GET',
             url: baseURL + `/profile/${id}`,
+            headers: headers
+        })
+    )
+}
+
+/**
+ * Get the configuration data based on the configuration type
+ * 
+ * @param {*} configType 
+ * @param {*} token 
+ */
+export const getConfiguration = (configType, token) => {
+    var headers = createHeader(token)
+
+    // console.log('getConfiguration', headers);
+    // console.log('url', baseURL + `/configuration/${configType}`);
+
+    return (
+        axios({
+            method: 'GET',
+            url: baseURL + `/configuration/${configType}`,
             headers: headers
         })
     )
@@ -102,31 +145,10 @@ export const deletedProfileById = (id, token) => {
     )
 }
 
-/**
- * Handle inserting payload data to the provider collection in firestore
- * @param {*} payload 
- * @param {*} token 
- */
-export const insertServiceProvider = (payload, token) => {
-    var headers = createHeaderContent(token)
-
-    console.log('insertServiceProvider ', headers);
-    console.log('url ', baseURL + `/provider`);
-    console.log('payload ', payload);
-    
-    return (
-        axios({
-            method: 'POST',
-            url: baseURL + `/provider`,
-            payload: payload,
-            headers: headers
-        })
-    )
-}
-
 const apis = {
     insertProfile,
     getProfileById,
+    getConfiguration,
     updateProfileById,
     deletedProfileById
 }
