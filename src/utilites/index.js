@@ -67,11 +67,11 @@ async function onLogInSuccess(user, type){
         loading: false
     }); 
 
-    if(type === 'L'){
+    // if(type === 'L'){
         this.props.navigation.navigate('Profile', {'_uid': user.uid})
-    } else {
-        this.props.navigation.navigate('Login')
-    }
+    // } else {
+    //     this.props.navigation.navigate('Login')
+    // }
 }
 
 /**
@@ -326,11 +326,17 @@ function onRefresh(){
                         }
                     ).catch( (error) => {
                         this.onProfileNotFound.bind(this)
-                        console.log('error: ', error);
+                        console.log('error: ', error);                     
+                        this.setState({
+                            loading: false
+                        })
                     })
                 }
         )
     } catch (error){
+        this.setState({
+            loading: false
+        })
         console.log('UNSAFE_componentWillMount: ', error);   
     } 
 }

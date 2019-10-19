@@ -15,17 +15,17 @@ class ProfilePref1 extends React.Component {
         
         this.state ={
             staffClassification: '',
-            cityState: '',
+            cityState: 'i.e. Malven, Pa',
             errorCityState: '',
-            styleOn: '',
+            styleOn: 'i.e. Hair',
             styleOnType: '',
             errorStyleOn: '',
             styleLists: [],
             styleSelected: [],
-            day: '',
+            day: 'i.e. 01',
             daySelected:[],
             errorDay: '',
-            time: '',
+            time: 'i.e. AFTERNOON',
             timeSelected:[],
             errorTime: '',
             loading: true,
@@ -37,54 +37,69 @@ class ProfilePref1 extends React.Component {
     }
 
     UNSAFE_componentWillMount(){
-        api.getConfiguration("styles", this.props.token)
-        .then((sty) => {
-            var styles_ = sty.data 
+                    api.getConfiguration("styles", this.props.token)
+            .then((sty) => {
+                var styles_ = sty.data 
 
-            styles_.hairStyles[1].types.map(i => {
-                
-                var single = {}
-                single['Id'] = this.state.hairDresserList.length
-                single['Name'] = i
-                single['Value'] = i
-                
+                styles_.hairStyles[1].types.map(i => {
+                    
+                    var single = {}
+                    single['Id'] = this.state.hairDresserList.length
+                    single['Name'] = i
+                    single['Value'] = i
+                    
 
-                if(i == this.props.preference.hairStyle.type){
-                    this.state.styleSelected.push(single)
-                    this.state.styleOnType = styles_.hairStyles[1].style
+                    
+                    if(this.props.preference){
+                        if(i == this.props.preference.hairStyle.type){
+                            this.state.styleSelected.push(single)
+                            this.state.styleOnType = styles_.hairStyles[1].style
+                        }
+                    } else {
+                        this.state.styleSelected.push(single)
+                    }
+
+                    this.state.hairDresserList.push(single)
+                })
+
+                styles_.hairStyles[0].types.map(i => {
+                    
+                    var single = {}
+                    single['Id'] = this.state.barberList.length
+                    single['Name'] = i
+                    single['Value'] = i
+                    
+                    if(this.props.preference){
+                        if(i == this.props.preference.hairStyle.type){
+                            this.state.styleSelected.push(single)
+                            this.state.styleOnType = styles_.hairStyles[0].style
+                        }
+                    }
+                    this.state.barberList.push(single)
+                })
+
+                if(this.props.preference){
+                    this.state.timeSelected = Time.filter(i => i.Value === this.props.preference.time).map(j => j.Name)
+                    this.state.daySelected = Day.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name)
+
+                    this.setState({
+                        staffClassification: this.props.preference.staffClassification,
+                        styleOn: this.props.preference.hairStyle.type,
+                        styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
+                        day: this.props.preference.day,
+                        time: this.props.preference.time,
+                        cityState: this.props.profile.address.city + ', ' + this.props.profile.address.state,
+                        loading: false
+                    })
+                } else {
+                    this.setState({
+                        loading: false,
+                        styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
+                        
+                    })
                 }
-
-                this.state.hairDresserList.push(single)
             })
-
-            styles_.hairStyles[0].types.map(i => {
-                
-                var single = {}
-                single['Id'] = this.state.barberList.length
-                single['Name'] = i
-                single['Value'] = i
-
-                if(i == this.props.preference.hairStyle.type){
-                    this.state.styleSelected.push(single)
-                    this.state.styleOnType = styles_.hairStyles[0].style
-                }
-
-                this.state.barberList.push(single)
-            })
-
-            this.state.timeSelected = Time.filter(i => i.Value === this.props.preference.time).map(j => j.Name)
-            this.state.daySelected = Day.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name)
-
-            this.setState({
-                staffClassification: this.props.preference.staffClassification,
-                styleOn: this.props.preference.hairStyle.type,
-                styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
-                day: this.props.preference.day,
-                time: this.props.preference.time,
-                cityState: this.props.profile.address.city + ', ' + this.props.profile.address.state,
-                loading: false
-            })
-        })
+ 
     }
 
     onSelectClassication = (data) => {
@@ -124,7 +139,7 @@ class ProfilePref1 extends React.Component {
                         onStyleChge={styleOn => this.setState({ styleOn })}
                         errorStyle={this.state.errorStyleOn}
                         onStyleSelected={this.state.styleOn}
-                        onStyleItems={this.state.styleLists.map( i => i.Name)}
+                        onStyleItems={this.state.styleLists.map( i => i.Value)}
                         onDayChge={day => this.setState({ day })}
                         errorDay={this.state.errorDay}
                         onDaySelected={this.state.day}
