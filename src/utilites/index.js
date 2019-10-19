@@ -285,7 +285,7 @@ function onProfileNotFound(){
  * @param {*} profile 
  */
 function onProfileRec(profile){
-    // console.log('onProfileRec', profile);
+
     this.setState({
         firstName: profile.firstName,
         lastName: profile.lastName,
@@ -302,6 +302,8 @@ function onProfileRec(profile){
         alreadyExist: true,
         loading: false
     })
+
+    this.props.setPreference(profile.preferences)
 }
 
 /**
@@ -309,10 +311,6 @@ function onProfileRec(profile){
  */
 function onRefresh(){
     try{        
-        // var _uid = JSON.stringify(this.props.navigation.getParam('_uid', 'NO-ID'))
-        console.log('onRefresh: ', this.state.token);
-    
-
         firebase.auth().currentUser.getIdToken().then(
             (token) => {
                 this.setState({
@@ -324,6 +322,7 @@ function onRefresh(){
                             var profile = userData.data
                             
                             this.onProfileRec(profile) 
+                            this.props.setProfile(profile)
                         }
                     ).catch( (error) => {
                         this.onProfileNotFound.bind(this)
@@ -485,12 +484,15 @@ function onProfileSub(){
  * Handles retrive profile info -- NOT WORKING 
  */
 function getProfile(){
+    console.log('getProfile');
+    
     try {
         firebase.auth().currentUser.getIdToken().then(
             (token) => {
                 api.getProfileById(firebase.auth().currentUser.uid, token)
                     .then(userData => {
                             var profile = userData.data
+                            console.log('getProfile successfully', profile);
                             return profile;
                         }
                     ).catch( (error) => {
@@ -524,28 +526,39 @@ function onRenderPreference(){
  * Preference
  */
 
+ /**
+  * Saving Preferences to Profiles without favor Provider yet
+  */
 function onPreferencePage1Confirmed(){
-    var payload = {
-        "uid": firebase.auth().currentUser.uid,
-        "preferences": {
-            day: parseInt(this.state.day.Value),
-            hairStyle: {
-                "style": this.state.styleOn.style,
-                "type": this.state.styleOn.type
-            },
-            staffClassification: this.state.staffClassification,
-            time: this.state.time.Value
-        }
-    }
 
-    console.log('onPreferencePage1Confirmed', payload);
-    api.updateProfileById(payload, this.props.token)
-        .then(i => {   
-            this.props.setPreference(payload)
-            this.props.navigation.navigate('Pref2')
-        }).catch(e => {
-            console.log('error: ', e);
-        })
+    if(this.state.day && this.state.styleOnType && this.state.styleOn
+        && this.state.staffClassification && this.state.time) {
+        var payload = {
+            "uid": firebase.auth().currentUser.uid,
+            "preferences": {
+                day: parseInt(this.state.day),
+                hairStyle: {
+                    "style": this.state.styleOnType,
+                    "type": this.state.styleOn
+                },
+                staffClassification: this.state.staffClassification,
+                time: this.state.time.toUpperCase()
+            }
+        }
+
+        console.log('onPreferencePage1Confirmed', payload);
+        api.updateProfileById(payload, this.props.token)
+            .then(i => {   
+                this.props.setPreference(payload)
+                this.props.navigation.navigate('Pref2')
+            }).catch(e => {
+                console.log('error: ', e);
+            })
+        } else {
+            this.setState({
+                error: 'Please populate all the fields'
+            })
+        }
 }
 
 

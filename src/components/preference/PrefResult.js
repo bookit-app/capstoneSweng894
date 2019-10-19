@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import styles from '../styles/PrefResult.styles'
 import { InputCustom } from '../common'
-import PickerModal from 'react-native-picker-modal-view'
+import { CustomPicker } from 'react-native-custom-picker'
 
 const PrefResult = (props) => {
     return (
@@ -21,58 +21,37 @@ const PrefResult = (props) => {
                     textAlign="left"
                 />
                 <View>
-                    <Text style={styles.labelStyle}>
-                        {"Style"}
-                    </Text>
-                    <PickerModal
-                        onSelected={props.onStyleChge}
-                        items={props.onStyleItems}
-                        sortingLanguage={'tr'}
-                        showToTopButton={false}
-                        selected={props.onStyleSelected}
-                        showAlphabeticalIndex={false}
-                        autoGenerateAlphabeticalIndex={true}
-                        selectPlaceholderText={"i.e. Fade"}
-                        searchPlaceholderText={'Search...'}
-                        requireSelection={true}
-                        autoSort={false}
+                    <CustomPicker
+                        placeholder={"i.e. Fade"}
+                        options={props.onStyleItems}
+                        onValueChange={props.onStyleChge}
+                        defaultValue={props.onStyleSelected}
+                        value={props.onStyleSelected}
                     />
                 </View>
                 <View style={styles.RowBtn}>
                     <View>
                         <Text style={styles.labelStyle}>
                             {"Day "}
-                        </Text>
-                        <PickerModal
-                            onSelected={props.onDayChge}
-                            items={props.onDayItems}
-                            sortingLanguage={'tr'}
-                            showToTopButton={false}
-                            selected={props.onDaySelected}
-                            showAlphabeticalIndex={false}
-                            autoGenerateAlphabeticalIndex={true}
-                            selectPlaceholderText={"i.e. 01"}
-                            searchPlaceholderText={'Search...'}
-                            requireSelection={true}
-                            autoSort={false}
+                        </Text>                        
+                        <CustomPicker
+                            placeholder={"i.e. 01"}
+                            options={props.onDayItems}
+                            onValueChange={props.onDayChge}
+                            defaultValue={props.onDaySelected}
+                            value={props.onDaySelected}
                         />
                     </View>
                     <View>
                         <Text style={styles.labelStyle}>
                             {"Time "}
                         </Text>
-                        <PickerModal
-                            onSelected={props.onTimeChge}
-                            items={props.onTimeItems}
-                            sortingLanguage={'tr'}
-                            showToTopButton={false}
-                            selected={props.onTimeSelected}
-                            showAlphabeticalIndex={false}
-                            autoGenerateAlphabeticalIndex={true}
-                            selectPlaceholderText={"i.e. Morning"}
-                            searchPlaceholderText={'Search...'}
-                            requireSelection={true}
-                            autoSort={false}
+                        <CustomPicker
+                            placeholder={"i.e. Morning"}
+                            options={props.onTimeItems}
+                            onValueChange={props.onTimeChge}
+                            defaultValue={props.onTimeSelected}
+                            value={props.onTimeSelected}
                         />
                     </View>
                 </View>

@@ -8,6 +8,8 @@ import AccountDetails from '../../components/account/AccountDetails'
 import { Spinner } from '../../components/common'
 import { NavigationEvents } from 'react-navigation'
 
+import { preference, profile } from '../../actions'
+
 /**
  * Profile Page 
  */
@@ -72,13 +74,12 @@ class Profile extends React.Component {
         this.onProfileRec = utilites.onProfileRec.bind(this)
         this.onRefresh = utilites.onRefresh.bind(this)
         this.onProfileSub = utilites.onProfileSub.bind(this)
-        this.onRenderPreference = utilites.onRenderPreference.bind(this)       
+        this.onRenderPreference = utilites.onRenderPreference.bind(this)   
     }
     
     async componentDidMount(){
-        this.onRefresh()
+        this.onRefresh() 
     }
-
 
     render(){
         if(this.state.loading){
@@ -142,10 +143,18 @@ class Profile extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    // console.log('profile state: ', state);
     return {
-        userId: state.userId,
-        token: state.token
+        userId: state.auth.userId,
+        token: state.auth.token,
     }
 }
 
-export default connect(mapStateToProps,null)(Profile)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setPreference: (prefer) => dispatch(preference.setPreference(prefer)),
+        setProfile: (prof) => dispatch(profile.setProfile(prof))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Profile)

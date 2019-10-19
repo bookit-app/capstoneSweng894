@@ -23,4 +23,22 @@ export default {
     scrollView: {
         marginHorizontal: 20,
       },
+    Item: {
+        borderColor:'black',
+        borderWidth:1,
+        borderRadius: 3,
+        margin: 5
+    },
+    ItemimgSty: {
+        width: 30,
+        height: 30
+    },
+    RowItem: {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+        padding: 5,
+        margin: 10,
+        justifyContent: 'space-between',
+    },
 }

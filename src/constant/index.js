@@ -281,9 +281,41 @@ export const Day = [
     {Id: 28, Name: '29', Value: '29'},
 ]
 
+export const serviceProvider = [
+    {
+        address: '130 Chestnut St',
+        businessName: 'Andre Richard Salon',
+        ein: '01-1111111',
+        email: 'andreRichard@dummy.com',
+        distance: '5 miles'
+    },
+    {
+        address: '1839 West St',
+        businessName: 'Richard Nicholas Hair Studio',
+        ein: '02-2222222',
+        email: 'richardnicholas@dummy.com',
+        distance: '6 miles'
+    },
+    {
+        address: '230 Chestnut St',
+        businessName: 'Style Master Salon',
+        ein: '03-3333333',
+        email: 'stylemaster@dummy.com',
+        distance: '10 miles'
+    },
+    {
+        address: '1716 Samson St',
+        businessName: 'The Refinery Hair Studio',
+        ein: '04-4444444',
+        email: 'refineryHair@dummy.com',
+        distance: '12 miles'
+    },
+]
+
 export default {
     Gender,
     stateList,
     Time,
-    Day
+    Day,
+    serviceProvider
 }

@@ -6,12 +6,12 @@ const initialState = {
 
 export default (state = initialState, action) =>{
     switch (action.type) {
-        case actions.GET_PROFILE:{
+        case actions.SET_PROFILE:{
             var a = {...state,
                 profile: action.profile
             }
 
-            console.log('actions.GET_Profile', action.profile);
+            console.log('actions.SET_PROFILE', action.profile);
             
             return a
         }    

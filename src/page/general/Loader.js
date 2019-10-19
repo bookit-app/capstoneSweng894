@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import firebase from 'firebase'
 import styles from '../styles/Loader.styles'
-import { auth, preference, profile } from '../../actions'
+import { auth, preference } from '../../actions'
 
 /**
  * Loader page used to navigator depending on if 
@@ -23,12 +23,8 @@ class Loader extends React.Component {
                     .then(token =>{
                         this.props.tokenSet(token)
                     })
-
-                // Still not working
-                // this.props.getProfileData()
-                // console.log('onAuthStateChanged UserId', this.props.userId);
-                console.log('onAuthStateChanged token', this.props.token);
-                
+                    
+                console.log('onAuthStateChanged token', this.props.token);                
             } else {
                 console.log('onAuthStateChanged', 'No one logged In');
             }
@@ -69,7 +65,6 @@ const mapDispatchToProps = (dispatch) => {
         userSet: (userId) => dispatch(auth.userSet(userId)),
         tokenSet: (token) => dispatch(auth.tokenSet(token)),
         settingPref: (pref) => dispatch(preference.settingPref(pref)),
-        getProfileData: () => dispatch(profile.getProfileData())
     }
 }
 
