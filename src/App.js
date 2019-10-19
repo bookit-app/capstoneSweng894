@@ -9,10 +9,16 @@
 import React from 'react';
 import { createAppContainer } from 'react-navigation'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 
 import RootStack from './navigation/stack/RootStack'
 import reducer from './reducer'
+
+const customMiddleWare = store => next => action => {
+    console.log("Middleware Trigger", action)
+
+    next(action)
+}
 
 const store = createStore(reducer)
 const CapstoneSweng894 = createAppContainer(RootStack)

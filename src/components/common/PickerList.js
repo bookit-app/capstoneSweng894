@@ -4,7 +4,9 @@ import { Platform, Picker, PickerIOS, View, Text } from 'react-native'
 const PickerList = ({ label, value, onChangeText, list }) => {
     const { labelStyle, containerStyle } = styles   
 
-    const PickerRender = () => {
+    const PickerRender = () => {     
+        console.log(list);
+          
         if(Platform.OS === 'ios'){
             return (
                 <PickerIOS
@@ -13,8 +15,9 @@ const PickerList = ({ label, value, onChangeText, list }) => {
                 >
                  {list.map( (item) => {
                         return <PickerIOS.Item 
-                            label={item.label}
-                            value={item.value}
+                            key={item.Id}
+                            label={item.Name}
+                            value={item.Value}
                         />
                     })
                  }
@@ -28,20 +31,36 @@ const PickerList = ({ label, value, onChangeText, list }) => {
                 >
                     {list.map((item) => {
                             return <Picker.item
-                                label={item.label}
-                                value={item.value}
+                                key={parseInt(item.Id)}
+                                label={item.Name}
+                                value={item.Value}
                             />
                         })
                     }
                 </Picker>
             )
         }
-    }
+    };
 
     return (
         <View style={containerStyle}>
             <Text style={labelStyle}>{label}</Text>
-            {PickerRender}
+            {/* <PickerRender /> */}
+            {/* {PickerRender()} */}
+            
+            <Picker
+                    selectedValue={value}
+                    onValueChange={onChangeText}
+                >
+                    {list.map((item) => {
+                            return <Picker.item
+                                key={parseInt(item.Id)}
+                                label={item.Name}
+                                value={item.Value}
+                            />
+                        })
+                    }
+                </Picker>
         </View>
     )
 }
@@ -60,4 +79,4 @@ const styles = {
     }
 }
 
-export { PickerList }
+export {PickerList}

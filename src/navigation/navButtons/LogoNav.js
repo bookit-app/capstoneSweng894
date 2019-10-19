@@ -24,4 +24,4 @@ class LogoNav extends React.Component {
     }
 }
 
-export default LogoNav
+export {LogoNav}

@@ -1,16 +1,16 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
 
-import PreferencePage1 from '../../../page/preference/PreferencePage1'
-import PreferencePage2 from '../../../page/preference/PreferencePage2'
+import ProfilePref1 from '../../../page/preference/ProfilePref1'
+import ProfilePref2 from '../../../page/preference/ProfilePref2'
 
 /**
  * Profile - Preference Navigatior
  */
 const ProfilePrefNavigator = createStackNavigator(
     {
-        "Pref1": PreferencePage1,
-        "Pref2": PreferencePage2
+        "Pref1": ProfilePref1,
+        "Pref2": ProfilePref2
     },
     {
         initialRouteName: "Pref1",

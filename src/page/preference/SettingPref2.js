@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Text, View } from 'react-native'
 import { ButtonCustom } from '../../components/common'
-import { settingPref } from '../../actions/setting-action'
+import { preference } from '../../actions'
 
-class PreferencePage2 extends React.Component {
+class SettingPref2 extends React.Component {
     onMoveToTab(){
         this.props.settingPref(true)
         this.props.navigation.navigate('App')
@@ -12,7 +12,7 @@ class PreferencePage2 extends React.Component {
     render(){
         return(
             <View>
-                <Text>{'PreferencePage2'}</Text>
+                <Text>{'Setting Pref 2'}</Text>
                 <View>
                     <ButtonCustom
                         onPress={this.onMoveToTab.bind(this)}
@@ -28,8 +28,8 @@ class PreferencePage2 extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        settingPref: (pref) => dispatch(settingPref(pref))
+        settingPref: (pref) => dispatch(preference.settingPref(pref))
     }
 }
 
-export default connect(null, mapDispatchToProps)(PreferencePage2)
+export default connect(null, mapDispatchToProps)(SettingPref2)

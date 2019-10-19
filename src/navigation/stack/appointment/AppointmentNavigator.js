@@ -4,7 +4,7 @@ import AppointmentDashboard from '../../../page/appointment/AppointmentDashboard
 import AppointmentDetail from '../../../page/appointment/AppointmentDetail'
 import AppointmentReview from '../../../page/appointment/AppointmentReview'
 
-import LogOutNav from '../../navButtons/LogOutNav'
+import {LogOutNav, LogoNav} from '../../navButtons'
 
 /**
  * Appointment Navigatior
@@ -19,6 +19,7 @@ const AppointmentNavigator = createStackNavigator(
         Reivew: AppointmentReview
     }, { 
         defaultNavigationOptions:{
+            headerLeft: <LogoNav />,
             headerRight: <LogOutNav />
         }
     }

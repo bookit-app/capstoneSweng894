@@ -43,7 +43,8 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    margin: 10
+    margin: 10,
+    backgroundColor:  '#ffffff'
   },
   error: {
     position: "absolute",

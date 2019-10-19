@@ -6,8 +6,7 @@ import {
 } from 'react-native'
 import firebase from 'firebase'
 import styles from '../styles/Loader.styles'
-import { userSet } from '../../actions/auth-action'
-import { settingPref } from '../../actions/setting-action'
+import { auth, preference } from '../../actions'
 
 /**
  * Loader page used to navigator depending on if 
@@ -19,6 +18,13 @@ class Loader extends React.Component {
             if(user){
                 console.log('onAuthStateChanged', user);
                 this.props.userSet(user.uid)
+
+                user.getIdToken()
+                    .then(token =>{
+                        this.props.tokenSet(token)
+                    })
+                    
+                console.log('onAuthStateChanged token', this.props.token);                
             } else {
                 console.log('onAuthStateChanged', 'No one logged In');
             }
@@ -45,16 +51,20 @@ class Loader extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log('Loader mapStateToProps', state);
+    
       return {
-        userId: state.userId,
-        pref: state.setPref.pref
+        userId: state.auth.userId,
+        token: state.auth.token,
+        pref: state.preference.pref
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userSet: (userId) => dispatch(userSet(userId)),
-        settingPref: (pref) => dispatch(settingPref(pref))
+        userSet: (userId) => dispatch(auth.userSet(userId)),
+        tokenSet: (token) => dispatch(auth.tokenSet(token)),
+        settingPref: (pref) => dispatch(preference.settingPref(pref)),
     }
 }
 

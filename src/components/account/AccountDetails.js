@@ -1,8 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { Input } from '../common'
-import CheckBox from '../common/CheckBox'
-// import { CheckBox } from 'react-native-elements'
 import ErrorText from '../styles/ErrorText.styles'
 import styles from '../styles/AccountDetails.styles'
 import AccountLogIn from './AccountLogIn'

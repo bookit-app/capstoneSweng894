@@ -1,7 +1,7 @@
 export const Gender = [
-    {key: 0, label: 'Male', value: 'M'}, 
-    {key: 1, label: 'Female', value: 'F'}, 
-    {key: 2, label: 'Other', value: 'O'}
+    {Id: 0, label: 'Male', value: 'M'}, 
+    {Id: 1, label: 'Female', value: 'F'}, 
+    {Id: 2, label: 'Other', value: 'O'}
 ]
 
 export const stateList = [
@@ -243,11 +243,79 @@ export const stateList = [
     }
 ]
 
-export const preference = {
-    
-}
+export const Time = [
+    {Id: 0, Name: 'Morning', Value: 'MORNING'}, 
+    {Id: 1, Name: 'Afternoon', Value: 'AFTERNOON'}, 
+    {Id: 2, Name: 'Evening', Value: 'EVENING'}
+]
+
+export const Day = [
+    {Id: 0, Name: '01', Value: '1'}, 
+    {Id: 1, Name: '02', Value: '2'},
+    {Id: 2, Name: '03', Value: '3'},
+    {Id: 3, Name: '04', Value: '4'},
+    {Id: 4, Name: '05', Value: '5'},
+    {Id: 5, Name: '06', Value: '6'},
+    {Id: 6, Name: '07', Value: '7'},
+    {Id: 7, Name: '08', Value: '8'},
+    {Id: 8, Name: '09', Value: '9'},
+    {Id: 9, Name: '10', Value: '10'},
+    {Id: 10, Name: '11', Value: '11'}, 
+    {Id: 11, Name: '12', Value: '12'},
+    {Id: 12, Name: '13', Value: '13'},
+    {Id: 13, Name: '14', Value: '14'},
+    {Id: 14, Name: '15', Value: '15'},
+    {Id: 15, Name: '16', Value: '16'},
+    {Id: 16, Name: '17', Value: '17'},
+    {Id: 17, Name: '18', Value: '18'},
+    {Id: 18, Name: '19', Value: '19'},
+    {Id: 19, Name: '20', Value: '20'},
+    {Id: 20, Name: '21', Value: '21'}, 
+    {Id: 21, Name: '22', Value: '22'},
+    {Id: 22, Name: '23', Value: '23'},
+    {Id: 23, Name: '24', Value: '24'},
+    {Id: 24, Name: '25', Value: '25'},
+    {Id: 25, Name: '26', Value: '26'},
+    {Id: 26, Name: '27', Value: '27'},
+    {Id: 27, Name: '28', Value: '28'},
+    {Id: 28, Name: '29', Value: '29'},
+]
+
+export const serviceProvider = [
+    {
+        address: '130 Chestnut St',
+        businessName: 'Andre Richard Salon',
+        ein: '01-1111111',
+        email: 'andreRichard@dummy.com',
+        distance: '5 miles'
+    },
+    {
+        address: '1839 West St',
+        businessName: 'Richard Nicholas Hair Studio',
+        ein: '02-2222222',
+        email: 'richardnicholas@dummy.com',
+        distance: '6 miles'
+    },
+    {
+        address: '230 Chestnut St',
+        businessName: 'Style Master Salon',
+        ein: '03-3333333',
+        email: 'stylemaster@dummy.com',
+        distance: '10 miles'
+    },
+    {
+        address: '1716 Samson St',
+        businessName: 'The Refinery Hair Studio',
+        ein: '04-4444444',
+        email: 'refineryHair@dummy.com',
+        distance: '12 miles'
+    },
+]
 
 export default {
     Gender,
-    stateList
+    stateList,
+    Time,
+    Day,
+    serviceProvider
 }

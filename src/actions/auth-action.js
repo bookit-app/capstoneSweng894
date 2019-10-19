@@ -1,13 +1,19 @@
 import firebase from 'firebase'
 import { actions } from './type'
+
 export const userSet = userId => ({
     type: actions.USER_SET,
-    payload: userId 
+    userId 
+})
+
+export const tokenSet = token => ({
+    type: actions.TOKEN,
+    token
 })
 
 export const userAuthError = error => ({
     type: actions.AUTH_ERROR,
-    payload: error
+    error
 })
 
 export const logIn = async (email, password) =>  dispatch => {
