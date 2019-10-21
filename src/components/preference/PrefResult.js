@@ -15,45 +15,49 @@ const PrefResult = (props) => {
                     value={props.cityState}
                     onChangeText={props.onCityStateChge}
                     error={props.errorCityState}
+                    errorStyle={styles.errorTextStyle}
                     inputStyle={styles.inputStyle}
                     labelStyle={styles.labelStyle}
                     containerStyle={styles.containerStyle}
-                    textAlign="left"
                 />
                 <View>
+                    <Text style={styles.labelStyle}>
+                        {"Style "}
+                    </Text>    
                     <CustomPicker
                         placeholder={"i.e. Fade"}
-                        options={props.onStyleItems}
-                        onValueChange={props.onStyleChge}
-                        defaultValue={props.onStyleSelected}
-                        value={props.onStyleSelected}
+                        options={props.onStyleTypeItems}
+                        onValueChange={props.onStyleTypeChge}
+                        defaultValue={props.onStyleTypeSelected}
+                        value={props.onStyleTypeSelected}
                     />
+                    <Text style={styles.errorTextStyle}>{props.errorStyleType}</Text>
                 </View>
-                <View style={styles.RowBtn}>
-                    <View>
-                        <Text style={styles.labelStyle}>
-                            {"Day "}
-                        </Text>                        
-                        <CustomPicker
-                            placeholder={"i.e. 01"}
-                            options={props.onDayItems}
-                            onValueChange={props.onDayChge}
-                            defaultValue={props.onDaySelected}
-                            value={props.onDaySelected}
-                        />
-                    </View>
-                    <View>
-                        <Text style={styles.labelStyle}>
-                            {"Time "}
-                        </Text>
-                        <CustomPicker
-                            placeholder={"i.e. Morning"}
-                            options={props.onTimeItems}
-                            onValueChange={props.onTimeChge}
-                            defaultValue={props.onTimeSelected}
-                            value={props.onTimeSelected}
-                        />
-                    </View>
+                <View>
+                    <Text style={styles.labelStyle}>
+                        {"Day of the Week "}
+                    </Text>                        
+                    <CustomPicker
+                        placeholder={"i.e. Monday"}
+                        options={props.onDayItems}
+                        onValueChange={props.onDayChge}
+                        defaultValue={props.onDaySelected}
+                        value={props.onDaySelected}
+                    />
+                    <Text style={styles.errorTextStyle}>{props.errorDay}</Text>
+                </View>
+                <View>
+                    <Text style={styles.labelStyle}>
+                        {"Time "}
+                    </Text>
+                    <CustomPicker
+                        placeholder={"i.e. Morning"}
+                        options={props.onTimeItems}
+                        onValueChange={props.onTimeChge}
+                        defaultValue={props.onTimeSelected}
+                        value={props.onTimeSelected}
+                    />
+                    <Text style={styles.errorTextStyle}>{props.errorTime}</Text>
                 </View>
             </View>
         </View>

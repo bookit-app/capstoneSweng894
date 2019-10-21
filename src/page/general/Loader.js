@@ -16,7 +16,7 @@ class Loader extends React.Component {
     componentDidMount(){        
         firebase.auth().onAuthStateChanged(user => {
             if(user){
-                console.log('onAuthStateChanged', user);
+                // console.log('onAuthStateChanged', user);
                 this.props.userSet(user.uid)
 
                 user.getIdToken()

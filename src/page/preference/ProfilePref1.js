@@ -2,12 +2,14 @@ import React from 'react'
 import api from '../../api'
 import { connect } from 'react-redux'
 import { View, ScrollView } from 'react-native'
+import { NavigationEvents } from 'react-navigation'
 import { PrefTop, PrefChoice, PrefResult } from '../../components/preference'
 import { Button, Spinner } from '../../components/common'
 import styles from '../styles/Preference.styles'
-import { preference, profile } from '../../actions'
-import { Time, Day } from '../../constant'
+import { preference, provider, profile } from '../../actions'
+import { Time, Day, DayOfWeek } from '../../constant'
 import utilites from '../../utilites'
+import validation from '../../validation'
 
 class ProfilePref1 extends React.Component {
     constructor(props){
@@ -17,89 +19,37 @@ class ProfilePref1 extends React.Component {
             staffClassification: '',
             cityState: 'i.e. Malven, Pa',
             errorCityState: '',
-            styleOn: 'i.e. Hair',
-            styleOnType: '',
-            errorStyleOn: '',
+            styleOn: '',
+            styleOnType: 'i.e. Hair',
+            styleOnTyle:[],
+            errorStyleOnType: '',
             styleLists: [],
             styleSelected: [],
-            day: 'i.e. 01',
+            day: 'i.e. Monday',
             daySelected:[],
             errorDay: '',
             time: 'i.e. AFTERNOON',
             timeSelected:[],
             errorTime: '',
             loading: true,
+            loading_Submit: false,
             hairDresserList: [],
             barberList: [],
             error: ''
         }
+
         this.onPreferencePage1Confirmed = utilites.onPreferencePage1Confirmed.bind(this)
+        this.setStyleType = utilites.setStyleType.bind(this)
+        this.onPreferenceRefresh = utilites.onPreferenceRefresh.bind(this)
+        this.onSubmitPrefPage1 = utilites.onSubmitPrefPage1.bind(this)
+        this.passServicePreference = utilites.passServicePreference.bind(this)
+
+
+        this.verifyCityState = validation.verifyCityState.bind(this)
     }
 
     UNSAFE_componentWillMount(){
-                    api.getConfiguration("styles", this.props.token)
-            .then((sty) => {
-                var styles_ = sty.data 
-
-                styles_.hairStyles[1].types.map(i => {
-                    
-                    var single = {}
-                    single['Id'] = this.state.hairDresserList.length
-                    single['Name'] = i
-                    single['Value'] = i
-                    
-
-                    
-                    if(this.props.preference){
-                        if(i == this.props.preference.hairStyle.type){
-                            this.state.styleSelected.push(single)
-                            this.state.styleOnType = styles_.hairStyles[1].style
-                        }
-                    } else {
-                        this.state.styleSelected.push(single)
-                    }
-
-                    this.state.hairDresserList.push(single)
-                })
-
-                styles_.hairStyles[0].types.map(i => {
-                    
-                    var single = {}
-                    single['Id'] = this.state.barberList.length
-                    single['Name'] = i
-                    single['Value'] = i
-                    
-                    if(this.props.preference){
-                        if(i == this.props.preference.hairStyle.type){
-                            this.state.styleSelected.push(single)
-                            this.state.styleOnType = styles_.hairStyles[0].style
-                        }
-                    }
-                    this.state.barberList.push(single)
-                })
-
-                if(this.props.preference){
-                    this.state.timeSelected = Time.filter(i => i.Value === this.props.preference.time).map(j => j.Name)
-                    this.state.daySelected = Day.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name)
-
-                    this.setState({
-                        staffClassification: this.props.preference.staffClassification,
-                        styleOn: this.props.preference.hairStyle.type,
-                        styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
-                        day: this.props.preference.day,
-                        time: this.props.preference.time,
-                        cityState: this.props.profile.address.city + ', ' + this.props.profile.address.state,
-                        loading: false
-                    })
-                } else {
-                    this.setState({
-                        loading: false,
-                        styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
-                        
-                    })
-                }
-            })
- 
+        this.onPreferenceRefresh()
     }
 
     onSelectClassication = (data) => {
@@ -110,6 +60,23 @@ class ProfilePref1 extends React.Component {
         this.setState({styleLists: data})
     }
 
+    onSkipClick(){
+        const { cityState } = this.state
+
+        var city = cityState.split(',')[0].trim() 
+        var state_ = cityState.split(',')[1].trim()
+
+        var filterType = {
+            city: city,
+            state: state_.toUpperCase(),
+            zip: '',
+            businessName: ''
+        }
+    
+        this.passServicePreference(filterType)
+        this.props.navigation.navigate('Pref2')
+    }
+
     render(){
         if(this.state.loading){
             return <Spinner size="large" />
@@ -117,11 +84,14 @@ class ProfilePref1 extends React.Component {
 
         return(
             <ScrollView style={styles.scrollView}>
+                <NavigationEvents
+                    onDidBlur={() => this.onPreferenceRefresh()}
+                />
                 <View style={styles.Column}>
                     <PrefTop
                         header={'Hi!'}
                         subHeader={"Let's start by setting up appointment preferences"}
-                        onClickMoveToNext={() => this.props.navigation.navigate('Pref2')} 
+                        onClickMoveToNext={() =>  this.onSkipClick()} 
                     />
                     <PrefChoice
                         sectionHeader={'You want'}
@@ -134,27 +104,25 @@ class ProfilePref1 extends React.Component {
                     <PrefResult
                         sectionHeader={'Where do you prefer to book ?'}
                         cityState={this.state.cityState}
-                        onCityStateChge={cityState => this.setState({ cityState })}
+                        onCityStateChge={cityState => this.verifyCityState( cityState )}
                         errorCityState={this.state.errorCityState}
-                        onStyleChge={styleOn => this.setState({ styleOn })}
-                        errorStyle={this.state.errorStyleOn}
-                        onStyleSelected={this.state.styleOn}
-                        onStyleItems={this.state.styleLists.map( i => i.Value)}
-                        onDayChge={day => this.setState({ day })}
+                        onStyleTypeChge={styleOnType => this.setStyleType( styleOnType )}
+                        errorStyleType={this.state.errorStyleOnType}
+                        onStyleTypeSelected={this.state.styleOnType}
+                        onStyleTypeItems={this.state.styleLists.map( i => i.Value)}
+
+                        onDayChge={day => this.setState({ day: DayOfWeek.filter(i => i.Name == day)[0].Name })}
                         errorDay={this.state.errorDay}
                         onDaySelected={this.state.day}
-                        onDayItems={Day.map(a => a.Value)}
+                        onDayItems={DayOfWeek.map(a => a.Name)}
+
                         onTimeChge={time => this.setState({ time })}
                         errorTime={this.state.errorTime}
                         onTimeSelected={this.state.time}
                         onTimeItems={Time.map(t => t.Value)}
                         token={this.props.token}
                     />
-                    <Button
-                        onPress={() => this.onPreferencePage1Confirmed()}
-                    >
-                        {'Continue'}
-                    </Button>
+                    {this.onSubmitPrefPage1()}
                 </View>
             </ScrollView>
         )
@@ -165,13 +133,15 @@ const mapStateToProps = (state) =>{
     return {
         token: state.auth.token,
         preference: state.preference.preference,
-        profile: state.profile.profile
+        profile: state.profile.profile,
+        providerResults: state.provider.providerSearchResult
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        setPreference: (prefer) => dispatch(preference.setPreference(prefer))
+        setPreference: (prefer) => dispatch(preference.setPreference(prefer)),
+        setProviderSearch: (filter) => dispatch(provider.set_provider_search(filter))
     }
 }
 

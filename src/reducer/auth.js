@@ -15,7 +15,7 @@ export default (state = initialState, action ) => {
                 userId: action.userId
             }          
             
-            console.log('USER_SET Payload: ', action.userId); 
+            // console.log('USER_SET Payload: ', action.userId); 
 
             return a;
         }
@@ -24,7 +24,7 @@ export default (state = initialState, action ) => {
                 token: action.token
             }
 
-            console.log('TOKEN Payload: ', action.token);
+            // console.log('TOKEN Payload: ', action.token);
             
             return b
         }

@@ -11,7 +11,7 @@ export default (state = initialState, action) =>{
                 profile: action.profile
             }
 
-            console.log('actions.SET_PROFILE', action.profile);
+            // console.log('actions.SET_PROFILE', action.profile);
             
             return a
         }    

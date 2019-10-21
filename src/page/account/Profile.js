@@ -49,6 +49,7 @@ class Profile extends React.Component {
             _uid: '',
             _token: '',
             alreadyExist: false,
+            prefAlreadyExit: false,
             onType: false,
         }
 
@@ -72,13 +73,13 @@ class Profile extends React.Component {
         this.onProfileCreateSucccess = utilites.onProfileCreateSucccess.bind(this)
         this.onProfileNotFound = utilites.onProfileNotFound.bind(this)
         this.onProfileRec = utilites.onProfileRec.bind(this)
-        this.onRefresh = utilites.onRefresh.bind(this)
+        this.onProfileRefresh = utilites.onProfileRefresh.bind(this)
         this.onProfileSub = utilites.onProfileSub.bind(this)
         this.onRenderPreference = utilites.onRenderPreference.bind(this)   
     }
     
     async componentDidMount(){
-        this.onRefresh() 
+        this.onProfileRefresh() 
     }
 
     render(){
@@ -89,12 +90,13 @@ class Profile extends React.Component {
         return(
             <ScrollView style={styles.scrollView}>
                 <NavigationEvents
-                    onDidBlur={() => this.onRefresh()}
+                    onDidBlur={() => this.onProfileRefresh()}
                 />
                 <View>
                     <AccountDetails
                         Creation={false}
                         Deletion={this.state.alreadyExist}
+                        Preference={this.state.prefAlreadyExit}
                         firstName={this.state.firstName}
                         onFirstNameChge={firstName => this.verifyFirstName( firstName )}
                         errorFirstName={this.state.firstNameError}
@@ -147,6 +149,7 @@ const mapStateToProps = (state) => {
     return {
         userId: state.auth.userId,
         token: state.auth.token,
+        pref: state.preference.pref
     }
 }
 

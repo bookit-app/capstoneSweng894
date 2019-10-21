@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
                 pref: action.pref
             }
 
-            console.log('actions.SETTING_PREF', action.pref);
+            // console.log('actions.SETTING_PREF', action.pref);
             
             return a
         }
@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
                 preference: action.preference
             }
 
-            console.log('actions.SET_PREFERENCE', action.preference);
+            // console.log('actions.SET_PREFERENCE', action.preference);
             
             return b
         }

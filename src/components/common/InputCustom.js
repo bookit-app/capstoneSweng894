@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform, TextInput, View, Text } from 'react-native';
 
 const InputCustom = ({ label, value, onChangeText, placeholder, secureTextEntry, 
-    error, inputStyle, labelStyle, containerStyle, textAlign}) => {
+    error, inputStyle, labelStyle, containerStyle, errorStyle, textAlign}) => {
   return (
     <View style={containerStyle} >
       <Text style={labelStyle}>{label}</Text>
@@ -16,21 +16,10 @@ const InputCustom = ({ label, value, onChangeText, placeholder, secureTextEntry,
         textAlign={textAlign}
         onChangeText={onChangeText}
       />
-      <Text style={styles.error}>{error}</Text>
+      <Text style={errorStyle}>{error}</Text>
     </View>
   );
 };
 
-const styles = {
-  error: {
-    marginTop: 10,
-    position: "absolute",
-    bottom: 0,
-    color: "red",
-    fontSize: 10,
-    textAlign: 'center',
-    backgroundColor:  '#ffffff'
-  }
-};
 
 export { InputCustom };

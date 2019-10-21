@@ -104,7 +104,6 @@ export const getConfiguration = (configType, token) => {
 
 /**
  * Handles update profile information for specific account profile
- * @param {*} id
  * @param {*} payload 
  * @param {*} token 
  */
@@ -145,12 +144,34 @@ export const deletedProfileById = (id, token) => {
     )
 }
 
+/**
+ * Handles retreving Provider information based on filter
+ * @param {*} filter 
+ * @param {*} token 
+ */
+export const searchProviderByFilter = (filter, token) => {
+    const headers = createHeader(token)
+    const url = baseURL + '/search/provider?'+ filter
+
+    // console.log('searchProviderByFilter',headers);
+    // console.log('url',url);
+    
+    return (
+        axios({
+            method: 'GET',
+            url: url,
+            headers: headers
+        })
+    )
+}
+
 const apis = {
     insertProfile,
     getProfileById,
     getConfiguration,
     updateProfileById,
-    deletedProfileById
+    deletedProfileById,
+    searchProviderByFilter
 }
 
 export default apis

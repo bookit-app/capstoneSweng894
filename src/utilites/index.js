@@ -3,8 +3,10 @@ import { Alert } from 'react-native'
 import api from '../api'
 import firebase from 'firebase'
 import { Button, ButtonCustom, Spinner } from '../components/common'
+import { Time, Day, DayOfWeek } from '../constant'
 import LogInBtn from '../components/styles/LogInBtn.styles'
 import DeleteProfileBtn from '../components/styles/DeleteProfileBtn'
+import { objectExpression } from '@babel/types'
 
 /**
  * On click handler for the Other account button that
@@ -231,7 +233,7 @@ function onProfileCreateFailed(error){
 /**
  * On Profile creation success handler
  */
-function onProfileCreateSucccess(){
+function onProfileCreateSucccess(type){
     console.log('onProfileCreateSuccess');
     this.setState({
         firstName: '',
@@ -262,10 +264,11 @@ function onProfileCreateSucccess(){
         loading: false,
         _uid: '',
         _token: '',
-        alreadyExist: false
+        alreadyExist: false,
+        prefAlreadyExit: false
     })
     
-    this.props.navigation.navigate('Home')
+    this.props.navigation.navigate(type =='S'? 'Setting' : 'home')
 }
 
 /**
@@ -276,6 +279,7 @@ function onProfileNotFound(){
 
     this.setState({
         alreadyExist: false,
+        prefAlreadyExit: false,
         loading: false
     })
 }
@@ -300,17 +304,22 @@ function onProfileRec(profile){
         isProvide: profile.isProvider ? 'Yes' : 'No',
         isProvider: profile.isProvider,
         alreadyExist: true,
+        prefAlreadyExit: profile.preferences ? true : false,
         loading: false
     })
 
+    console.log('onProfileRec Preference: ' + profile.preferences ? true : false);
+    
     this.props.setPreference(profile.preferences)
 }
 
 /**
  * Handles that retreives profile information if it exists
  */
-function onRefresh(){
+function onProfileRefresh(){
     try{        
+        // console.log('onRefresh', this.props.pref);
+    
         firebase.auth().currentUser.getIdToken().then(
             (token) => {
                 this.setState({
@@ -392,7 +401,7 @@ function onProfileSub(){
                         }).catch(f => {
                             console.log('Failed to update dispaly name');
                         })
-                    this.onProfileCreateSucccess()
+                    this.onProfileCreateSucccess('S')
                 })
                 .catch((error) => {
                     this.onProfileCreateFailed(error)                
@@ -536,37 +545,229 @@ function onRenderPreference(){
   * Saving Preferences to Profiles without favor Provider yet
   */
 function onPreferencePage1Confirmed(){
+    const { day, styleOn, styleOnType, staffClassification, time, cityState} = this.state
 
-    if(this.state.day && this.state.styleOnType && this.state.styleOn
-        && this.state.staffClassification && this.state.time) {
+    // console.log('onPreferencePage1Confirmed', day);
+    // console.log('onPreferencePage1Confirmed', styleOn);
+    // console.log('onPreferencePage1Confirmed', styleOnType);
+    // console.log('onPreferencePage1Confirmed', staffClassification);
+    // console.log('onPreferencePage1Confirmed', time);
+    // console.log('onPreferencePage1Confirmed', cityState.split(',')[0].trim());
+    // console.log('onPreferencePage1Confirmed', cityState.split(',')[1].trim());
+
+    if(day && styleOnType && styleOn && staffClassification && time && cityState) {
+        var city = cityState.split(',')[0].trim() 
+        var state_ = cityState.split(',')[1].trim()
+        var actualyDay = DayOfWeek.filter(i => i.Name == day)[0].Value
+
         var payload = {
-            "uid": firebase.auth().currentUser.uid,
             "preferences": {
-                day: parseInt(this.state.day),
+                day: parseInt(actualyDay),
                 hairStyle: {
-                    "style": this.state.styleOnType,
-                    "type": this.state.styleOn
+                    "style": styleOn,
+                    "type": styleOnType
                 },
-                staffClassification: this.state.staffClassification,
-                time: this.state.time.toUpperCase()
+                staffClassification: staffClassification,
+                time: time.toUpperCase(),
+                city: city,
+                state: state_
             }
         }
 
         console.log('onPreferencePage1Confirmed', payload);
+
         api.updateProfileById(payload, this.props.token)
             .then(i => {   
+                console.log('onPreferencePage1Confirmed', 'OnSuccess');
+                
                 this.props.setPreference(payload)
+            
+                var filterType = {
+                    city: city,
+                    state: state_.toUpperCase(),
+                    zip: '',
+                    businessName: ''
+                }
+            
+                this.passServicePreference(filterType)
+
                 this.props.navigation.navigate('Pref2')
+                this.setState({ loading_Submit: false })
             }).catch(e => {
                 console.log('error: ', e);
             })
-        } else {
-            this.setState({
-                error: 'Please populate all the fields'
-            })
-        }
+    } else {
+
+        console.log('onPreferencePage1Confirmed', 'error');
+        
+        this.setState({
+            error: 'Please populate all the fields',
+            loading_Submit: false
+        })
+    }
 }
 
+
+/**
+ * Handles setting the Style and Type based on the style selection
+ * @param {*} value 
+ */
+function setStyleType(value){
+    // console.log('setStyleType', this.state.styleLists.filter(i => i.Value == value )[0].style);
+    // console.log('setStyleType', this.state.styleLists.filter(i => i.Value == value )[0].Name);
+
+    this.setState({
+        styleOn: this.state.styleLists.filter(i => i.Value == value )[0].style,
+        styleOnType: value
+    })
+}
+
+/**
+ * Refresh the state data for the first page of Preferences
+ */
+function onPreferenceRefresh(){
+    try {
+        api.getConfiguration("styles", this.props.token)
+        .then((sty) => {
+            var styles_ = sty.data 
+
+            styles_.hairStyles[1].types.map(i => {
+                
+                var single = {}
+                single['Id'] = this.state.hairDresserList.length
+                single['Name'] = i
+                single['Value'] = i
+                single['style'] =  styles_.hairStyles[1].style
+                
+                if(this.props.preference){
+                    if(this.props.preference.hairStyle.type){
+                        if(i == this.props.preference.hairStyle.type){
+                            this.state.styleSelected.push(single)
+                            this.state.styleOnType = styles_.hairStyles[1].style
+                        }
+                    }
+                } else {
+                    this.state.styleSelected.push(single)
+                }
+
+                this.state.hairDresserList.push(single)
+            })
+
+            styles_.hairStyles[0].types.map(i => {
+                
+                var single = {}
+                single['Id'] = this.state.barberList.length
+                single['Name'] = i
+                single['Value'] = i
+                single['style'] =  styles_.hairStyles[0].style
+                
+                if(this.props.preference){  
+                    if(this.props.preference.hairStyle.type){
+                        if(i == this.props.preference.hairStyle.type){
+                            this.state.styleSelected.push(single)
+                            this.state.styleOnType = styles_.hairStyles[0].style
+                        } 
+                    }   
+                }
+                this.state.barberList.push(single)
+            })
+
+            if(this.props.preference){
+                // this.state.timeSelected = Time.filter(i => i.Value === this.props.preference.time).map(j => j.Name)
+                // this.state.daySelected = DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name)
+
+                this.setState({
+                    staffClassification: this.props.preference.staffClassification,
+                    styleOn: this.props.preference.hairStyle.style ? this.props.preference.hairStyle.style : '',
+                    styleOnType: this.props.preference.hairStyle.type ? this.props.preference.hairStyle.type : '',
+                    styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
+                    day: DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name),
+                    time: this.props.preference.time,
+                    cityState: this.props.preference.city +', ' +this.props.preference.state,
+                    loading: false
+                })
+            } else {
+                this.setState({
+                    loading: false,
+                    styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
+                    
+                })
+            }
+        }).catch((error) => {
+            console.log('getConfiguration ProfilePref1', error);
+        })
+    } catch (error) {
+        console.log('Profile Pref Catch error', error);    
+    }
+}
+
+/**
+ * Handle contiune button click rendering 
+ */
+function onSubmitPrefPage1(){
+    if(this.state.loading_Submit){
+        return <Spinner size="large" />
+    }
+
+    return (
+        <Button
+            onPress={() => this.onPreferencePage1Confirmed()}
+        >
+            {'Continue'}
+        </Button>
+    )
+
+}
+
+/**
+ * Generates the necessary filter option for the provider servers
+ * @param {*} filterType 
+ */
+function filterGenerate(filterType){
+    var fvi = null;
+    var filters = null
+    console.log('filterGenerate', filterType);
+    
+    for(fvi of Object.entries(filterType)){
+
+        var filter = null
+        // console.log('filterGenerate filter inital', filter);
+        // console.log('filterGenerate filters intial', filters);
+        
+        var label = fvi[0]
+        var value = fvi[1]
+        // console.log('filterGenerate label',label);
+        // console.log('filterGenerate value',value);
+
+        if(value){
+            filter = label + '=' + value
+            // console.log('filterGenerate filter', filter);
+            
+            filters = !filters ? filter : filters + '&' + filter
+            // console.log('filterGenerate filters', filters);
+        }
+    }  
+    
+    console.log('filterGenerate filters final',filters);
+
+    return filters
+}
+
+function passServicePreference(filterType){    
+
+    var filter = filterGenerate(filterType)
+
+    api.searchProviderByFilter(filter, this.props.token)
+        .then((result) => {
+            // console.log('passServicePreference', result);
+            // console.log('passServicePreference', result.data);
+            
+            this.props.setProviderSearch(result.data)
+        }).catch((error) => {
+            console.log('searchProviderByFilter', error);
+            
+        })
+}
 
 export default {
     onOtherAccount,
@@ -582,11 +783,16 @@ export default {
     onProfileCreateSucccess,
     onProfileNotFound,
     onProfileRec,
-    onRefresh,
+    onProfileRefresh,
     onProfileSub,
     getProfile,
 
     onRenderPreference,
 
-    onPreferencePage1Confirmed
+    onPreferencePage1Confirmed,
+    setStyleType,
+    onPreferenceRefresh,
+    onSubmitPrefPage1,
+
+    passServicePreference
 }
