@@ -22,9 +22,9 @@ class Loader extends React.Component {
                 user.getIdToken()
                     .then(token =>{
                         this.props.tokenSet(token)
+                        console.log('onAuthStateChanged token', token);
                     })
-                    
-                console.log('onAuthStateChanged token', this.props.token);                
+                                    
             } else {
                 console.log('onAuthStateChanged', 'No one logged In');
             }

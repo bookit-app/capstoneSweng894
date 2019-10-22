@@ -302,15 +302,10 @@ function verifyCityState(cityState){
     try{       
         var city = cityState.split(',')[0].trim()
         var state_ = cityState.split(',')[1].trim()
-        // console.log('verifyCityState', city);
-        // console.log('verifyCityState', state_);
         
         var isValidCity = (city ? cityValidator(city) : false)
         var isValidState = (state_ ? stateValidator(state_) : false)
-        var isCommaPresent = (cityState.indexOf(',') > -1)
-        // console.log('verifyCityState has comma', isCommaPresent);
-        // console.log('verifyCityState city valid', isValidCity);
-        // console.log('verifyCityState state valid', isValidState);     
+        var isCommaPresent = (cityState.indexOf(',') > -1)    
 
         if(isValidCity && isValidState && isCommaPresent){
             this.setState({

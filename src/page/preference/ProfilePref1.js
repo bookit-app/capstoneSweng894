@@ -1,13 +1,12 @@
 import React from 'react'
-import api from '../../api'
 import { connect } from 'react-redux'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, Alert, Text } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { PrefTop, PrefChoice, PrefResult } from '../../components/preference'
-import { Button, Spinner } from '../../components/common'
+import { Spinner } from '../../components/common'
 import styles from '../styles/Preference.styles'
-import { preference, provider, profile } from '../../actions'
-import { Time, Day, DayOfWeek } from '../../constant'
+import { preference, provider} from '../../actions'
+import { Time, DayOfWeek } from '../../constant'
 import utilites from '../../utilites'
 import validation from '../../validation'
 
@@ -42,8 +41,7 @@ class ProfilePref1 extends React.Component {
         this.setStyleType = utilites.setStyleType.bind(this)
         this.onPreferenceRefresh = utilites.onPreferenceRefresh.bind(this)
         this.onSubmitPrefPage1 = utilites.onSubmitPrefPage1.bind(this)
-        this.passServicePreference = utilites.passServicePreference.bind(this)
-
+        this.resultsFromFilterPreference = utilites.resultsFromFilterPreference.bind(this)
 
         this.verifyCityState = validation.verifyCityState.bind(this)
     }
@@ -53,7 +51,29 @@ class ProfilePref1 extends React.Component {
     }
 
     onSelectClassication = (data) => {
-        this.setState({ staffClassification: data })
+        var newStyleOn = this.state.hairDresserList.filter(i => i.staffclassification == data).map(a => a.style)[0] ? 
+            this.state.hairDresserList.filter(i => i.staffclassification == data).map(a => a.style)[0] 
+            : this.state.barberList.filter(i => i.staffclassification == data).map(b => b.style)[0]
+
+        var currentList = this.state.hairDresserList.filter(i => i.style == newStyleOn).length > 1 ? this.state.hairDresserList : this.state.barberList
+
+        this.setState({ 
+            staffClassification: data,
+            styleOn: newStyleOn,
+            styleLists: currentList 
+        })
+
+        Alert.alert(
+            'Style Warning',
+            'Your styles does not match your styler. Please change. ',
+            [
+                {text: 'Ok', onPress: () => {                
+                    this.setState({
+                        styleOnType: null
+                    })
+                }}
+            ]
+        )
     }
     
     onStyleFromClassication = (data) => {
@@ -61,19 +81,19 @@ class ProfilePref1 extends React.Component {
     }
 
     onSkipClick(){
-        const { cityState } = this.state
+        // const { cityState } = this.state
 
-        var city = cityState.split(',')[0].trim() 
-        var state_ = cityState.split(',')[1].trim()
+        // var city = cityState.split(',')[0].trim() 
+        // var state_ = cityState.split(',')[1].trim()
 
-        var filterType = {
-            city: city,
-            state: state_.toUpperCase(),
-            zip: '',
-            businessName: ''
-        }
+        // var filterType = {
+        //     city: city,
+        //     state: state_.toUpperCase(),
+        //     zip: '',
+        //     businessName: ''
+        // }
     
-        this.passServicePreference(filterType)
+        // this.passServicePreference(filterType)
         this.props.navigation.navigate('Pref2')
     }
 
@@ -98,7 +118,7 @@ class ProfilePref1 extends React.Component {
                         opt1={'Hair Dresser'}
                         opt2={'Barber'}
                         token={this.props.token}
-                        pick={this.state.hairDresserList.indexOf(this.state.styleOn) ? false : true}
+                        pick={this.state.hairDresserList.filter(i => i.style == this.state.styleOn).length > 1 ? false : true}
                         onClassificationSelect={this.onSelectClassication}
                     />
                     <PrefResult
@@ -110,17 +130,16 @@ class ProfilePref1 extends React.Component {
                         errorStyleType={this.state.errorStyleOnType}
                         onStyleTypeSelected={this.state.styleOnType}
                         onStyleTypeItems={this.state.styleLists.map( i => i.Value)}
-
                         onDayChge={day => this.setState({ day: DayOfWeek.filter(i => i.Name == day)[0].Name })}
                         errorDay={this.state.errorDay}
                         onDaySelected={this.state.day}
                         onDayItems={DayOfWeek.map(a => a.Name)}
-
                         onTimeChge={time => this.setState({ time })}
                         errorTime={this.state.errorTime}
                         onTimeSelected={this.state.time}
                         onTimeItems={Time.map(t => t.Value)}
                         token={this.props.token}
+                        formError={this.state.error}
                     />
                     {this.onSubmitPrefPage1()}
                 </View>

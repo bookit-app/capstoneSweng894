@@ -3,10 +3,9 @@ import { Alert } from 'react-native'
 import api from '../api'
 import firebase from 'firebase'
 import { Button, ButtonCustom, Spinner } from '../components/common'
-import { Time, Day, DayOfWeek } from '../constant'
+import { DayOfWeek } from '../constant'
 import LogInBtn from '../components/styles/LogInBtn.styles'
 import DeleteProfileBtn from '../components/styles/DeleteProfileBtn'
-import { objectExpression } from '@babel/types'
 
 /**
  * On click handler for the Other account button that
@@ -319,7 +318,6 @@ function onProfileRec(profile){
 function onProfileRefresh(){
     try{        
         // console.log('onRefresh', this.props.pref);
-    
         firebase.auth().currentUser.getIdToken().then(
             (token) => {
                 this.setState({
@@ -582,14 +580,14 @@ function onPreferencePage1Confirmed(){
                 
                 this.props.setPreference(payload)
             
-                var filterType = {
-                    city: city,
-                    state: state_.toUpperCase(),
-                    zip: '',
-                    businessName: ''
-                }
+                // var filterType = {
+                //     city: city,
+                //     state: state_.toUpperCase(),
+                //     zip: '',
+                //     businessName: ''
+                // }
             
-                this.passServicePreference(filterType)
+                // this.passServicePreference(filterType)
 
                 this.props.navigation.navigate('Pref2')
                 this.setState({ loading_Submit: false })
@@ -638,6 +636,7 @@ function onPreferenceRefresh(){
                 single['Name'] = i
                 single['Value'] = i
                 single['style'] =  styles_.hairStyles[1].style
+                single['staffclassification'] = 'Hair Dresser'  
                 
                 if(this.props.preference){
                     if(this.props.preference.hairStyle.type){
@@ -660,7 +659,8 @@ function onPreferenceRefresh(){
                 single['Name'] = i
                 single['Value'] = i
                 single['style'] =  styles_.hairStyles[0].style
-                
+                single['staffclassification'] = 'Barber'              
+
                 if(this.props.preference){  
                     if(this.props.preference.hairStyle.type){
                         if(i == this.props.preference.hairStyle.type){
@@ -673,14 +673,12 @@ function onPreferenceRefresh(){
             })
 
             if(this.props.preference){
-                // this.state.timeSelected = Time.filter(i => i.Value === this.props.preference.time).map(j => j.Name)
-                // this.state.daySelected = DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name)
-
                 this.setState({
                     staffClassification: this.props.preference.staffClassification,
                     styleOn: this.props.preference.hairStyle.style ? this.props.preference.hairStyle.style : '',
                     styleOnType: this.props.preference.hairStyle.type ? this.props.preference.hairStyle.type : '',
-                    styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
+                    styleLists: this.state.hairDresserList.filter(i => i.style == this.props.preference.hairStyle.style).length > 1 ? this.state.hairDresserList : this.state.barberList,
+                    //styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
                     day: DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name),
                     time: this.props.preference.time,
                     cityState: this.props.preference.city +', ' +this.props.preference.state,
@@ -726,7 +724,7 @@ function onSubmitPrefPage1(){
 function filterGenerate(filterType){
     var fvi = null;
     var filters = null
-    console.log('filterGenerate', filterType);
+    // console.log('filterGenerate', filterType);
     
     for(fvi of Object.entries(filterType)){
 
@@ -753,14 +751,18 @@ function filterGenerate(filterType){
     return filters
 }
 
-function passServicePreference(filterType){    
+/**
+ * Pass filter object then will 
+ * @param {*} filterType 
+ */
+function resultsFromFilterPreference(filterType){    
 
     var filter = filterGenerate(filterType)
 
     api.searchProviderByFilter(filter, this.props.token)
         .then((result) => {
-            // console.log('passServicePreference', result);
-            // console.log('passServicePreference', result.data);
+            // console.log('resultsFromFilterPreference', result);
+            // console.log('resultsFromFilterPreference', result.data);
             
             this.props.setProviderSearch(result.data)
         }).catch((error) => {
@@ -794,5 +796,6 @@ export default {
     onPreferenceRefresh,
     onSubmitPrefPage1,
 
-    passServicePreference
+    filterGenerate,
+    resultsFromFilterPreference
 }

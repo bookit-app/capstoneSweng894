@@ -60,6 +60,7 @@ const PrefResult = (props) => {
                     <Text style={styles.errorTextStyle}>{props.errorTime}</Text>
                 </View>
             </View>
+            <Text style={styles.errorFormTextStyle}>{props.formError}</Text>
         </View>
     )
 }

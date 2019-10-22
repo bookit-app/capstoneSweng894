@@ -40,5 +40,12 @@ export default {
         padding: 5,
         margin: 10,
         justifyContent: 'space-between',
-    }
+    },
+    errorFormTextStyle: {
+        fontSize: 15,
+        alignSelf: 'center',
+        color: 'red',
+        backgroundColor:  '#ffffff',
+        justifyContent: 'center'
+      }
 }

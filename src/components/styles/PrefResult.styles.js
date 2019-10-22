@@ -49,5 +49,12 @@ export default {
         color: 'red',
         backgroundColor:  '#ffffff',
         justifyContent: 'center'
-      }
+      },
+      errorFormTextStyle: {
+          fontSize: 15,
+          alignSelf: 'center',
+          color: 'red',
+          backgroundColor:  '#ffffff',
+          justifyContent: 'center'
+        }
 }
