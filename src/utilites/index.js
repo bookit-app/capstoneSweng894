@@ -3,7 +3,7 @@ import { Alert } from 'react-native'
 import api from '../api'
 import firebase from 'firebase'
 import { Button, ButtonCustom, Spinner } from '../components/common'
-import LogInBtn from '../components/styles/LogInBtn.styles'
+import LoginButton from '../components/styles/LoginButton.styles'
 import DeleteProfileBtn from '../components/styles/DeleteProfileBtn'
 
 /**
@@ -40,10 +40,10 @@ function onLogInButton(type){
     return (    
         <ButtonCustom
             onPress={() => this.onLogInSub(type)}
-            buttonStyle={LogInBtn.buttonStyle}
-            textStyle={LogInBtn.textStyle}
+            buttonStyle={LoginButton.buttonStyle}
+            textStyle={LoginButton.textStyle}
         >
-            {type === 'L'?'Log-In': 'Sign-Up'}
+            {type === 'L'?'Login': 'Create Account'}
         </ButtonCustom>
     )
 }
