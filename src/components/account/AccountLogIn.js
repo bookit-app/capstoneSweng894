@@ -17,6 +17,7 @@ const  AccountLogIn = (props) => {
                     value={props.emailValue}
                     onChangeText={props.emailOnChge}
                     error={props.errorEmail}
+                  
                 />
             </View>
             <View>
