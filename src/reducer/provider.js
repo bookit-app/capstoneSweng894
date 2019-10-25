@@ -24,17 +24,17 @@ export default (state = initialState, action) => {
                 loading: action.payload
             }
 
-            console.log('actions.GET_PROVIDER_PENDING', b);
+            // console.log('actions.GET_PROVIDER_PENDING', b);
             
             return b
         }
         case actions.GET_PROVIDER_FULFILLED: {
             var c = {
                 ...state,
-                searchResult: action.payload, loading: action.loading
+                searchResult: action.payload, loading: action.loading, errorMessage: ''
             }
 
-            console.log('actions.GET_PROVIDER_FULFILLED', b);
+            // console.log('actions.GET_PROVIDER_FULFILLED', c);
 
             return c
         }
@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
                 errorMessage: action.payload, loading: action.loading
             }
 
-            console.log('actions.GET_PROCIDER_REFJECTED', d);
+            // console.log('actions.GET_PROCIDER_REFJECTED', d);
 
             return d    
         }

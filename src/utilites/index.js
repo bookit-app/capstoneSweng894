@@ -6,6 +6,7 @@ import { Button, ButtonCustom, Spinner } from '../components/common'
 import { DayOfWeek } from '../constant'
 import LogInBtn from '../components/styles/LogInBtn.styles'
 import DeleteProfileBtn from '../components/styles/DeleteProfileBtn'
+import NavigationService from '../navigation/custom/NavigationService'
 
 /**
  * On click handler for the Other account button that
@@ -53,9 +54,8 @@ function onLogInButton(type){
  * On success handler from api which clears all the state
  * values and routes to the profile and dipatches user information
  * to redux
- * @param {*} type - L for Log-In or other for Sign-Up
  */
-async function onLogInSuccess(user, type){
+async function onLogInSuccess(type){
     console.log('onLogInSuccess');
     
     this.setState({
@@ -68,11 +68,7 @@ async function onLogInSuccess(user, type){
         loading: false
     }); 
 
-    // if(type === 'L'){
-        this.props.navigation.navigate('Profile', {'_uid': user.uid})
-    // } else {
-    //     this.props.navigation.navigate('Login')
-    // }
+    this.props.navigation.navigate(type == 'S' ? 'Profile' : 'Home')
 }
 
 /**
@@ -103,33 +99,44 @@ function onLogInSub(type){
         console.log('onLogInSub');
 
         if(type === 'L'){
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then((data) => {            
-                    var user = data.user;
-                    this.onLogInSuccess(user, type);
-                })
-                .catch((error) => {
-                    this.onLogInFail(error);
-                    console.log(error);
-                })
+            /// Replace with  action create
+            // firebase.auth().signInWithEmailAndPassword(email, password)
+            //     .then((data) => {       
+                
+            //         // console.log('SignInWithEmail check', data.user);
+                         
+            //         var user = data.user;
+            //         this.onLogInSuccess();
+            //     })
+            //     .catch((error) => {
+            //         this.onLogInFail(error);
+            //         console.log(error);
+            //     })
+
+            // console.log('onLogInSub', this.props.logIn);
+            this.props.settingPref(true)
+            this.props.loggingIn(email,password)
+            // this.onLogInSuccess()
         } else {
-            firebase.auth().createUserWithEmailAndPassword(email,password)
-                .then((data) => {
-                    var user = data.user;
+            // firebase.auth().createUserWithEmailAndPassword(email,password)
+            //     .then((data) => {
+            //         var user = data.user
 
-                    user.sendEmailVerification()
-                        .then(a => {
-                            console.log('Email Verification send');
-                        }).catch(e => {
-                            console.log('Failed to verification email'); 
-                        })
+            //         user.sendEmailVerification()
+            //             .then(a => {
+            //                 console.log('Email Verification send');
+            //             }).catch(e => {
+            //                 console.log('Failed to verification email'); 
+            //             })
 
-                    this.onLogInSuccess(user, type);
-                })
-                .catch((error) => {
-                    this.onLogInFail(error);
-                    console.log(error);
-                })
+            //         this.onLogInSuccess();
+            //     })
+            //     .catch((error) => {
+            //         this.onLogInFail(error);
+            //         console.log(error);
+            //     })
+            this.props.settingPref(false)
+            this.props.signingUp(email,password)
         }
     } else {
         if(!email){
@@ -267,7 +274,7 @@ function onProfileCreateSucccess(type){
         prefAlreadyExit: false
     })
     
-    this.props.navigation.navigate(type =='S'? 'Setting' : 'home')
+    this.props.navigation.navigate(type =='S'? 'Pref1' : 'home')
 }
 
 /**
@@ -288,7 +295,6 @@ function onProfileNotFound(){
  * @param {*} profile 
  */
 function onProfileRec(profile){
-
     this.setState({
         firstName: profile.firstName,
         lastName: profile.lastName,
@@ -296,7 +302,7 @@ function onProfileRec(profile){
         email: profile.email,
         telephone: profile.phoneNumber,
         gender: profile.gender == 'M'? 'Male': profile.gender == 'F' ? 'Female' : 'Other',
-        street: profile.address.streetAddress,
+        street: !isEmpty(profile.address.streetAddress) ? profile.address.streetAddress : '',
         city: profile.address.city,
         state_: profile.address.state,
         zip: profile.address.zip,
@@ -308,43 +314,41 @@ function onProfileRec(profile){
     })
 
     console.log('onProfileRec Preference: ' + profile.preferences ? true : false);
-    
-    this.props.setPreference(profile.preferences)
 }
 
 /**
  * Handles that retreives profile information if it exists
  */
 function onProfileRefresh(){
-    try{        
-        // console.log('onRefresh', this.props.pref);
-        firebase.auth().currentUser.getIdToken().then(
-            (token) => {
-                this.setState({
-                    _token: token
-                })
-
-                api.getProfileById(firebase.auth().currentUser.uid, token)
-                    .then(userData => {
-                            var profile = userData.data
-                            
-                            this.onProfileRec(profile) 
-                            this.props.setProfile(profile)
-                        }
-                    ).catch( (error) => {
-                        this.onProfileNotFound.bind(this)
-                        console.log('error: ', error);                     
-                        this.setState({
-                            loading: false
+    try{               
+        // console.log('onProfileRefresh', this.props);        
+        if(!this.props.profile){
+            console.log('onProfileRefresh',this.propps.userId);
+            
+            firebase.auth().currentUser.getIdToken()
+                .then((token) => {
+                    api.getProfileById(firebase.auth().currentUser.uid, token)
+                        .then(userData => {
+                                var profile = userData.data                        
+                                this.onProfileRec(profile) 
+                                this.props.setPreference(profile.preferences)
+                            }
+                        ).catch( (error) => {
+                            console.log('error: ', error);
+                            this.onProfileNotFound.bind(this)
+                            this.setState({
+                                loading: false
+                            })
                         })
-                    })
-                }
-        )
+                })
+        } else {    
+            this.onProfileRec(this.props.profile)
+        }
     } catch (error){
         this.setState({
             loading: false
         })
-        console.log('UNSAFE_componentWillMount: ', error);   
+        console.log('onProfileRefresh: ', error);   
     } 
 }
 
@@ -388,7 +392,9 @@ function onProfileSub(){
                 "isProvider": isProvider,
             }                
 
-            api.insertProfile(payload, _token)
+            console.log('onProfileSub - insert',payload);
+            
+            api.insertProfile(payload, this.props.token)
                 .then((data) => {
                     var user = firebase.auth().currentUser
                     
@@ -421,8 +427,10 @@ function onProfileSub(){
                     "zip": zip
                 },
             }                
+            
+            console.log('onProfileSub - updated',payload);
 
-            api.updateProfileById(payload, _token)
+            api.updateProfileById(payload,this.props.token)
             .then((user) => {
                 this.onProfileCreateSucccess()
             })
@@ -542,16 +550,8 @@ function onRenderPreference(){
  /**
   * Saving Preferences to Profiles without favor Provider yet
   */
-function onPreferencePage1Confirmed(){
+function onPreferencePage1Confirmed(navNext){
     const { day, styleOn, styleOnType, staffClassification, time, cityState} = this.state
-
-    // console.log('onPreferencePage1Confirmed', day);
-    // console.log('onPreferencePage1Confirmed', styleOn);
-    // console.log('onPreferencePage1Confirmed', styleOnType);
-    // console.log('onPreferencePage1Confirmed', staffClassification);
-    // console.log('onPreferencePage1Confirmed', time);
-    // console.log('onPreferencePage1Confirmed', cityState.split(',')[0].trim());
-    // console.log('onPreferencePage1Confirmed', cityState.split(',')[1].trim());
 
     if(day && styleOnType && styleOn && staffClassification && time && cityState) {
         var city = cityState.split(',')[0].trim() 
@@ -572,31 +572,22 @@ function onPreferencePage1Confirmed(){
             }
         }
 
-        console.log('onPreferencePage1Confirmed', payload);
+        // console.log('onPreferencePage1Confirmed', payload);
 
         api.updateProfileById(payload, this.props.token)
             .then(i => {   
-                console.log('onPreferencePage1Confirmed', 'OnSuccess');
+                // console.log('onPreferencePage1Confirmed', 'OnSuccess');
+                // this.props.navigation.navigate('Pref2')
                 
                 this.props.setPreference(payload)
-            
-                // var filterType = {
-                //     city: city,
-                //     state: state_.toUpperCase(),
-                //     zip: '',
-                //     businessName: ''
-                // }
-            
-                // this.passServicePreference(filterType)
-
-                this.props.navigation.navigate('Pref2')
+                NavigationService.navigate(navNext)
                 this.setState({ loading_Submit: false })
             }).catch(e => {
                 console.log('error: ', e);
             })
     } else {
 
-        console.log('onPreferencePage1Confirmed', 'error');
+        // console.log('onPreferencePage1Confirmed', 'error');
         
         this.setState({
             error: 'Please populate all the fields',
@@ -611,9 +602,6 @@ function onPreferencePage1Confirmed(){
  * @param {*} value 
  */
 function setStyleType(value){
-    // console.log('setStyleType', this.state.styleLists.filter(i => i.Value == value )[0].style);
-    // console.log('setStyleType', this.state.styleLists.filter(i => i.Value == value )[0].Name);
-
     this.setState({
         styleOn: this.state.styleLists.filter(i => i.Value == value )[0].style,
         styleOnType: value
@@ -638,8 +626,13 @@ function onPreferenceRefresh(){
                 single['style'] =  styles_.hairStyles[1].style
                 single['staffclassification'] = 'Hair Dresser'  
                 
-                if(this.props.preference){
-                    if(this.props.preference.hairStyle.type){
+                console.log(this.props.preference);     
+
+                if(!isEmpty(this.props.preference)){
+                    if(isEmpty(this.props.preference.hairStyle)){
+                        // console.log('isEmpty');
+                        
+                    } else {
                         if(i == this.props.preference.hairStyle.type){
                             this.state.styleSelected.push(single)
                             this.state.styleOnType = styles_.hairStyles[1].style
@@ -661,8 +654,13 @@ function onPreferenceRefresh(){
                 single['style'] =  styles_.hairStyles[0].style
                 single['staffclassification'] = 'Barber'              
 
-                if(this.props.preference){  
-                    if(this.props.preference.hairStyle.type){
+                console.log(this.props.preference);                
+
+                if(!isEmpty(this.props.preference)){  
+                    if(isEmpty(this.props.preference.hairStyle)){
+                        // console.log('isEmpty');
+                        
+                    } else {
                         if(i == this.props.preference.hairStyle.type){
                             this.state.styleSelected.push(single)
                             this.state.styleOnType = styles_.hairStyles[0].style
@@ -672,13 +670,15 @@ function onPreferenceRefresh(){
                 this.state.barberList.push(single)
             })
 
-            if(this.props.preference){
+            // console.log('barberList', this.state.barberList);
+            // console.log(('hairDress'), this.state.hairDresserList);            
+
+            if(!isEmpty(this.props.preference)){
                 this.setState({
                     staffClassification: this.props.preference.staffClassification,
-                    styleOn: this.props.preference.hairStyle.style ? this.props.preference.hairStyle.style : '',
-                    styleOnType: this.props.preference.hairStyle.type ? this.props.preference.hairStyle.type : '',
-                    styleLists: this.state.hairDresserList.filter(i => i.style == this.props.preference.hairStyle.style).length > 1 ? this.state.hairDresserList : this.state.barberList,
-                    //styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
+                    styleOn: isEmpty(this.props.preference.hairStyle) ? '' : this.props.preference.hairStyle.style,
+                    styleOnType: isEmpty(this.props.preference.hairStyle) ? '' : this.props.preference.hairStyle.type,
+                    styleLists: this.state.hairDresserList.filter(i => i.style == isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style :'').length > 1 ? this.state.hairDresserList : this.state.barberList,
                     day: DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name),
                     time: this.props.preference.time,
                     cityState: this.props.preference.city +', ' +this.props.preference.state,
@@ -687,12 +687,14 @@ function onPreferenceRefresh(){
             } else {
                 this.setState({
                     loading: false,
-                    styleLists: this.state.hairDresserList.indexOf(this.state.styleOn) ? this.state.hairDresserList : this.state.barberList,
-                    
+                    styleLists: this.state.barberList
                 })
             }
         }).catch((error) => {
             console.log('getConfiguration ProfilePref1', error);
+            this.setState({
+                loading: false
+            })
         })
     } catch (error) {
         console.log('Profile Pref Catch error', error);    
@@ -702,19 +704,28 @@ function onPreferenceRefresh(){
 /**
  * Handle contiune button click rendering 
  */
-function onSubmitPrefPage1(){
+function onSubmitPrefPage1(navNext){
     if(this.state.loading_Submit){
         return <Spinner size="large" />
     }
 
     return (
         <Button
-            onPress={() => this.onPreferencePage1Confirmed()}
+            onPress={() => this.onPreferencePage1Confirmed(navNext)}
         >
             {'Continue'}
         </Button>
     )
 
+}
+
+
+/**
+ * Handles moving to the next preference Page
+ */
+function onSkipClick(onSkip){
+    // this.props.navigation.navigate(onSkip)
+    NavigationService.navigate(onSkip)
 }
 
 /**
@@ -771,6 +782,22 @@ function resultsFromFilterPreference(filterType){
         })
 }
 
+/**
+ * Check is a given Object is empty
+ * @param {*} obj 
+ */
+function isEmpty(obj) {
+    // console.log('isEmpty',obj);
+
+    for(var key in obj) {
+        // console.log('isEmpty',key);
+        
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
 export default {
     onOtherAccount,
     onLogInButton,
@@ -795,7 +822,9 @@ export default {
     setStyleType,
     onPreferenceRefresh,
     onSubmitPrefPage1,
+    onSkipClick,
 
     filterGenerate,
-    resultsFromFilterPreference
+    resultsFromFilterPreference,
+    isEmpty
 }

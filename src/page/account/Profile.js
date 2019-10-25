@@ -82,8 +82,17 @@ class Profile extends React.Component {
         this.onProfileRefresh() 
     }
 
+    // UNSAFE_componentWillReceiveProps(nextProps){
+    //     if(nextProps.loading != this.props.loading){
+    //         console.log(nextProps.profile);
+    //         // console.log(this.props.profile);
+            
+    //         this.onProfileRec(nextProps.profile)
+    //     }
+    // }
+
     render(){
-        if(this.state.loading){
+        if(this.props.loading){
             return <Spinner size="large" />
         }
 
@@ -96,7 +105,7 @@ class Profile extends React.Component {
                     <AccountDetails
                         Creation={false}
                         Deletion={this.state.alreadyExist}
-                        Preference={this.state.prefAlreadyExit}
+                        Preference={this.state.alreadyExist}
                         firstName={this.state.firstName}
                         onFirstNameChge={firstName => this.verifyFirstName( firstName )}
                         errorFirstName={this.state.firstNameError}
@@ -145,8 +154,13 @@ class Profile extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    // console.log('profile state: ', state);
+    console.log('mapStateToProps Profile', state);
+    
     return {
+        preference: state.preference.preference,
+        profile: state.profile.profile,
+        loading: state.profile.loading,
+        errorMessage: state.profile.errorMessage,
         userId: state.auth.userId,
         token: state.auth.token,
         pref: state.preference.pref

@@ -2,6 +2,10 @@ import axios from 'axios'
 
 const baseURL = 'https://esp-vllmtwjp2a-uc.a.run.app';
 
+/**
+ * Header component for api request with content 
+ * @param {*} token 
+ */
 export const createHeaderContent = (token) => {
     return {
         "Authorization": "Bearer " + token,
@@ -10,6 +14,10 @@ export const createHeaderContent = (token) => {
     }
 }
 
+/**
+ * Header component for api request
+ * @param {*} token 
+ */
 export const createHeader = (token) => {
     return {
         "Authorization": "Bearer " + token,
@@ -25,9 +33,9 @@ export const createHeader = (token) => {
 export const insertProfile = (payload, token) => {
     var headers = createHeaderContent(token)
     
-    // console.log('insertProfile',headers);
-    // console.log('url',baseURL + '/profile');
-    // console.log('payload',payload);    
+    console.log('insertProfile',headers);
+    console.log('url',baseURL + '/profile');
+    console.log('payload',payload);    
 
     return (
         axios({
@@ -110,9 +118,9 @@ export const getConfiguration = (configType, token) => {
 export const updateProfileById = (payload, token) => {
     var headers = createHeaderContent(token)
 
-      console.log('updateProfileById',headers);
-      console.log('url',baseURL + '/profile');
-      console.log('payload',payload);  
+    //   console.log('updateProfileById',headers);
+    //   console.log('url',baseURL + '/profile');
+    //   console.log('payload',payload);  
 
     return(
         axios({
@@ -153,8 +161,8 @@ export const searchProviderByFilter = (filter, token) => {
     const headers = createHeader(token)
     const url = baseURL + '/search/provider?'+ filter
 
-    console.log('searchProviderByFilter',headers);
-    console.log('url',url);
+    // console.log('searchProviderByFilter',headers);
+    // console.log('url',url);
     
     return (
         axios({
@@ -171,7 +179,7 @@ const apis = {
     getConfiguration,
     updateProfileById,
     deletedProfileById,
-    searchProviderByFilter
+    searchProviderByFilter,
 }
 
 export default apis

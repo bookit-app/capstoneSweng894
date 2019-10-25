@@ -12,6 +12,7 @@ import { Provider } from 'react-redux'
 
 import store from './store'
 import RootStack from './navigation/stack/RootStack'
+import NavigationService from './navigation/custom/NavigationService'
 
 const MainApp = createAppContainer(RootStack)
 
@@ -34,7 +35,11 @@ class App extends React.Component {
   render(){
     return(
       <Provider store={store}>
-        <MainApp />
+        <MainApp 
+          ref={navigatorRef => {
+            NavigationService.setTopNavigator(navigatorRef);
+          }}
+        />
       </Provider>
     )
   }

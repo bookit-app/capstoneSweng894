@@ -8,6 +8,8 @@ import ForgotPassword from '../../../page/account/ForgotPassword'
 import SignUpEmail from '../../../page/account/SignUpEmail'
 import SignUpStuff from '../../../page/account/SignUpStuff'
 
+import SettingPrefNavigator from './SettingPrefNavigator'
+
 /**
  * Auth menu accessible page
  */
@@ -18,9 +20,9 @@ const AuthNavigator = createStackNavigator(
         "SignUp": SignUpOptions,
         "Sign Up With Email": SignUpEmail,
         "Login": LogInOptions,
+        "Setting": SettingPrefNavigator,
         "Sign Up staff": {
-            screen: SignUpStuff,
-            path: 'staff/:_uid',
+            screen: SignUpStuff
         }
     }
     , {

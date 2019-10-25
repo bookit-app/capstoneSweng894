@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-    createSwitchNavigator
-} from 'react-navigation'
+import { createSwitchNavigator } from 'react-navigation'
 
 import Loader from '../../page/general/Loader'
 import AppTab from './general/AppTab'

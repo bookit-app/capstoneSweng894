@@ -1,35 +1,20 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Text, View } from 'react-native'
-import { ButtonCustom } from '../../components/common'
-import { preference } from '../../actions'
+import { Modal } from 'react-native'
+import PreferenceShopResult from '../../components/preference/PreferenceShopResult'
 
 class SettingPref2 extends React.Component {
-    onMoveToTab(){
-        this.props.settingPref(true)
-        this.props.navigation.navigate('App')
-    }
     render(){
         return(
-            <View>
-                <Text>{'Setting Pref 2'}</Text>
-                <View>
-                    <ButtonCustom
-                        onPress={this.onMoveToTab.bind(this)}
-                    >
-                        {'Move to Tabs'}
-                    </ButtonCustom>
-                </View>
-            </View>
+            <Modal visible={this.props.display} animationType='slide'>
+                <this.props.onClose/>
+                <PreferenceShopResult
+                    headerText={"Here are some shop we thought you would like based on your previous selections"}
+                    noRecordsFound={'No shops can be found with your Preferences'}
+                    onItemConfirmed={'Home'}
+                />
+            </Modal>
         )
     }
 }
 
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        settingPref: (pref) => dispatch(preference.settingPref(pref))
-    }
-}
-
-export default connect(null, mapDispatchToProps)(SettingPref2)
+export default SettingPref2

@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
                 pref: action.pref
             }
 
-            // console.log('actions.SETTING_PREF', action.pref);
+            console.log('actions.SETTING_PREF', action.pref);
             
             return a
         }

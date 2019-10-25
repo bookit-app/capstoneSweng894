@@ -20,6 +20,11 @@ export default {
         flexDirection: 'column',
         justifyContent: 'center'
     },
+    ListFlatView: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        
+    },
     scrollView: {
         marginHorizontal: 20,
       },
@@ -41,11 +46,25 @@ export default {
         margin: 10,
         justifyContent: 'space-between',
     },
+    RowItemSelect: {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+        padding: 5,
+        margin: 10,
+        justifyContent: 'space-between',
+        backgroundColor: 'blue',
+        color: 'white',
+    },
     errorFormTextStyle: {
         fontSize: 15,
         alignSelf: 'center',
         color: 'red',
         backgroundColor:  '#ffffff',
         justifyContent: 'center'
-      }
+      },
+    headerTxt: {
+        color:'blue',
+        fontSize: 15,
+    },
 }
