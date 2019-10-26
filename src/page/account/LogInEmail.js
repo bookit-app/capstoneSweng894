@@ -38,7 +38,7 @@ class LogInEmail extends React.Component {
                 imageHolder={false}
                 placeholder={require('../../image/Placeholder150.png')}
                 image={require('../../image/Placeholder150.png')}
-                email={this.state.email}
+                email={gitthis.state.email}
                 onEmailChge={email => this.verifyEmail( email)}
                 errorEmail={this.state.emailError}
                 password={this.state.password}
