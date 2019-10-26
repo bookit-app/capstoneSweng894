@@ -9,6 +9,7 @@ import { preference } from '../../actions'
 import { Time, DayOfWeek } from '../../constant'
 import utilites from '../../utilites'
 import validation from '../../validation'
+import { GetProviderSearchResult } from '../../store'
 
 const TopSection = (props) => {
     if(!props.onRemoveSkipBtn){
@@ -161,7 +162,8 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        setPreference: (prefer) => dispatch(preference.setPreference(prefer))
+        setPreference: (prefer) => dispatch(preference.setPreference(prefer)),
+        getProviderResult : (filter, token) => dispatch(GetProviderSearchResult(filter, token))
     }
 }
 

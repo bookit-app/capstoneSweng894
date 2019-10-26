@@ -10,7 +10,7 @@ class ProfilePref2 extends React.Component {
             <PreferenceShopResult
                 headerText={'Here are some shop we thought you would like based on your previous selections'}
                 noRecordsFound={'No shops can be found with your Preferences'}
-                onItemConfirmed={'Home'}
+                onItemConfirmed={'Profile'}
             />
         )
     }

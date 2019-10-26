@@ -46,11 +46,14 @@ export const logIn = (email, password) => {
             
                     api.getProfileById(userId, token)
                         .then(userData => {
+                                
                                 var profileData = userData.data
+                                console.log('logIn profile', profileData);
                                 dispatch(profile.GetProfileFullFilled(profileData, false))
 
                                 if(profileData.preferences){                                    
                                     dispatch(preference.setPreference(profileData.preferences))
+                                    console.log('logIn preference', profileData.preferences);
                                 }
                             }
                         ).catch((error) => {            

@@ -153,9 +153,7 @@ class Profile extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    console.log('mapStateToProps Profile', state);
-    
+const mapStateToProps = (state) => {    
     return {
         preference: state.preference.preference,
         profile: state.profile.profile,

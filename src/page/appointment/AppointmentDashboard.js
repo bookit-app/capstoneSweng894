@@ -6,6 +6,7 @@ import styles from '../styles/AppointmentDashboard.styles'
 import SettingPref1 from '../../page/preference/SettingPref1'
 import SettingPref2 from '../../page/preference/SettingPref2'
 import Tutorial from '../../page/general/Tutorial'
+import { NavigationEvents } from 'react-navigation'
 
 /**
  * Temp Object can be changes as necessary or removed
@@ -53,15 +54,20 @@ class AppointmentDashboard extends React.Component {
         // console.log(nextProps);
 
         if( this.props.prefSet 
-            && !this.props.loadingProfile){
-            this.setState({
-                prefSet: this.props.prefSet,
-                loadingProfile: this.props.loadingProfile,
-                profile: this.props.profile,
-                preference: this.props.preference ? this.props.preference : this.props.profile.preferences,
-                display3: false
-            })
+            && !this.props.loadingProfile
+            || this.props.preference){
+                this.AppointmentDashboardRefresh()
         }
+    }
+
+    AppointmentDashboardRefresh(){
+        this.setState({
+            prefSet: this.props.prefSet,
+            loadingProfile: this.props.loadingProfile,
+            profile: this.props.profile,
+            preference: this.props.preference ? this.props.preference : this.props.profile.preferences,
+            display3: false
+        }) 
     }
 
     profileModel1(){
@@ -147,6 +153,9 @@ class AppointmentDashboard extends React.Component {
            
         return (
             <View>
+                {/* <NavigationEvents
+                    onDidBlur={this.AppointmentDashboardRefresh()}
+                /> */}
                 <Text>{'Appointment Dashboard'}</Text>
                 <UserInfo
                     prefSet={this.state.prefSet} 

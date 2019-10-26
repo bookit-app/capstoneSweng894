@@ -13,8 +13,7 @@ import apis from '../../api'
 import NavigationService from '../../navigation/custom/NavigationService'
 
 const Item = (props) => {
-    console.log('Item', 'here');
-    
+    // console.log('Item', 'here');
     return(
         <View style={styles.Item}>
             <TouchableOpacity onPress={props.onProviderSelect}>
@@ -23,7 +22,7 @@ const Item = (props) => {
                         style={styles.ItemimgSty}
                         source={require('../../image/Placeholder150.png')}
                     />   
-                    {/* <Text>{props.businessName ? props.businessName :''}</Text> */}
+                    <Text>{props.businessName ? props.businessName :''}</Text>
                 </View>
             </TouchableOpacity> 
         </View>
@@ -52,19 +51,26 @@ class PreferenceShopResult extends React.Component {
     }
 
     componentDidMount(){        
-        firebase.auth().currentUser.getIdToken()
-            .then((token) => {
+        if(!this.isEmpty(this.props.profile) || !this.isEmpty(this.props.preference)) {
+            var city = this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city
+            var state = this.isEmpty(this.props.preference) ? this.props.profile.address.state : this.props.preference.state
 
-                var filterType = {
-                    city: this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city,
-                    state: this.isEmpty(this.props.preference) ? this.props.profile.address.state : this.props.preference.state,
-                }
-                
-                var filter = this.filterGenerate(filterType)
+            console.log('componentDidMount', this.props.profile );
+            console.log('componentDidMount', this.props.preference );
+            console.log('componentDidMount', city);
+            console.log('componentDidMount', state);
+            
+            var filterType = {
+                city: city,
+                state: state,
+            }
+            
+            var filter = this.filterGenerate(filterType)
 
-                this.props.getProviderResult(filter,token)
-            })
-            console.log('componentDidMount', 'here');
+            console.log('componentDidMount filter', filter);
+
+            this.props.getProviderResult(filter,this.props.token)
+        }
             
     }
 
@@ -119,7 +125,7 @@ class PreferenceShopResult extends React.Component {
     }
 
     setProviderPreference(item){
-        console.log('setProviderPreference', 'here');
+        // console.log('setProviderPreference', 'here');
         
         Alert.alert(
             'Preference Provider',
@@ -148,8 +154,7 @@ class PreferenceShopResult extends React.Component {
     }
 
     renderItem(item){
-        console.log('renderItem', item);
-        
+        // console.log('renderItem', item);
         return (
             <Item
                 key={item.item.providerId}
@@ -182,6 +187,8 @@ class PreferenceShopResult extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log('mapStateToProps Preference', state);
+    
     return {
         profile: state.profile.profile,
         preference: state.preference.preference,
