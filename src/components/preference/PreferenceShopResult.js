@@ -54,15 +54,18 @@ class PreferenceShopResult extends React.Component {
         if(!this.isEmpty(this.props.profile) || !this.isEmpty(this.props.preference)) {
             var city = this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city
             var state = this.isEmpty(this.props.preference) ? this.props.profile.address.state : this.props.preference.state
+            var styles = !this.isEmpty(this.props.preference) ? !this.isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style : '' : ''
 
             console.log('componentDidMount', this.props.profile );
             console.log('componentDidMount', this.props.preference );
             console.log('componentDidMount', city);
             console.log('componentDidMount', state);
+            console.log('componentDidMount', styles);
             
             var filterType = {
                 city: city,
                 state: state,
+                // styles: styles
             }
             
             var filter = this.filterGenerate(filterType)

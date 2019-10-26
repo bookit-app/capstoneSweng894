@@ -569,6 +569,7 @@ function onPreferencePage1Confirmed(navNext){
                 var filterType = {
                     city: city,
                     state: state_,
+                    // styles: styleOn
                 }
                 
                 var filter = filterGenerate(filterType)
