@@ -22,20 +22,19 @@ class LogInOption extends Component {
                 </View>
                 <View style={styles.Column}>
                     <AccountButtons
-                        btnOne={() => this.props.navigation.navigate('LogIn with Email')}
-                        txtOne={'Login With Email'}
+                        btnOne={() => this.props.navigation.navigate('SignUp')}
+                        txtOne={'Create Account'}
                         btnOneStyle={LogInBtn.buttonStyle}
                         txtOnetyle={LogInBtn.textStyle}
                     />
                 </View>
-                <View>
-                    <AccountOptions
-                        onPress={() => this.props.navigation.navigate('SignUp')}
-                        buttonStyle={BottomBtn.btnBtmStyle}
-                        textStyle={BottomBtn.txtBtnStyle}
-                        viewStyle={BottomBtn.bottomView}
-                        children={'Create an Account'}
-                    />  
+                <View style={styles.Column}>
+                    <AccountButtons
+                        btnOne={() => this.props.navigation.navigate('LogIn with Email')}
+                        txtOne={'Login'}
+                        btnOneStyle={LogInBtn.buttonStylePurple}
+                        txtOnetyle={LogInBtn.textStyle}
+                    />
                 </View>
             </ScrollView>
         )
