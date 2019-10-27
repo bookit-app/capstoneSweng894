@@ -182,8 +182,8 @@ function onRenderProfileButton(){
     return (    
         <ButtonCustom
             onPress={this.onProfileSub.bind(this)}
-            buttonStyle={LogInBtn.buttonStyle}
-            textStyle={LogInBtn.textStyle}
+            buttonStyle={LoginButton.buttonStyle}
+            textStyle={LoginButton.textStyle}
         >
             {'Submit'}
         </ButtonCustom>
@@ -815,8 +815,8 @@ function onPasswordResetClick(){
     return (
         <ButtonCustom
             onPress={() => this.onPasswordReset()}
-            buttonStyle={LogInBtn.buttonStyle}
-            textStyle={LogInBtn.textStyle}
+            buttonStyle={LoginButton.buttonStyle}
+            textStyle={LoginButton.textStyle}
         >
             {'Reset Password'}
         </ButtonCustom>

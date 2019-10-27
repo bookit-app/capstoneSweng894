@@ -60,8 +60,9 @@
       "html"
     ]
   },
- "rnpm": {
+  "rnpm": {
     "assets": [
-	"./assets/fonts/"]
+      "./assets/fonts/"
+    ]
   }
 }

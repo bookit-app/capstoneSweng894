@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform, TextInput, View, Text } from 'react-native';
 
 const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, error }) => {
-  const { inputStyle, labelStyle, containerStyle } = styles;
+  const { inputStyle, inputStyleOs, labelStyle, containerStyle } = styles;
 
   return (
     <View style={containerStyle} >
@@ -12,7 +12,7 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, error
         placeholder={placeholder}
         underlineColorAnroid={Platform.Os === 'ios' ? '' : 'transparent'}
         autoCorrect={false}
-        style={inputStyle}
+        style={Platform.os === 'ios'? inputStyleOs : inputStyle}
         value={value}
         textAlign={'center'}
         onChangeText={onChangeText}
@@ -25,15 +25,25 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, error
 const styles = {
   inputStyle: {
     color: '#000',
-     backgroundColor:  '#ffffff',
-     paddingRight: 5,
-     paddingLeft: 5,
-     paddingBottom: 20,
+    backgroundColor:  '#ffffff',
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingBottom: 20,
+    fontSize: 18,
+    lineHeight: 3,
+    flex: 2,
+  },
+  inputStyleOs: {
+    color: '#000',
+    backgroundColor:  '#ffffff',
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingBottom: 20,
+    fontSize: 18,
+    lineHeight: 3,
+    flex: 2,
      color: '#000',
      backgroundColor:  '#fff',
-     fontSize: 18,
-     lineHeight: 3,
-     flex: 2,
      width: 293,
      height: 38,
      alignItems: 'flex-start',
@@ -41,8 +51,6 @@ const styles = {
      shadowOffset: { width: 0, height: 2 },
      shadowOpacity: 0.3,
      shadowRadius: 2,
-    //marginTop: 100,
-
   },
   labelStyle: {
     fontSize: 16,
