@@ -8,14 +8,13 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls"
+    "coverage": "NODE_ENV=test jest --coverage --coverageReporters=lcov"
   },
   "dependencies": {
     "axios": "^0.19.0",
     "email-validator": "^2.0.4",
     "firebase": "^7.0.0",
     "mocha": "^6.2.1",
-    "nyc": "^14.1.1",
     "react": "16.9.0",
     "react-native": "0.61.1",
     "react-native-custom-picker": "^0.4.0",
@@ -30,15 +29,13 @@
     "react-navigation-stack": "^1.9.3",
     "react-navigation-tabs": "^2.5.6",
     "react-redux": "^7.1.1",
-    "redux": "^4.0.4",
-    "sinon": "^7.5.0"
+    "redux": "^4.0.4"
   },
   "devDependencies": {
     "@babel/core": "7.6.2",
     "@babel/runtime": "7.6.2",
     "@react-native-community/eslint-config": "0.0.3",
     "babel-jest": "24.9.0",
-    "coveralls": "^3.0.7",
     "eslint": "6.5.1",
     "jest": "24.9.0",
     "metro-react-native-babel-preset": "0.51.1",
