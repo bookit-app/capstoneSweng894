@@ -24,7 +24,12 @@ export const logIn = (email, password) => {
     
     dispatch(profile.GetProfile(true))
     dispatch(profile.setProfile({}))
+
+    dispatch(preference.GetPreference(true))
+    dispatch(preference.settingPref(true))
     dispatch(preference.setPreference({}))
+
+
     dispatch(auth.userSet(''))
     dispatch(auth.tokenSet(''))
     dispatch(auth.userAuthError(''))
@@ -49,15 +54,18 @@ export const logIn = (email, password) => {
                                 
                                 var profileData = userData.data
                                 console.log('logIn profile', profileData);
-                                dispatch(profile.GetProfileFullFilled(profileData, false))
+                                dispatch(profile.GetProfileFullFilled(profileData))
 
-                                if(profileData.preferences){                                    
-                                    dispatch(preference.setPreference(profileData.preferences))
-                                    console.log('logIn preference', profileData.preferences);
+                                if(profileData.preferences){                 
+                                    console.log('logIn preference', profileData.preferences);                   
+                                    // dispatch(preference.setPreference(profileData.preferences))
+                                    dispatch(preference.GetPreferenceFullFilled(profileData.preferences))
+                                    dispatch(preference.settingPref(true))
                                 }
                             }
                         ).catch((error) => {            
                             dispatch(profile.GetProfileReject(error))
+                            dispatch(preference.GetPreferenceReject(error))
                         })
                 })
         })
@@ -70,10 +78,11 @@ export const logIn = (email, password) => {
 
 export const signUp = (email, password) => {
     return async dispatch => {
+        dispatch(profile.setProfile({}))
+
+        dispatch(preference.setPreference({}))
         dispatch(preference.settingPref(false))
 
-        dispatch(profile.setProfile({}))
-        dispatch(preference.setPreference({}))
         dispatch(auth.userSet(''))
         dispatch(auth.tokenSet(''))
         dispatch(auth.userAuthError(''))
@@ -109,7 +118,12 @@ export const signUp = (email, password) => {
 
 export const signOut = () =>{
     return async dispatch => {
-
+        dispatch(profile.setProfile({}))
+        dispatch(preference.setPreference({}))
+        dispatch(preference.settingPref(false))
+        dispatch(auth.userSet(''))
+        dispatch(auth.tokenSet(''))
+        dispatch(auth.userAuthError(''))
     }
 }
 

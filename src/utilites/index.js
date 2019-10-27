@@ -89,14 +89,14 @@ function onLogInFail(error){
  * @param {*} type - L for Log-In or other for Sign-Up
  */
 function onLogInSub(type){
-    console.log('onLogInSub', type);
+    // console.log('onLogInSub', type);
     
     const { email, password, emailError, passwordError } = this.state;
 
     if(!emailError && !passwordError && email && password){            
         this.setState({ error: '', loading: true})
         
-        console.log('onLogInSub');
+        // console.log('onLogInSub');
 
         if(type === 'L'){
             this.props.settingPref(true)
@@ -530,6 +530,9 @@ function onRenderPreference(){
   */
 function onPreferencePage1Confirmed(navNext){
     const { day, styleOn, styleOnType, staffClassification, time, cityState} = this.state
+    this.setState({
+        loading_Submit: true
+    })
 
     // console.log('onPreferencePage1Confirmed', day);
     // console.log('onPreferencePage1Confirmed', styleOn);
@@ -581,6 +584,11 @@ function onPreferencePage1Confirmed(navNext){
                 this.setState({ loading_Submit: false })
             }).catch(e => {
                 console.log('error: ', e);
+
+                this.setState({
+                    error: e.message,
+                    loading_Submit: false
+                })
             })
     } else {
 

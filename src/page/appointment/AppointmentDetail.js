@@ -70,8 +70,6 @@ class AppointmentDetail extends React.Component {
             if(this.state.loadingProfile){
                 return <Spinner size="large" />
             }
-            // console.log('Appointment Detail', this.state.profile);
-            // console.log('Appointment Detail', this.state.preference); 
         }
         
         return (

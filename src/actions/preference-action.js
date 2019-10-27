@@ -13,6 +13,7 @@ export const settingPref = (pref) => ({
 })
 
 export const GetPreference = (bool) => {
+    console.log('GetPreference');
     return {
         type: actions.GET_PREFERENCE_PENDING,
         payload: bool
@@ -20,6 +21,8 @@ export const GetPreference = (bool) => {
 }
 
 export const GetPreferenceFullFilled = (data) => {
+    // console.log('GetPreferenceFullFilled');
+    
     return {
         type: actions.GET_PREFERENCE_FULFILLED,
         payload: data,
@@ -28,6 +31,8 @@ export const GetPreferenceFullFilled = (data) => {
 }
 
 export const GetPreferenceReject = (error) => {
+    // console.log('GetPreferenceReject');
+    
     return {
         type: actions.GET_PREFERENCE_REJECTED,
         payload: error,

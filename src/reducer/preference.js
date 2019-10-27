@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
                 pref: action.pref
             }
 
-            console.log('actions.SETTING_PREF', action.pref);
+            console.log('actions.SETTING_PREF', a);
             
             return a
         }
@@ -23,7 +23,38 @@ export default (state = initialState, action) => {
             // console.log('actions.SET_PREFERENCE', action.preference);
             
             return b
+        }        
+        case actions.GET_PREFERENCE_PENDING: {
+            var c = {
+                ...state,
+                loading: action.payload
+            }
+
+            // console.log('actions.GET_PREFERENCE_PENDING', c);
+            
+            return c
         }
-        default: return state;
+        case actions.GET_PREFERENCE_FULFILLED: {
+            var e = {
+                ...state,
+                preference: action.payload, loading: action.loading, errorMessage: ''
+            }
+
+            // console.log('actions.GET_PREFERENCE_FULFILLED', e);
+
+            return e
+        }
+        case actions.GET_PREFERENCE_REJECTED: {
+            var f = {
+                ...state,
+                errorMessage: action.payload, loading: action.loading
+            }
+
+            // console.log('actions.GET_PREFERENCE_REJECTED', f);
+
+            return f
+        }
+        default: 
+            return state;
     }
 }

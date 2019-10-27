@@ -6,7 +6,7 @@ import styles from '../styles/AppointmentDashboard.styles'
 import SettingPref1 from '../../page/preference/SettingPref1'
 import SettingPref2 from '../../page/preference/SettingPref2'
 import Tutorial from '../../page/general/Tutorial'
-import { NavigationEvents } from 'react-navigation'
+import utilites from '../../utilites'
 
 /**
  * Temp Object can be changes as necessary or removed
@@ -15,6 +15,8 @@ import { NavigationEvents } from 'react-navigation'
 const UserInfo = (props) =>{
     if(props.prefSet && props.preferInfo && props.profInfo){
         const { firstName, lastName, email } = props.profInfo
+        console.log('UserInfo', props.profInfo);
+        
         const { staffClassification, time} = props.preferInfo
         
         return (
@@ -42,30 +44,34 @@ class AppointmentDashboard extends React.Component {
         this.state ={
             profile: {},
             preference: {},
-            prefSet: false,
-            loadingProfile: false,
+            prefSet: true,
+            loadingProfile: true,
+            loadingPreference: true,
             display1: false,
             display2: false,
-            display3: true
+            display3: false
         }
+
+        this.isEmpty = utilites.isEmpty.bind(this)
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        // console.log(nextProps);
-
+        console.log('UNSAFE_componentWillReceiveProps', nextProps.prefSet);
+        console.log('UNSAFE_componentWillReceiveProps', this.props.prefSet);
+        
         if( this.props.prefSet 
-            && !this.props.loadingProfile
-            || this.props.preference){
-                this.AppointmentDashboardRefresh()
+            && !this.props.loadingProfile){
+                this.AppointmentDashboardRefresh(nextProps)
         }
     }
 
-    AppointmentDashboardRefresh(){
+    AppointmentDashboardRefresh(nextProps){
         this.setState({
-            prefSet: this.props.prefSet,
-            loadingProfile: this.props.loadingProfile,
-            profile: this.props.profile,
-            preference: this.props.preference ? this.props.preference : this.props.profile.preferences,
+            prefSet: this.props.prefSet ? this.props.prefSet: nextProps.prefSet,
+            loadingProfile: this.props.loadingProfile ? this.props.loadingProfile : nextProps.loadingProfile,
+            loadingPreference: this.props.loadingPreference ? this.props.loadingPreference : nextProps.loadingPreference,
+            profile: this.props.profile ? this.props.profile : nextProps.profile,
+            preference: this.props.preference ? this.props.preference ? nextProps.preference : this.props.profile.preferences : this.props.profile.preferences,
             display3: false
         }) 
     }
@@ -88,9 +94,6 @@ class AppointmentDashboard extends React.Component {
         });
     }
 
-    /**
-     * Example of other Preference setting option
-     */
     onModalClose1(){
         return (
             <TouchableOpacity
@@ -103,9 +106,6 @@ class AppointmentDashboard extends React.Component {
         )
     }
 
-    /**
-     * Example of other Preference result option
-     */
     onModalClose2(){
         return (
             <TouchableOpacity
@@ -142,6 +142,10 @@ class AppointmentDashboard extends React.Component {
     }
 
     render(){
+        console.log('prefSet', this.state.prefSet);
+        console.log('loadingProfile', this.state.loadingProfile);
+        console.log('loadingPreference', this.state.loadingPreference);
+        
         if(this.state.prefSet){
             if(this.state.loadingProfile){
                 return <Spinner size="large" />
@@ -153,9 +157,6 @@ class AppointmentDashboard extends React.Component {
            
         return (
             <View>
-                {/* <NavigationEvents
-                    onDidBlur={this.AppointmentDashboardRefresh()}
-                /> */}
                 <Text>{'Appointment Dashboard'}</Text>
                 <UserInfo
                     prefSet={this.state.prefSet} 
@@ -219,6 +220,7 @@ class AppointmentDashboard extends React.Component {
 const mapStateToProps = (state) => {
     return {
         loadingProfile: state.profile.loading,
+        loadingPreference: state.preference.loading,
         profile: state.profile.profile,
         preference: state.preference.preference,
         prefSet: state.preference.pref

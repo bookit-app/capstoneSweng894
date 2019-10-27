@@ -21,10 +21,11 @@ class Loader extends React.Component {
         firebase.auth().onAuthStateChanged(user => {
             if(user){
                 // console.log('user preference user', this.props.pref); 
-                console.log('user preference user', this.state.pref);                  
+                console.log('user preference user', this.state.pref); 
+                console.log('user preference', this.props.pref);                 
             } else {
                 console.log('onAuthStateChanged', 'No one logged In');
-                // console.log('user preference', this.props.pref);
+                console.log('user preference', this.props.pref);
                 console.log('user preference', this.state.pref);
             }
             
@@ -41,6 +42,8 @@ class Loader extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
+        console.log('UNSAFE_componentWillReceiveProps loading', nextProps.pref);
+        
         if(nextProps.pref != this.props.pref){
             this.setState({
                 pref: this.props.pref
