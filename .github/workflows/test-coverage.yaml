@@ -17,7 +17,7 @@ jobs:
       - name: npm install, Coverage from Jest
         run: |
           npm install
-        after script: npm run coverage
+          npm run coverage
       - name: Coveralls
         uses: coverallsapp/github-action@v1.0.1
         with:
