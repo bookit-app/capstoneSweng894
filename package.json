@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest --coverage",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -37,6 +38,7 @@
     "@babel/runtime": "7.6.2",
     "@react-native-community/eslint-config": "0.0.3",
     "babel-jest": "24.9.0",
+    "coveralls": "^3.0.7",
     "eslint": "6.5.1",
     "jest": "24.9.0",
     "metro-react-native-babel-preset": "0.51.1",
@@ -48,12 +50,15 @@
       "node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|@react-navigation/.*)"
     ],
     "setupFiles": [
-        "./jest.setup.js"
+      "./jest.setup.js"
     ],
     "collectCoverageFrom": [
       "src/**/*.js"
     ],
     "collectCoverage": true,
-    "coverageReporters": ["json", "html"]
+    "coverageReporters": [
+      "json",
+      "html"
+    ]
   }
 }
