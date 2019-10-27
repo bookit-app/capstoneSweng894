@@ -8,7 +8,6 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "coverage": "NODE_ENV=test nyc jest"
   },
   "nyc": {
