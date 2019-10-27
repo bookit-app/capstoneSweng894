@@ -6,9 +6,9 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest --coverage",
+    "test": "jest",
     "lint": "eslint .",
-    "coveralls": "jest --coverage && cat lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "dependencies": {
     "axios": "^0.19.0",
