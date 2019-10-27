@@ -30,12 +30,27 @@ const onUserCreation = (props) => {
 
 /**
  * Account Deleted button depending on flag
+ * @param {*} props 
  */
 const onUserDeleted = (props) => {
     if(props.Deletion){
         return (
             <View style={styles.RowBtn}>
                 <props.onDelete />
+            </View>
+        )
+    }
+}
+
+/**
+ * Account Preference button depending on flage
+ * @param {*} props 
+ */
+const onUserPreference = (props) => {
+    if(props.Preference){   
+        return (
+            <View style={styles.RowBtn}>
+                <props.onPref />
             </View>
         )
     }
@@ -122,9 +137,7 @@ const AccountDetails = (props) => {
                 <props.onSubmit />
             </View>
             {onUserDeleted(props)}
-            <View style={styles.RowBtn}>
-                <props.onPref />
-            </View>
+            {onUserPreference(props)}
         </View>
     )
 }

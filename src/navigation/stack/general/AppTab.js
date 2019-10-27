@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import ProfileNavigator from '../account/ProfileNavigator'
 import AppointmentNavigator from '../appointment/AppointmentNavigator'
-
 import CreateAppointmentNavigator from '../appointment/CreateAppointmentNavigator'
 
 

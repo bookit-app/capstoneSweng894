@@ -5,6 +5,7 @@ const initialState = {
     token: '',
     error: ''
 }
+
 /**
  * Handles auth actions and payloads
  */
@@ -15,7 +16,7 @@ export default (state = initialState, action ) => {
                 userId: action.userId
             }          
             
-            console.log('USER_SET Payload: ', action.userId); 
+            // console.log('USER_SET Payload: ', a);
 
             return a;
         }
@@ -24,7 +25,7 @@ export default (state = initialState, action ) => {
                 token: action.token
             }
 
-            console.log('TOKEN Payload: ', action.token);
+            // console.log('TOKEN Payload: ', b);
             
             return b
         }
@@ -32,6 +33,8 @@ export default (state = initialState, action ) => {
             var c = {...state,
                 error: action.error
             }
+
+            // console.log('AUTH_ERROR Payload: ', c);
 
             return c
         }

@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import validation from '../../validation'
 import utilites from '../../utilites'
 import AccountForm from '../../components/account/AccountForm'
-
-import { userSet } from '../../actions/auth-action'
+import { signUp } from '../../store'
+import { auth, preference } from '../../actions'
 
 /**
  * Sign-Up page with Email/Password Only
@@ -31,6 +31,19 @@ class SignUpEmail extends React.Component {
         this.onLogInFail = utilites.onLogInFail.bind(this)
         this.onLogInSub = utilites.onLogInSub.bind(this)
     }
+    
+    UNSAFE_componentWillReceiveProps(nextProps){
+        //  console.log('UNSAFE_componentWillReceiveProps', nextProps.loading);
+        //  console.log('UNSAFE_componentWillReceiveProps', nextProps.error);
+         
+         if(!nextProps.loading && nextProps.error){
+            this.onLogInFail(nextProps.error.message)
+            this.props.settingPref(false)
+         } else {
+            this.onLogInSuccess('S')
+            this.props.settingPref(false)
+         }
+     }
 
     render(){
         return(
@@ -44,7 +57,7 @@ class SignUpEmail extends React.Component {
                 password={this.state.password}
                 onPasswordChge={password => this.verifyPassword( password )}
                 errorPassword={this.state.passwordError}
-                error={this.state.error}
+                error={this.props.error.message}
                 onLogInButton={() => this.onLogInButton('S')}
                 fgLogic={false}
                 onOtherAccountOptionClick={() => this.onOtherAccount("L")}
@@ -54,11 +67,18 @@ class SignUpEmail extends React.Component {
     }
 }
 
-
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return {
-        userSet: (user) => dispatch(userSet(user))
+        error: state.auth.error
     }
 }
 
-export default connect(null, mapDispatchToProps)(SignUpEmail)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        userSet: (user) => dispatch(auth.userSet(user)),
+        settingPref: (pref) => dispatch(preference.settingPref(pref)),
+        signingUp: (email,password) => dispatch(signUp(email, password))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpEmail)

@@ -1,19 +1,25 @@
 import React from 'react'
-import { Text, View } from 'react-native'
-import { SkipNav } from '../../components/preference' 
-import style from '../styles//Preference.styles'
+import { Modal, TouchableOpacity } from 'react-native'
+import PreferenceForm from '../../components/preference/PreferenceForm'
+import { thisExpression } from '@babel/types'
 
 class SettingPref1 extends React.Component {
     render(){
-        return(
-            <View>
-                <View style={style.topView}>
-                    <SkipNav
-                        onClickMoveToNext={() => this.props.navigation.navigate('SettingPref2')} 
-                    />
-                </View>
-                <Text>{'Setting Pref 1'}</Text>
-            </View>
+        return (
+            <Modal visible={ this.props.display} animationType='fade'>
+                <this.props.onClose/>
+                <PreferenceForm
+                    header={'Hi!'}
+                    subHeader={"Let's start by setting up appointment preferences"}
+                    sectionHeader={'You want'}
+                    btnOption1={'Hair Dresser'}
+                    btnOption2={'Barber'}
+                    resultSectionHeader={'Where do you prefer to book ?'}
+                    onContiune={'SettingPref1'}
+                    onRemoveSkipBtn={true}
+                    onSkip={'SettingPref1'}
+                />
+            </Modal>
         )
     }
 }

@@ -3,7 +3,6 @@ import { createStackNavigator } from 'react-navigation-stack'
 
 import SettingPref1 from '../../../page/preference/SettingPref1'
 import SettingPref2 from '../../../page/preference/SettingPref2'
-import SkipNav from '../../../components/preference/SkipNav'
 
 /**
  * Profile - Preference Navigatior

@@ -18,8 +18,7 @@ const AppointmentNavigator = createStackNavigator(
         Detail: AppointmentDetail,
         Reivew: AppointmentReview
     }, { 
-        defaultNavigationOptions:{
-            headerLeft: <LogoNav />,
+        defaultNavigationOptions: {
             headerRight: <LogOutNav />
         }
     }

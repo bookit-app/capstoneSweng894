@@ -3,8 +3,10 @@ import { Alert } from 'react-native'
 import api from '../api'
 import firebase from 'firebase'
 import { Button, ButtonCustom, Spinner } from '../components/common'
+import { DayOfWeek } from '../constant'
 import LoginButton from '../components/styles/LoginButton.styles'
 import DeleteProfileBtn from '../components/styles/DeleteProfileBtn'
+import NavigationService from '../navigation/custom/NavigationService'
 
 /**
  * On click handler for the Other account button that
@@ -52,9 +54,8 @@ function onLogInButton(type){
  * On success handler from api which clears all the state
  * values and routes to the profile and dipatches user information
  * to redux
- * @param {*} type - L for Log-In or other for Sign-Up
  */
-async function onLogInSuccess(user, type){
+async function onLogInSuccess(type){
     console.log('onLogInSuccess');
     
     this.setState({
@@ -67,11 +68,7 @@ async function onLogInSuccess(user, type){
         loading: false
     }); 
 
-    // if(type === 'L'){
-        this.props.navigation.navigate('Profile', {'_uid': user.uid})
-    // } else {
-    //     this.props.navigation.navigate('Login')
-    // }
+    this.props.navigation.navigate(type == 'S' ? 'Profile' : 'Home')
 }
 
 /**
@@ -92,43 +89,21 @@ function onLogInFail(error){
  * @param {*} type - L for Log-In or other for Sign-Up
  */
 function onLogInSub(type){
-    console.log('onLogInSub', type);
+    // console.log('onLogInSub', type);
     
     const { email, password, emailError, passwordError } = this.state;
 
     if(!emailError && !passwordError && email && password){            
         this.setState({ error: '', loading: true})
         
-        console.log('onLogInSub');
+        // console.log('onLogInSub');
 
         if(type === 'L'){
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then((data) => {            
-                    var user = data.user;
-                    this.onLogInSuccess(user, type);
-                })
-                .catch((error) => {
-                    this.onLogInFail(error);
-                    console.log(error);
-                })
+            this.props.settingPref(true)
+            this.props.loggingIn(email,password)
         } else {
-            firebase.auth().createUserWithEmailAndPassword(email,password)
-                .then((data) => {
-                    var user = data.user;
-
-                    user.sendEmailVerification()
-                        .then(a => {
-                            console.log('Email Verification send');
-                        }).catch(e => {
-                            console.log('Failed to verification email'); 
-                        })
-
-                    this.onLogInSuccess(user, type);
-                })
-                .catch((error) => {
-                    this.onLogInFail(error);
-                    console.log(error);
-                })
+            this.props.settingPref(false)
+            this.props.signingUp(email,password)
         }
     } else {
         if(!email){
@@ -231,7 +206,7 @@ function onProfileCreateFailed(error){
 /**
  * On Profile creation success handler
  */
-function onProfileCreateSucccess(){
+function onProfileCreateSucccess(type){
     console.log('onProfileCreateSuccess');
     this.setState({
         firstName: '',
@@ -262,10 +237,11 @@ function onProfileCreateSucccess(){
         loading: false,
         _uid: '',
         _token: '',
-        alreadyExist: false
+        alreadyExist: false,
+        prefAlreadyExit: false
     })
     
-    this.props.navigation.navigate('Home')
+    NavigationService.navigate(type =='S'? 'Pref1' : 'Home')
 }
 
 /**
@@ -276,6 +252,7 @@ function onProfileNotFound(){
 
     this.setState({
         alreadyExist: false,
+        prefAlreadyExit: false,
         loading: false
     })
 }
@@ -285,7 +262,6 @@ function onProfileNotFound(){
  * @param {*} profile 
  */
 function onProfileRec(profile){
-
     this.setState({
         firstName: profile.firstName,
         lastName: profile.lastName,
@@ -293,51 +269,59 @@ function onProfileRec(profile){
         email: profile.email,
         telephone: profile.phoneNumber,
         gender: profile.gender == 'M'? 'Male': profile.gender == 'F' ? 'Female' : 'Other',
-        street: profile.address.streetAddress,
+        street: !isEmpty(profile.address) ? profile.address.streetAddress : '',
         city: profile.address.city,
         state_: profile.address.state,
         zip: profile.address.zip,
         isProvide: profile.isProvider ? 'Yes' : 'No',
         isProvider: profile.isProvider,
         alreadyExist: true,
+        prefAlreadyExit: profile.preferences ? true : false,
         loading: false
     })
 
-    this.props.setPreference(profile.preferences)
+    console.log('onProfileRec Preference: ' + profile.preferences ? true : false);
 }
 
 /**
  * Handles that retreives profile information if it exists
  */
-function onRefresh(){
-    try{        
-        firebase.auth().currentUser.getIdToken().then(
-            (token) => {
-                this.setState({
-                    _token: token
-                })
-
-                api.getProfileById(firebase.auth().currentUser.uid, token)
-                    .then(userData => {
-                            var profile = userData.data
-                            
-                            this.onProfileRec(profile) 
-                            this.props.setProfile(profile)
-                        }
-                    ).catch( (error) => {
-                        this.onProfileNotFound.bind(this)
-                        console.log('error: ', error);                     
-                        this.setState({
-                            loading: false
+function onProfileRefresh(){
+    try{               
+        // console.log('onProfileRefresh', this.props);        
+        if(!this.props.profile){
+            console.log('onProfileRefresh',this.propps.userId);
+            
+            firebase.auth().currentUser.getIdToken()
+                .then((token) => {
+                    api.getProfileById(firebase.auth().currentUser.uid, token)
+                        .then(userData => {
+                                var profile = userData.data      
+                                console.log('onProfileRefresh',profile);
+                                                  
+                                this.onProfileRec(profile) 
+                                this.props.setPreference(profile.preferences)
+                            }
+                        ).catch( (error) => {
+                            console.log('error: ', error);
+                            this.onProfileNotFound.bind(this)
+                            this.setState({
+                                loading: false
+                            })
                         })
-                    })
-                }
-        )
+                })
+        } else {    
+            console.log('onProfileRefresh', this.props.profile);
+            console.log('onProfileRefresh', this.props.preferences ? this.props.preference : this.props.profile.preferences);
+            
+            this.onProfileRec(this.props.profile)
+            this.props.setPreference(this.props.preferences ? this.props.preference : this.props.profile.preferences)
+        }
     } catch (error){
         this.setState({
             loading: false
         })
-        console.log('UNSAFE_componentWillMount: ', error);   
+        console.log('onProfileRefresh: ', error);   
     } 
 }
 
@@ -357,8 +341,10 @@ function onProfileSub(){
 
     var uid = firebase.auth().currentUser.uid
 
+    console.log('onProfileSub', this.state);
+
     if(!firstNameError && !lastNameError && !genderError && !dobError && !telephoneError && !streetError && !cityError && !state_Error && !isProviderError
-        && firstName && lastName && gender && dob && telephone && street && city && state_ && isProvider ) {
+        && firstName && lastName && gender && dob && telephone && street && city && state_) {
        
         if(!alreadyExist){
             console.log('onProfileSub - insert');
@@ -381,7 +367,9 @@ function onProfileSub(){
                 "isProvider": isProvider,
             }                
 
-            api.insertProfile(payload, _token)
+            console.log('onProfileSub - insert',payload);
+            
+            api.insertProfile(payload, this.props.token)
                 .then((data) => {
                     var user = firebase.auth().currentUser
                     
@@ -392,7 +380,9 @@ function onProfileSub(){
                         }).catch(f => {
                             console.log('Failed to update dispaly name');
                         })
-                    this.onProfileCreateSucccess()
+
+                    this.props.setProfile(payload)
+                    this.onProfileCreateSucccess('S')
                 })
                 .catch((error) => {
                     this.onProfileCreateFailed(error)                
@@ -414,9 +404,12 @@ function onProfileSub(){
                     "zip": zip
                 },
             }                
+            
+            console.log('onProfileSub - updated',payload);
 
-            api.updateProfileById(payload, _token)
+            api.updateProfileById(payload,this.props.token)
             .then((user) => {
+                this.props.setProfile(payload)
                 this.onProfileCreateSucccess()
             })
             .catch((error) => {
@@ -535,38 +528,338 @@ function onRenderPreference(){
  /**
   * Saving Preferences to Profiles without favor Provider yet
   */
-function onPreferencePage1Confirmed(){
+function onPreferencePage1Confirmed(navNext){
+    const { day, styleOn, styleOnType, staffClassification, time, cityState} = this.state
+    this.setState({
+        loading_Submit: true
+    })
 
-    if(this.state.day && this.state.styleOnType && this.state.styleOn
-        && this.state.staffClassification && this.state.time) {
+    // console.log('onPreferencePage1Confirmed', day);
+    // console.log('onPreferencePage1Confirmed', styleOn);
+    // console.log('onPreferencePage1Confirmed', styleOnType);
+    // console.log('onPreferencePage1Confirmed', staffClassification);
+    // console.log('onPreferencePage1Confirmed', time);
+    // console.log('onPreferencePage1Confirmed', cityState);
+    
+    if(day && styleOnType && styleOn && staffClassification && time && cityState) {
+        var city = cityState.split(',')[0].trim() 
+        var state_ = cityState.split(',')[1].trim()
+        var actualyDay = DayOfWeek.filter(i => i.Name == day)[0].Value
+
         var payload = {
-            "uid": firebase.auth().currentUser.uid,
             "preferences": {
-                day: parseInt(this.state.day),
+                day: parseInt(actualyDay),
                 hairStyle: {
-                    "style": this.state.styleOnType,
-                    "type": this.state.styleOn
+                    "style": styleOn,
+                    "type": styleOnType
                 },
-                staffClassification: this.state.staffClassification,
-                time: this.state.time.toUpperCase()
+                staffClassification: staffClassification,
+                time: time.toUpperCase(),
+                city: city,
+                state: state_
             }
         }
 
-        console.log('onPreferencePage1Confirmed', payload);
+        // console.log('onPreferencePage1Confirmed', payload);
+
         api.updateProfileById(payload, this.props.token)
             .then(i => {   
+                // console.log('onPreferencePage1Confirmed', 'OnSuccess');
+
+                NavigationService.navigate(navNext)
                 this.props.setPreference(payload)
-                this.props.navigation.navigate('Pref2')
+                
+                var filterType = {
+                    city: city,
+                    state: state_,
+                    // styles: styleOn
+                }
+                
+                var filter = filterGenerate(filterType)
+
+                console.log('onPreferencePage1Confirmed', filter);
+                
+                this.props.getProviderResult(filter,this.props.token)
+
+                this.setState({ loading_Submit: false })
             }).catch(e => {
                 console.log('error: ', e);
+
+                this.setState({
+                    error: e.message,
+                    loading_Submit: false
+                })
             })
-        } else {
-            this.setState({
-                error: 'Please populate all the fields'
-            })
-        }
+    } else {
+
+        // console.log('onPreferencePage1Confirmed', 'error');
+        
+        this.setState({
+            error: 'Please populate all the fields',
+            loading_Submit: false
+        })
+    }
 }
 
+
+/**
+ * Handles setting the Style and Type based on the style selection
+ * @param {*} value 
+ */
+function setStyleType(value){
+    this.setState({
+        styleOn: this.state.styleLists.filter(i => i.Value == value )[0].style,
+        styleOnType: value
+    })
+}
+
+/**
+ * Refresh the state data for the first page of Preferences
+ */
+function onPreferenceRefresh(){
+    try {
+        api.getConfiguration("styles", this.props.token)
+        .then((sty) => {
+            var styles_ = sty.data 
+
+            styles_.hairStyles[1].types.map(i => {
+                
+                var single = {}
+                single['Id'] = this.state.hairDresserList.length
+                single['Name'] = i
+                single['Value'] = i
+                single['style'] =  styles_.hairStyles[1].style
+                single['staffclassification'] = 'Hair Dresser'  
+                
+                // console.log(this.props.preference);     
+
+                if(!isEmpty(this.props.preference)){
+                    if(isEmpty(this.props.preference.hairStyle)){
+                        
+                    } else {
+                        if(i == this.props.preference.hairStyle.type){
+                            this.state.styleSelected.push(single)
+                            this.state.styleOnType = styles_.hairStyles[1].style
+                        }
+                    }
+                } else {
+                    this.state.styleSelected.push(single)
+                }
+
+                this.state.hairDresserList.push(single)
+            })
+
+            styles_.hairStyles[0].types.map(i => {
+                
+                var single = {}
+                single['Id'] = this.state.barberList.length
+                single['Name'] = i
+                single['Value'] = i
+                single['style'] =  styles_.hairStyles[0].style
+                single['staffclassification'] = 'Barber'              
+
+                // console.log('onPreferenceRefresh',this.props.preference);                
+
+                if(!isEmpty(this.props.preference)){  
+                    if(isEmpty(this.props.preference.hairStyle)){
+                        
+                    } else {
+                        if(i == this.props.preference.hairStyle.type){
+                            this.state.styleSelected.push(single)
+                            this.state.styleOnType = styles_.hairStyles[0].style
+                        } 
+                    }  
+                } else {
+                    this.state.styleSelected.push(single)
+                }
+                this.state.barberList.push(single)
+            })
+
+            // console.log('barberList', this.state.barberList);
+            // console.log(('hairDress'), this.state.hairDresserList);            
+
+            if(!isEmpty(this.props.preference)){
+                this.setState({
+                    staffClassification: this.props.preference.staffClassification,
+                    styleOn: isEmpty(this.props.preference.hairStyle) ? '' : this.props.preference.hairStyle.style,
+                    styleOnType: isEmpty(this.props.preference.hairStyle) ? '' : this.props.preference.hairStyle.type,
+                    styleLists: this.state.hairDresserList.filter(i => i.style == isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style :'').length > 1 ? this.state.hairDresserList : this.state.barberList,
+                    day: DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name),
+                    time: this.props.preference.time,
+                    cityState: this.props.preference.city +', ' +this.props.preference.state,
+                    loading: false
+                })
+            } else {
+                this.setState({
+                    loading: false,
+                    styleLists: this.state.barberList,
+                    staffClassification: this.state.barberList[0].staffclassification
+                })
+            }
+        }).catch((error) => {
+            console.log('getConfiguration ProfilePref1', error);
+            this.setState({
+                loading: false
+            })
+        })
+    } catch (error) {
+        console.log('Profile Pref Catch error', error);    
+    }
+}
+
+/**
+ * Handle contiune button click rendering 
+ */
+function onSubmitPrefPage1(navNext){
+    if(this.state.loading_Submit){
+        return <Spinner size="large" />
+    }
+
+    return (
+        <Button
+            onPress={() => this.onPreferencePage1Confirmed(navNext)}
+        >
+            {'Continue'}
+        </Button>
+    )
+
+}
+
+
+/**
+ * Handles moving to the next preference Page
+ */
+function onSkipClick(onSkip){
+    // this.props.navigation.navigate(onSkip)
+    NavigationService.navigate(onSkip)
+}
+
+/**
+ * Generates the necessary filter option for the provider servers
+ * @param {*} filterType 
+ */
+function filterGenerate(filterType){
+    var fvi = null;
+    var filters = null
+    // console.log('filterGenerate', filterType);
+    
+    for(fvi of Object.entries(filterType)){
+
+        var filter = null
+        // console.log('filterGenerate filter inital', filter);
+        // console.log('filterGenerate filters intial', filters);
+        
+        var label = fvi[0]
+        var value = fvi[1]
+        // console.log('filterGenerate label',label);
+        // console.log('filterGenerate value',value);
+
+        if(value){
+            filter = label + '=' + value
+            // console.log('filterGenerate filter', filter);
+            
+            filters = !filters ? filter : filters + '&' + filter
+            // console.log('filterGenerate filters', filters);
+        }
+    }  
+    
+    console.log('filterGenerate filters final',filters);
+
+    return filters
+}
+
+/**
+ * Pass filter object then will 
+ * @param {*} filterType 
+ */
+function resultsFromFilterPreference(filterType){    
+
+    var filter = filterGenerate(filterType)
+
+    api.searchProviderByFilter(filter, this.props.token)
+        .then((result) => {
+            // console.log('resultsFromFilterPreference', result);
+            // console.log('resultsFromFilterPreference', result.data);
+            
+            this.props.setProviderSearch(result.data)
+        }).catch((error) => {
+            console.log('searchProviderByFilter', error);
+            
+        })
+}
+
+/**
+ * Check is a given Object is empty
+ * @param {*} obj 
+ */
+function isEmpty(obj) {
+    // console.log('isEmpty',obj);
+
+    for(var key in obj) {
+        // console.log('isEmpty',key);
+        
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
+/**
+ * Handles Password Reset button click event
+ */
+function onPasswordResetClick(){
+    if(this.state.loading){
+        return <Spinner size="large"/>
+    }
+
+    return (
+        <ButtonCustom
+            onPress={() => this.onPasswordReset()}
+            buttonStyle={LogInBtn.buttonStyle}
+            textStyle={LogInBtn.textStyle}
+        >
+            {'Reset Password'}
+        </ButtonCustom>
+    )
+}
+
+/**
+ * Handles triggering Firebase reset password email
+ */
+function onPasswordReset(){
+    const { email } = this.state
+    Alert.alert(
+        'Reset Password',
+        'Are you sure you want to reset your account password? ',
+        [
+            {text: 'Cancel', onPress: () => {return null}},
+            {text: 'Confirm', onPress: () => {                
+                firebase.auth().sendPasswordResetEmail(email)
+                .then((email) => {
+                    firebase.auth().signOut()
+                        .then(this.onSuccessfullLogOut.bind(this))
+                        .catch(this.onFailuredLogOut.bind(this))
+                })
+            }}
+        ]
+    )
+}
+
+/**
+ * On Success handler
+ */
+function onSuccessfullLogOut(){
+    console.log("Success Log Out of Account");
+    // this.props.navigation.navigate('Login')
+     NavigationService.navigate('Login')
+} 
+
+/**
+ * On Failured handler
+ */
+function onFailuredLogOut(){
+    alert('Failure to Log out of Account')
+}
 
 export default {
     onOtherAccount,
@@ -582,11 +875,24 @@ export default {
     onProfileCreateSucccess,
     onProfileNotFound,
     onProfileRec,
-    onRefresh,
+    onProfileRefresh,
     onProfileSub,
     getProfile,
 
     onRenderPreference,
 
-    onPreferencePage1Confirmed
+    onPreferencePage1Confirmed,
+    setStyleType,
+    onPreferenceRefresh,
+    onSubmitPrefPage1,
+    onSkipClick,
+
+    filterGenerate,
+    resultsFromFilterPreference,
+    isEmpty,
+
+    onPasswordReset,
+    onPasswordResetClick,
+    onSuccessfullLogOut,
+    onFailuredLogOut
 }

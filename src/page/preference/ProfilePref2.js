@@ -1,82 +1,39 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, View, ScrollView, Image, TouchableOpacity  } from 'react-native'
-import { Button } from '../../components/common'
 import { preference } from '../../actions'
-import {PrefTop} from '../../components/preference'
-import styles from '../styles/Preference.styles'
-import {serviceProvider } from '../../constant'
+import { GetProviderSearchResult } from '../../store'
+import PreferenceShopResult from '../../components/preference/PreferenceShopResult'
 
-
-const Item = (props) => {
-    return(
-        <View style={styles.Item}>
-            <TouchableOpacity onPress={() => { console.log(props.businessName);
-            }}>
-                <View style={styles.RowItem}>
-                    <Image
-                        style={styles.ItemimgSty}
-                        source={require('../../image/Placeholder150.png')}
-                    />   
-                    <Text>{props.businessName}</Text>
-                    <Text>{props.distance}</Text>
-                </View>
-            </TouchableOpacity> 
-        </View>
-    )
-}
-
-class ProfilePref1 extends React.Component {
-    state = {
-        service: ''
-    }
-    onMoveToTab(){
-        this.props.settingPref(true)
-        this.props.navigation.navigate('Profile')
-    }
-
+class ProfilePref2 extends React.Component {
     render(){
-        return(
-            <ScrollView style={styles.scrollView}>
-                <View style={styles.Column}>
-                                <PrefTop
-                        header={''}
-                        subHeader={"Here are some shop we thought you would like based on your previous selections"}
-                        onClickMoveToNext={() => this.props.navigation.navigate('profile')} 
-                    />            
-                    <View style={styles.Column}>
-                    {(
-                        serviceProvider.map((service) =>{
-                            return (
-                                <Item
-                                    key={service.ein}
-                                    businessName={service.businessName}
-                                    email={service.email}
-                                    distance={service.distance}
-                                />
-                            )
-                        })
-                    )}
-                    </View>
-                    <View>
-                        <Button
-                            onPress={this.onMoveToTab.bind(this)}
-                        >
-                            {'Submit'}
-                        </Button>
-                    </View>
-                </View>
-        
-            </ScrollView>
+        return (
+            <PreferenceShopResult
+                headerText={'Here are some shop we thought you would like based on your previous selections'}
+                noRecordsFound={'No shops can be found with your Preferences'}
+                onItemConfirmed={'Profile'}
+            />
         )
     }
 }
 
-
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return {
-        settingPref: (pref) => dispatch(preference.settingPref(pref))
+        profile: state.profile.profile,
+        preference: state.preference.preference,
+        providerResults: state.provider.providerSearchResult,
+        searchResult: state.provider.searchResult,
+        errorMessage: state.provider.errorMessage,
+        loading: state.provider.loading,
+        token: state.auth.token,
     }
 }
 
-export default connect(null, mapDispatchToProps)(ProfilePref1)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        settingPref: (pref) => dispatch(preference.settingPref(pref)),
+        setPreference: (prefer) => dispatch(preference.setPreference(prefer)),
+        getProviderResult : (filter, token) => dispatch(GetProviderSearchResult(filter, token))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePref2)
