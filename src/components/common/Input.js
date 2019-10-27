@@ -25,18 +25,24 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, error
 const styles = {
   inputStyle: {
     color: '#000',
-    backgroundColor:  '#ffffff',
-    paddingRight: 5,
-    paddingLeft: 5,
-    paddingBottom: 20,
+    backgroundColor:  '#fff',
     fontSize: 18,
     lineHeight: 3,
-    flex: 2
+    flex: 2,
+    width: 293,
+    height: 42,
+    alignItems: 'flex-start',
+    shadowColor: '#3E3D3D',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    //marginTop: 100,
+
   },
   labelStyle: {
-    fontSize: 18,
-    paddingLeft: 20,
-    flex: 1
+    fontSize: 16,
+    flex: 1,
+    paddingBottom: 10
   },
   containerStyle: {
     display: 'flex',
@@ -46,7 +52,8 @@ const styles = {
     alignItems: 'center',
     flex: 1,
     margin: 10,
-    backgroundColor:  '#ffffff'
+    backgroundColor:  '#ffffff',
+    alignItems: 'flex-start'
   },
   error: {
     marginTop: 10,

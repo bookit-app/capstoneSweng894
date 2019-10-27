@@ -38,7 +38,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -53,5 +53,34 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Indian Type Foundry - Diodrum Bold.otf</string>
+		<string>Indian Type Foundry - Diodrum Light.otf</string>
+		<string>Indian Type Foundry - Diodrum Medium.otf</string>
+		<string>Indian Type Foundry - Diodrum Semibold.otf</string>
+		<string>Indian Type Foundry - Diodrum-BoldItalic.otf</string>
+		<string>Indian Type Foundry - Diodrum-LightItalic.otf</string>
+		<string>Indian Type Foundry - Diodrum-MediumItalic.otf</string>
+		<string>Indian Type Foundry - Diodrum-RegularItalic.otf</string>
+		<string>Indian Type Foundry - Diodrum-SemiboldItalic.otf</string>
+		<string>Indian Type Foundry - Diodrum.otf</string>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
+	</array>
 </dict>
 </plist>
