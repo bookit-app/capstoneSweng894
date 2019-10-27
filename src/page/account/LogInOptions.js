@@ -22,7 +22,7 @@ class LogInOption extends Component {
                 </View>
                 <View style={styles.Column}>
                     <AccountButtons
-                        btnOne={() => this.props.navigation.navigate('SignUp')}
+                        btnOne={() => this.props.navigation.navigate('Sign Up With Email')}
                         txtOne={'Create Account'}
                         btnOneStyle={LogInBtn.buttonStyle}
                         txtOnetyle={LogInBtn.textStyle}

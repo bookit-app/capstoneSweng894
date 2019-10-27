@@ -42,5 +42,19 @@ export default {
         flexDirection: 'row',
         paddingBottom: 15,
         alignItems: 'stretch'
-    } 
+    } ,
+    errorTextStyle: {
+        fontSize: 10,
+        alignSelf: 'center',
+        color: 'red',
+        backgroundColor:  '#ffffff',
+        justifyContent: 'center'
+      },
+      errorFormTextStyle: {
+          fontSize: 15,
+          alignSelf: 'center',
+          color: 'red',
+          backgroundColor:  '#ffffff',
+          justifyContent: 'center'
+        }
 }

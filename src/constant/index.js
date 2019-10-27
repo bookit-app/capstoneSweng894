@@ -281,6 +281,16 @@ export const Day = [
     {Id: 28, Name: '29', Value: '29'},
 ]
 
+export const DayOfWeek = [
+    {Id: 0, Name: 'Sunday', Value: '0'}, 
+    {Id: 1, Name: 'Monday', Value: '1'},
+    {Id: 2, Name: 'Tuesday', Value: '2'},
+    {Id: 3, Name: 'Wednesday', Value: '3'},
+    {Id: 4, Name: 'Thursday', Value: '4'},
+    {Id: 5, Name: 'Friday', Value: '5'},
+    {Id: 6, Name: 'Saturday', Value: '6'},
+]
+
 export const serviceProvider = [
     {
         address: '130 Chestnut St',
@@ -317,5 +327,6 @@ export default {
     stateList,
     Time,
     Day,
+    DayOfWeek,
     serviceProvider
 }

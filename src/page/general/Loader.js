@@ -13,23 +13,23 @@ import { auth, preference } from '../../actions'
  * account is created in firebase
  */
 class Loader extends React.Component {
+    state = {
+        pref: true
+    }
+
     componentDidMount(){        
         firebase.auth().onAuthStateChanged(user => {
             if(user){
-                console.log('onAuthStateChanged', user);
-                this.props.userSet(user.uid)
-
-                user.getIdToken()
-                    .then(token =>{
-                        this.props.tokenSet(token)
-                    })
-                    
-                console.log('onAuthStateChanged token', this.props.token);                
+                // console.log('user preference user', this.props.pref); 
+                console.log('user preference user', this.state.pref); 
+                console.log('user preference', this.props.pref);                 
             } else {
                 console.log('onAuthStateChanged', 'No one logged In');
+                console.log('user preference', this.props.pref);
+                console.log('user preference', this.state.pref);
             }
             
-            var currentPref = this.props.pref
+            var currentPref = this.state.pref //this.props.pref ? 
 
             console.log('Preference Setting: ', currentPref);
             
@@ -39,6 +39,16 @@ class Loader extends React.Component {
 
             this.props.navigation.navigate(route)
         })
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps){
+        console.log('UNSAFE_componentWillReceiveProps loading', nextProps.pref);
+        
+        if(nextProps.pref != this.props.pref){
+            this.setState({
+                pref: this.props.pref
+            })
+        }
     }
 
     render(){

@@ -3,6 +3,8 @@ import { View, Button, AsyncStorage } from 'react-native'
 import firebase from 'firebase'
 import styles from '../styles/LogOutNav.styles'
 import { NavigationActions } from 'react-navigation'
+import store from '../../store'
+import { signOut } from '../../store'
 
 /**
  * LogOut Component
@@ -19,6 +21,7 @@ class LogOutNav extends React.Component {
     onSuccessfullLogOut(){
         console.log("Success Log Out of Account");
         AsyncStorage.clear()
+        store.dispatch(signOut())
         this.navigateToScreen('Login')
     } 
 

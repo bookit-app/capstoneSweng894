@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import validation from '../../validation'
 import utilites from '../../utilites'
 import AccountForm from '../../components/account/AccountForm'
+import { logIn } from '../../store'
 
-import { userSet } from '../../actions/auth-action'
+import { auth, preference } from '../../actions'
 
 /**
  * Log-In page with Email/Password Only
@@ -19,7 +20,6 @@ class LogInEmail extends React.Component {
             emailError: '',
             passwordError: '',
             uid: '',
-            error: '', 
             loading: false 
         }
 
@@ -32,19 +32,30 @@ class LogInEmail extends React.Component {
         this.onLogInSub = utilites.onLogInSub.bind(this)
      }
 
+     UNSAFE_componentWillReceiveProps(nextProps){
+        //  console.log('UNSAFE_componentWillReceiveProps', nextProps.loading);
+        //  console.log('UNSAFE_componentWillReceiveProps', nextProps.error);
+         
+         if(!nextProps.loading && nextProps.error){
+             this.onLogInFail(nextProps.error.message)
+         } else {
+             this.onLogInSuccess('L')
+         }
+     }
+
     render(){
         return(
             <AccountForm
                 imageHolder={false}
                 placeholder={require('../../image/Placeholder150.png')}
                 image={require('../../image/Placeholder150.png')}
-                email={gitthis.state.email}
+                email={this.state.email}
                 onEmailChge={email => this.verifyEmail( email)}
                 errorEmail={this.state.emailError}
                 password={this.state.password}
                 onPasswordChge={password => this.verifyPassword( password )}
                 errorPassword={this.state.passwordError}
-                error={this.state.error}
+                error={this.props.error.message}
                 onLogInButton={() => this.onLogInButton('L')}
                 fgLogic={true}
                 onForgotClick={() => this.props.navigation.navigate('ForgotPassword')}
@@ -56,10 +67,18 @@ class LogInEmail extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return {
-        userSet: (user) => dispatch(userSet(user))
+        error: state.auth.error
     }
 }
 
-export default connect(null, mapDispatchToProps)(LogInEmail)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        userSet: (user) => dispatch(auth.userSet(user)),
+        settingPref: (pref) => dispatch(preference.settingPref(pref)),
+        loggingIn: (email, password) => dispatch(logIn(email, password))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogInEmail)

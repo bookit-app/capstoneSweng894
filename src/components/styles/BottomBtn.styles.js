@@ -4,7 +4,8 @@ export default {
         flex: 1
     },
     txtBtnStyle: {
-        color: 'gray'
+        color: 'gray',
+        marginTop: 10
     },
     bottomView:{
         paddingUp: 10,
@@ -12,5 +13,6 @@ export default {
         borderTopColor: 'color',
         borderTopWidth: 2,
         marginBottom: 20,
+        marginTop: 130,
       }
 }
