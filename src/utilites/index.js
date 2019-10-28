@@ -144,8 +144,8 @@ function onPrfileDelete(){
                         
                         firebase.auth().currentUser.delete()
                             .then(b => {
+                                this.props.signOut()
                                 console.log('deleted account: ', a);
-                                
                                 alert('You account has been deleted')
                             }).catch(error =>{
                                 console.log('error: ', error);

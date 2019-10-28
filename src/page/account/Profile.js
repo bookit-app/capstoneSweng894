@@ -8,6 +8,7 @@ import AccountDetails from '../../components/account/AccountDetails'
 import { Spinner } from '../../components/common'
 import { NavigationEvents } from 'react-navigation'
 
+import { signOut } from '../../store'
 import { preference, profile } from '../../actions'
 
 /**
@@ -168,8 +169,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setPreference: (prefer) => dispatch(preference.setPreference(prefer)),
-        setProfile: (prof) => dispatch(profile.setProfile(prof))
+        setProfile: (prof) => dispatch(profile.setProfile(prof)),
+        signOut: () => dispatch(signOut())
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Profile)
+export default connect(mapStateToProps,mapDispatchToProps)(Profile) 

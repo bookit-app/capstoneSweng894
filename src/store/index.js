@@ -92,8 +92,6 @@ export const signUp = (email, password) => {
             .then((data) => {
                 var user = data.user
 
-                // console.log('signUp creation', user);
-
                 dispatch(auth.userSet(user))
 
                 user.sendEmailVerification()
