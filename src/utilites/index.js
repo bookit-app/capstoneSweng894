@@ -118,6 +118,8 @@ function onLogInSub(type){
             })
         }
     }
+
+    this.onLogInSuccess(type)
 }
 
 /**
@@ -129,14 +131,14 @@ function onLogInSub(type){
  * NOTE: User is prompt with alert
  */
 function onPrfileDelete(){
-    console.log('Delete profile: ', this.state._token);
+    console.log('Delete profile: ', this.props.token);
     Alert.alert(
         'Delete Account',
         'Are you sure you want to delete your account? ',
         [
             {text: 'Cancel', onPress: () => {return null}},
             {text: 'Confirm', onPress: () => {                
-                api.deletedProfileById(firebase.auth().currentUser.uid, this.state._token)
+                api.deletedProfileById(firebase.auth().currentUser.uid, this.props.token)
                     .then(a => {
                         console.log('deleted profile: ', a);
                         
@@ -755,7 +757,7 @@ function filterGenerate(filterType){
         // console.log('filterGenerate value',value);
 
         if(value){
-            filter = label + '=' + value
+            filter = label + '=' + value.replace(' ', '%20')
             // console.log('filterGenerate filter', filter);
             
             filters = !filters ? filter : filters + '&' + filter

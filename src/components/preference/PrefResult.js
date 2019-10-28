@@ -28,7 +28,7 @@ const PrefResult = (props) => {
                         placeholder={"i.e. Fade"}
                         options={props.onStyleTypeItems}
                         onValueChange={props.onStyleTypeChge}
-                        defaultValue={props.onStyleTypeSelected}
+                        defaultValue={"i.e. Fade"}
                         value={props.onStyleTypeSelected}
                     />
                     <Text style={styles.errorTextStyle}>{props.errorStyleType}</Text>
@@ -41,7 +41,7 @@ const PrefResult = (props) => {
                         placeholder={"i.e. Monday"}
                         options={props.onDayItems}
                         onValueChange={props.onDayChge}
-                        defaultValue={props.onDaySelected}
+                        defaultValue={"i.e. Monday"}
                         value={props.onDaySelected}
                     />
                     <Text style={styles.errorTextStyle}>{props.errorDay}</Text>
@@ -54,7 +54,7 @@ const PrefResult = (props) => {
                         placeholder={"i.e. Morning"}
                         options={props.onTimeItems}
                         onValueChange={props.onTimeChge}
-                        defaultValue={props.onTimeSelected}
+                        defaultValue={"i.e. Morning"}
                         value={props.onTimeSelected}
                     />
                     <Text style={styles.errorTextStyle}>{props.errorTime}</Text>

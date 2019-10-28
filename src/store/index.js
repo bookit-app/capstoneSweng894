@@ -53,11 +53,11 @@ export const logIn = (email, password) => {
                         .then(userData => {
                                 
                                 var profileData = userData.data
-                                console.log('logIn profile', profileData);
+                                // console.log('logIn profile', profileData);
                                 dispatch(profile.GetProfileFullFilled(profileData))
 
                                 if(profileData.preferences){                 
-                                    console.log('logIn preference', profileData.preferences);                   
+                                    // console.log('logIn preference', profileData.preferences);                   
                                     // dispatch(preference.setPreference(profileData.preferences))
                                     dispatch(preference.GetPreferenceFullFilled(profileData.preferences))
                                     dispatch(preference.settingPref(true))
@@ -92,7 +92,7 @@ export const signUp = (email, password) => {
             .then((data) => {
                 var user = data.user
 
-                console.log('signUp creation', user);
+                // console.log('signUp creation', user);
 
                 dispatch(auth.userSet(user))
 
@@ -105,7 +105,7 @@ export const signUp = (email, password) => {
 
                 data.user.getIdToken()
                     .then((token) => {
-                        console.log('signUp set token', token);
+                        // console.log('signUp set token', token);
                         
                         dispatch(auth.tokenSet(token))
                     })

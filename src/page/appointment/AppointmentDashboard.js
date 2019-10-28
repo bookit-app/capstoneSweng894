@@ -7,6 +7,7 @@ import SettingPref1 from '../../page/preference/SettingPref1'
 import SettingPref2 from '../../page/preference/SettingPref2'
 import Tutorial from '../../page/general/Tutorial'
 import utilites from '../../utilites'
+import { NavigationEvents } from 'react-navigation'
 
 /**
  * Temp Object can be changes as necessary or removed
@@ -59,8 +60,8 @@ class AppointmentDashboard extends React.Component {
         console.log('UNSAFE_componentWillReceiveProps', nextProps.prefSet);
         console.log('UNSAFE_componentWillReceiveProps', this.props.prefSet);
         
-        if( this.props.prefSet 
-            && !this.props.loadingProfile){
+        // if( this.props.prefSet 
+        if(!this.props.loadingProfile){
                 this.AppointmentDashboardRefresh(nextProps)
         }
     }
@@ -157,6 +158,9 @@ class AppointmentDashboard extends React.Component {
            
         return (
             <View>
+                <NavigationEvents
+                    onDidBlur={() => this.AppointmentDashboardRefresh('')}
+                />
                 <Text>{'Appointment Dashboard'}</Text>
                 <UserInfo
                     prefSet={this.state.prefSet} 
