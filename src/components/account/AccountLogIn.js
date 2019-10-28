@@ -11,7 +11,7 @@ const  AccountLogIn = (props) => {
     return(
         <View>
             <View>
-                <InputCustom
+                <Input
                     placeholder="user.email@dummy.com"
                     label="Email: "
                     value={props.emailValue}
