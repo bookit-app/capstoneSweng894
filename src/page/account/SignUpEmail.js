@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import validation from '../../validation'
 import utilites from '../../utilites'
-import AccountForm from '../../components/account/AccountForm'
+import AccountSignUpForm from '../../components/account/AccountSignUpForm'
 import { signUp } from '../../store'
 import { auth, preference } from '../../actions'
 
@@ -47,7 +47,7 @@ class SignUpEmail extends React.Component {
 
     render(){
         return(
-            <AccountForm
+            <AccountSignUpForm
                 imageHolder={false}
                 placeholder={require('../../image/Placeholder150.png')}
                 image={require('../../image/Placeholder150.png')}
