@@ -37,9 +37,9 @@ const  AccountSignUp = (props) => {
                     secureTextEntry
                     placeholder="Email"
                     label={"Email: "}
-                    value={props.passwordValue}
-                    onChangeText={props.passwordOnChge}
-                    error={props.errorPassword}
+                    value={props.emailValue}
+                    onChangeText={props.emailOnChge}
+                     error={props.errorEmail}   
                     inputStyle = {CustomInputStyles.inputStyleLeft}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
@@ -50,9 +50,9 @@ const  AccountSignUp = (props) => {
                     secureTextEntry
                     placeholder="Password"
                     label={"Password:"}
-                    value={props.emailValue}
-                    onChangeText={props.emailOnChge}
-                     error={props.errorEmail}   
+                    value={props.passwordValue}
+                    onChangeText={props.passwordOnChge}
+                    error={props.errorPassword} 
                     inputStyle = {CustomInputStyles.inputStyleLeft}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
