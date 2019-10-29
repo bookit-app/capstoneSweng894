@@ -2,9 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import validation from '../../validation'
 import utilites from '../../utilites'
-import AccountForm from '../../components/account/AccountForm'
+import AccountSignUpForm from '../../components/account/AccountSignUpForm'
 import { signUp } from '../../store'
 import { auth, preference } from '../../actions'
+import { isParenthesizedExpression } from '@babel/types'
 
 /**
  * Sign-Up page with Email/Password Only
@@ -14,13 +15,39 @@ class SignUpEmail extends React.Component {
         super(props)
 
         this.state ={
+            efirstName: '',
+            firstNameError: '',
+            lastName:'',
+            lastNameError: '',
             email:'',
-            password: '',
             emailError: '',
+            password: '',
             passwordError: '',
-            uid: '',
+            telephone:'',
+            telephoneError: '',
+            dob:'',
+            dobError: '',
+            gender:'',
+            genderError: '',
+            street:'',
+            streetError: '',
+            city:'',
+            cityError: '',
+            state_:'',
+            state_Error: '',
+            zip: '',
+            zipError: '',
             error: '', 
-            loading: false 
+            isSocial: false,
+            isProvide: '',
+            isProvider: false,
+            isProviderError: '',
+            loading: true,
+            _uid: '',
+            _token: '',
+            alreadyExist: false,
+            prefAlreadyExit: false,
+            onType: false,
         }
         
         this.verifyEmail = validation.verifyEmail.bind(this)
@@ -47,7 +74,7 @@ class SignUpEmail extends React.Component {
 
     render(){
         return(
-            <AccountForm
+            <AccountSignUpForm
                 imageHolder={false}
                 placeholder={require('../../image/Placeholder150.png')}
                 image={require('../../image/Placeholder150.png')}
@@ -61,7 +88,25 @@ class SignUpEmail extends React.Component {
                 onLogInButton={() => this.onLogInButton('S')}
                 fgLogic={false}
                 onOtherAccountOptionClick={() => this.onOtherAccount("L")}
-                otherAccountTxt={'Already have an Account? Login'}            
+                otherAccountTxt={'Already have an Account? Login'}   
+                firstName = {this.state.firstName}
+                firstNameError = {this.state.firstNameError}
+                lastName = {this.state.lastName}
+                lastNameError = {this.state.lastNameError}
+                telephone = {this.state.telephone}
+                telephoneError = {this.state.telephoneError}
+                gender = {this.state.genderError}
+                genderError = {this.state.genderError}
+                street = {this.state.address}
+                streetError = {this.state.state_Error}
+                zip = {this.state.zip}
+                zipError = {this.state.zipError}
+                city = {this.state.city}
+                cityError = {this.state.cityError}
+                state_ = {this.state.state_}
+                state_Error = {this.state.state_Error}
+
+
             />
         )
     }

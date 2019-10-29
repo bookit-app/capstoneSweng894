@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import { Input } from '../common'
+import { Input, InputCustom } from '../common'
 
 /**
  * Account Log-In/Sign-Up user & password fields 
