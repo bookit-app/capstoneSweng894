@@ -11,13 +11,13 @@ export default (state = initialState, action) => {
                 pref: action.pref
             }
 
-            console.log('actions.SETTING_PREF', a);
+            // console.log('actions.SETTING_PREF', a);
             
             return a
         }
         case actions.SET_PREFERENCE:{
             var b = {...state,
-                preference: action.preference
+                preference: action.preference, loading: false
             }
 
             // console.log('actions.SET_PREFERENCE', action.preference);

@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { Input } from '../common'
+import { View, Text, Platform } from 'react-native'
+import { InputCustom } from '../common'
+import CustomInputStyles from '../styles/CustomInputStyles'
 import ErrorText from '../styles/ErrorText.styles'
 import styles from '../styles/AccountDetails.styles'
 import AccountLogIn from './AccountLogIn'
@@ -65,53 +66,77 @@ const AccountDetails = (props) => {
     return(
         <View style={styles.Column}>
             <View style={styles.Row}>
-                <Input
+                <InputCustom
                     placeholder="i.e. John"
                     label="First Name: "
                     value={props.firstName}
                     onChangeText={props.onFirstNameChge}
                     error={props.errorFirstName}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleLeft}      
+                    labelStyle = {CustomInputStyles.labelStyle}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
-                <Input
+                <InputCustom
                     placeholder="i.e. Williams"
                     label="Last Name: "
                     value={props.lastName}
                     onChangeText={props.onLastNameChge}
                     error={props.errorLastName}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleLeft}      
+                    labelStyle = {CustomInputStyles.labelStyle}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
             {onUserCreation(props)}
             <View style={styles.Row}>
-                <Input
+                <InputCustom
                     placeholder="i.e. 111-111-1111"
                     label="Telephone: "
                     value={props.telephone}
                     onChangeText={props.onTelephoneChge}
                     error={props.errorTelephone}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleLeft}      
+                    labelStyle = {CustomInputStyles.labelStyle}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
-                <Input
+                <InputCustom
                     placeholder="i.ei 1987-01-01"
                     label="Date of Birth: "
                     value={props.dob}
                     onChangeText={props.ondobChge}
                     error={props.errorDob}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleLeft}      
+                    labelStyle = {CustomInputStyles.labelStyle}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
             <View style={styles.Row}>
-                <Input 
+                <InputCustom 
                     placeholder="i.e. Male"
                     label="Gender: "
                     value={props.gender}
                     onChangeText={props.onGenderChge}
                     error={props.errorGender}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleLeft}      
+                    labelStyle = {CustomInputStyles.labelStyle}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
 
-                <Input 
+                <InputCustom 
                     placeholder="i.e. Yes/No"
                     label="Is Provider: "
                     value={props.isProvider}
                     onChangeText={props.onProviderChge}
                     error={props.errorIsProvider}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleLeft}      
+                    labelStyle = {CustomInputStyles.labelStyle}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
             <AccountAddress

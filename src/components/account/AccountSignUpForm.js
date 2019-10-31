@@ -8,9 +8,7 @@ import styles from '../styles/AccountForm.styles'
 import ClearBtnSty from '../styles/ClearBtnSty.styles'
 import ErrorText from '../styles/ErrorText.styles'
 import BottomBtnSty from '../styles/BottomBtn.styles'
-import CustomInputStyles from '../styles/CustomInputStyles'
 import AccountImage from './AccountImage'
-import AccountLogIn from './AccountLogIn'
 import AccountOptions from './AccountOptions'
 import { ButtonCustom } from '../common'
 import AccountSignUp from './AccountSignUp'
@@ -53,12 +51,40 @@ const AccountSignUpForm = (props) => {
                 />
             </View>
             <AccountSignUp
+                firstNameValue={props.firstName}
+                firstNameChge={props.firstNameChge}
+                errorFirstName={props.firstNameError}
+                lastNameValue={props.lastName}
+                lastNameChge={props.lastNameChge}
+                errorLastName={props.lastNameError}
                 emailValue={props.email}
                 emailOnChge={props.onEmailChge}
-                errorEmail={props.errorEmail}
+                errorEmail={props.emailError}
                 passwordValue={props.password}
                 passwordOnChge={props.onPasswordChge}
-                errorPassword={props.errorPassword}
+                errorPassword={props.passwordError}
+                telephoneValue={props.telephone}
+                telephoneOnChge={props.telephoneOnChge}
+                errorTelephone={props.telephoneError} 
+                genderOnChge={props.genderOnChge}
+                genderItem={props.genderItem}
+                genderValue={props.gender}
+                errorGender={props.genderError}
+                dobValue={props.dob}
+                dobChge={props.dobOnChge}
+                errordob={props.dobError}
+                streetValue={props.street}
+                streetOnChge={props.streetOnChge}
+                errorStreet={props.streetError}
+                cityValue={props.city}
+                cityOnChge={props.cityOnChge}
+                errorCity={props.cityError}
+                stateValue={props.stateValue}
+                stateOnChge={props.stateOnChge}
+                errorState={props.stateError}
+                zip={props.zip}
+                onZipChge={props.onZipChge}
+                errorZip={props.zipError}
                 
             /> 
             <View style={styles.Column}>

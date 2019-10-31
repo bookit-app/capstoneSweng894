@@ -8,7 +8,7 @@ export default (state = initialState, action) =>{
     switch (action.type) {
         case actions.SET_PROFILE:{
             var a = {...state,
-                profile: action.profile
+                profile: action.profile, loading: false
             }
 
             // console.log('actions.SET_PROFILE', a);

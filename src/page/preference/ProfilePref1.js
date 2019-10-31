@@ -4,6 +4,9 @@ import { preference, provider} from '../../actions'
 
 import PreferenceForm from '../../components/preference/PreferenceForm'
 
+/**
+ * Preference Page 1 form - Access from profile preference click
+ */
 class ProfilePref1 extends React.Component {
     render(){
         return (

@@ -57,24 +57,29 @@ class AppointmentDashboard extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        console.log('UNSAFE_componentWillReceiveProps', nextProps.prefSet);
-        console.log('UNSAFE_componentWillReceiveProps', this.props.prefSet);
+        console.log('UNSAFE_componentWillReceiveProps', nextProps.profile);
+        console.log('UNSAFE_componentWillReceiveProps', this.props.profile);
         
         // if( this.props.prefSet 
         if(!this.props.loadingProfile){
-                this.AppointmentDashboardRefresh(nextProps)
+            this.AppointmentDashboardRefresh(nextProps)
         }
     }
 
     AppointmentDashboardRefresh(nextProps){
-        this.setState({
-            prefSet: this.props.prefSet ? this.props.prefSet: nextProps.prefSet,
-            loadingProfile: this.props.loadingProfile ? this.props.loadingProfile : nextProps.loadingProfile,
-            loadingPreference: this.props.loadingPreference ? this.props.loadingPreference : nextProps.loadingPreference,
-            profile: this.props.profile ? this.props.profile : nextProps.profile,
-            preference: this.props.preference ? this.props.preference ? nextProps.preference : this.props.profile.preferences : this.props.profile.preferences,
-            display3: false
-        }) 
+        console.log('AppointmentDashboardRefresh', nextProps);
+        
+        if(!this.isEmpty(nextProps))
+        {
+            this.setState({
+                prefSet: this.props.prefSet ? this.props.prefSet: nextProps.prefSet,
+                loadingProfile: this.props.loadingProfile ? this.props.loadingProfile : nextProps.loadingProfile,
+                loadingPreference: this.props.loadingPreference ? this.props.loadingPreference : nextProps.loadingPreference,
+                profile: this.props.profile ? this.props.profile : nextProps.profile,
+                preference: this.props.preference ? this.props.preference ? nextProps.preference : this.props.profile.preferences : this.props.profile.preferences,
+                display3: false
+            }) 
+        }
     }
 
     profileModel1(){
@@ -144,11 +149,14 @@ class AppointmentDashboard extends React.Component {
 
     render(){
         console.log('prefSet', this.state.prefSet);
+        console.log('prefSet', this.props.prefSet);
         console.log('loadingProfile', this.state.loadingProfile);
+        console.log('loadingProfile', this.props.loadingProfile);
         console.log('loadingPreference', this.state.loadingPreference);
+        console.log('loadingPreference', this.props.loadingPreference);
         
-        if(this.state.prefSet){
-            if(this.state.loadingProfile){
+        if(this.state.prefSet || this.props.prefSet){
+            if(this.state.loadingProfile && this.props.loadingProfile){
                 return <Spinner size="large" />
             }
 

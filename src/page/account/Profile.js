@@ -83,14 +83,16 @@ class Profile extends React.Component {
         this.onProfileRefresh() 
     }
 
-    // UNSAFE_componentWillReceiveProps(nextProps){
-    //     if(nextProps.loading != this.props.loading){
-    //         console.log(nextProps.profile);
-    //         // console.log(this.props.profile);
-            
-    //         this.onProfileRec(nextProps.profile)
-    //     }
-    // }
+    UNSAFE_componentWillReceiveProps(nextProps){
+        // console.log('UNSAFE_componentWillReceiveProps',nextProps);
+        
+        if(!nextProps.loadingProfile){
+            console.log('UNSAFE_componentWillReceiveProps exists', nextProps.profile);
+            // console.log(this.props.profile);        
+            // this.onProfileRec(nextProps.profile)
+            this.onProfileRefresh() 
+        }
+    }
 
     render(){
         if(this.props.loading){
@@ -158,7 +160,7 @@ const mapStateToProps = (state) => {
     return {
         preference: state.preference.preference,
         profile: state.profile.profile,
-        loading: state.profile.loading,
+        loadingProfile: state.profile.loading,
         errorMessage: state.profile.errorMessage,
         userId: state.auth.userId,
         token: state.auth.token,

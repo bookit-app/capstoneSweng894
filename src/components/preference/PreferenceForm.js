@@ -5,7 +5,7 @@ import { NavigationEvents } from 'react-navigation'
 import { PrefTop, PrefChoice, PrefResult } from '../preference'
 import { Spinner } from '../common'
 import styles from '../../page/styles/Preference.styles'
-import { preference } from '../../actions'
+import { preference, profile } from '../../actions'
 import { Time, DayOfWeek } from '../../constant'
 import utilites from '../../utilites'
 import validation from '../../validation'
@@ -44,7 +44,7 @@ class PrefeenceForm extends React.Component {
             day: 'i.e. Monday',
             daySelected:[],
             errorDay: '',
-            time: 'i.e. AFTERNOON',
+            time: 'i.e. Afternoon',
             timeSelected:[],
             errorTime: '',
             loading: true,
@@ -105,9 +105,9 @@ class PrefeenceForm extends React.Component {
 
         return(
             <ScrollView style={styles.scrollView}>
-                {/* <NavigationEvents
+                <NavigationEvents
                     onDidBlur={() => this.onPreferenceRefresh()}
-                /> */}
+                />
                 <View style={styles.Column}>
                     <TopSection
                         onRemoveSkipBtn={this.props.onRemoveSkipBtn}
@@ -152,6 +152,8 @@ class PrefeenceForm extends React.Component {
 
 
 const mapStateToProps = (state) =>{
+    // console.log('PreferenceForm mapStateToProps ', state);
+    
     return {
         token: state.auth.token,
         preference: state.preference.preference,
@@ -163,6 +165,7 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) =>{
     return {
         setPreference: (prefer) => dispatch(preference.setPreference(prefer)),
+        setProfile: (prof) => dispatch(profile.setProfile(prof)),
         getProviderResult : (filter, token) => dispatch(GetProviderSearchResult(filter, token))
     }
 }

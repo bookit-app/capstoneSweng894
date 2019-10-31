@@ -68,7 +68,7 @@ async function onLogInSuccess(type){
         loading: false
     }); 
 
-    this.props.navigation.navigate(type == 'S' ? 'Profile' : 'Home')
+    this.props.navigation.navigate(type == 'S' ? 'Pref1' : 'Home')
 }
 
 /**
@@ -88,34 +88,126 @@ function onLogInFail(error){
  * On click handler that either create or logs into a firebase account
  * @param {*} type - L for Log-In or other for Sign-Up
  */
-function onLogInSub(type){
-    // console.log('onLogInSub', type);
-    
-    const { email, password, emailError, passwordError } = this.state;
+function onLogInSub(type){    
+    if(type === 'L'){
+        const { email, password, emailError, passwordError } = this.state;
+        if(!emailError && !passwordError && email && password){            
+            this.setState({ error: '', loading: true})
 
-    if(!emailError && !passwordError && email && password){            
-        this.setState({ error: '', loading: true})
-        
-        // console.log('onLogInSub');
-
-        if(type === 'L'){
             this.props.settingPref(true)
             this.props.loggingIn(email,password)
         } else {
-            this.props.settingPref(false)
-            this.props.signingUp(email,password)
+            if(!email){
+                this.setState({
+                    emailError: 'Please provide email'
+                })
+            }
+
+            if(!password){
+                this.setState({
+                    passwordError: 'Please provide password'
+                })
+            }
         }
     } else {
-        if(!email){
-            this.setState({
-                emailError: 'Please provide email'
-            })
-        }
+        console.log('onLogInSub - Sign-up');
+        const { email, password, firstName, lastName, gender, dob, telephone, street, city, state_, zip, isProvider, isSocial } = this.state
+        const { emailError, passwordError, firstNameError, lastNameError, dobError, genderError, telephoneError, streetError, cityError, state_Error, zipError } = this.state
 
-        if(!password){
+        // console.log('onLogInSub', email);
+        // console.log('onLogInSub', password);
+        // console.log('onLogInSub', firstName);
+        // console.log('onLogInSub', lastName);
+        // console.log('onLogInSub', dob);
+        // console.log('onLogInSub', gender);
+        // console.log('onLogInSub', telephone);
+        // console.log('onLogInSub', street);
+        // console.log('onLogInSub', city);
+        // console.log('onLogInSub', state_);
+        // console.log('onLogInSub', zip);
+
+        if(!emailError && !passwordError && !firstNameError && !lastNameError && !dobError && !genderError && !telephoneError && !streetError && !cityError && !state_Error && !zipError
+            && email && password && firstName && lastName && dob && gender && telephone && street && city && state_ && zip) {
+            
+            this.setState({error: '', loading: true})
+
+            const payload = {
+                "firstName": firstName,
+                "lastName": lastName,
+                "gender": gender.charAt(0).toUpperCase(),
+                "email": email,
+                "birthday": dob,
+                "phoneNumber": telephone,
+                "address":{
+                    "streetAddress": street,
+                    "city": city,
+                    "state": state_,
+                    "zip": zip
+                },
+                "isSocial": isSocial,
+                "isProvider": isProvider,
+            }                
+
+            // console.log('onLogInSub - insert',payload);
+
+            this.props.settingPref(false)
+            this.props.signUpWithProfile(email,password, payload)
+        } else {       
+            
+            console.log('onLogInSub - Error');
+            
             this.setState({
-                passwordError: 'Please provide password'
+                error: 'Please fill out the profile',
+                loading: false
             })
+    
+            if(!firstName){
+                this.setState({
+                    firstNameError: 'Please provide first name'
+                })
+            }
+            
+            if(!lastName) {
+                this.setState({
+                    lastNameError: 'Please provide last name'
+                })
+            } 
+            
+            if(!gender){
+                this.setState({
+                    genderError: 'Please provide gender'
+                })
+            } 
+            
+            if(!telephone){
+                this.setState({
+                    telephoneError: 'Please provide telephone number'
+                })
+            } 
+            
+            if(!street){
+                this.setState({
+                    streetError: 'Please provide street address'
+                })
+            } 
+            
+            if(!city){
+                this.setState({
+                    cityError: 'Please provide city name'
+                })
+            } 
+            
+            if(!state_){
+                this.setState({
+                    state_Error: 'Please provide state 2 character letters'
+                })
+            }
+    
+            if(!zip){
+                this.setState({
+                    zipError: 'Please provide zip'
+                })
+            }         
         }
     }
 
@@ -264,6 +356,7 @@ function onProfileNotFound(){
  * @param {*} profile 
  */
 function onProfileRec(profile){
+    console.log('onProfileRec', profile);
     this.setState({
         firstName: profile.firstName,
         lastName: profile.lastName,
@@ -272,9 +365,9 @@ function onProfileRec(profile){
         telephone: profile.phoneNumber,
         gender: profile.gender == 'M'? 'Male': profile.gender == 'F' ? 'Female' : 'Other',
         street: !isEmpty(profile.address) ? profile.address.streetAddress : '',
-        city: profile.address.city,
-        state_: profile.address.state,
-        zip: profile.address.zip,
+        city: !isEmpty(profile.address) ? profile.address.city : '',
+        state_: !isEmpty(profile.address) ? profile.address.state : '',
+        zip: !isEmpty(profile.address) ? profile.address.zip : '',
         isProvide: profile.isProvider ? 'Yes' : 'No',
         isProvider: profile.isProvider,
         alreadyExist: true,
@@ -290,17 +383,15 @@ function onProfileRec(profile){
  */
 function onProfileRefresh(){
     try{               
-        // console.log('onProfileRefresh', this.props);        
+        // console.log('onProfileRefresh before if', this.props);        
         if(!this.props.profile){
-            console.log('onProfileRefresh',this.propps.userId);
+            console.log('onProfileRefresh inside if',this.propps.userId);
             
             firebase.auth().currentUser.getIdToken()
                 .then((token) => {
                     api.getProfileById(firebase.auth().currentUser.uid, token)
                         .then(userData => {
-                                var profile = userData.data      
-                                console.log('onProfileRefresh',profile);
-                                                  
+                                var profile = userData.data                                                        
                                 this.onProfileRec(profile) 
                                 this.props.setPreference(profile.preferences)
                             }
@@ -314,7 +405,7 @@ function onProfileRefresh(){
                 })
         } else {    
             console.log('onProfileRefresh', this.props.profile);
-            console.log('onProfileRefresh', this.props.preferences ? this.props.preference : this.props.profile.preferences);
+            // console.log('onProfileRefresh', this.props.preferences ? this.props.preference : this.props.profile.preferences);
             
             this.onProfileRec(this.props.profile)
             this.props.setPreference(this.props.preferences ? this.props.preference : this.props.profile.preferences)
@@ -323,7 +414,7 @@ function onProfileRefresh(){
         this.setState({
             loading: false
         })
-        console.log('onProfileRefresh: ', error);   
+        // console.log('onProfileRefresh: ', error);   
     } 
 }
 
@@ -566,10 +657,11 @@ function onPreferencePage1Confirmed(navNext){
 
         api.updateProfileById(payload, this.props.token)
             .then(i => {   
-                // console.log('onPreferencePage1Confirmed', 'OnSuccess');
+                // console.log('onPreferencePage1Confirmed', i.data);
 
-                NavigationService.navigate(navNext)
-                this.props.setPreference(payload)
+                var newProfile = this.props.profile
+                newProfile.preferences = payload
+                // console.log('onPreferencePage1Confirmed new profile', newProfile);
                 
                 var filterType = {
                     city: city,
@@ -579,9 +671,12 @@ function onPreferencePage1Confirmed(navNext){
                 
                 var filter = filterGenerate(filterType)
 
-                console.log('onPreferencePage1Confirmed', filter);
-                
-                this.props.getProviderResult(filter,this.props.token)
+                // console.log('onPreferencePage1Confirmed', filter);
+                NavigationService.navigate(navNext)
+
+                this.props.setPreference(payload)
+                this.props.setProfile(newProfile)
+                this.props.getProviderResult(filter, this.props.token)
 
                 this.setState({ loading_Submit: false })
             }).catch(e => {
@@ -637,7 +732,7 @@ function onPreferenceRefresh(){
 
                 if(!isEmpty(this.props.preference)){
                     if(isEmpty(this.props.preference.hairStyle)){
-                        
+                        // console.log('onPreferenceRefresh', 'Preference hair not populated');
                     } else {
                         if(i == this.props.preference.hairStyle.type){
                             this.state.styleSelected.push(single)
@@ -645,6 +740,7 @@ function onPreferenceRefresh(){
                         }
                     }
                 } else {
+                    // console.log('onPreferenceRefresh', 'Preference not populated');
                     this.state.styleSelected.push(single)
                 }
 
@@ -664,7 +760,7 @@ function onPreferenceRefresh(){
 
                 if(!isEmpty(this.props.preference)){  
                     if(isEmpty(this.props.preference.hairStyle)){
-                        
+                        // console.log('onPreferenceRefresh', 'Preference hair not populated');
                     } else {
                         if(i == this.props.preference.hairStyle.type){
                             this.state.styleSelected.push(single)
@@ -672,6 +768,8 @@ function onPreferenceRefresh(){
                         } 
                     }  
                 } else {
+                    // console.log('onPreferenceRefresh', 'Preference not populated');
+                    
                     this.state.styleSelected.push(single)
                 }
                 this.state.barberList.push(single)
@@ -681,6 +779,7 @@ function onPreferenceRefresh(){
             // console.log(('hairDress'), this.state.hairDresserList);            
 
             if(!isEmpty(this.props.preference)){
+                // console.log('onPreferenceRefresh', 'Preference populated state');
                 this.setState({
                     staffClassification: this.props.preference.staffClassification,
                     styleOn: isEmpty(this.props.preference.hairStyle) ? '' : this.props.preference.hairStyle.style,
@@ -692,6 +791,7 @@ function onPreferenceRefresh(){
                     loading: false
                 })
             } else {
+                console.log('onPreferenceRefresh', 'Preference not populated state');
                 this.setState({
                     loading: false,
                     styleLists: this.state.barberList,

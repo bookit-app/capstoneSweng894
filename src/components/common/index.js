@@ -10,3 +10,4 @@ export * from './ImageButton';
 export * from './ButtonCustom';
 export * from './CheckBox';
 export * from './PickerList';
+export * from './InputNumberCustom'

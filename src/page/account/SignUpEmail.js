@@ -1,11 +1,12 @@
 import React from 'react'
+import { View } from 'react-native'
 import { connect } from 'react-redux'
 import validation from '../../validation'
 import utilites from '../../utilites'
 import AccountSignUpForm from '../../components/account/AccountSignUpForm'
-import { signUp } from '../../store'
+import { signUp, signUpWithProfile } from '../../store'
 import { auth, preference } from '../../actions'
-import { isParenthesizedExpression } from '@babel/types'
+import { GenderV2 } from '../../constant'
 
 /**
  * Sign-Up page with Email/Password Only
@@ -14,8 +15,8 @@ class SignUpEmail extends React.Component {
     constructor(props){
         super(props)
 
-        this.state ={
-            efirstName: '',
+        this.state = {
+            firstName: '',
             firstNameError: '',
             lastName:'',
             lastNameError: '',
@@ -27,7 +28,7 @@ class SignUpEmail extends React.Component {
             telephoneError: '',
             dob:'',
             dobError: '',
-            gender:'',
+            gender:"i.e. Male",
             genderError: '',
             street:'',
             streetError: '',
@@ -42,7 +43,7 @@ class SignUpEmail extends React.Component {
             isProvide: '',
             isProvider: false,
             isProviderError: '',
-            loading: true,
+            loading: false,
             _uid: '',
             _token: '',
             alreadyExist: false,
@@ -50,8 +51,18 @@ class SignUpEmail extends React.Component {
             onType: false,
         }
         
+        this.verifyFirstName = validation.verifyFirstName.bind(this)
+        this.verifyLastName = validation.verifyLastName.bind(this)
         this.verifyEmail = validation.verifyEmail.bind(this)
         this.verifyPassword = validation.verifyPassword.bind(this)
+        this.verifyTelephone = validation.verifyTelephone.bind(this)
+        this.verifyDate = validation.verifyDate.bind(this)
+        this.verifyGender = validation.verifyGender.bind(this)
+        this.verifyStreet = validation.verifyStreet.bind(this)
+        this.verifyCity = validation.verifyCity.bind(this)
+        this.verifyState = validation.verifyState.bind(this)
+        this.verifyZip = validation.verifyZip.bind(this)
+
         this.onOtherAccount = utilites.onOtherAccount.bind(this)
         this.onLogInButton = utilites.onLogInButton.bind(this)
         this.onLogInSuccess = utilites.onLogInSuccess.bind(this)
@@ -59,10 +70,7 @@ class SignUpEmail extends React.Component {
         this.onLogInSub = utilites.onLogInSub.bind(this)
     }
     
-    UNSAFE_componentWillReceiveProps(nextProps){
-        //  console.log('UNSAFE_componentWillReceiveProps', nextProps.loading);
-        //  console.log('UNSAFE_componentWillReceiveProps', nextProps.error);
-         
+    UNSAFE_componentWillReceiveProps(nextProps){        
          if(!nextProps.loading && nextProps.error){
             this.onLogInFail(nextProps.error.message)
             this.props.settingPref(false)
@@ -74,40 +82,53 @@ class SignUpEmail extends React.Component {
 
     render(){
         return(
-            <AccountSignUpForm
+            <View>
+                <AccountSignUpForm
                 imageHolder={false}
                 placeholder={require('../../image/Placeholder150.png')}
-                image={require('../../image/Placeholder150.png')}
+                image={require('../../image/Placeholder150.png')} 
+                firstName = {this.state.firstName}
+                firstNameChge={firstName => this.verifyFirstName( firstName)}
+                firstNameError = {this.state.firstNameError}
+                lastName = {this.state.lastName}
+                lastNameChge={lastName => this.verifyLastName( lastName )}
+                lastNameError = {this.state.lastNameError}
                 email={this.state.email}
                 onEmailChge={email => this.verifyEmail( email )}
-                errorEmail={this.state.emailError}
+                emailError={this.state.emailError}
                 password={this.state.password}
                 onPasswordChge={password => this.verifyPassword( password )}
-                errorPassword={this.state.passwordError}
+                passwordError={this.state.passwordError}
+                telephone = {this.state.telephone}
+                telephoneOnChge={telephone => this.verifyTelephone( telephone )}
+                telephoneError = {this.state.telephoneError}
+                gender = {this.state.gender}
+                genderItem={GenderV2.map(a => a.Name)}
+                genderOnChge={gender => this.verifyGender( gender )}
+                genderError = {this.state.genderError}
+                dob={this.state.dob}
+                dobOnChge={ dob => this.verifyDate(dob)}
+                dobError = {this.state.dobError}
+                street = {this.state.street}
+                streetOnChge={street => this.verifyStreet( street )}
+                streetError = {this.state.streetError}
+                city = {this.state.city}
+                cityOnChge={city => this.verifyCity(city)}
+                cityError = {this.state.cityError}
+                stateValue = {this.state.state_}
+                stateOnChge={state_ => this.verifyState( state_)}
+                stateError = {this.state.state_Error}
+                zip = {this.state.zip}
+                onZipChge={zip => this.verifyZip( zip )}
+                zipError = {this.state.zipError}
                 error={this.props.error.message}
                 onLogInButton={() => this.onLogInButton('S')}
                 fgLogic={false}
                 onOtherAccountOptionClick={() => this.onOtherAccount("L")}
-                otherAccountTxt={'Already have an Account? Login'}   
-                firstName = {this.state.firstName}
-                firstNameError = {this.state.firstNameError}
-                lastName = {this.state.lastName}
-                lastNameError = {this.state.lastNameError}
-                telephone = {this.state.telephone}
-                telephoneError = {this.state.telephoneError}
-                gender = {this.state.genderError}
-                genderError = {this.state.genderError}
-                street = {this.state.address}
-                streetError = {this.state.state_Error}
-                zip = {this.state.zip}
-                zipError = {this.state.zipError}
-                city = {this.state.city}
-                cityError = {this.state.cityError}
-                state_ = {this.state.state_}
-                state_Error = {this.state.state_Error}
-
-
+                otherAccountTxt={'Already have an Account? Login'}  
             />
+        </View>
+         
         )
     }
 }
@@ -122,7 +143,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         userSet: (user) => dispatch(auth.userSet(user)),
         settingPref: (pref) => dispatch(preference.settingPref(pref)),
-        signingUp: (email,password) => dispatch(signUp(email, password))
+        signingUp: (email,password) => dispatch(signUp(email, password)),
+        signUpWithProfile: (email, password, payload) => dispatch(signUpWithProfile(email, password, payload))
     }
 }
 
