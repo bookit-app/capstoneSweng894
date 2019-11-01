@@ -19,6 +19,7 @@ class LogInEmail extends React.Component {
             password: '',
             emailError: '',
             passwordError: '',
+            error: '',
             uid: '',
             loading: false 
         }
@@ -35,6 +36,7 @@ class LogInEmail extends React.Component {
      UNSAFE_componentWillReceiveProps(nextProps){
         //  console.log('UNSAFE_componentWillReceiveProps', nextProps.loading);
         //  console.log('UNSAFE_componentWillReceiveProps', nextProps.error);
+        //  console.log('UNSAFE_componentWillReceiveProps', this.props.error);
          
          if(!nextProps.loading && nextProps.error){
              this.onLogInFail(nextProps.error.message)
@@ -55,7 +57,7 @@ class LogInEmail extends React.Component {
                 password={this.state.password}
                 onPasswordChge={password => this.verifyPassword( password )}
                 errorPassword={this.state.passwordError}
-                error={this.props.error.message}
+                error={this.state.error}
                 onLogInButton={() => this.onLogInButton('L')}
                 fgLogic={true}
                 onForgotClick={() => this.props.navigation.navigate('ForgotPassword')}
@@ -76,6 +78,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         userSet: (user) => dispatch(auth.userSet(user)),
+        userAuthError: (error) => dispatch(auth.userAuthError(error)),
         settingPref: (pref) => dispatch(preference.settingPref(pref)),
         loggingIn: (email, password) => dispatch(logIn(email, password))
     }

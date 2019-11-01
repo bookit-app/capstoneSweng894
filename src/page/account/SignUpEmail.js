@@ -71,7 +71,7 @@ class SignUpEmail extends React.Component {
     }
     
     UNSAFE_componentWillReceiveProps(nextProps){        
-         if(!nextProps.loading && nextProps.error){
+        if(!nextProps.loading && nextProps.error){
             this.onLogInFail(nextProps.error.message)
             this.props.settingPref(false)
          } else {
@@ -121,7 +121,7 @@ class SignUpEmail extends React.Component {
                 zip = {this.state.zip}
                 onZipChge={zip => this.verifyZip( zip )}
                 zipError = {this.state.zipError}
-                error={this.props.error.message}
+                error={this.state.error}
                 onLogInButton={() => this.onLogInButton('S')}
                 fgLogic={false}
                 onOtherAccountOptionClick={() => this.onOtherAccount("L")}

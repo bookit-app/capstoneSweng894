@@ -34,7 +34,7 @@ class LogOutNav extends React.Component {
             firebase.auth().signOut()
                 .then(this.onSuccessfullLogOut.bind(this))
                 .catch((error) => {
-                    console.log(error);
+                    console.log('onSignOut error',error);
                     this.onFailuredLogOut()
                 })
         } catch(error){

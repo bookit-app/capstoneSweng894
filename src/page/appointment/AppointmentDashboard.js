@@ -61,13 +61,13 @@ class AppointmentDashboard extends React.Component {
         console.log('UNSAFE_componentWillReceiveProps', this.props.profile);
         
         // if( this.props.prefSet 
-        if(!this.props.loadingProfile){
+        if((!this.props.loadingProfile || !this.state.loadingProfile) || (nextProps.profile != this.props.profile)){
             this.AppointmentDashboardRefresh(nextProps)
         }
     }
 
     AppointmentDashboardRefresh(nextProps){
-        console.log('AppointmentDashboardRefresh', nextProps);
+        // console.log('AppointmentDashboardRefresh', nextProps);
         
         if(!this.isEmpty(nextProps))
         {
@@ -82,8 +82,19 @@ class AppointmentDashboard extends React.Component {
         }
     }
 
+    AppointmentDashboardRefresh(){
+        this.setState({
+            prefSet: this.props.prefSet ,
+            loadingProfile: this.props.loadingProfile,
+            loadingPreference: this.props.loadingPreference,
+            profile: this.props.profile ,
+            preference: this.props.preference ? this.props.preference : this.props.profile.preferences,
+            display3: false
+        }) 
+    }
+
     profileModel1(){
-        console.log('profileModel1', this.state.display1)
+        // console.log('profileModel1', this.state.display1)
         this.setState(prevState => {
             return {
                 display1: true
@@ -92,7 +103,7 @@ class AppointmentDashboard extends React.Component {
     }
 
     profileModel2(){
-        console.log('profileModel2', this.state.display2)
+        // console.log('profileModel2', this.state.display2)
         this.setState(prevState => {
             return {
                 display2: true
@@ -125,7 +136,7 @@ class AppointmentDashboard extends React.Component {
     }
 
     onModalClose3(){
-        console.log('onModalClose3');
+        // console.log('onModalClose3');
         
         return (
             <TouchableOpacity
@@ -139,7 +150,7 @@ class AppointmentDashboard extends React.Component {
     }
 
     onModalCompleted = (update) => {
-        console.log('onModalCompleted', this.state.display3)
+        // console.log('onModalCompleted', this.state.display3)
         this.setState(prevState => {
             return {
                 display3: update
@@ -148,12 +159,12 @@ class AppointmentDashboard extends React.Component {
     }
 
     render(){
-        console.log('prefSet', this.state.prefSet);
-        console.log('prefSet', this.props.prefSet);
-        console.log('loadingProfile', this.state.loadingProfile);
-        console.log('loadingProfile', this.props.loadingProfile);
-        console.log('loadingPreference', this.state.loadingPreference);
-        console.log('loadingPreference', this.props.loadingPreference);
+        // console.log('prefSet', this.state.prefSet);
+        // console.log('prefSet', this.props.prefSet);
+        // console.log('loadingProfile', this.state.loadingProfile);
+        // console.log('loadingProfile', this.props.loadingProfile);
+        // console.log('loadingPreference', this.state.loadingPreference);
+        // console.log('loadingPreference', this.props.loadingPreference);
         
         if(this.state.prefSet || this.props.prefSet){
             if(this.state.loadingProfile && this.props.loadingProfile){
@@ -167,7 +178,8 @@ class AppointmentDashboard extends React.Component {
         return (
             <View>
                 <NavigationEvents
-                    onDidBlur={() => this.AppointmentDashboardRefresh('')}
+                    onDidBlur={() => this.AppointmentDashboardRefresh()}
+                    onWillBlur={() => this.AppointmentDashboardRefresh()}
                 />
                 <Text>{'Appointment Dashboard'}</Text>
                 <UserInfo

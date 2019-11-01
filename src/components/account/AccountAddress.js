@@ -4,6 +4,10 @@ import { InputCustom, InputNumberCustom } from '../common'
 import styles from '../styles/AccountAddress.styles'
 import CustomInputStyles from '../styles/CustomInputStyles'
 
+/**
+ * Account Address components
+ * @param {*} props 
+ */
 const AccountAddress = (props) => {
     return (
         <View>

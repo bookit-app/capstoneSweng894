@@ -51,7 +51,8 @@ class PrefeenceForm extends React.Component {
             loading_Submit: false,
             hairDresserList: [],
             barberList: [],
-            error: ''
+            error: '',
+            token: ''
         }
 
         this.onPreferencePage1Confirmed = utilites.onPreferencePage1Confirmed.bind(this)
@@ -60,6 +61,7 @@ class PrefeenceForm extends React.Component {
         this.onSubmitPrefPage1 = utilites.onSubmitPrefPage1.bind(this)
         this.resultsFromFilterPreference = utilites.resultsFromFilterPreference.bind(this)
         this.onSkipClick = utilites.onSkipClick.bind(this)
+        this.isEmpty = utilites.isEmpty.bind(this)
 
         this.verifyCityState = validation.verifyCityState.bind(this)
     }
@@ -68,12 +70,26 @@ class PrefeenceForm extends React.Component {
         this.onPreferenceRefresh()
     }
 
+    UNSAFE_componentWillReceiveProps(nextProps){
+        // console.log('UNSAFE_componentWillReceiveProps', nextProps.profile);
+        // console.log('UNSAFE_componentWillReceiveProps', this.props.profile);
+        // console.log('UNSAFE_componentWillReceiveProps', this.props.loadingProfile);
+        // console.log('UNSAFE_componentWillReceiveProps', this.props.preference);
+        
+        // if( this.props.prefSet 
+        // console.log('UNSAFE_componentWillReceiveProps', this.state);
+        
+        if(!this.props.loadingProfile && this.state.staffClassification && !this.props.token){
+            this.onPreferenceRefresh()
+        }
+    }
+
     onSelectClassication = (data) => {
         var newStyleOn = this.state.hairDresserList.filter(i => i.staffclassification == data).map(a => a.style)[0] ? 
             this.state.hairDresserList.filter(i => i.staffclassification == data).map(a => a.style)[0] 
             : this.state.barberList.filter(i => i.staffclassification == data).map(b => b.style)[0]
-
-        var currentList = this.state.hairDresserList.filter(i => i.style == newStyleOn).length > 1 ? this.state.hairDresserList : this.state.barberList
+        var currentList = []
+        currentList = this.state.hairDresserList.filter(i => i.style == newStyleOn).length > 1 ? this.state.hairDresserList : this.state.barberList
 
         this.setState({ 
             staffClassification: data,
@@ -158,6 +174,7 @@ const mapStateToProps = (state) =>{
         token: state.auth.token,
         preference: state.preference.preference,
         profile: state.profile.profile,
+        loadingProfile: state.profile.loading,
         providerResults: state.provider.providerSearchResult
     }
 }

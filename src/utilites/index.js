@@ -14,7 +14,7 @@ import NavigationService from '../navigation/custom/NavigationService'
  * @param {*} type - L for Log-In or other for Sign-Up 
  */ 
 function onOtherAccount(type){
-    console.log('onOtherAccount', type);
+    // console.log('onOtherAccount', type);
     
     this.setState({
         email:'',
@@ -56,7 +56,7 @@ function onLogInButton(type){
  * to redux
  */
 async function onLogInSuccess(type){
-    console.log('onLogInSuccess');
+    // console.log('onLogInSuccess');
     
     this.setState({
         email: '',
@@ -76,10 +76,10 @@ async function onLogInSuccess(type){
  * @param {*} type - L for Log-In or other for Sign-Up
  */
 function onLogInFail(error){
-    console.log('onLogInFail',error);
+    // console.log('onLogInFail',error);
     
     this.setState({
-        error: error.message,
+        error: error,
         loading: false
     })
 }
@@ -110,7 +110,7 @@ function onLogInSub(type){
             }
         }
     } else {
-        console.log('onLogInSub - Sign-up');
+        // console.log('onLogInSub - Sign-up');
         const { email, password, firstName, lastName, gender, dob, telephone, street, city, state_, zip, isProvider, isSocial } = this.state
         const { emailError, passwordError, firstNameError, lastNameError, dobError, genderError, telephoneError, streetError, cityError, state_Error, zipError } = this.state
 
@@ -154,7 +154,7 @@ function onLogInSub(type){
             this.props.signUpWithProfile(email,password, payload)
         } else {       
             
-            console.log('onLogInSub - Error');
+            // console.log('onLogInSub - Error');
             
             this.setState({
                 error: 'Please fill out the profile',
@@ -223,7 +223,7 @@ function onLogInSub(type){
  * NOTE: User is prompt with alert
  */
 function onPrfileDelete(){
-    console.log('Delete profile: ', this.props.token);
+    // console.log('Delete profile: ', this.props.token);
     Alert.alert(
         'Delete Account',
         'Are you sure you want to delete your account? ',
@@ -232,12 +232,12 @@ function onPrfileDelete(){
             {text: 'Confirm', onPress: () => {                
                 api.deletedProfileById(firebase.auth().currentUser.uid, this.props.token)
                     .then(a => {
-                        console.log('deleted profile: ', a);
+                        // console.log('deleted profile: ', a);
                         
                         firebase.auth().currentUser.delete()
                             .then(b => {
                                 this.props.signOut()
-                                console.log('deleted account: ', a);
+                                // console.log('deleted account: ', a);
                                 alert('You account has been deleted')
                             }).catch(error =>{
                                 console.log('error: ', error);
@@ -289,7 +289,7 @@ function onRenderProfileButton(){
  * @param {*} error 
  */
 function onProfileCreateFailed(error){
-    console.log('onProfileCreateFailed');
+    // console.log('onProfileCreateFailed');
     
     this.setState({
         error: error.message,
@@ -301,7 +301,7 @@ function onProfileCreateFailed(error){
  * On Profile creation success handler
  */
 function onProfileCreateSucccess(type){
-    console.log('onProfileCreateSuccess');
+    // console.log('onProfileCreateSuccess');
     this.setState({
         firstName: '',
         firstNameError: '',
@@ -375,7 +375,7 @@ function onProfileRec(profile){
         loading: false
     })
 
-    console.log('onProfileRec Preference: ' + profile.preferences ? true : false);
+    console.log('onProfileRec Preference: ', profile.preferences ? true : false);
 }
 
 /**
@@ -384,8 +384,8 @@ function onProfileRec(profile){
 function onProfileRefresh(){
     try{               
         // console.log('onProfileRefresh before if', this.props);        
-        if(!this.props.profile){
-            console.log('onProfileRefresh inside if',this.propps.userId);
+        if(this.isEmpty(this.props.profile)){
+            // console.log('onProfileRefresh inside if',this.propps.userId);
             
             firebase.auth().currentUser.getIdToken()
                 .then((token) => {
@@ -393,10 +393,15 @@ function onProfileRefresh(){
                         .then(userData => {
                                 var profile = userData.data                                                        
                                 this.onProfileRec(profile) 
-                                this.props.setPreference(profile.preferences)
+                                var preference = profile.preferences
+                                console.log('onProfileRefresh -- ', profile);
+                                console.log('onProfileRefresh -- ', profile.preferences);
+                                console.log('onProfileRefresh ----', preference);
+                                
+                                this.props.setPreference(preference)
                             }
                         ).catch( (error) => {
-                            console.log('error: ', error);
+                            // console.log('error: ', error);
                             this.onProfileNotFound.bind(this)
                             this.setState({
                                 loading: false
@@ -404,11 +409,16 @@ function onProfileRefresh(){
                         })
                 })
         } else {    
-            console.log('onProfileRefresh', this.props.profile);
-            // console.log('onProfileRefresh', this.props.preferences ? this.props.preference : this.props.profile.preferences);
+            console.log('onProfileRefresh profile', this.props.profile);
+            console.log('onProfileRefresh props preference isEmpty', this.isEmpty(this.props.preference) );
+            console.log('onProfileRefresh props preference', this.props.preference );
+            console.log('onProfileRefresh props profile preferences isEmpty', this.isEmpty(this.props.profile.preferences) );
+            console.log('onProfileRefresh props profile preferences', this.props.profile.preferences );
+            console.log('onProfileRefresh', this.isEmpty(this.props.preference) ? this.props.profile.preferences : this.props.preference );
             
             this.onProfileRec(this.props.profile)
-            this.props.setPreference(this.props.preferences ? this.props.preference : this.props.profile.preferences)
+            var preference = this.isEmpty(this.props.preference) ? this.props.profile.preferences : this.props.preference
+            this.props.setPreference(preference != undefined ? preference : {})
         }
     } catch (error){
         this.setState({
@@ -424,7 +434,7 @@ function onProfileRefresh(){
 function onProfileSub(){
     const { _uid, _token, firstName, lastName, gender, dob,  telephone, street, city, state_, zip, isSocial,  isProvide, isProvider, alreadyExist } = this.state
     const { firstNameError, lastNameError, genderError, dobError, telephoneError, streetError, cityError, state_Error, isProviderError } = this.state
-    console.log('onProfileSub - Before in');
+    // console.log('onProfileSub - Before in');
     
 
     this.setState({
@@ -434,13 +444,13 @@ function onProfileSub(){
 
     var uid = firebase.auth().currentUser.uid
 
-    console.log('onProfileSub', this.state);
+    // console.log('onProfileSub', this.state);
 
     if(!firstNameError && !lastNameError && !genderError && !dobError && !telephoneError && !streetError && !cityError && !state_Error && !isProviderError
         && firstName && lastName && gender && dob && telephone && street && city && state_) {
        
         if(!alreadyExist){
-            console.log('onProfileSub - insert');
+            // console.log('onProfileSub - insert');
 
             const payload = {
                 "uid": uid,
@@ -460,7 +470,7 @@ function onProfileSub(){
                 "isProvider": isProvider,
             }                
 
-            console.log('onProfileSub - insert',payload);
+            // console.log('onProfileSub - insert',payload);
             
             api.insertProfile(payload, this.props.token)
                 .then((data) => {
@@ -481,7 +491,7 @@ function onProfileSub(){
                     this.onProfileCreateFailed(error)                
                 })
         } else {
-            console.log('onProfileSub - updated');
+            // console.log('onProfileSub - updated');
 
             const payload = {
                 "uid": uid,
@@ -498,7 +508,7 @@ function onProfileSub(){
                 },
             }                
             
-            console.log('onProfileSub - updated',payload);
+            // console.log('onProfileSub - updated',payload);
 
             api.updateProfileById(payload,this.props.token)
             .then((user) => {
@@ -576,7 +586,7 @@ function onProfileSub(){
  * Handles retrive profile info -- NOT WORKING 
  */
 function getProfile(){
-    console.log('getProfile');
+    // console.log('getProfile');
     
     try {
         firebase.auth().currentUser.getIdToken().then(
@@ -584,7 +594,7 @@ function getProfile(){
                 api.getProfileById(firebase.auth().currentUser.uid, token)
                     .then(userData => {
                             var profile = userData.data
-                            console.log('getProfile successfully', profile);
+                            // console.log('getProfile successfully', profile);
                             return profile;
                         }
                     ).catch( (error) => {
@@ -657,10 +667,10 @@ function onPreferencePage1Confirmed(navNext){
 
         api.updateProfileById(payload, this.props.token)
             .then(i => {   
-                // console.log('onPreferencePage1Confirmed', i.data);
+                // console.log('onPreferencePage1Confirmed', i.data.preferences);
 
                 var newProfile = this.props.profile
-                newProfile.preferences = payload
+                newProfile.preference = payload.preferences
                 // console.log('onPreferencePage1Confirmed new profile', newProfile);
                 
                 var filterType = {
@@ -674,7 +684,7 @@ function onPreferencePage1Confirmed(navNext){
                 // console.log('onPreferencePage1Confirmed', filter);
                 NavigationService.navigate(navNext)
 
-                this.props.setPreference(payload)
+                this.props.setPreference(payload.preferences)
                 this.props.setProfile(newProfile)
                 this.props.getProviderResult(filter, this.props.token)
 
@@ -715,6 +725,10 @@ function setStyleType(value){
  */
 function onPreferenceRefresh(){
     try {
+        // console.log('onPreferenceRefresh', this.props.token);
+        
+        // console.log('preference', this.props.preference);
+        // console.log('profile preference', this.props.profile);
         api.getConfiguration("styles", this.props.token)
         .then((sty) => {
             var styles_ = sty.data 
@@ -733,6 +747,8 @@ function onPreferenceRefresh(){
                 if(!isEmpty(this.props.preference)){
                     if(isEmpty(this.props.preference.hairStyle)){
                         // console.log('onPreferenceRefresh', 'Preference hair not populated');
+                        this.state.styleSelected.push(single)
+                        this.state.styleOnType = styles_.hairStyles[1].style
                     } else {
                         if(i == this.props.preference.hairStyle.type){
                             this.state.styleSelected.push(single)
@@ -761,6 +777,8 @@ function onPreferenceRefresh(){
                 if(!isEmpty(this.props.preference)){  
                     if(isEmpty(this.props.preference.hairStyle)){
                         // console.log('onPreferenceRefresh', 'Preference hair not populated');
+                        this.state.styleSelected.push(single)
+                        this.state.styleOnType = styles_.hairStyles[0].style
                     } else {
                         if(i == this.props.preference.hairStyle.type){
                             this.state.styleSelected.push(single)
@@ -778,17 +796,33 @@ function onPreferenceRefresh(){
             // console.log('barberList', this.state.barberList);
             // console.log(('hairDress'), this.state.hairDresserList);            
 
+            // console.log('preference', this.props.preference);
+            // console.log('preference', this.props.preference.preferences);
             if(!isEmpty(this.props.preference)){
+                var stylesList = []
+
+                stylesList=this.state.hairDresserList.filter(i => i.style == isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style :'').length > 1 ? this.state.hairDresserList : this.state.barberList
+
                 // console.log('onPreferenceRefresh', 'Preference populated state');
+                // console.log('staffClassification', this.props.preference.staffClassification ? this.props.preference.staffClassification : 'Empty');
+                // console.log('styleOn', this.props.preference.hairStyle ? this.props.preference.hairStyle.style : 'Empty');
+                // console.log('styleOnType', this.props.preference.hairStyle ? this.props.preference.hairStyle.type : 'Empty');
+                // console.log('styleLists',stylesList);
+                // console.log('day', DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name));
+                // console.log('time', this.props.preference.time ?  this.props.preference.time :'Empty');
+                // console.log('cityState', this.props.preference.city +', ' +this.props.preference.state);
+                // console.log('loading', false);
+                 
                 this.setState({
-                    staffClassification: this.props.preference.staffClassification,
-                    styleOn: isEmpty(this.props.preference.hairStyle) ? '' : this.props.preference.hairStyle.style,
-                    styleOnType: isEmpty(this.props.preference.hairStyle) ? '' : this.props.preference.hairStyle.type,
-                    styleLists: this.state.hairDresserList.filter(i => i.style == isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style :'').length > 1 ? this.state.hairDresserList : this.state.barberList,
+                    staffClassification: this.props.preference.staffClassification ? this.props.preference.staffClassification : '',
+                    styleOn: this.props.preference.hairStyle ? this.props.preference.hairStyle.style : '',
+                    styleOnType: this.props.preference.hairStyle ? this.props.preference.hairStyle.type : '',
+                    styleLists: stylesList,
                     day: DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name),
-                    time: this.props.preference.time,
+                    time: this.props.preference.time ?  this.props.preference.time : '',
                     cityState: this.props.preference.city +', ' +this.props.preference.state,
-                    loading: false
+                    loading: false,
+                    token: this.props.token
                 })
             } else {
                 console.log('onPreferenceRefresh', 'Preference not populated state');
@@ -798,8 +832,10 @@ function onPreferenceRefresh(){
                     staffClassification: this.state.barberList[0].staffclassification
                 })
             }
+
         }).catch((error) => {
-            console.log('getConfiguration ProfilePref1', error);
+            console.log('onPreferenceRefresh', error);
+
             this.setState({
                 loading: false
             })

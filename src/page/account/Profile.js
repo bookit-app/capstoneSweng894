@@ -77,6 +77,7 @@ class Profile extends React.Component {
         this.onProfileRefresh = utilites.onProfileRefresh.bind(this)
         this.onProfileSub = utilites.onProfileSub.bind(this)
         this.onRenderPreference = utilites.onRenderPreference.bind(this)   
+        this.isEmpty = utilites.isEmpty.bind(this)
     }
     
     async componentDidMount(){
@@ -84,12 +85,9 @@ class Profile extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        // console.log('UNSAFE_componentWillReceiveProps',nextProps);
-        
-        if(!nextProps.loadingProfile){
-            console.log('UNSAFE_componentWillReceiveProps exists', nextProps.profile);
-            // console.log(this.props.profile);        
-            // this.onProfileRec(nextProps.profile)
+        if(!this.props.loadingProfile && !this.state.zip){
+            // console.log('UNSAFE_componentWillReceiveProps exists', nextProps.profile);
+            // console.log('UNSAFE_componentWillReceiveProps exists', !nextProps.loadingProfile);
             this.onProfileRefresh() 
         }
     }
@@ -103,6 +101,7 @@ class Profile extends React.Component {
             <ScrollView style={styles.scrollView}>
                 <NavigationEvents
                     onDidBlur={() => this.onProfileRefresh()}
+                    onWillBlur={() => this.onProfileRefresh()}
                 />
                 <View>
                     <AccountDetails

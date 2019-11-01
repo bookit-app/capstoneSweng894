@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
                 searchResult: action.payload, loading: action.loading, errorMessage: ''
             }
 
-            // console.log('actions.GET_PROVIDER_FULFILLED', c);
+            console.log('actions.GET_PROVIDER_FULFILLED', c);
 
             return c
         }

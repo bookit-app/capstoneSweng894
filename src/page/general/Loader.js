@@ -15,7 +15,7 @@ class Loader extends React.Component {
         super(props)
 
         this.state = {
-            pref: false
+            pref: false,
         }
 
         this.isEmpty = utilites.isEmpty.bind(this)
@@ -24,26 +24,23 @@ class Loader extends React.Component {
         this.props.settingPref(false)
     }
 
-    UNSAFE_componentWillMount(){
+    componentDidMount(){
         firebase.auth().onAuthStateChanged(user => {
             var currentPref = this.state.pref //this.props.pref ?
+            console.log('user profile preference', this.props.pref);
+            
             if(user){
                 // console.log('user profile json', this.isEmpty(this.props.profile));  
                 // console.log('user profile preference json', this.props.profile.preferences);
                 // console.log('user profile preference json', this.props);
-                // console.log('user profile preference json', this.isEmpty(this.props.profile.preferences));
-                // console.log('user profile preference json', !this.isEmpty(this.props.profile.preferences));
+                console.log('user profile preference json', this.isEmpty(this.props.profile.preferences));
+                console.log('user profile preference json', this.isEmpty(this.props.preference));
                 currentPref = !this.isEmpty(this.props.profile.preferences)               
             } else {
-                // console.log('onAuthStateChanged', 'No one logged In');
-                // console.log('user profile json', this.isEmpty(this.props.profile));  
-                // console.log('user profile preference json', this.props.profile.preferences);
-                // console.log('user profile preference json', this.props);
-                // console.log('user profile preference json', this.isEmpty(this.props.profile.preferences));  
-                // console.log('user profile preference json', !this.isEmpty(this.props.profile.preferences));
-                currentPref = !this.isEmpty(this.props.profile.preferences)                 
-                // console.log('user preference', this.props.pref);
-                // console.log('user preference', this.state.pref);
+                console.log('onAuthStateChanged', 'No one logged In');
+                console.log('user profile preference json', this.isEmpty(this.props.profile.preferences));
+                console.log('user profile preference json', this.isEmpty(this.props.preference));
+                currentPref = !this.isEmpty(this.props.profile.preferences) 
             } 
 
             console.log('Preference Setting: ', currentPref);
@@ -56,43 +53,11 @@ class Loader extends React.Component {
         })
     }
 
-    // componentDidMount(){        
-    //     firebase.auth().onAuthStateChanged(user => {
-    //         if(user){
-    //             console.log('user preference user', this.state.pref); 
-    //             console.log('user preference', this.props.pref); 
-    //             console.log('user profile json', this.isEmpty(this.props.profile));  
-    //             console.log('user profile preference json', this.isEmpty(this.props.profile.preferences));                   
-    //         } else {
-    //             console.log('onAuthStateChanged', 'No one logged In');
-    //             console.log('user profile json', this.isEmpty(this.props.profile));  
-    //             console.log('user profile preference json', this.isEmpty(this.props.profile.preferences));    
-    //             console.log('user preference', this.props.pref);
-    //             console.log('user preference', this.state.pref);
-    //             this.props.settingPref(false)
-    //         }
-            
-    //         var currentPref = this.state.pref //this.props.pref ? 
-
-    //         console.log('Preference Setting: ', currentPref);
-            
-    //         var route = user ? currentPref ? 'App' : 'Setting'  : 'Login' 
-            
-    //         console.log('Route: ', route);
-
-    //         this.props.navigation.navigate(route)
-    //     })
-    // }
-
     UNSAFE_componentWillReceiveProps(nextProps){
-        console.log('UNSAFE_componentWillReceiveProps loading', nextProps.pref);
-        console.log('UNSAFE_componentWillReceiveProps loading', this.props.pref);
-
-        if(this.props.pref)
-        {
+        if(!this.props.loadPreference && (this.props.pref || nextProps.pref)){
             this.setState({
-                pref: this.props.pref
-            });
+                pref: true
+            })
         }
     }
 
@@ -113,6 +78,7 @@ const mapStateToProps = (state) => {
         token: state.auth.token,
         profile: state.profile.profile,
         preference: state.preference.preference,
+        loadPreference: state.preference.loading,
         pref: state.preference.pref
     }
 }

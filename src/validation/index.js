@@ -111,9 +111,9 @@ function verifyEmail(email){
     })
 
     if(emailValidator(email)){
-        this.setState({ emailError: ''})
+        this.setState({ emailError: '', error: '' })
     } else {
-        this.setState({ emailError: 'Email is not valid. Please re-enter valid email'})
+        this.setState({ emailError: 'Email is not valid. Please re-enter valid email', error: '' })
     }
 }
 
@@ -127,9 +127,9 @@ function verifyPassword(password){
     })
 
     if(passwordValidator(password)){
-        this.setState({ passwordError: '' })
+        this.setState({ passwordError: '', error: ''  })
     } else {
-        this.setState({ passwordError: 'Password is not valid. Please enter a valid password.' })
+        this.setState({ passwordError: 'Password is not valid. Please enter a valid password.', error: ''  })
     }
 }
 
@@ -143,9 +143,9 @@ function verifyFirstName(firstName){
     })
 
     if(nameValidator(firstName)){
-        this.setState({ firstNameError: '' })
+        this.setState({ firstNameError: '', error: ''  })
     } else {
-        this.setState({ firstNameError: 'First name is not valid. Please re-enter a valid first name.' })
+        this.setState({ firstNameError: 'First name is not valid. Please re-enter a valid first name.', error: ''  })
     }
 }
 
@@ -159,9 +159,9 @@ function verifyLastName(lastName){
     })
 
     if(nameValidator(lastName)){
-        this.setState({ lastNameError: '' })
+        this.setState({ lastNameError: '', error: ''  })
     } else {
-        this.setState({ lastNameError: 'Last name is not valid. Please re-enter a valid last name.' })
+        this.setState({ lastNameError: 'Last name is not valid. Please re-enter a valid last name.', error: ''  })
     }
 }
 
@@ -175,9 +175,9 @@ function verifyTelephone(telephone){
     })
 
     if(telephoneValidator(telephone)){
-        this.setState({ telephoneError: '' })
+        this.setState({ telephoneError: '', error: ''  })
     } else {
-        this.setState({ telephoneError: 'Telephone is not valid. Please re-enter a valid telephone number.' })
+        this.setState({ telephoneError: 'Telephone is not valid. Please re-enter a valid telephone number.', error: ''  })
     }
 }
 
@@ -191,9 +191,9 @@ function verifyDate(date){
     })
 
     if(dateValidator(date)){
-        this.setState({ dobError: '' })
+        this.setState({ dobError: '' , error: '' })
     } else {
-        this.setState({ dobError: 'Date of birth is not valid. Please re-enter a valid date of birth.' })
+        this.setState({ dobError: 'Date of birth is not valid. Please re-enter a valid date of birth.' , error: '' })
     }
 }
 
@@ -207,9 +207,9 @@ function verifyGender(gender){
     })
 
     if(genderValidator(gender)){
-        this.setState({ genderError: '' })
+        this.setState({ genderError: '', error: ''  })
     } else {
-        this.setState({ genderError: 'Gender is not valid. Please re-enter a valid gender.' })
+        this.setState({ genderError: 'Gender is not valid. Please re-enter a valid gender.', error: ''  })
     }
 }
 
@@ -220,9 +220,9 @@ function verifyIsProvider(isProvide){
     })
 
     if(isProviderValidator(isProvide)){
-        this.setState({ isProviderError : '' })
+        this.setState({ isProviderError : '', error: ''  })
     } else {
-        this.setState({ isProviderError : 'Is provider is not valid. Plase re-enter a valid response' })
+        this.setState({ isProviderError : 'Is provider is not valid. Plase re-enter a valid response', error: ''  })
     }
 }
 
@@ -236,9 +236,9 @@ function verifyStreet(street){
     })
 
     if(streetValidator(street)){
-        this.setState({ streetError: '' })
+        this.setState({ streetError: '', error: ''  })
     } else {
-        this.setState({ streetError: 'Street is not valid. Please re-enter a valid street.' })
+        this.setState({ streetError: 'Street is not valid. Please re-enter a valid street.', error: ''  })
     }
 }
 
@@ -252,9 +252,9 @@ function verifyState(state_){
     })
 
     if(stateValidator(state_)){
-        this.setState({ state_Error: ''})
+        this.setState({ state_Error: '', error: '' })
     } else {
-        this.setState({ state_Error: 'State is not valid. Please re-enter a valid states 2 character'})
+        this.setState({ state_Error: 'State is not valid. Please re-enter a valid states 2 character', error: '' })
     }
 }
 
@@ -268,9 +268,9 @@ function verifyCity(city){
     })
 
     if(cityValidator(city)){
-        this.setState({ cityError: '' })
+        this.setState({ cityError: '', error: ''  })
     } else {
-        this.setState({ cityError: 'City is not valid. Please re-enter a valid city.' })
+        this.setState({ cityError: 'City is not valid. Please re-enter a valid city.', error: ''  })
     }
 }
 
@@ -284,9 +284,9 @@ function verifyZip(zip){
     })
 
     if(zipValidator(zip)){
-        this.setState({ zipError: '' })
+        this.setState({ zipError: '', error: '' })
     } else {
-        this.setState({ zipError: 'Zip Code is not valid. Please re-enter a valid zip code.'})
+        this.setState({ zipError: 'Zip Code is not valid. Please re-enter a valid zip code.', error: '' })
     }
 }
 

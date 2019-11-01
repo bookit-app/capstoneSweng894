@@ -4,6 +4,9 @@ import { InputCustom } from '../common'
 import styles from '../styles/General.styles'
 import CustomInputStyles from '../styles/CustomInputStyles'
 
+/**
+ * Account Forgot Password component
+ */
 const AccountForgotPassword = (props) => {
     return (
         <ScrollView>

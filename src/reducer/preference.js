@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
                 preference: action.preference, loading: false
             }
 
-            // console.log('actions.SET_PREFERENCE', action.preference);
+            console.log('actions.SET_PREFERENCE', b);
             
             return b
         }        
@@ -40,7 +40,7 @@ export default (state = initialState, action) => {
                 preference: action.payload, loading: action.loading, errorMessage: ''
             }
 
-            // console.log('actions.GET_PREFERENCE_FULFILLED', e);
+            console.log('actions.GET_PREFERENCE_FULFILLED', e);
 
             return e
         }

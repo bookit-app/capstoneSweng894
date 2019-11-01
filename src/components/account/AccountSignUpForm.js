@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-    View,
-    Text,
-    ScrollView,
-} from 'react-native'
+import {View, Text, ScrollView} from 'react-native'
 import styles from '../styles/AccountForm.styles'
 import ClearBtnSty from '../styles/ClearBtnSty.styles'
 import ErrorText from '../styles/ErrorText.styles'
