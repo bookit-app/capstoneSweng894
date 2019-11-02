@@ -39,13 +39,25 @@
     "@babel/runtime": "7.6.2",
     "@react-native-community/eslint-config": "0.0.3",
     "babel-jest": "24.9.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "enzyme-to-json": "^3.4.3",
     "eslint": "6.5.1",
     "jest": "24.9.0",
+    "jest-serializer-enzyme": "^1.0.0",
     "metro-react-native-babel-preset": "0.51.1",
+    "react-addons-test-utils": "^15.6.2",
+    "react-dom": "^16.11.0",
     "react-test-renderer": "16.9.0"
   },
   "jest": {
     "preset": "react-native",
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|@react-navigation/.*)"
     ],
