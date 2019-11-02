@@ -52,9 +52,6 @@
   },
   "jest": {
     "preset": "react-native",
-    "testPathIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
