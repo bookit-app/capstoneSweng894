@@ -68,7 +68,7 @@ async function onLogInSuccess(type){
         loading: false
     }); 
 
-    this.props.navigation.navigate(type == 'S' ? 'Pref1' : 'Home')
+    this.props.navigation.navigate(type == 'S' ? 'Pref1' : 'App')
 }
 
 /**
@@ -88,14 +88,14 @@ function onLogInFail(error){
  * On click handler that either create or logs into a firebase account
  * @param {*} type - L for Log-In or other for Sign-Up
  */
-function onLogInSub(type){    
+async function onLogInSub(type){    
     if(type === 'L'){
         const { email, password, emailError, passwordError } = this.state;
         if(!emailError && !passwordError && email && password){            
             this.setState({ error: '', loading: true})
 
             this.props.settingPref(true)
-            this.props.loggingIn(email,password)
+            await this.props.loggingIn(email,password)
         } else {
             if(!email){
                 this.setState({
@@ -151,7 +151,7 @@ function onLogInSub(type){
             // console.log('onLogInSub - insert',payload);
 
             this.props.settingPref(false)
-            this.props.signUpWithProfile(email,password, payload)
+            var i = await this.props.signUpWithProfile(email,password, payload)
         } else {       
             
             // console.log('onLogInSub - Error');
@@ -342,7 +342,7 @@ function onProfileCreateSucccess(type){
  * On Profile Not Found either on re-render or etc...
  */
 function onProfileNotFound(){
-    console.log('Account was not found');   
+    // console.log('Account was not found');   
 
     this.setState({
         alreadyExist: false,
@@ -356,7 +356,7 @@ function onProfileNotFound(){
  * @param {*} profile 
  */
 function onProfileRec(profile){
-    console.log('onProfileRec', profile);
+    // console.log('onProfileRec', profile);
     this.setState({
         firstName: profile.firstName,
         lastName: profile.lastName,
@@ -375,7 +375,7 @@ function onProfileRec(profile){
         loading: false
     })
 
-    console.log('onProfileRec Preference: ', profile.preferences ? true : false);
+    // console.log('onProfileRec Preference: ', profile.preferences ? true : false);
 }
 
 /**
@@ -394,9 +394,9 @@ function onProfileRefresh(){
                                 var profile = userData.data                                                        
                                 this.onProfileRec(profile) 
                                 var preference = profile.preferences
-                                console.log('onProfileRefresh -- ', profile);
-                                console.log('onProfileRefresh -- ', profile.preferences);
-                                console.log('onProfileRefresh ----', preference);
+                                // console.log('onProfileRefresh -- ', profile);
+                                // console.log('onProfileRefresh -- ', profile.preferences);
+                                // console.log('onProfileRefresh ----', preference);
                                 
                                 this.props.setPreference(preference)
                             }
@@ -409,12 +409,12 @@ function onProfileRefresh(){
                         })
                 })
         } else {    
-            console.log('onProfileRefresh profile', this.props.profile);
-            console.log('onProfileRefresh props preference isEmpty', this.isEmpty(this.props.preference) );
-            console.log('onProfileRefresh props preference', this.props.preference );
-            console.log('onProfileRefresh props profile preferences isEmpty', this.isEmpty(this.props.profile.preferences) );
-            console.log('onProfileRefresh props profile preferences', this.props.profile.preferences );
-            console.log('onProfileRefresh', this.isEmpty(this.props.preference) ? this.props.profile.preferences : this.props.preference );
+            // console.log('onProfileRefresh profile', this.props.profile);
+            // console.log('onProfileRefresh props preference isEmpty', this.isEmpty(this.props.preference) );
+            // console.log('onProfileRefresh props preference', this.props.preference );
+            // console.log('onProfileRefresh props profile preferences isEmpty', this.isEmpty(this.props.profile.preferences) );
+            // console.log('onProfileRefresh props profile preferences', this.props.profile.preferences );
+            // console.log('onProfileRefresh', this.isEmpty(this.props.preference) ? this.props.profile.preferences : this.props.preference );
             
             this.onProfileRec(this.props.profile)
             var preference = this.isEmpty(this.props.preference) ? this.props.profile.preferences : this.props.preference
@@ -633,16 +633,10 @@ function onRenderPreference(){
   */
 function onPreferencePage1Confirmed(navNext){
     const { day, styleOn, styleOnType, staffClassification, time, cityState} = this.state
+
     this.setState({
         loading_Submit: true
     })
-
-    // console.log('onPreferencePage1Confirmed', day);
-    // console.log('onPreferencePage1Confirmed', styleOn);
-    // console.log('onPreferencePage1Confirmed', styleOnType);
-    // console.log('onPreferencePage1Confirmed', staffClassification);
-    // console.log('onPreferencePage1Confirmed', time);
-    // console.log('onPreferencePage1Confirmed', cityState);
     
     if(day && styleOnType && styleOn && staffClassification && time && cityState) {
         var city = cityState.split(',')[0].trim() 
@@ -668,6 +662,7 @@ function onPreferencePage1Confirmed(navNext){
         api.updateProfileById(payload, this.props.token)
             .then(i => {   
                 // console.log('onPreferencePage1Confirmed', i.data.preferences);
+                this.props.alreadyFetch(true)
 
                 var newProfile = this.props.profile
                 newProfile.preference = payload.preferences
@@ -698,9 +693,7 @@ function onPreferencePage1Confirmed(navNext){
                 })
             })
     } else {
-
         // console.log('onPreferencePage1Confirmed', 'error');
-        
         this.setState({
             error: 'Please populate all the fields',
             loading_Submit: false
@@ -725,123 +718,35 @@ function setStyleType(value){
  */
 function onPreferenceRefresh(){
     try {
-        // console.log('onPreferenceRefresh', this.props.token);
-        
-        // console.log('preference', this.props.preference);
-        // console.log('profile preference', this.props.profile);
-        api.getConfiguration("styles", this.props.token)
-        .then((sty) => {
-            var styles_ = sty.data 
+        if(!isEmpty(this.props.preference)){
+            var stylesList = []
 
-            styles_.hairStyles[1].types.map(i => {
-                
-                var single = {}
-                single['Id'] = this.state.hairDresserList.length
-                single['Name'] = i
-                single['Value'] = i
-                single['style'] =  styles_.hairStyles[1].style
-                single['staffclassification'] = 'Hair Dresser'  
-                
-                // console.log(this.props.preference);     
-
-                if(!isEmpty(this.props.preference)){
-                    if(isEmpty(this.props.preference.hairStyle)){
-                        // console.log('onPreferenceRefresh', 'Preference hair not populated');
-                        this.state.styleSelected.push(single)
-                        this.state.styleOnType = styles_.hairStyles[1].style
-                    } else {
-                        if(i == this.props.preference.hairStyle.type){
-                            this.state.styleSelected.push(single)
-                            this.state.styleOnType = styles_.hairStyles[1].style
-                        }
-                    }
-                } else {
-                    // console.log('onPreferenceRefresh', 'Preference not populated');
-                    this.state.styleSelected.push(single)
-                }
-
-                this.state.hairDresserList.push(single)
-            })
-
-            styles_.hairStyles[0].types.map(i => {
-                
-                var single = {}
-                single['Id'] = this.state.barberList.length
-                single['Name'] = i
-                single['Value'] = i
-                single['style'] =  styles_.hairStyles[0].style
-                single['staffclassification'] = 'Barber'              
-
-                // console.log('onPreferenceRefresh',this.props.preference);                
-
-                if(!isEmpty(this.props.preference)){  
-                    if(isEmpty(this.props.preference.hairStyle)){
-                        // console.log('onPreferenceRefresh', 'Preference hair not populated');
-                        this.state.styleSelected.push(single)
-                        this.state.styleOnType = styles_.hairStyles[0].style
-                    } else {
-                        if(i == this.props.preference.hairStyle.type){
-                            this.state.styleSelected.push(single)
-                            this.state.styleOnType = styles_.hairStyles[0].style
-                        } 
-                    }  
-                } else {
-                    // console.log('onPreferenceRefresh', 'Preference not populated');
-                    
-                    this.state.styleSelected.push(single)
-                }
-                this.state.barberList.push(single)
-            })
-
-            // console.log('barberList', this.state.barberList);
-            // console.log(('hairDress'), this.state.hairDresserList);            
-
-            // console.log('preference', this.props.preference);
-            // console.log('preference', this.props.preference.preferences);
-            if(!isEmpty(this.props.preference)){
-                var stylesList = []
-
-                stylesList=this.state.hairDresserList.filter(i => i.style == isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style :'').length > 1 ? this.state.hairDresserList : this.state.barberList
-
-                // console.log('onPreferenceRefresh', 'Preference populated state');
-                // console.log('staffClassification', this.props.preference.staffClassification ? this.props.preference.staffClassification : 'Empty');
-                // console.log('styleOn', this.props.preference.hairStyle ? this.props.preference.hairStyle.style : 'Empty');
-                // console.log('styleOnType', this.props.preference.hairStyle ? this.props.preference.hairStyle.type : 'Empty');
-                // console.log('styleLists',stylesList);
-                // console.log('day', DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name));
-                // console.log('time', this.props.preference.time ?  this.props.preference.time :'Empty');
-                // console.log('cityState', this.props.preference.city +', ' +this.props.preference.state);
-                // console.log('loading', false);
-                 
-                this.setState({
-                    staffClassification: this.props.preference.staffClassification ? this.props.preference.staffClassification : '',
-                    styleOn: this.props.preference.hairStyle ? this.props.preference.hairStyle.style : '',
-                    styleOnType: this.props.preference.hairStyle ? this.props.preference.hairStyle.type : '',
-                    styleLists: stylesList,
-                    day: DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name),
-                    time: this.props.preference.time ?  this.props.preference.time : '',
-                    cityState: this.props.preference.city +', ' +this.props.preference.state,
-                    loading: false,
-                    token: this.props.token
-                })
-            } else {
-                console.log('onPreferenceRefresh', 'Preference not populated state');
-                this.setState({
-                    loading: false,
-                    styleLists: this.state.barberList,
-                    staffClassification: this.state.barberList[0].staffclassification
-                })
-            }
-
-        }).catch((error) => {
-            console.log('onPreferenceRefresh', error);
+            stylesList=this.props.styles.styleSelected,
 
             this.setState({
-                loading: false
+                staffClassification: this.props.preference.staffClassification ? this.props.preference.staffClassification : '',
+                styleOn: this.props.preference.hairStyle ? this.props.preference.hairStyle.style : '',
+                styleOnType: this.props.preference.hairStyle ? this.props.preference.hairStyle.type : '',
+                styleLists: stylesList,
+                day: DayOfWeek.filter(i => i.Value == parseInt(this.props.preference.day)).map(j => j.Name),
+                time: this.props.preference.time ?  this.props.preference.time : '',
+                cityState: this.props.preference.city +', ' +this.props.preference.state,
+                loading: false,
+                token: this.props.token,
+                hairDresserList: this.props.styles.hairDresserList,
+                barberList: this.props.styles.barberList,
             })
-        })
+        } else {
+            this.setState({
+                loading: this.props.loadingStyles ? this.props.loadingStyles : false,
+                styleLists: this.props.styles.styleSelected,
+                staffClassification: 'Barber',
+                hairDresserList: this.props.styles.hairDresserList,
+                barberList: this.props.styles.barberList,
+            })
+        }
     } catch (error) {
-        console.log('Profile Pref Catch error', error);    
+        console.log('Preference Form Catch error', error);    
     }
 }
 
@@ -868,8 +773,26 @@ function onSubmitPrefPage1(navNext){
  * Handles moving to the next preference Page
  */
 function onSkipClick(onSkip){
-    // this.props.navigation.navigate(onSkip)
-    NavigationService.navigate(onSkip)
+
+    const {styleOn, cityState} = this.state
+
+    var city = !cityState ? this.props.profile.address.city : cityState.split(',')[0].trim() 
+    var state = !cityState ? this.props.profile.address.state : cityState.split(',')[1].trim()
+    var styles = !styleOn ? this.props.preference.hairStyle.style : styleOn
+
+    var filterType = {
+        city: city,
+        state: state,
+        // styles: styles
+    }
+    
+    var filter = filterGenerate(filterType)
+
+    this.props.getProviderResult(filter, this.props.token)
+
+    NavigationService.navigate(onSkip, {
+        onSkip: true
+    })
 }
 
 /**

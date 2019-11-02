@@ -10,6 +10,28 @@ export const settingPref = (pref) => ({
     pref
 })
 
+export const setStyles = (styles) => ({
+    type: actions.SET_STYLES,
+    payload: styles
+})
+
+export const GetStylePreference = (bool) => ({
+    type: actions.GET_STYLES_PENDING,
+    styleLoading: bool
+})
+
+export const GetStylePreferenceFullFilled = (data) => ({
+    type: actions.GET_STYLES_FULFILLED,
+    payload: data,
+    styleLoading: false
+})
+
+export const GetStylePreferenceReject = (error) => ({
+    type: actions.GET_STYLES_REJECTED,
+    payload: error,
+    styleLoading: false
+})
+
 export const GetPreference = (bool) => ({
     type: actions.GET_PREFERENCE_PENDING,
     payload: bool

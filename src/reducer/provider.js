@@ -2,6 +2,7 @@ import {actions} from '../actions/type'
 
 const initialState = {
     resultLoading: true,
+    alreadyFetch: false,
     errorMessage: '',
     providerSearchResult: [],
 }
@@ -34,7 +35,7 @@ export default (state = initialState, action) => {
                 searchResult: action.payload, loading: action.loading, errorMessage: ''
             }
 
-            console.log('actions.GET_PROVIDER_FULFILLED', c);
+            // console.log('actions.GET_PROVIDER_FULFILLED', c);
 
             return c
         }
@@ -47,6 +48,16 @@ export default (state = initialState, action) => {
             // console.log('actions.GET_PROCIDER_REFJECTED', d);
 
             return d    
+        }
+        case actions.ALREADY_FETCH_PROVIDER: {
+            var e = {
+                ...state,
+                alreadyFetch: action.payload
+            }
+            
+            // console.log('actions.ALREADY_FETCH_PROVIDER', e);
+
+            return e
         }
         default:
             return state

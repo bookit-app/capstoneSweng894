@@ -84,51 +84,50 @@ class SignUpEmail extends React.Component {
         return(
             <View>
                 <AccountSignUpForm
-                imageHolder={false}
-                placeholder={require('../../image/Placeholder150.png')}
-                image={require('../../image/Placeholder150.png')} 
-                firstName = {this.state.firstName}
-                firstNameChge={firstName => this.verifyFirstName( firstName)}
-                firstNameError = {this.state.firstNameError}
-                lastName = {this.state.lastName}
-                lastNameChge={lastName => this.verifyLastName( lastName )}
-                lastNameError = {this.state.lastNameError}
-                email={this.state.email}
-                onEmailChge={email => this.verifyEmail( email )}
-                emailError={this.state.emailError}
-                password={this.state.password}
-                onPasswordChge={password => this.verifyPassword( password )}
-                passwordError={this.state.passwordError}
-                telephone = {this.state.telephone}
-                telephoneOnChge={telephone => this.verifyTelephone( telephone )}
-                telephoneError = {this.state.telephoneError}
-                gender = {this.state.gender}
-                genderItem={GenderV2.map(a => a.Name)}
-                genderOnChge={gender => this.verifyGender( gender )}
-                genderError = {this.state.genderError}
-                dob={this.state.dob}
-                dobOnChge={ dob => this.verifyDate(dob)}
-                dobError = {this.state.dobError}
-                street = {this.state.street}
-                streetOnChge={street => this.verifyStreet( street )}
-                streetError = {this.state.streetError}
-                city = {this.state.city}
-                cityOnChge={city => this.verifyCity(city)}
-                cityError = {this.state.cityError}
-                stateValue = {this.state.state_}
-                stateOnChge={state_ => this.verifyState( state_)}
-                stateError = {this.state.state_Error}
-                zip = {this.state.zip}
-                onZipChge={zip => this.verifyZip( zip )}
-                zipError = {this.state.zipError}
-                error={this.state.error}
-                onLogInButton={() => this.onLogInButton('S')}
-                fgLogic={false}
-                onOtherAccountOptionClick={() => this.onOtherAccount("L")}
-                otherAccountTxt={'Already have an Account? Login'}  
-            />
-        </View>
-         
+                    imageHolder={false}
+                    placeholder={require('../../image/Placeholder150.png')}
+                    image={require('../../image/Placeholder150.png')} 
+                    firstName = {this.state.firstName}
+                    firstNameChge={firstName => this.verifyFirstName( firstName)}
+                    firstNameError = {this.state.firstNameError}
+                    lastName = {this.state.lastName}
+                    lastNameChge={lastName => this.verifyLastName( lastName )}
+                    lastNameError = {this.state.lastNameError}
+                    email={this.state.email}
+                    onEmailChge={email => this.verifyEmail( email )}
+                    emailError={this.state.emailError}
+                    password={this.state.password}
+                    onPasswordChge={password => this.verifyPassword( password )}
+                    passwordError={this.state.passwordError}
+                    telephone = {this.state.telephone}
+                    telephoneOnChge={telephone => this.verifyTelephone( telephone )}
+                    telephoneError = {this.state.telephoneError}
+                    gender = {this.state.gender}
+                    genderItem={GenderV2.map(a => a.Name)}
+                    genderOnChge={gender => this.verifyGender( gender )}
+                    genderError = {this.state.genderError}
+                    dob={this.state.dob}
+                    dobOnChge={ dob => this.verifyDate(dob)}
+                    dobError = {this.state.dobError}
+                    street = {this.state.street}
+                    streetOnChge={street => this.verifyStreet( street )}
+                    streetError = {this.state.streetError}
+                    city = {this.state.city}
+                    cityOnChge={city => this.verifyCity(city)}
+                    cityError = {this.state.cityError}
+                    stateValue = {this.state.state_}
+                    stateOnChge={state_ => this.verifyState( state_)}
+                    stateError = {this.state.state_Error}
+                    zip = {this.state.zip}
+                    onZipChge={zip => this.verifyZip( zip )}
+                    zipError = {this.state.zipError}
+                    error={this.state.error}
+                    onLogInButton={() => this.onLogInButton('S')}
+                    fgLogic={false}
+                    onOtherAccountOptionClick={() => this.onOtherAccount("L")}
+                    otherAccountTxt={'Already have an Account? Login'}  
+                />
+            </View>
         )
     }
 }

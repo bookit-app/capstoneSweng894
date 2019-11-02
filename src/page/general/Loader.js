@@ -53,14 +53,6 @@ class Loader extends React.Component {
         })
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        if(!this.props.loadPreference && (this.props.pref || nextProps.pref)){
-            this.setState({
-                pref: true
-            })
-        }
-    }
-
     render(){
         return(
             <View style={styles.container}>
@@ -71,8 +63,7 @@ class Loader extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log('Loader mapStateToProps', state);
-    
+    // console.log('Loader mapStateToProps', state);
       return {
         userId: state.auth.userId,
         token: state.auth.token,

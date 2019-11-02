@@ -5,7 +5,7 @@ import { NavigationEvents } from 'react-navigation'
 import { PrefTop, PrefChoice, PrefResult } from '../preference'
 import { Spinner } from '../common'
 import styles from '../../page/styles/Preference.styles'
-import { preference, profile } from '../../actions'
+import { preference, profile, provider } from '../../actions'
 import { Time, DayOfWeek } from '../../constant'
 import utilites from '../../utilites'
 import validation from '../../validation'
@@ -70,16 +70,9 @@ class PrefeenceForm extends React.Component {
         this.onPreferenceRefresh()
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        // console.log('UNSAFE_componentWillReceiveProps', nextProps.profile);
-        // console.log('UNSAFE_componentWillReceiveProps', this.props.profile);
-        // console.log('UNSAFE_componentWillReceiveProps', this.props.loadingProfile);
-        // console.log('UNSAFE_componentWillReceiveProps', this.props.preference);
-        
-        // if( this.props.prefSet 
-        // console.log('UNSAFE_componentWillReceiveProps', this.state);
-        
-        if(!this.props.loadingProfile && this.state.staffClassification && !this.props.token){
+    componentDidUpdate(prevProps){
+        if(!this.props.loadingStyles && this.state.loading){
+            // console.log('componentDidUpdate', this.props.styles);
             this.onPreferenceRefresh()
         }
     }
@@ -88,6 +81,10 @@ class PrefeenceForm extends React.Component {
         var newStyleOn = this.state.hairDresserList.filter(i => i.staffclassification == data).map(a => a.style)[0] ? 
             this.state.hairDresserList.filter(i => i.staffclassification == data).map(a => a.style)[0] 
             : this.state.barberList.filter(i => i.staffclassification == data).map(b => b.style)[0]
+        
+        // console.log('onSelectClassication', this.state);
+        // console.log('onSelectClassication', this.state.barberList);
+        
         var currentList = []
         currentList = this.state.hairDresserList.filter(i => i.style == newStyleOn).length > 1 ? this.state.hairDresserList : this.state.barberList
 
@@ -168,11 +165,11 @@ class PrefeenceForm extends React.Component {
 
 
 const mapStateToProps = (state) =>{
-    // console.log('PreferenceForm mapStateToProps ', state);
-    
     return {
         token: state.auth.token,
         preference: state.preference.preference,
+        styles: state.preference.styles,
+        loadingStyles: state.preference.styleLoading,
         profile: state.profile.profile,
         loadingProfile: state.profile.loading,
         providerResults: state.provider.providerSearchResult
@@ -183,6 +180,7 @@ const mapDispatchToProps = (dispatch) =>{
     return {
         setPreference: (prefer) => dispatch(preference.setPreference(prefer)),
         setProfile: (prof) => dispatch(profile.setProfile(prof)),
+        alreadyFetch: (af) => dispatch(provider.alreadyFetch(af)),
         getProviderResult : (filter, token) => dispatch(GetProviderSearchResult(filter, token))
     }
 }

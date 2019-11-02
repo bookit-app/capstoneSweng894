@@ -16,7 +16,7 @@ import { NavigationEvents } from 'react-navigation'
 const UserInfo = (props) =>{
     if(props.prefSet && props.preferInfo && props.profInfo){
         const { firstName, lastName, email } = props.profInfo
-        console.log('UserInfo', props.profInfo);
+        // console.log('UserInfo', props.profInfo);
         
         const { staffClassification, time} = props.preferInfo
         
@@ -57,8 +57,8 @@ class AppointmentDashboard extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        console.log('UNSAFE_componentWillReceiveProps', nextProps.profile);
-        console.log('UNSAFE_componentWillReceiveProps', this.props.profile);
+        // console.log('UNSAFE_componentWillReceiveProps', nextProps.profile);
+        // console.log('UNSAFE_componentWillReceiveProps', this.props.profile);
         
         // if( this.props.prefSet 
         if((!this.props.loadingProfile || !this.state.loadingProfile) || (nextProps.profile != this.props.profile)){

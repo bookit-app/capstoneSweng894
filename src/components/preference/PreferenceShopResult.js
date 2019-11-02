@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import firebase from 'firebase'
 import { Text, View, Image, TouchableOpacity, Alert } from 'react-native'
 import { Spinner } from '../common'
 import { preference } from '../../actions'
@@ -55,40 +54,36 @@ class PreferenceShopResult extends React.Component {
         this.onPreferenceRefreshListSource = this.onPreferenceRefreshListSource.bind(this)
     }
 
-    componentDidMount(){        
-        this.onPreferenceRefreshListSource()
-    }
+    // componentDidMount(){    
+    //     console.log('componentDidMount', this.props.alreadyFetch);
+            
+    //     if(!this.props.alreadyFetch){
+    //         this.onPreferenceRefreshListSource()
+    //     }
+    // }
 
     UNSAFE_componentWillReceiveProps(nextProps){       
-        // if(!this.isEmpty(this.props.profile) || !this.isEmpty(this.props.preference)){
-        //     var city = this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city
-        //     var state = this.isEmpty(this.props.preference) ? this.props.profile.address.state : this.props.preference.state
-        //     var styles = !this.isEmpty(this.props.preference) ? !this.isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style : '' : ''
-        // }
+        if(!this.isEmpty(this.props.profile) || !this.isEmpty(this.props.preference)){
+            var city = this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city
+            var state = this.isEmpty(this.props.preference) ? this.props.profile.address.state : this.props.preference.state
+            var styles = !this.isEmpty(this.props.preference) ? !this.isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style : '' : ''
+        }
 
         if((this.state.loading || this.props.loading) || (nextProps.searchResult != this.state.serviceProviders)){ 
-            console.log('UNSAFE_componentWillReceiveProps', 'here');
+            // console.log('UNSAFE_componentWillReceiveProps', 'here');
             this.onPreferencePage2(nextProps.searchResult)
         } 
-        // else if(this.state.city != city || this.state.state != state || this.state.styles != styles){
-        //     console.log('UNSAFE_componentWillReceiveProps', 'Refresh list');
-        //     this.onPreferenceRefreshListSource()
-        // }
+        else if(this.state.city != city || this.state.state != state || this.state.styles != styles){
+            // console.log('UNSAFE_componentWillReceiveProps', 'Refresh list');
+            this.onPreferenceRefreshListSource()
+        }
     }
 
     onPreferenceRefreshListSource(){
-        // console.log('onPreferenceRefreshListSource', 'Success');
-        
         if(!this.isEmpty(this.props.profile) || !this.isEmpty(this.props.preference)) {
             var city = this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city
             var state = this.isEmpty(this.props.preference) ? this.props.profile.address.state : this.props.preference.state
             var styles = !this.isEmpty(this.props.preference) ? !this.isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style : '' : ''
-
-            // console.log('onPreferenceRefreshListSource', this.props.profile );
-            // console.log('onPreferenceRefreshListSource', this.props.preference );
-            // console.log('onPreferenceRefreshListSource', city);
-            // console.log('onPreferenceRefreshListSource', state);
-            // console.log('onPreferenceRefreshListSource', styles);
             
             this.setState({
                 city: city,
@@ -104,8 +99,6 @@ class PreferenceShopResult extends React.Component {
             }
             
             var filter = this.filterGenerate(filterType)
-
-            // console.log('componentDidMount filter', filter);
 
             this.props.getProviderResult(filter,this.props.token)
         }
@@ -137,7 +130,6 @@ class PreferenceShopResult extends React.Component {
 
         } catch(error){
             console.log('onPreferencePage2', 'Errored and do nothing');
-            
         }
     }
 
@@ -230,6 +222,7 @@ const mapStateToProps = (state) => {
         profile: state.profile.profile,
         preference: state.preference.preference,
         providerResults: state.provider.providerSearchResult,
+        alreadyFetch: state.provider.alreadyFetch,
         searchResult: state.provider.searchResult,
         errorMessage: state.provider.errorMessage,
         loading: state.provider.loading,

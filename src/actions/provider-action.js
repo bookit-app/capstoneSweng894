@@ -5,6 +5,11 @@ export const set_provider_search = (result) =>({
     result
 })
 
+export const alreadyFetch = (bool) => ({
+    type: actions.ALREADY_FETCH_PROVIDER,
+    payload: bool
+})
+
 export const GetProvider = (bool) => ({
     type: actions.GET_PROVIDER_PENDING,
     payload: bool
