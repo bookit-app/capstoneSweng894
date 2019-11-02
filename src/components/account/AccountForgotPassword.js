@@ -1,8 +1,12 @@
 import React from 'react'
-import { View, Text, ScrollView } from 'react-native'
-import { Input } from '../common'
+import { View, Text, ScrollView, Platform } from 'react-native'
+import { InputCustom } from '../common'
 import styles from '../styles/General.styles'
+import CustomInputStyles from '../styles/CustomInputStyles'
 
+/**
+ * Account Forgot Password component
+ */
 const AccountForgotPassword = (props) => {
     return (
         <ScrollView>
@@ -10,12 +14,16 @@ const AccountForgotPassword = (props) => {
                 <Text style={styles.labelStyle}>{props.header}</Text>
             </View>
             <View>
-                <Input
+                <InputCustom
                     placeholder="user.email@dummy.com"
                     label="Email: "
                     value={props.email}
                     onChangeText={props.emailOnChge}
                     error={props.errorEmail}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleLeft}      
+                    labelStyle = {CustomInputStyles.labelStyle}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
             <View style={styles.Row}>

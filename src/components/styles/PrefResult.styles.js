@@ -24,7 +24,7 @@ export default {
             height: 10,
             width: 5,
         },
-        elevation: 3,
+        elevation: 1,
     },
     labelStyle: {
         fontSize: 18,

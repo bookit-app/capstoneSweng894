@@ -5,7 +5,7 @@ const PickerList = ({ label, value, onChangeText, list }) => {
     const { labelStyle, containerStyle } = styles   
 
     const PickerRender = () => {     
-        console.log(list);
+        // console.log('PickerRender',list);
           
         if(Platform.OS === 'ios'){
             return (

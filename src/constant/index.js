@@ -4,6 +4,12 @@ export const Gender = [
     {Id: 2, label: 'Other', value: 'O'}
 ]
 
+export const GenderV2 = [
+    {Id: 0, Name: 'Male', Value: 'M'}, 
+    {Id: 1, Name: 'Female', Value: 'F'}, 
+    {Id: 2, Name: 'Other', Value: 'O'}
+]
+
 export const stateList = [
     {
         "label": "Alabama",
@@ -324,6 +330,7 @@ export const serviceProvider = [
 
 export default {
     Gender,
+    GenderV2,
     stateList,
     Time,
     Day,

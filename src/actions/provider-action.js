@@ -5,25 +5,24 @@ export const set_provider_search = (result) =>({
     result
 })
 
-export const GetProvider = (bool) => {
-    return {
-        type: actions.GET_PROVIDER_PENDING,
-        payload: bool
-    }
-}
+export const alreadyFetch = (bool) => ({
+    type: actions.ALREADY_FETCH_PROVIDER,
+    payload: bool
+})
 
-export const GetProviderFullFilled = (data) => {
-    return {
-        type: actions.GET_PROVIDER_FULFILLED,
-        payload: data,
-        loading: false,
-    }
-}
+export const GetProvider = (bool) => ({
+    type: actions.GET_PROVIDER_PENDING,
+    payload: bool
+})
 
-export const GetProviderReject = (error) => {
-    return {
-        type: actions.GET_PROCIDER_REFJECTED,
-        payload: error,
-        loading: false
-    }
-}
+export const GetProviderFullFilled = (data) => ({
+    type: actions.GET_PROVIDER_FULFILLED,
+    payload: data,
+    loading: false,
+})
+
+export const GetProviderReject = (error) => ({
+    type: actions.GET_PROCIDER_REFJECTED,
+    payload: error,
+    loading: false
+})
