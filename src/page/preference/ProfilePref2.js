@@ -4,6 +4,9 @@ import { preference } from '../../actions'
 import { GetProviderSearchResult } from '../../store'
 import PreferenceShopResult from '../../components/preference/PreferenceShopResult'
 
+/**
+ * Preference Page 2 form - Access from profile preference click
+ */
 class ProfilePref2 extends React.Component {
     render(){
         return (

@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import firebase from 'firebase'
 import { Text, View, Image, TouchableOpacity, Alert } from 'react-native'
 import { Spinner } from '../common'
 import { preference } from '../../actions'
@@ -39,7 +38,11 @@ class PreferenceShopResult extends React.Component {
             pageProviders: [],
             maxPages: 0,
             currentIndex: 0,
-            chgeStyle: false
+            chgeStyle: false,
+            city: '',
+            state: '',
+            styles: '',
+            loading: true,
         }
 
         this.filterGenerate = utilites.filterGenerate.bind(this)
@@ -48,20 +51,47 @@ class PreferenceShopResult extends React.Component {
         this.renderItem = this.renderItem.bind(this)
         this.setProviderPreference = this.setProviderPreference.bind(this)
         this.onLoadNext = this.onLoadNext.bind(this)
+        this.onPreferenceRefreshListSource = this.onPreferenceRefreshListSource.bind(this)
     }
 
-    componentDidMount(){        
+    // componentDidMount(){    
+    //     console.log('componentDidMount', this.props.alreadyFetch);
+            
+    //     if(!this.props.alreadyFetch){
+    //         this.onPreferenceRefreshListSource()
+    //     }
+    // }
+
+    UNSAFE_componentWillReceiveProps(nextProps){       
+        if(!this.isEmpty(this.props.profile) || !this.isEmpty(this.props.preference)){
+            var city = this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city
+            var state = this.isEmpty(this.props.preference) ? this.props.profile.address.state : this.props.preference.state
+            var styles = !this.isEmpty(this.props.preference) ? !this.isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style : '' : ''
+        }
+
+        if((this.state.loading || this.props.loading) || (nextProps.searchResult != this.state.serviceProviders)){ 
+            // console.log('UNSAFE_componentWillReceiveProps', 'here');
+            this.onPreferencePage2(nextProps.searchResult)
+        } 
+        else if(this.state.city != city || this.state.state != state || this.state.styles != styles){
+            // console.log('UNSAFE_componentWillReceiveProps', 'Refresh list');
+            this.onPreferenceRefreshListSource()
+        }
+    }
+
+    onPreferenceRefreshListSource(){
         if(!this.isEmpty(this.props.profile) || !this.isEmpty(this.props.preference)) {
             var city = this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city
             var state = this.isEmpty(this.props.preference) ? this.props.profile.address.state : this.props.preference.state
             var styles = !this.isEmpty(this.props.preference) ? !this.isEmpty(this.props.preference.hairStyle) ? this.props.preference.hairStyle.style : '' : ''
-
-            console.log('componentDidMount', this.props.profile );
-            console.log('componentDidMount', this.props.preference );
-            console.log('componentDidMount', city);
-            console.log('componentDidMount', state);
-            console.log('componentDidMount', styles);
             
+            this.setState({
+                city: city,
+                state: state,
+                styles: styles,
+                loading: true
+            })
+
             var filterType = {
                 city: city,
                 state: state,
@@ -70,18 +100,7 @@ class PreferenceShopResult extends React.Component {
             
             var filter = this.filterGenerate(filterType)
 
-            console.log('componentDidMount filter', filter);
-
             this.props.getProviderResult(filter,this.props.token)
-        }
-            
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps){       
-        if( nextProps.loading != this.props.loading){ 
-            this.onPreferencePage2(nextProps.searchResult)
-            
-            console.log('UNSAFE_componentWillReceiveProps', 'here');
         }
     }
 
@@ -98,24 +117,24 @@ class PreferenceShopResult extends React.Component {
                 listOfList.push(searchlist.slice(i, i + pageSize))
             }
 
-            console.log('onPreferencePage2', 'Here');
+            // console.log('onPreferencePage2', 'Here');
             
             this.setState({
                 serviceProviders: searchlist,
                 currentProviders: listOfList[0],
                 pageProviders: listOfList,
                 pageMax: listOfList.length,
-                currentIndex: 0
+                currentIndex: 0,
+                loading: false
             })
 
         } catch(error){
             console.log('onPreferencePage2', 'Errored and do nothing');
-            
         }
     }
 
     onLoadNext(){
-        console.log('onLoadNext', 'Here');
+        // console.log('onLoadNext', 'Here');
         
         const { currentProviders, pageProviders, currentIndex, pageMax } = this.state
 
@@ -136,16 +155,24 @@ class PreferenceShopResult extends React.Component {
             [
                 {text: 'Cancel', onPress: () => {return null}},
                 {text: 'Confirm', onPress: () => {      
-                    console.log(this.props.preference);
+                    // console.log('Preference Provider',this.props.profile.preferences);
+                    // console.log('Preference Provider',this.props.preference);
+
+                    var preference = this.isEmpty(this.props.preference) ? this.props.profile.preferences : this.props.preference
+                    // console.log('Preference Provider',preference);
+                    preference.providerId = item.providerId
+
                     var payload = {
-                        "preferences": {
+                        "preferences":{
                             providerId: item.providerId
                         }
-                    }   
+                    }
+
+                    // console.log('Preference Provider',payload);
 
                     apis.updateProfileById(payload, this.props.token)
                         .then(i => {
-                            this.props.setPreference(payload)
+                            this.props.setPreference(preference)
                             NavigationService.navigate(this.props.onItemConfirmed)
                         }).catch(error =>{
                             console.log('setProviderPreference error', error);
@@ -190,12 +217,12 @@ class PreferenceShopResult extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log('mapStateToProps Preference', state);
-    
+    // console.log('mapStateToProps Preference', state);
     return {
         profile: state.profile.profile,
         preference: state.preference.preference,
         providerResults: state.provider.providerSearchResult,
+        alreadyFetch: state.provider.alreadyFetch,
         searchResult: state.provider.searchResult,
         errorMessage: state.provider.errorMessage,
         loading: state.provider.loading,

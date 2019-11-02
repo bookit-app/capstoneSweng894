@@ -7,15 +7,16 @@ import SettingPref1 from '../../page/preference/SettingPref1'
 import SettingPref2 from '../../page/preference/SettingPref2'
 import Tutorial from '../../page/general/Tutorial'
 import utilites from '../../utilites'
+import { NavigationEvents } from 'react-navigation'
 
 /**
  * Temp Object can be changes as necessary or removed
  * @param {*} props 
  */
 const UserInfo = (props) =>{
-    if(props.prefSet && props.preferInfo && props.profInfo){
+    if(props.preferInfo && props.profInfo){
         const { firstName, lastName, email } = props.profInfo
-        console.log('UserInfo', props.profInfo);
+        // console.log('UserInfo', props.profInfo);
         
         const { staffClassification, time} = props.preferInfo
         
@@ -55,29 +56,53 @@ class AppointmentDashboard extends React.Component {
         this.isEmpty = utilites.isEmpty.bind(this)
     }
 
+    UNSAFE_componentWillUpdate(){
+        if((!this.props.loadingProfile && this.state.loadingProfile) 
+            || (!this.props.loadingPreference && this.state.loadingPreference)){
+            this.AppointmentDashboardRefresh()
+        }
+    }
+
     UNSAFE_componentWillReceiveProps(nextProps){
-        console.log('UNSAFE_componentWillReceiveProps', nextProps.prefSet);
-        console.log('UNSAFE_componentWillReceiveProps', this.props.prefSet);
+        // console.log('UNSAFE_componentWillReceiveProps', nextProps.profile);
+        // console.log('UNSAFE_componentWillReceiveProps', this.props.profile);
         
-        if( this.props.prefSet 
-            && !this.props.loadingProfile){
-                this.AppointmentDashboardRefresh(nextProps)
+        // if( this.props.prefSet 
+        if((!this.props.loadingProfile && this.state.loadingProfile) 
+            || (!this.props.loadingPreference && this.state.loadingPreference)){
+            this.AppointmentDashboardRefresh(nextProps)
         }
     }
 
     AppointmentDashboardRefresh(nextProps){
+        // console.log('AppointmentDashboardRefresh', nextProps);
+        
+        if(!this.isEmpty(nextProps))
+        {
+            this.setState({
+                prefSet: this.props.prefSet ? this.props.prefSet: nextProps.prefSet,
+                loadingProfile: this.props.loadingProfile ? this.props.loadingProfile : nextProps.loadingProfile,
+                loadingPreference: this.props.loadingPreference ? this.props.loadingPreference : nextProps.loadingPreference,
+                profile: this.props.profile ? this.props.profile : nextProps.profile,
+                preference: this.props.preference ? this.props.preference ? nextProps.preference : this.props.profile.preferences : this.props.profile.preferences,
+                display3: false
+            }) 
+        }
+    }
+
+    AppointmentDashboardRefresh(){
         this.setState({
-            prefSet: this.props.prefSet ? this.props.prefSet: nextProps.prefSet,
-            loadingProfile: this.props.loadingProfile ? this.props.loadingProfile : nextProps.loadingProfile,
-            loadingPreference: this.props.loadingPreference ? this.props.loadingPreference : nextProps.loadingPreference,
-            profile: this.props.profile ? this.props.profile : nextProps.profile,
-            preference: this.props.preference ? this.props.preference ? nextProps.preference : this.props.profile.preferences : this.props.profile.preferences,
+            prefSet: this.props.prefSet ,
+            loadingProfile: this.props.loadingProfile,
+            loadingPreference: this.props.loadingPreference,
+            profile: this.props.profile ,
+            preference: this.props.preference ? this.props.preference : this.props.profile.preferences,
             display3: false
         }) 
     }
 
     profileModel1(){
-        console.log('profileModel1', this.state.display1)
+        // console.log('profileModel1', this.state.display1)
         this.setState(prevState => {
             return {
                 display1: true
@@ -86,7 +111,7 @@ class AppointmentDashboard extends React.Component {
     }
 
     profileModel2(){
-        console.log('profileModel2', this.state.display2)
+        // console.log('profileModel2', this.state.display2)
         this.setState(prevState => {
             return {
                 display2: true
@@ -119,7 +144,7 @@ class AppointmentDashboard extends React.Component {
     }
 
     onModalClose3(){
-        console.log('onModalClose3');
+        // console.log('onModalClose3');
         
         return (
             <TouchableOpacity
@@ -133,7 +158,7 @@ class AppointmentDashboard extends React.Component {
     }
 
     onModalCompleted = (update) => {
-        console.log('onModalCompleted', this.state.display3)
+        // console.log('onModalCompleted', this.state.display3)
         this.setState(prevState => {
             return {
                 display3: update
@@ -142,21 +167,22 @@ class AppointmentDashboard extends React.Component {
     }
 
     render(){
-        console.log('prefSet', this.state.prefSet);
-        console.log('loadingProfile', this.state.loadingProfile);
-        console.log('loadingPreference', this.state.loadingPreference);
         
-        if(this.state.prefSet){
-            if(this.state.loadingProfile){
+        // if(this.state.prefSet || this.props.prefSet){
+            if(this.state.loadingProfile
+                && this.state.loadingPreference 
+                && this.props.loadingProfile 
+                && this.props.loadingPreference){
                 return <Spinner size="large" />
-            }
-
-            // console.log('Appointment Dashboard', this.state.profile);
-            // console.log('Appointment Dashboard', this.state.preference);       
-        }
+            }      
+        // }
            
         return (
             <View>
+                <NavigationEvents
+                    onDidBlur={() => this.AppointmentDashboardRefresh()}
+                    onWillBlur={() => this.AppointmentDashboardRefresh()}
+                />
                 <Text>{'Appointment Dashboard'}</Text>
                 <UserInfo
                     prefSet={this.state.prefSet} 

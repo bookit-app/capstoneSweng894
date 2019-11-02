@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-navigation'
 import styles from '../styles/DisplayResult.styles'
 
 const DisplayResults = (props) => {
-    console.log('DisplayResults', props);
+    // console.log('DisplayResults', props);
     
     if(props.errorMessage){
         return (

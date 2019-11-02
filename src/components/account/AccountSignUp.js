@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { Input, InputCustom } from '../common'
+import { View, Text, Platform } from 'react-native'
+import { InputCustom, InputNumberCustom } from '../common'
 import CustomInputStyles from '../styles/CustomInputStyles'
+import { CustomPicker } from 'react-native-custom-picker'
 
 /**
  * Account Log-In/Sign-Up user & password fields 
@@ -13,38 +14,52 @@ const  AccountSignUp = (props) => {
         <View>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom
-                    placeholder="First Name"
-                    label="First Name: "         
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
+                    placeholder="i.e. William"
+                    label="First Name: "     
+                    value={props.firstNameValue}
+                    onChangeText={props.firstNameChge}
+                    error={props.errorFirstName}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {CustomInputStyles.errorStyle} 
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
                  <InputCustom
-                    secureTextEntry
-                    placeholder="Last Name"
+                    placeholder="i.e. Jackson"
                     label={"Last Name: "}
-                    inputStyle = {CustomInputStyles.inputStyleRight}
+                    value={props.lastNameValue}
+                    onChangeText={props.lastNameChge}
+                    error={props.errorLastName}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleOsRight : CustomInputStyles.inputStyleAndroid}
                     containerStyle = {CustomInputStyles.containerStyleRight}      
                     labelStyle = {CustomInputStyles.labelStyleRight}
-                    errorStyle = {CustomInputStyles.errorStyleRight}
-
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
-            
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom
-                    secureTextEntry
-                    placeholder="Email"
+                    placeholder="i.e. 1987-01-01"
+                    label={"Date of Birth: "}
+                    value={props.dobValue}
+                    onChangeText={props.dobChge}
+                    error={props.errordob}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleOsRight : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleRight}      
+                    labelStyle = {CustomInputStyles.labelStyleRight}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
+               />
+            </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                <InputCustom
+                    placeholder="i.e. e@dummy.com"
                     label={"Email: "}
                     value={props.emailValue}
                     onChangeText={props.emailOnChge}
-                     error={props.errorEmail}   
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
-                    containerStyle = {CustomInputStyles.containerStyleLeft}      
+                    error={props.errorEmail}   
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleLeft}       
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {CustomInputStyles.errorStyle}
-
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
                  <InputCustom
                     secureTextEntry
@@ -53,80 +68,88 @@ const  AccountSignUp = (props) => {
                     value={props.passwordValue}
                     onChangeText={props.passwordOnChge}
                     error={props.errorPassword} 
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
-                    containerStyle = {CustomInputStyles.containerStyleLeft}      
-                    labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {CustomInputStyles.errorStyle}
-
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleOsRight : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleRight}      
+                    labelStyle = {CustomInputStyles.labelStyleRight}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom
-                    placeholder="Telephone"
-                    label="Telephone: "         
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
-                    containerStyle = {CustomInputStyles.containerStyleLeft}      
+                    placeholder="i.e. 123-123-1234"
+                    label="Telephone: " 
+                    value={props.telephoneValue}
+                    onChangeText={props.telephoneOnChge}
+                    error={props.errorTelephone}        
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleLeft}       
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {CustomInputStyles.errorStyle} 
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
-                 <InputCustom
-                 //This needs to be a drop box not a CustomInput 
-                    secureTextEntry
-                    placeholder="Gender"
-                    label={"Gender: "}
-                    inputStyle = {CustomInputStyles.inputStyleRight}
-                    containerStyle = {CustomInputStyles.containerStyleRight}      
-                    labelStyle = {CustomInputStyles.labelStyleRight}
-                    errorStyle = {CustomInputStyles.errorStyleRight}
-
-                />
+                <View style={CustomInputStyles.containerStyleRight}>
+                    <Text>{"Gender: "}</Text>
+                    <CustomPicker
+                        placeholder={"i.e. Male"}
+                        options={props.genderItem}
+                        onValueChange={props.genderOnChge}
+                        defaultValue={"i.e. Male"}
+                        value={props.genderValue}
+                    />
+                    <Text style={Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid}>{props.errorGender}</Text>
+                </View>
             </View>
             
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom
-                    secureTextEntry
-                    placeholder="Address"
+                    placeholder="i.e. 100 North Street"
                     label={"Address: "}
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
+                    value={props.streetValue}
+                    onChangeText={props.streetOnChge}
+                    error={props.errorStreet}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {CustomInputStyles.errorStyle}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
 
                 />
                  <InputCustom
-                    secureTextEntry
-                    placeholder="City"
+                    placeholder="i.e. Philadelphia"
                     label={"City:"}
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
-                    containerStyle = {CustomInputStyles.containerStyleLeft}      
-                    labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {CustomInputStyles.errorStyle}
+                    value={props.cityValue}
+                    onChangeText={props.cityOnChge}
+                    error={props.errorCity}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    containerStyle = {CustomInputStyles.containerStyleRight}      
+                    labelStyle = {CustomInputStyles.labelStyleRight}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
 
                 />
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom
-                    secureTextEntry
-                    placeholder="State"
+                    placeholder="i.e. PA"
                     label={"State: "}
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
+                    value={props.stateValue}
+                    onChangeText={props.stateOnChge}
+                    error={props.errorState}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleOsRight : CustomInputStyles.inputStyleAndroid}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {CustomInputStyles.errorStyle}
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
 
                 />
-                 <InputCustom
-                    secureTextEntry
-                    placeholder="Zipcode"
-                    label={"Zipcode:"}
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
+                <InputNumberCustom
+                    placeholder="i.e. 19475"
+                    label="Zipcode: "
+                    value={props.zip}
+                    onChangeText={props.onZipChge}
+                    error={props.errorZip}
+                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleOsRight : CustomInputStyles.inputStyleAndroid}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {CustomInputStyles.errorStyle}
-
+                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
-    
         </View>
     )
 }

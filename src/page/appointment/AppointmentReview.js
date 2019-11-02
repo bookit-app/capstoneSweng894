@@ -46,8 +46,7 @@ class AppointmentReview extends React.Component {
     componentDidMount(){
         const { navigation } = this.props
 
-        console.log('profile',JSON.stringify(navigation.getParam('profile', 'NO-ID')));
-        
+        // console.log('profile',JSON.stringify(navigation.getParam('profile', 'NO-ID')));
 
         this.setState({
             prefSet: this.props.prefSet,

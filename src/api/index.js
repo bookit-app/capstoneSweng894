@@ -33,9 +33,9 @@ export const createHeader = (token) => {
 export const insertProfile = (payload, token) => {
     var headers = createHeaderContent(token)
     
-    console.log('insertProfile',headers);
-    console.log('url',baseURL + '/profile');
-    console.log('payload',payload);    
+    // console.log('insertProfile',headers);
+    // console.log('url',baseURL + '/profile');
+    // console.log('payload',payload);    
 
     return (
         axios({
@@ -118,9 +118,9 @@ export const getConfiguration = (configType, token) => {
 export const updateProfileById = (payload, token) => {
     var headers = createHeaderContent(token)
 
-      console.log('updateProfileById',headers);
-      console.log('url',baseURL + '/profile');
-      console.log('payload',payload);  
+    // console.log('updateProfileById',headers);
+    // console.log('url',baseURL + '/profile');
+    // console.log('payload',payload);  
 
     return(
         axios({
@@ -140,8 +140,8 @@ export const updateProfileById = (payload, token) => {
 export const deletedProfileById = (id, token) => {
     var headers = createHeader(token)
 
-      console.log('deletedProfileById',headers);
-      console.log('url',baseURL + `/profile/${id}`);
+    // console.log('deletedProfileById',headers);
+    // console.log('url',baseURL + `/profile/${id}`);
     
     return (
         axios({
@@ -161,8 +161,8 @@ export const searchProviderByFilter = (filter, token) => {
     const headers = createHeader(token)
     const url = baseURL + '/search/provider?'+ filter
 
-    console.log('searchProviderByFilter',headers);
-    console.log('url',url);
+    // console.log('searchProviderByFilter',headers);
+    // console.log('url',url);
     
     return (
         axios({

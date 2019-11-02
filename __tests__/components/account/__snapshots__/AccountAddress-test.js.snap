@@ -1,0 +1,303 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountAddress correctly Matches the snapshot 1`] = `
+<View>
+  <View
+    style={
+      Object {
+        "borderColor": "black",
+        "borderRadius": 10,
+        "borderWidth": 1,
+        "display": "flex",
+        "flex": 1,
+        "flexDirection": "row",
+        "margin": 5,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "backgroundColor": "#ffffff",
+          "display": "flex",
+          "flex": 1,
+          "flexBasis": 90,
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "margin": 5,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "flex": 1,
+            "fontSize": 16,
+            "paddingBottom": 10,
+          }
+        }
+      >
+        Address: 
+      </Text>
+      <TextInput
+        allowFontScaling={true}
+        autoCorrect={false}
+        placeholder="i.e. 100 Main Street"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "color": "#000",
+            "elevation": 1,
+            "flex": 2,
+            "fontSize": 18,
+            "lineHeight": 3,
+            "paddingBottom": 20,
+            "paddingLeft": 5,
+            "paddingRight": 5,
+            "shadowOffset": Object {
+              "height": 10,
+              "width": 5,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 5,
+          }
+        }
+        underlineColorAndroid="transparent"
+        underlineColorAnroid="transparent"
+      />
+      <Text
+        style={
+          Object {
+            "bottom": 0,
+            "color": "red",
+            "elevation": 1,
+            "fontSize": 10,
+            "justifyContent": "center",
+            "marginTop": 10,
+            "position": "absolute",
+            "textAlign": "center",
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "backgroundColor": "#ffffff",
+          "display": "flex",
+          "flex": 1,
+          "flexBasis": 90,
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "margin": 5,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "flex": 1,
+            "fontSize": 16,
+            "paddingBottom": 10,
+          }
+        }
+      >
+        City: 
+      </Text>
+      <TextInput
+        allowFontScaling={true}
+        autoCorrect={false}
+        placeholder="i.e. Malven"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "color": "#000",
+            "elevation": 1,
+            "flex": 2,
+            "fontSize": 18,
+            "lineHeight": 3,
+            "paddingBottom": 20,
+            "paddingLeft": 5,
+            "paddingRight": 5,
+            "shadowOffset": Object {
+              "height": 10,
+              "width": 5,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 5,
+          }
+        }
+        underlineColorAndroid="transparent"
+        underlineColorAnroid="transparent"
+      />
+      <Text
+        style={
+          Object {
+            "bottom": 0,
+            "color": "red",
+            "elevation": 1,
+            "fontSize": 10,
+            "justifyContent": "center",
+            "marginTop": 10,
+            "position": "absolute",
+            "textAlign": "center",
+          }
+        }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "borderColor": "black",
+        "borderRadius": 10,
+        "borderWidth": 1,
+        "display": "flex",
+        "flex": 1,
+        "flexDirection": "row",
+        "margin": 5,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "backgroundColor": "#ffffff",
+          "display": "flex",
+          "flex": 1,
+          "flexBasis": 90,
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "margin": 5,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "flex": 1,
+            "fontSize": 16,
+            "paddingBottom": 10,
+          }
+        }
+      >
+        State: 
+      </Text>
+      <TextInput
+        allowFontScaling={true}
+        autoCorrect={false}
+        placeholder="i.e. PA"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "color": "#000",
+            "elevation": 1,
+            "flex": 2,
+            "fontSize": 18,
+            "lineHeight": 3,
+            "paddingBottom": 20,
+            "paddingLeft": 5,
+            "paddingRight": 5,
+            "shadowOffset": Object {
+              "height": 10,
+              "width": 5,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 5,
+          }
+        }
+        underlineColorAndroid="transparent"
+        underlineColorAnroid="transparent"
+      />
+      <Text
+        style={
+          Object {
+            "bottom": 0,
+            "color": "red",
+            "elevation": 1,
+            "fontSize": 10,
+            "justifyContent": "center",
+            "marginTop": 10,
+            "position": "absolute",
+            "textAlign": "center",
+          }
+        }
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "backgroundColor": "#ffffff",
+          "display": "flex",
+          "flex": 1,
+          "flexBasis": 90,
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "margin": 5,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "flex": 1,
+            "fontSize": 16,
+            "paddingBottom": 10,
+          }
+        }
+      >
+        Zip: 
+      </Text>
+      <TextInput
+        allowFontScaling={true}
+        autoCorrect={false}
+        keyboardType="numbers-and-punctuation"
+        placeholder="i.e. 19901"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "color": "#000",
+            "elevation": 1,
+            "flex": 2,
+            "fontSize": 18,
+            "lineHeight": 3,
+            "paddingBottom": 20,
+            "paddingLeft": 5,
+            "paddingRight": 5,
+            "shadowOffset": Object {
+              "height": 10,
+              "width": 5,
+            },
+            "shadowOpacity": 1,
+            "shadowRadius": 5,
+          }
+        }
+        underlineColorAndroid="transparent"
+        underlineColorAnroid="transparent"
+      />
+      <Text
+        style={
+          Object {
+            "bottom": 0,
+            "color": "red",
+            "elevation": 1,
+            "fontSize": 10,
+            "justifyContent": "center",
+            "marginTop": 10,
+            "position": "absolute",
+            "textAlign": "center",
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

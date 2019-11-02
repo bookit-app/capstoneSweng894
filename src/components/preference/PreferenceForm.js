@@ -5,7 +5,7 @@ import { NavigationEvents } from 'react-navigation'
 import { PrefTop, PrefChoice, PrefResult } from '../preference'
 import { Spinner } from '../common'
 import styles from '../../page/styles/Preference.styles'
-import { preference } from '../../actions'
+import { preference, profile, provider } from '../../actions'
 import { Time, DayOfWeek } from '../../constant'
 import utilites from '../../utilites'
 import validation from '../../validation'
@@ -44,14 +44,15 @@ class PrefeenceForm extends React.Component {
             day: 'i.e. Monday',
             daySelected:[],
             errorDay: '',
-            time: 'i.e. AFTERNOON',
+            time: 'i.e. Afternoon',
             timeSelected:[],
             errorTime: '',
             loading: true,
             loading_Submit: false,
             hairDresserList: [],
             barberList: [],
-            error: ''
+            error: '',
+            token: ''
         }
 
         this.onPreferencePage1Confirmed = utilites.onPreferencePage1Confirmed.bind(this)
@@ -60,6 +61,7 @@ class PrefeenceForm extends React.Component {
         this.onSubmitPrefPage1 = utilites.onSubmitPrefPage1.bind(this)
         this.resultsFromFilterPreference = utilites.resultsFromFilterPreference.bind(this)
         this.onSkipClick = utilites.onSkipClick.bind(this)
+        this.isEmpty = utilites.isEmpty.bind(this)
 
         this.verifyCityState = validation.verifyCityState.bind(this)
     }
@@ -68,12 +70,23 @@ class PrefeenceForm extends React.Component {
         this.onPreferenceRefresh()
     }
 
+    componentDidUpdate(prevProps){
+        if(!this.props.loadingStyles && this.state.loading){
+            // console.log('componentDidUpdate', this.props.styles);
+            this.onPreferenceRefresh()
+        }
+    }
+
     onSelectClassication = (data) => {
         var newStyleOn = this.state.hairDresserList.filter(i => i.staffclassification == data).map(a => a.style)[0] ? 
             this.state.hairDresserList.filter(i => i.staffclassification == data).map(a => a.style)[0] 
             : this.state.barberList.filter(i => i.staffclassification == data).map(b => b.style)[0]
-
-        var currentList = this.state.hairDresserList.filter(i => i.style == newStyleOn).length > 1 ? this.state.hairDresserList : this.state.barberList
+        
+        // console.log('onSelectClassication', this.state);
+        // console.log('onSelectClassication', this.state.barberList);
+        
+        var currentList = []
+        currentList = this.state.hairDresserList.filter(i => i.style == newStyleOn).length > 1 ? this.state.hairDresserList : this.state.barberList
 
         this.setState({ 
             staffClassification: data,
@@ -105,9 +118,9 @@ class PrefeenceForm extends React.Component {
 
         return(
             <ScrollView style={styles.scrollView}>
-                {/* <NavigationEvents
+                <NavigationEvents
                     onDidBlur={() => this.onPreferenceRefresh()}
-                /> */}
+                />
                 <View style={styles.Column}>
                     <TopSection
                         onRemoveSkipBtn={this.props.onRemoveSkipBtn}
@@ -155,7 +168,10 @@ const mapStateToProps = (state) =>{
     return {
         token: state.auth.token,
         preference: state.preference.preference,
+        styles: state.preference.styles,
+        loadingStyles: state.preference.styleLoading,
         profile: state.profile.profile,
+        loadingProfile: state.profile.loading,
         providerResults: state.provider.providerSearchResult
     }
 }
@@ -163,6 +179,8 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) =>{
     return {
         setPreference: (prefer) => dispatch(preference.setPreference(prefer)),
+        setProfile: (prof) => dispatch(profile.setProfile(prof)),
+        alreadyFetch: (af) => dispatch(provider.alreadyFetch(af)),
         getProviderResult : (filter, token) => dispatch(GetProviderSearchResult(filter, token))
     }
 }

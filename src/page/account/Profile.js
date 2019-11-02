@@ -8,6 +8,7 @@ import AccountDetails from '../../components/account/AccountDetails'
 import { Spinner } from '../../components/common'
 import { NavigationEvents } from 'react-navigation'
 
+import { signOut } from '../../store'
 import { preference, profile } from '../../actions'
 
 /**
@@ -76,20 +77,20 @@ class Profile extends React.Component {
         this.onProfileRefresh = utilites.onProfileRefresh.bind(this)
         this.onProfileSub = utilites.onProfileSub.bind(this)
         this.onRenderPreference = utilites.onRenderPreference.bind(this)   
+        this.isEmpty = utilites.isEmpty.bind(this)
     }
     
     async componentDidMount(){
         this.onProfileRefresh() 
     }
 
-    // UNSAFE_componentWillReceiveProps(nextProps){
-    //     if(nextProps.loading != this.props.loading){
-    //         console.log(nextProps.profile);
-    //         // console.log(this.props.profile);
-            
-    //         this.onProfileRec(nextProps.profile)
-    //     }
-    // }
+    UNSAFE_componentWillReceiveProps(nextProps){
+        if(!this.props.loadingProfile && !this.state.zip){
+            // console.log('UNSAFE_componentWillReceiveProps exists', nextProps.profile);
+            // console.log('UNSAFE_componentWillReceiveProps exists', !nextProps.loadingProfile);
+            this.onProfileRefresh() 
+        }
+    }
 
     render(){
         if(this.props.loading){
@@ -100,6 +101,7 @@ class Profile extends React.Component {
             <ScrollView style={styles.scrollView}>
                 <NavigationEvents
                     onDidBlur={() => this.onProfileRefresh()}
+                    onWillBlur={() => this.onProfileRefresh()}
                 />
                 <View>
                     <AccountDetails
@@ -157,7 +159,7 @@ const mapStateToProps = (state) => {
     return {
         preference: state.preference.preference,
         profile: state.profile.profile,
-        loading: state.profile.loading,
+        loadingProfile: state.profile.loading,
         errorMessage: state.profile.errorMessage,
         userId: state.auth.userId,
         token: state.auth.token,
@@ -168,8 +170,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setPreference: (prefer) => dispatch(preference.setPreference(prefer)),
-        setProfile: (prof) => dispatch(profile.setProfile(prof))
+        setProfile: (prof) => dispatch(profile.setProfile(prof)),
+        signOut: () => dispatch(signOut())
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Profile)
+export default connect(mapStateToProps,mapDispatchToProps)(Profile) 
