@@ -14,9 +14,9 @@ import { NavigationEvents } from 'react-navigation'
  * @param {*} props 
  */
 const UserInfo = (props) =>{
-    if(props.prefSet && props.preferInfo && props.profInfo){
+    if(props.preferInfo && props.profInfo){
         const { firstName, lastName, email } = props.profInfo
-        // console.log('UserInfo', props.profInfo);
+        console.log('UserInfo', props.profInfo);
         
         const { staffClassification, time} = props.preferInfo
         
@@ -56,12 +56,20 @@ class AppointmentDashboard extends React.Component {
         this.isEmpty = utilites.isEmpty.bind(this)
     }
 
+    componentWillUpdate(){
+        if((!this.props.loadingProfile && this.state.loadingProfile) 
+            || (!this.props.loadingPreference && this.state.loadingPreference)){
+            this.AppointmentDashboardRefresh()
+        }
+    }
+
     UNSAFE_componentWillReceiveProps(nextProps){
         // console.log('UNSAFE_componentWillReceiveProps', nextProps.profile);
         // console.log('UNSAFE_componentWillReceiveProps', this.props.profile);
         
         // if( this.props.prefSet 
-        if((!this.props.loadingProfile || !this.state.loadingProfile) || (nextProps.profile != this.props.profile)){
+        if((!this.props.loadingProfile && this.state.loadingProfile) 
+            || (!this.props.loadingPreference && this.state.loadingPreference)){
             this.AppointmentDashboardRefresh(nextProps)
         }
     }
@@ -159,21 +167,15 @@ class AppointmentDashboard extends React.Component {
     }
 
     render(){
-        // console.log('prefSet', this.state.prefSet);
-        // console.log('prefSet', this.props.prefSet);
-        // console.log('loadingProfile', this.state.loadingProfile);
-        // console.log('loadingProfile', this.props.loadingProfile);
-        // console.log('loadingPreference', this.state.loadingPreference);
-        // console.log('loadingPreference', this.props.loadingPreference);
         
-        if(this.state.prefSet || this.props.prefSet){
-            if(this.state.loadingProfile && this.props.loadingProfile){
+        // if(this.state.prefSet || this.props.prefSet){
+            if(this.state.loadingProfile
+                && this.state.loadingPreference 
+                && this.props.loadingProfile 
+                && this.props.loadingPreference){
                 return <Spinner size="large" />
-            }
-
-            // console.log('Appointment Dashboard', this.state.profile);
-            // console.log('Appointment Dashboard', this.state.preference);       
-        }
+            }      
+        // }
            
         return (
             <View>

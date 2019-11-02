@@ -11,36 +11,21 @@ import utilites from '../../utilites'
  * account is created in firebase
  */
 class Loader extends React.Component {
-    constructor(props){
-        super(props)
-
-        this.state = {
-            pref: false,
-        }
-
-        this.isEmpty = utilites.isEmpty.bind(this)
-    }
     UNSAFE_componentWillUnmount(){
         this.props.settingPref(false)
     }
 
     componentDidMount(){
-        firebase.auth().onAuthStateChanged(user => {
-            var currentPref = this.state.pref //this.props.pref ?
-            console.log('user profile preference', this.props.pref);
+        firebase.auth().onAuthStateChanged((user) => {
+            var currentPref = false
             
             if(user){
-                // console.log('user profile json', this.isEmpty(this.props.profile));  
-                // console.log('user profile preference json', this.props.profile.preferences);
-                // console.log('user profile preference json', this.props);
-                console.log('user profile preference json', this.isEmpty(this.props.profile.preferences));
-                console.log('user profile preference json', this.isEmpty(this.props.preference));
-                currentPref = !this.isEmpty(this.props.profile.preferences)               
+                console.log('componentDidMount', user.displayName);
+                currentPref = user.displayName ? true : false  
+                console.log('componentDidMount currentPref', user.displayName ? true : false);
+                this.props.settingPref(true)           
             } else {
                 console.log('onAuthStateChanged', 'No one logged In');
-                console.log('user profile preference json', this.isEmpty(this.props.profile.preferences));
-                console.log('user profile preference json', this.isEmpty(this.props.preference));
-                currentPref = !this.isEmpty(this.props.profile.preferences) 
             } 
 
             console.log('Preference Setting: ', currentPref);

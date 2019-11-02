@@ -1,10 +1,8 @@
 import React from 'react'
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, Platform } from 'react-native'
 import { InputCustom } from '../common'
 import styles from '../styles/General.styles'
 import CustomInputStyles from '../styles/CustomInputStyles'
-
-import '../../../helper/enzyme-setup'
 
 /**
  * Account Forgot Password component

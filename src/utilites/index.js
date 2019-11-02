@@ -816,7 +816,7 @@ function filterGenerate(filterType){
         // console.log('filterGenerate value',value);
 
         if(value){
-            filter = label + '=' + value.replace(' ', '%20')
+            filter = label + '=' + value.replace(/ /g, '%20')
             // console.log('filterGenerate filter', filter);
             
             filters = !filters ? filter : filters + '&' + filter
