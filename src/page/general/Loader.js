@@ -20,7 +20,7 @@ class Loader extends React.Component {
             var currentPref = false
             
             if(user){
-                console.log('componentDidMount', user.displayName);
+                //console.log('componentDidMount', user.displayName);
                 currentPref = user.displayName ? true : false  
                 console.log('componentDidMount currentPref', user.displayName ? true : false);
                 this.props.settingPref(true)           

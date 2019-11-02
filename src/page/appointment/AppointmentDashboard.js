@@ -16,7 +16,7 @@ import { NavigationEvents } from 'react-navigation'
 const UserInfo = (props) =>{
     if(props.preferInfo && props.profInfo){
         const { firstName, lastName, email } = props.profInfo
-        console.log('UserInfo', props.profInfo);
+        // console.log('UserInfo', props.profInfo);
         
         const { staffClassification, time} = props.preferInfo
         
@@ -56,7 +56,7 @@ class AppointmentDashboard extends React.Component {
         this.isEmpty = utilites.isEmpty.bind(this)
     }
 
-    componentWillUpdate(){
+    UNSAFE_componentWillUpdate(){
         if((!this.props.loadingProfile && this.state.loadingProfile) 
             || (!this.props.loadingPreference && this.state.loadingPreference)){
             this.AppointmentDashboardRefresh()
