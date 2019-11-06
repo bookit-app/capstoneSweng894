@@ -36,7 +36,8 @@ export default {
     },
     ItemimgSty: {
         width: 30,
-        height: 30
+        height: 30,
+        borderRadius: 10
     },
     RowItem: {
         display: 'flex',
@@ -66,5 +67,15 @@ export default {
     headerTxt: {
         color:'blue',
         fontSize: 15,
+    },
+    listHeader: {
+        backgroundColor: 'blue',
+        color: 'white', 
+        width: '98%',
+        textAlign: 'center'
+    },
+    RowHeader: {
+        justifyContent: 'center', 
+        alignItems: 'center'
     },
 }

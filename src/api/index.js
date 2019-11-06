@@ -173,6 +173,27 @@ export const searchProviderByFilter = (filter, token) => {
     )
 }
 
+/**
+ * Handles retreving specific provider details
+ * @param {*} id 
+ * @param {*} token 
+ */
+export const getProviderDetails = (id, token) =>{
+    const headers = createHeader(token)
+    const url = baseURL + '/provider'
+
+    // console.log('provider details',headers);
+    // console.log('url',url);
+
+    return (
+        axios({
+            method: 'GET',
+            url: url,
+            headers: headers
+        })
+    )
+}
+
 const apis = {
     insertProfile,
     getProfileById,
@@ -180,6 +201,7 @@ const apis = {
     updateProfileById,
     deletedProfileById,
     searchProviderByFilter,
+    getProviderDetails
 }
 
 export default apis

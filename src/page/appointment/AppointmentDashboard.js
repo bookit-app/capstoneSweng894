@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, ScrollView } from 'react-native'
 import { ButtonCustom, Spinner } from '../../components/common'
+import { AppointmentList, AppointmentItem } from '../../components/appointment'
 import styles from '../styles/AppointmentDashboard.styles'
-import SettingPref1 from '../../page/preference/SettingPref1'
-import SettingPref2 from '../../page/preference/SettingPref2'
-import Tutorial from '../../page/general/Tutorial'
 import utilites from '../../utilites'
 import { NavigationEvents } from 'react-navigation'
+import { ReviewAppointments, UpcomingAppointments, Services } from '../../constant'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import AppointmentDetail from './AppointmentDetail'
 
 /**
  * Temp Object can be changes as necessary or removed
@@ -16,7 +17,8 @@ import { NavigationEvents } from 'react-navigation'
 const UserInfo = (props) =>{
     if(props.preferInfo && props.profInfo){
         const { firstName, lastName, email } = props.profInfo
-        // console.log('UserInfo', props.profInfo);
+        // console.log('UserInfo', address);
+        // console.log('UserInfo', preferences);
         
         const { staffClassification, time} = props.preferInfo
         
@@ -39,6 +41,12 @@ const UserInfo = (props) =>{
 }
 
 class AppointmentDashboard extends React.Component {
+    static navigationOptions = ({navigation}) => {
+        const {state, navigate} = navigation;
+        return {
+          title: 'Book It'
+        };
+      };
     constructor(props){
         super(props)
 
@@ -48,35 +56,24 @@ class AppointmentDashboard extends React.Component {
             prefSet: true,
             loadingProfile: true,
             loadingPreference: true,
-            display1: false,
-            display2: false,
-            display3: false
         }
 
         this.isEmpty = utilites.isEmpty.bind(this)
+        this.onRenderItemClick = this.onRenderItemClick.bind(this)
     }
 
-    UNSAFE_componentWillUpdate(){
-        if((!this.props.loadingProfile && this.state.loadingProfile) 
-            || (!this.props.loadingPreference && this.state.loadingPreference)){
+    componentDidMount(){
+        this.AppointmentDashboardRefresh()
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps){
+        if(!this.props.loadingProfile){
+            // this.AppointmentDashboardRefresh(nextProps)
             this.AppointmentDashboardRefresh()
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        // console.log('UNSAFE_componentWillReceiveProps', nextProps.profile);
-        // console.log('UNSAFE_componentWillReceiveProps', this.props.profile);
-        
-        // if( this.props.prefSet 
-        if((!this.props.loadingProfile && this.state.loadingProfile) 
-            || (!this.props.loadingPreference && this.state.loadingPreference)){
-            this.AppointmentDashboardRefresh(nextProps)
-        }
-    }
-
-    AppointmentDashboardRefresh(nextProps){
-        // console.log('AppointmentDashboardRefresh', nextProps);
-        
+    AppointmentDashboardRefresh(nextProps){        
         if(!this.isEmpty(nextProps))
         {
             this.setState({
@@ -84,7 +81,7 @@ class AppointmentDashboard extends React.Component {
                 loadingProfile: this.props.loadingProfile ? this.props.loadingProfile : nextProps.loadingProfile,
                 loadingPreference: this.props.loadingPreference ? this.props.loadingPreference : nextProps.loadingPreference,
                 profile: this.props.profile ? this.props.profile : nextProps.profile,
-                preference: this.props.preference ? this.props.preference ? nextProps.preference : this.props.profile.preferences : this.props.profile.preferences,
+                preference: this.props.profile.preferences,
                 display3: false
             }) 
         }
@@ -96,100 +93,159 @@ class AppointmentDashboard extends React.Component {
             loadingProfile: this.props.loadingProfile,
             loadingPreference: this.props.loadingPreference,
             profile: this.props.profile ,
-            preference: this.props.preference ? this.props.preference : this.props.profile.preferences,
+            preference: this.props.profile.preferences,
             display3: false
         }) 
     }
 
-    profileModel1(){
-        // console.log('profileModel1', this.state.display1)
-        this.setState(prevState => {
-            return {
-                display1: true
-            }
-        });
+    // profileModel1(){
+    //     // console.log('profileModel1', this.state.display1)
+    //     this.setState(prevState => {
+    //         return {
+    //             display1: true
+    //         }
+    //     });
+    // }
+
+    // profileModel2(){
+    //     // console.log('profileModel2', this.state.display2)
+    //     this.setState(prevState => {
+    //         return {
+    //             display2: true
+    //         }
+    //     });
+    // }
+
+    // onModalClose1(){
+    //     return (
+    //         <TouchableOpacity
+    //             onPress={() => {
+    //                 this.setState({ display1: false })
+    //             }}
+    //         >
+    //             <Text>{'Close'}</Text>
+    //         </TouchableOpacity>
+    //     )
+    // }
+
+    // onModalClose2(){
+    //     return (
+    //         <TouchableOpacity
+    //             onPress={() => {
+    //                 this.setState({ display2: false })
+    //             }}
+    //         >
+    //             <Text>{'Close'}</Text>
+    //         </TouchableOpacity>
+    //     )
+    // }
+
+    // onModalClose3(){
+    //     // console.log('onModalClose3');
+    //     return (
+    //         <TouchableOpacity
+    //             onPress={() => {
+    //                 this.setState({ display3: false })
+    //             }}
+    //         >
+    //             <Text>{'Close'}</Text>
+    //         </TouchableOpacity>
+    //     )
+    // }
+
+    // onModalCompleted = (update) => {
+    //     // console.log('onModalCompleted', this.state.display3)
+    //     this.setState(prevState => {
+    //         return {
+    //             display3: update
+    //         }
+    //     });
+    // }
+
+    onRenderItemClick(item){
+        console.log('onRenderItemClick', item);
     }
 
-    profileModel2(){
-        // console.log('profileModel2', this.state.display2)
-        this.setState(prevState => {
-            return {
-                display2: true
-            }
-        });
-    }
-
-    onModalClose1(){
+    renderItem(item){
+        // console.log(item);
         return (
-            <TouchableOpacity
-                onPress={() => {
-                    this.setState({ display1: false })
-                }}
-            >
-                <Text>{'Close'}</Text>
-            </TouchableOpacity>
+            <AppointmentItem
+                shopName={item.item.businessName}
+                service={item.item.style == "FADE" ? "Barber" : item.item.style == "UPDO" ? "Hair Dresser" : item.item.style }
+                dateTime={item.item.date + "|" + item.item.time}
+                status={item.item.status}
+                onClick={
+                //     this.props.navigation.navigate('Detail',{
+                //         Details: item.item
+                // } )
+                () => {
+                    return (
+                        <AppointmentDetail
+                            detail={item.item}
+                        />
+                    )
+                }
+                }
+            />
         )
     }
 
-    onModalClose2(){
+    listHeader = () => {
         return (
-            <TouchableOpacity
-                onPress={() => {
-                    this.setState({ display2: false })
-                }}
-            >
-                <Text>{'Close'}</Text>
-            </TouchableOpacity>
+            <View style={styles.headerRow}>
+                <View style={{alignItems:'flex-start'}}>
+                    <Text style={styles.headerText}>{"Upcoming"}</Text>
+                </View>
+                <View style={{alignItems: 'flex-end'}}>
+                    <TouchableOpacity>
+                        <Text style={styles.headerText}>{"View More"}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         )
     }
 
-    onModalClose3(){
-        // console.log('onModalClose3');
-        
+    listSeparator = () => {
         return (
-            <TouchableOpacity
-                onPress={() => {
-                    this.setState({ display3: false })
+            <View
+                style={{
+                    height: 1,
+                    width: "100%",
+                    backgroundColor: 'black'
                 }}
-            >
-                <Text>{'Close'}</Text>
-            </TouchableOpacity>
+            />
         )
-    }
-
-    onModalCompleted = (update) => {
-        // console.log('onModalCompleted', this.state.display3)
-        this.setState(prevState => {
-            return {
-                display3: update
-            }
-        });
     }
 
     render(){
         
         // if(this.state.prefSet || this.props.prefSet){
-            if(this.state.loadingProfile
-                && this.state.loadingPreference 
-                && this.props.loadingProfile 
-                && this.props.loadingPreference){
+            if(this.isEmpty(this.state.profile)){
                 return <Spinner size="large" />
-            }      
+            }
         // }
            
         return (
-            <View>
+            <ScrollView>
                 <NavigationEvents
                     onDidBlur={() => this.AppointmentDashboardRefresh()}
                     onWillBlur={() => this.AppointmentDashboardRefresh()}
                 />
-                <Text>{'Appointment Dashboard'}</Text>
-                <UserInfo
-                    prefSet={this.state.prefSet} 
-                    preferInfo={this.state.preference}
-                    profInfo={this.state.profile}
+                <AppointmentList
+                    currentData={UpcomingAppointments.slice(0,3)}
+                    extraData={this.state}
+                    renderItem={this.renderItem}
+                    listHeader={this.listHeader}
+                    separator={this.listSeparator}
                 />
-                <View style={styles.viewLayout}>
+                <AppointmentList
+                    currentData={ReviewAppointments.slice(0,3)}
+                    extraData={this.state}
+                    renderItem={this.renderItem}
+                    listHeader={this.listHeader}
+                    separator={this.listSeparator}
+                />
+                {/* <View style={styles.viewLayout}>
                     <ButtonCustom
                         onPress={() =>
                             this.props.navigation.navigate('Detail',{
@@ -214,36 +270,15 @@ class AppointmentDashboard extends React.Component {
                     >
                         {'Appointment Review'}
                     </ButtonCustom>
-                </View>
-                <ButtonCustom
-                        onPress={() => this.profileModel1()}
-                    >
-                    {'Preferece Modal'}
-                </ButtonCustom>
-                <SettingPref1
-                    display={this.state.display1}
-                    onClose={() => this.onModalClose1()}
-                />
-                <ButtonCustom
-                        onPress={() => this.profileModel2()}
-                    >
-                    {'Preferece Result'}
-                </ButtonCustom>
-                <SettingPref2
-                    display={this.state.display2}
-                    onClose={() => this.onModalClose2()}
-                />
-                <Tutorial
-                    display={this.state.display3}
-                    onClose={() => this.onModalClose3()}
-                    onModalCompleted={this.onModalCompleted}
-                />
-            </View>
+                </View> */}
+            </ScrollView>
         )
     }
 }
 
 const mapStateToProps = (state) => {
+    // console.log('AppointmentDashboard ', state);
+    
     return {
         loadingProfile: state.profile.loading,
         loadingPreference: state.preference.loading,

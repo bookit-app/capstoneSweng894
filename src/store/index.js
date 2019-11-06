@@ -4,6 +4,7 @@ import thunk from 'redux-thunk'
 import reducer from '../reducer'
 import { provider, auth, profile, preference } from '../actions'
 import api from '../api'
+import utilites from '../utilites'
 
 /**
  * Action Creation - Handles creating the provider search results
@@ -12,7 +13,7 @@ import api from '../api'
  */
 export const GetProviderSearchResult = (filter, token) => {
     return async dispatch => {
-        dispatch(provider.set_provider_search({}))
+        dispatch(provider.SetProviderSearch({}))
         dispatch(provider.GetProvider(true))
 
         api.searchProviderByFilter(filter, token)
@@ -21,6 +22,26 @@ export const GetProviderSearchResult = (filter, token) => {
             })
             .catch((err) => {
                 dispatch(provider.GetProviderReject(err))
+            })
+    }
+}
+
+/**
+ * Action Creation - Handle creating retrieving the provider details
+ * @param {*} id 
+ * @param {*} token 
+ */
+export const GetProviderDetails = (id, token) => {
+    return async dispatch => {
+        dispatch(provider.SetProviderDetails({}))
+        dispatch(provider.GetProviderDetails(true))
+
+        api.getProviderDetails(id, token)
+            .then((prov) => {
+                dispatch(provider.GetProviderDetailFullFilled(prov.data))
+            })
+            .catch((err) =>{
+                dispatch(provider.GetProviderDetailsReject(err))
             })
     }
 }
@@ -67,6 +88,7 @@ export const logIn = (email, password) => {
                                 dispatch(profile.GetProfileFullFilled(profileData))
 
                                 if(profileData.preferences){      
+                                    // console.log('logIn profile preference', profileData.preferences);
                                     dispatch(preference.settingPref(true))
                                     dispatch(preference.GetPreferenceFullFilled(profileData.preferences))
                                 }
@@ -119,15 +141,21 @@ export const logIn = (email, password) => {
                                     dispatch(preference.GetStylePreferenceReject(error))
                                 })
                             }
-                        ).catch((error) => {            
+                        ).catch((error) => {      
+                            dispatch(auth.userAuthError(error))      
                             dispatch(profile.GetProfileReject(error))
                             dispatch(preference.GetPreferenceReject(error))
                         })
+                })
+                .catch((error) => {         
+                    dispatch(auth.userAuthError(error))   
                 })
         })
         .catch((error) => {
             console.log('Log In',error);
             dispatch(auth.userAuthError(error))
+            dispatch(profile.GetProfileReject(error))
+            dispatch(preference.GetPreferenceReject(error))
         })
     }
 }   
@@ -208,7 +236,6 @@ export const signUpWithProfile = (email, password, payload) => {
                 var user = data.user
                 // console.log('signUpWithProfile', data);
                 
-
                 user.getIdToken()
                     .then((token) => {
                         // console.log('signUpWithProfile', token);
@@ -240,65 +267,70 @@ export const signUpWithProfile = (email, password, payload) => {
                                     console.log('Failed to update dispaly name');
                                 })
 
-                                // console.log('getConfiguration', 'before');        
-                                var hairDresserList = []
-                                var barberList = []
+                            // console.log('getConfiguration', 'before');        
+                            var hairDresserList = []
+                            var barberList = []
 
-                                api.getConfiguration("styles", token)
-                                .then((sty) => {
-                                    var styles_ = sty.data 
-                                    // console.log('getConfiguration');
+                            api.getConfiguration("styles", token)
+                            .then((sty) => {
+                                var styles_ = sty.data 
+                                // console.log('getConfiguration');
+                                
+                                styles_.hairStyles[1].types.map(i => {
                                     
-                                    styles_.hairStyles[1].types.map(i => {
-                                        
-                                        var single = {}
-                                        single['Id'] = hairDresserList.length
-                                        single['Name'] = i
-                                        single['Value'] = i
-                                        single['style'] =  styles_.hairStyles[1].style
-                                        single['staffclassification'] = 'Hair Dresser'  
-                        
-                                        hairDresserList.push(single)
-                                    })
-                        
-                                    styles_.hairStyles[0].types.map(i => {
-                                        
-                                        var single = {}
-                                        single['Id'] = barberList.length
-                                        single['Name'] = i
-                                        single['Value'] = i
-                                        single['style'] =  styles_.hairStyles[0].style
-                                        single['staffclassification'] = 'Barber'              
-                        
-                                        barberList.push(single)
-                                    })
-
-                                    var stylePreference = {}
-                                    stylePreference.styleSelected = barberList
-                                    stylePreference.styleOnType = barberList[0].style
-                                    stylePreference.barberList = barberList
-                                    stylePreference.hairDresserList = hairDresserList
-
-                                    // console.log('signUpWithProfile', stylePreference.styleSelected);
-                                    // console.log('signUpWithProfile', stylePreference.styleOnType);
-                                    // console.log('signUpWithProfile', stylePreference.barberList);
-                                    // console.log('signUpWithProfile', stylePreference.hairDresserList);
-                                    // dispatch(preference.setStylePreference(StylePreference))'
-                                    dispatch(preference.GetStylePreferenceFullFilled(stylePreference))
-                                }).catch((error) =>{
-                                    console.log('getConfiguration', error);
-                                    dispatch(preference.GetStylePreferenceReject(error))
+                                    var single = {}
+                                    single['Id'] = hairDresserList.length
+                                    single['Name'] = i
+                                    single['Value'] = i
+                                    single['style'] =  styles_.hairStyles[1].style
+                                    single['staffclassification'] = 'Hair Dresser'  
+                    
+                                    hairDresserList.push(single)
                                 })
+                    
+                                styles_.hairStyles[0].types.map(i => {
+                                    
+                                    var single = {}
+                                    single['Id'] = barberList.length
+                                    single['Name'] = i
+                                    single['Value'] = i
+                                    single['style'] =  styles_.hairStyles[0].style
+                                    single['staffclassification'] = 'Barber'              
+                    
+                                    barberList.push(single)
+                                })
+
+                                var stylePreference = {}
+                                stylePreference.styleSelected = barberList
+                                stylePreference.styleOnType = barberList[0].style
+                                stylePreference.barberList = barberList
+                                stylePreference.hairDresserList = hairDresserList
+
+                                // console.log('signUpWithProfile', stylePreference.styleSelected);
+                                // console.log('signUpWithProfile', stylePreference.styleOnType);
+                                // console.log('signUpWithProfile', stylePreference.barberList);
+                                // console.log('signUpWithProfile', stylePreference.hairDresserList);
+                                // dispatch(preference.setStylePreference(StylePreference))'
+                                dispatch(preference.GetStylePreferenceFullFilled(stylePreference))
+                            }).catch((error) =>{
+                                console.log('getConfiguration', error);
+                                dispatch(preference.GetStylePreferenceReject(error))
+                            })
                         })
                         .catch((error) => {
                             dispatch(auth.userAuthError(error))  
                             dispatch(profile.GetProfileReject(error))           
                         })
                     })
+                    .catch((error) => {
+                        dispatch(auth.userAuthError(error))           
+                    })
             })
             .catch((error) => {
                 dispatch(auth.userAuthError(error))
                 dispatch(profile.GetProfileReject(error))
+                dispatch(profile.GetProfileReject(error)) 
+                dispatch(preference.GetStylePreferenceReject(error))
             })        
     }
 }

@@ -43,43 +43,49 @@ class AppointmentDetail extends React.Component {
     }
 
     componentDidMount(){
-        this.setState({
-            prefSet: this.props.prefSet,
-            loadingProfile: this.props.loadingProfile,
-            profile: this.props.profile,
-            preference: this.props.preference
-        })
+        // this.setState({
+        //     prefSet: this.props.prefSet,
+        //     loadingProfile: this.props.loadingProfile,
+        //     profile: this.props.profile,
+        //     preference: this.props.preference
+        // })
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
         // console.log(nextProps);
-        if( this.props.prefSet 
-            && !this.props.loadingProfile){
-            this.setState({
-                prefSet: this.props.prefSet,
-                loadingProfile: this.props.loadingProfile,
-                profile: this.props.profile,
-                preference: this.props.preference
-            })
-        }
+        // if( this.props.prefSet 
+        //     && !this.props.loadingProfile){
+        //     this.setState({
+        //         prefSet: this.props.prefSet,
+        //         loadingProfile: this.props.loadingProfile,
+        //         profile: this.props.profile,
+        //         preference: this.props.preference
+        //     })
+        // }
     }
 
     render(){
 
-        if(this.state.prefSet){
-            if(this.state.loadingProfile){
-                return <Spinner size="large" />
-            }
-        }
+        // if(this.state.prefSet){
+        //     if(this.state.loadingProfile){
+        //         return <Spinner size="large" />
+        //     }
+        // }
+        // const { navigation } = this.props;
+        console.log('Appointment Deatil', this.props);
+        
+        // var i = JSON.stringify(navigation.getParam('itemId', 'NO-ID'))
+        // console.log('Appointment Deatil', i);
+        
         
         return (
             <View>
                 <Text>{'AppointmentDetail'}</Text>
-                <UserInfo
+                {/* <UserInfo
                     prefSet={this.state.prefSet} 
                     preferInfo={this.state.preference}
                     profInfo={this.state.profile}
-                />
+                /> */}
             </View>
         )
     }

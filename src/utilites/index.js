@@ -72,6 +72,15 @@ async function onLogInSuccess(type){
 }
 
 /**
+ * On success handler from api which clears all the state
+ * values and routes to the profile and dipatches user information
+ * to redux
+ */
+async function onLogInSuccessWithOutState(type){
+    this.props.navigation.navigate(type == 'S' ? 'Pref1' : 'App')
+}
+
+/**
  * On Failure handler from api which sets error message after failing
  * @param {*} type - L for Log-In or other for Sign-Up
  */
@@ -91,11 +100,20 @@ function onLogInFail(error){
 async function onLogInSub(type){    
     if(type === 'L'){
         const { email, password, emailError, passwordError } = this.state;
-        if(!emailError && !passwordError && email && password){            
+        // console.log('onLogInSub', (email != ""));
+        // console.log('onLogInSub', (password != ""));
+        // console.log('onLogInSub', !emailError ? 'blank' : 'populated');
+        // console.log('onLogInSub', !passwordError ? 'blank' : 'populated');
+        
+        if(!emailError 
+            && !passwordError 
+            && email
+            && password){            
             this.setState({ error: '', loading: true})
 
             this.props.settingPref(true)
             await this.props.loggingIn(email,password)
+            this.onLogInSuccess(type)
         } else {
             if(!email){
                 this.setState({
@@ -151,7 +169,8 @@ async function onLogInSub(type){
             // console.log('onLogInSub - insert',payload);
 
             this.props.settingPref(false)
-            var i = await this.props.signUpWithProfile(email,password, payload)
+            await this.props.signUpWithProfile(email,password, payload)
+            this.onLogInSuccess(type)
         } else {       
             
             // console.log('onLogInSub - Error');
@@ -210,8 +229,6 @@ async function onLogInSub(type){
             }         
         }
     }
-
-    this.onLogInSuccess(type)
 }
 
 /**
@@ -926,6 +943,7 @@ export default {
     onOtherAccount,
     onLogInButton,
     onLogInSuccess,
+    onLogInSuccessWithOutState,
     onLogInFail,
     onLogInSub,
 

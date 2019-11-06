@@ -1,32 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, View, Image, TouchableOpacity, Alert } from 'react-native'
+import { Alert } from 'react-native'
 import { Spinner } from '../common'
 import { preference } from '../../actions'
 import { DisplayResults } from '../general'
 import { GetProviderSearchResult } from '../../store'
-import styles from '../../page/styles/Preference.styles'
 import utilites from '../../utilites'
 import apis from '../../api'
 
 import NavigationService from '../../navigation/custom/NavigationService'
+import { PreferenceItem, PreferenceHeader } from '../preference'
 
-const Item = (props) => {
-    // console.log('Item', 'here');
-    return(
-        <View style={styles.Item}>
-            <TouchableOpacity onPress={props.onProviderSelect}>
-                <View style={styles.RowItem}>
-                    <Image
-                        style={styles.ItemimgSty}
-                        source={require('../../image/Placeholder150.png')}
-                    />   
-                    <Text>{props.businessName ? props.businessName :''}</Text>
-                </View>
-            </TouchableOpacity> 
-        </View>
-    )
-}
 
 class PreferenceShopResult extends React.Component {
     constructor(props){
@@ -54,14 +38,6 @@ class PreferenceShopResult extends React.Component {
         this.onPreferenceRefreshListSource = this.onPreferenceRefreshListSource.bind(this)
     }
 
-    // componentDidMount(){    
-    //     console.log('componentDidMount', this.props.alreadyFetch);
-            
-    //     if(!this.props.alreadyFetch){
-    //         this.onPreferenceRefreshListSource()
-    //     }
-    // }
-
     UNSAFE_componentWillReceiveProps(nextProps){       
         if(!this.isEmpty(this.props.profile) || !this.isEmpty(this.props.preference)){
             var city = this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city
@@ -79,6 +55,9 @@ class PreferenceShopResult extends React.Component {
         }
     }
 
+    /**
+     * Sends the Preference setting or preference setting to retrieve the providers the match
+     */
     onPreferenceRefreshListSource(){
         if(!this.isEmpty(this.props.profile) || !this.isEmpty(this.props.preference)) {
             var city = this.isEmpty(this.props.preference) ? this.props.profile.address.city : this.props.preference.city
@@ -104,6 +83,10 @@ class PreferenceShopResult extends React.Component {
         }
     }
 
+    /**
+     * Preference Refresh List Source is break-out the whole list into small display list
+     * @param {*} list 
+     */
     onPreferencePage2(list){
         var searchlist = list ? list : this.props.searchResult
 
@@ -133,6 +116,9 @@ class PreferenceShopResult extends React.Component {
         }
     }
 
+    /**
+     * Handles moving from one section of the list to another
+     */
     onLoadNext(){
         // console.log('onLoadNext', 'Here');
         
@@ -146,6 +132,10 @@ class PreferenceShopResult extends React.Component {
         }       
     }
 
+    /**
+     * Handles the provider setting alter
+     * @param {*} item 
+     */
     setProviderPreference(item){
         // console.log('setProviderPreference', 'here');
         
@@ -183,10 +173,13 @@ class PreferenceShopResult extends React.Component {
         )
     }
 
+    /**
+     * Handles the object that will present the individual item
+     */
     renderItem(item){
         // console.log('renderItem', item);
         return (
-            <Item
+            <PreferenceItem
                 key={item.item.providerId}
                 businessName={item.item.businessName}
                 onProviderSelect={() => this.setProviderPreference(item.item)}
@@ -194,6 +187,13 @@ class PreferenceShopResult extends React.Component {
         )
     }
 
+    listHeader = () =>{
+        return (
+            <PreferenceHeader
+                PreferenceHeader={"Shop List"}
+            />
+        )
+    }
 
     render(){
         const { loading, errorMessage } = this.props
@@ -211,6 +211,7 @@ class PreferenceShopResult extends React.Component {
                 extraData={this.state}
                 renderItem={this.renderItem}
                 onEndReached={() => this.onLoadNext()}
+                listHeader={this.listHeader}
             />
         )
     }
