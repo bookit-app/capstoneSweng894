@@ -1,7 +1,6 @@
 import React from 'react'
-import { Modal, TouchableOpacity } from 'react-native'
+import { Modal } from 'react-native'
 import PreferenceForm from '../../components/preference/PreferenceForm'
-import { thisExpression } from '@babel/types'
 
 class SettingPref1 extends React.Component {
     render(){

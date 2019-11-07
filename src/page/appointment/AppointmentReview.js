@@ -2,7 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Text, View } from 'react-native'
 import { Spinner } from '../../components/common'
-
+import { AppointmentList, AppointmentItem } from '../../components/appointment'
+import styles from '../styles/AppointmentDashboard.styles'
+import utilites from '../../utilites'
 
 /**
  * Temp Object can be changes as necessary or removed
@@ -36,53 +38,96 @@ class AppointmentReview extends React.Component {
         super(props)
 
         this.state = {
-            profile: {},
-            preference: {},
-            prefSet: false,
-            loadingProfile: false,
+            list: [],
+            header: ''
         }
+
+        this.isEmpty = utilites.isEmpty.bind(this)
     }
 
     componentDidMount(){
         const { navigation } = this.props
 
-        // console.log('profile',JSON.stringify(navigation.getParam('profile', 'NO-ID')));
-
         this.setState({
-            prefSet: this.props.prefSet,
-            loadingProfile: this.props.loadingProfile,
-            profile: this.props.profile,
-            preference: this.props.preference
+            list: navigation.getParam('list', []),
+            header: navigation.getParam('headertitle', '')
         })
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        // console.log(nextProps);
-        if( this.props.prefSet 
-            && !this.props.loadingProfile){
+        var list = navigation.getParam('list', [])
+        // console.log('UNSAFE_componentWillReceiveProps', list);
+
+        if(this.isEmpty(this.state.list) && !this.isEmpty(list)){
             this.setState({
-                prefSet: this.props.prefSet,
-                loadingProfile: this.props.loadingProfile,
-                profile: this.props.profile,
-                preference: this.props.preference
+                list: list,
+                header: navigation.getParam('headertitle', '')
             })
         }
     }
 
+    renderItem = (item) => {
+        return (
+            <View>    
+                <AppointmentItem
+                    shopName={item.item.businessName}
+                    service={item.item.style == "FADE" ? "Barber" : item.item.style == "UPDO" ? "Hair Dresser" : item.item.style }
+                    date={item.item.date}
+                    time={item.item.time}
+                    status={item.item.status}
+                    onClick={() => this.props.navigation.navigate('Detail',{
+                        item: item.item
+                    })}
+                />
+            </View>
+        )
+    }
+
+    listHeader = () => {        
+        return (
+            <View style={styles.headerRow}>
+                <View style={{alignItems:'flex-start'}}>
+                    <Text style={styles.headerText}>{this.state.header}</Text>
+                </View>
+            </View>
+        )
+    }
+
+    listEmpty = () => {
+        return (
+            <View style={styles.Column}>
+                <Text style={styles.headerText}>{'No '+this.state.header+' appointments'}</Text>
+            </View>
+        )
+    }
+
+    listSeparator = () => {
+        return (
+            <View
+                style={{
+                    height: 1,
+                    width: "100%",
+                    backgroundColor: 'black'
+                }}
+            />
+        )
+    }
+
     render(){
-        if(this.state.prefSet){
-            if(this.state.loadingProfile){
-                return <Spinner size="large" />
-            }
+        if(this.isEmpty(this.state.list)){
+            return <Spinner size="large" />
         }
 
         return (
             <View>
-                <Text>{'AppointmentReview'}</Text>
-                <UserInfo
-                    prefSet={this.state.prefSet} 
-                    preferInfo={this.state.preference}
-                    profInfo={this.state.profile}
+                <AppointmentList
+                    currentData={this.state.list}
+                    extraData={this.state}
+                    renderItem={this.renderItem}
+                    listHeader={this.listHeader}
+                    separator={this.listSeparator}
+                    scrollEnabled={true}
+                    listEmpty={this.listEmpty}
                 />
             </View>
         )

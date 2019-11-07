@@ -2,24 +2,57 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Text, View } from 'react-native'
 import { Spinner } from '../../components/common'
+import date from 'date-and-time';
+import 'date-and-time/plugin/ordinal'
+
+import styles from '../styles/AppointmentDashboard.styles'
 
 /**
  * Temp Object can be changes as necessary or removed
  * @param {*} props 
  */
-const UserInfo = (props) =>{
-    if(props.prefSet && props.preferInfo && props.profInfo){
-        const { firstName, lastName, email } = props.profInfo
-        const { staffClassification, time} = props.preferInfo
+const DetailView = (props) =>{        
+    date.plugin('ordinal');
+
+    if(!props.edit){
+        const { date, time, status, businessName, stylist, serviceList, address} = props
         
         return (
-            <View>
-                <Text>{'Profile setting: ' }</Text>
-                <Text>{`Name: ${firstName} ${lastName}`}</Text>
-                <Text>{`email: ${email}`}</Text>
-                <Text>{'Preference Setting: '}</Text>
-                <Text>{`Classification: ${staffClassification}`}</Text>
-                <Text>{`time: ${time}`}</Text>
+            <View style={styles.Column}>
+                <View style={styles.Column}>
+                    {/* <Text>{'Date:'}{date.format(date.parse(this.state.details.date, 'MM-DD-YYYY'), 'MMM DDD, YYYY')}</Text> */}
+                    <View style={styles.Row}>
+                        <Text>{'Date:'}</Text>
+                        <Text>{date}</Text>
+                    </View>
+                    <View style={styles.Row}>
+                        <Text>{'Time:'}</Text>
+                        <Text>{time}</Text>
+                    </View>
+                </View>
+                <View style={styles.Row}>
+                    <Text>{'Status:'}</Text>
+                    <Text>{status}</Text>
+                </View>
+                <View style={styles.Row}>
+                    <Text>{'Shop Name:'}</Text>
+                    <Text>{businessName}</Text>
+                </View>
+                <View style={styles.Row}>
+                    <Text>{'Stylist:'}</Text>
+                    <Text>{stylist}</Text>
+                </View>
+                <View style={styles.Row}>
+                    <Text>{'Services:'}</Text>
+                    <Text>{serviceList}</Text>
+                </View>
+                <View style={styles.Row}>
+                    <Text>{'Address:'}</Text>
+                    <View style={styles.Column}>
+                        <Text>{address}</Text>
+                        {/* <Text>{'Oxford, PA 19352'}</Text> */}
+                    </View>
+                </View>
             </View>
         )
 
@@ -35,58 +68,30 @@ class AppointmentDetail extends React.Component {
         super(props)
 
         this.state = {
-            profile: {},
-            preference: {},
-            prefSet: false,
-            loadingProfile: false,
+            details: {}
         }
     }
 
     componentDidMount(){
-        // this.setState({
-        //     prefSet: this.props.prefSet,
-        //     loadingProfile: this.props.loadingProfile,
-        //     profile: this.props.profile,
-        //     preference: this.props.preference
-        // })
+        const { navigation } = this.props
+        
+        this.setState({
+            details: navigation.getParam('item', {})
+        })
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        // console.log(nextProps);
-        // if( this.props.prefSet 
-        //     && !this.props.loadingProfile){
-        //     this.setState({
-        //         prefSet: this.props.prefSet,
-        //         loadingProfile: this.props.loadingProfile,
-        //         profile: this.props.profile,
-        //         preference: this.props.preference
-        //     })
-        // }
-    }
-
-    render(){
-
-        // if(this.state.prefSet){
-        //     if(this.state.loadingProfile){
-        //         return <Spinner size="large" />
-        //     }
-        // }
-        // const { navigation } = this.props;
-        console.log('Appointment Deatil', this.props);
-        
-        // var i = JSON.stringify(navigation.getParam('itemId', 'NO-ID'))
-        // console.log('Appointment Deatil', i);
-        
-        
+    render(){        
         return (
-            <View>
-                <Text>{'AppointmentDetail'}</Text>
-                {/* <UserInfo
-                    prefSet={this.state.prefSet} 
-                    preferInfo={this.state.preference}
-                    profInfo={this.state.profile}
-                /> */}
-            </View>
+            <DetailView
+                edit={false}
+                date={this.state.details.date}   
+                time={this.state.details.time}
+                status={this.state.details.status}
+                businessName={this.state.details.businessName}
+                stylist={'Jennifer Creed'}
+                serviceList={this.state.details.style == "FADE" ? "Barber" : this.state.details.style == "UPDO" ? "Hair Dresser" : this.state.details.style}
+                address={'1570 Baltimore Pike,Oxford, PA 19352'}
+            />
         )
     }
 }

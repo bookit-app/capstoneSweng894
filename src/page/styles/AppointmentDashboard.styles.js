@@ -52,7 +52,7 @@ export default {
         justifyContent: 'space-between', 
         flexDirection: 'row',
         padding: 5,
-        backgroundColor: 'blue',
+        backgroundColor: '#724FFD',
         color: 'white',
         width: '100%'
     },

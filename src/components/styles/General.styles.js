@@ -45,14 +45,14 @@ export default {
         backgroundColor:  '#ffffff',
         justifyContent: 'center'
       },
-  generalStyle: {
-    color: '#000',
-    backgroundColor:  '#ffffff',
-    paddingRight: 5,
-    paddingLeft: 5,
-    paddingBottom: 20,
-    fontSize: 18,
-    lineHeight: 3,
-    flex: 2
-  }
+    generalStyle: {
+        color: '#000',
+        backgroundColor:  '#ffffff',
+        paddingRight: 5,
+        paddingLeft: 5,
+        paddingBottom: 20,
+        fontSize: 18,
+        lineHeight: 3,
+        flex: 2
+    }
 }

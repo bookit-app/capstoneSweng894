@@ -14,16 +14,16 @@ const AppointmentList = (props) => {
             <View>
                 <FlatList
                     contentContainerStyle={{ width: '98%'}}
-                    scrollEnabled={false}
+                    scrollEnabled={props.scrollEnabled}
                     data={props.currentData}
                     extraData={props.extraData}
                     renderItem={props.renderItem}
                     ListHeaderComponent={props.listHeader}
-                    // ListEmptyComponent={props.listEmpty}
+                    ListEmptyComponent={props.listEmpty}
                     ItemSeparatorComponent={props.separator}
                     keyExtractor={item => item.aid}
                     onEndReachedThreshold={0.1}
-                    initialScrollIndex={1}
+                    initialScrollIndex={0}
                     // onEndReached={props.onEndReached}
                 />
             </View>
