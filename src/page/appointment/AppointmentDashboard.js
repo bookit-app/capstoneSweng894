@@ -105,7 +105,8 @@ class AppointmentDashboard extends React.Component {
                 <View style={{alignItems: 'flex-end'}}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Reivew',{
                         list: UpcomingAppointments,
-                        headertitle: 'Upcoming'
+                        headertitle: 'Upcoming',
+                        navigation: this.props.navigation
                     })}>
                         <Text style={styles.headerText}>{"View More"}</Text>
                     </TouchableOpacity>
@@ -123,7 +124,8 @@ class AppointmentDashboard extends React.Component {
                 <View style={{alignItems: 'flex-end'}}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Reivew', {
                         list: PreviousAppointments,
-                        headertitle: 'Previous'
+                        headertitle: 'Previous',
+                        navigation: this.props.navigation
                     })}>
                         <Text style={styles.headerText}>{"View More"}</Text>
                     </TouchableOpacity>
@@ -193,6 +195,7 @@ class AppointmentDashboard extends React.Component {
                     item={this.state.item} 
                     display={this.state.display}
                     onClose={() => this.onDetailClose()}
+                    navigation={this.props.navigation}
                 />
             </ScrollView>
         )

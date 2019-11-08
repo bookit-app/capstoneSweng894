@@ -22,21 +22,19 @@ class AppointmentReview extends React.Component {
     }
 
     componentDidMount(){
-        const { navigation } = this.props
-
         this.setState({
-            list: navigation.getParam('list', []),
-            header: navigation.getParam('headertitle', '')
+            list: this.props.navigation.getParam('list', []),
+            header: this.props.navigation.getParam('headertitle', '')
         })
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        var list = navigation.getParam('list', [])
+        var list = this.props.navigation.getParam('list', [])
 
         if(this.isEmpty(this.state.list) && !this.isEmpty(list)){
             this.setState({
                 list: list,
-                header: navigation.getParam('headertitle', '')
+                header: this.props.navigation.getParam('headertitle', '')
             })
         }
     }
