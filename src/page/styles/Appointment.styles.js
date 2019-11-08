@@ -39,6 +39,24 @@ export default {
         fontWeight: '600',
         paddingTop: 10,
         paddingBottom: 10
+    },
+    Row: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    Column: {
+        flexDirection: 'column',
+        justifyContent: 'center'
+    },
+    headerRow: {
+        justifyContent: 'space-between', 
+        flexDirection: 'row',
+        padding: 5,
+        backgroundColor: '#724FFD',
+        color: 'white',
+        width: '100%'
+    },
+    headerText: {
+        color: 'white'
     }
-
 }

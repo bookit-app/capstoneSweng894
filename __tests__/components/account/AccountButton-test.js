@@ -1,6 +1,6 @@
 import React from 'react'
 import AccountButtons from '../../../src/components/account/AccountButtons'
-import {create} from 'react-test-renderer';
+import { create } from 'react-test-renderer';
 
 describe('AccountButtons correctly', () => {
     test('Matches the snapshot', () => {

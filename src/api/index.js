@@ -173,6 +173,48 @@ export const searchProviderByFilter = (filter, token) => {
     )
 }
 
+/**
+ * Handles retreving specific provider details
+ * @param {*} id 
+ * @param {*} token 
+ */
+export const getProviderDetails = (id, token) =>{
+    const headers = createHeader(token)
+    const url = baseURL + '/provider/'+id
+
+    // console.log('provider details',headers);
+    // console.log('url',url);
+
+    return (
+        axios({
+            method: 'GET',
+            url: url,
+            headers: headers
+        })
+    )
+}
+
+/**
+ * Handles retreving appointment based on the below
+ * @param {*} filter
+ * @param {*} token 
+ */
+export const searchAppointmentByFilter = async (filter, token) => {
+    const headers = createHeader(token)
+    const url = baseURL + '/search/appointment?' + filter
+
+    console.log('getAppointmentList', headers);
+    console.log('url', url);
+
+    return (
+        axios({
+            method: 'GET',
+            url: url,
+            headers: headers
+        })
+    )
+}
+
 const apis = {
     insertProfile,
     getProfileById,
@@ -180,6 +222,8 @@ const apis = {
     updateProfileById,
     deletedProfileById,
     searchProviderByFilter,
+    getProviderDetails,
+    searchAppointmentByFilter
 }
 
 export default apis

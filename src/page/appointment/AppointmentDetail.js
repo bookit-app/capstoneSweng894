@@ -1,97 +1,45 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Text, View } from 'react-native'
-import { Spinner } from '../../components/common'
+import { Modal } from 'react-native'
+import utilites from '../../utilites'
+import { AppointmentDetailView } from '../../components/appointment'
 
 /**
- * Temp Object can be changes as necessary or removed
- * @param {*} props 
+ * Appointment Detail page
  */
-const UserInfo = (props) =>{
-    if(props.prefSet && props.preferInfo && props.profInfo){
-        const { firstName, lastName, email } = props.profInfo
-        const { staffClassification, time} = props.preferInfo
-        
-        return (
-            <View>
-                <Text>{'Profile setting: ' }</Text>
-                <Text>{`Name: ${firstName} ${lastName}`}</Text>
-                <Text>{`email: ${email}`}</Text>
-                <Text>{'Preference Setting: '}</Text>
-                <Text>{`Classification: ${staffClassification}`}</Text>
-                <Text>{`time: ${time}`}</Text>
-            </View>
-        )
-
-    } else {
-        return (
-            <View />
-        )
-    }
-}
-
 class AppointmentDetail extends React.Component {
-    constructor(props){
-        super(props)
-
-        this.state = {
-            profile: {},
-            preference: {},
-            prefSet: false,
-            loadingProfile: false,
-        }
-    }
-
-    componentDidMount(){
-        this.setState({
-            prefSet: this.props.prefSet,
-            loadingProfile: this.props.loadingProfile,
-            profile: this.props.profile,
-            preference: this.props.preference
-        })
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps){
-        // console.log(nextProps);
-        if( this.props.prefSet 
-            && !this.props.loadingProfile){
-            this.setState({
-                prefSet: this.props.prefSet,
-                loadingProfile: this.props.loadingProfile,
-                profile: this.props.profile,
-                preference: this.props.preference
-            })
-        }
-    }
-
-    render(){
-
-        if(this.state.prefSet){
-            if(this.state.loadingProfile){
-                return <Spinner size="large" />
-            }
+    render(){               
+        
+        if(!utilites.isEmpty(this.props.item.styleAddress)){
+            var address = utilites.isEmpty(this.props.item.styleAddress.streetAddress) ? '' : this.props.item.styleAddress.streetAddress
+            var city = utilites.isEmpty(this.props.item.styleAddress.city) ? '' : this.props.item.styleAddress.city
+            var state = utilites.isEmpty(this.props.item.styleAddress.state) ? '' : this.props.item.styleAddress.state
+            var zipCode = utilites.isEmpty(this.props.item.styleAddress.zipCode) ? '' : this.props.item.styleAddress.zipCode
+        } else {
+            var address = ''
+            var city = ''
+            var state = ''
+            var zipCode = ''
         }
         
         return (
-            <View>
-                <Text>{'AppointmentDetail'}</Text>
-                <UserInfo
-                    prefSet={this.state.prefSet} 
-                    preferInfo={this.state.preference}
-                    profInfo={this.state.profile}
+            <Modal visible={this.props.display} animationType='fade'>
+                <this.props.onClose/>
+                <AppointmentDetailView
+                    edit={false}
+                    date={this.props.item.date}   
+                    time={this.props.item.time}
+                    status={this.props.item.status}
+                    businessName={this.props.item.businessName}
+                    stylist={this.props.item.stylist}
+                    serviceList={this.props.item.style == "FADE" ? "Barber" : this.props.item.style == "UPDO" ? "Hair Dresser" : this.props.item.style}
+                    address={address}
+                    city={city}
+                    state={state}
+                    zipCode={zipCode}
                 />
-            </View>
+            </Modal>
         )
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        loadingProfile: state.profile.loading,
-        profile: state.profile.profile,
-        preference: state.preference.preference,
-        prefSet: state.preference.pref
-    }
-}
-
-export default connect(mapStateToProps,null)(AppointmentDetail)
+export default AppointmentDetail

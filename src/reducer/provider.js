@@ -9,7 +9,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case actions.SET_PROVIDER_SEARCH:{
+        case actions.SET_PROVIDER_SEARCH: {
             var a ={
                 ...state,
                 providerSearchResult: action.result,
@@ -58,6 +58,47 @@ export default (state = initialState, action) => {
             // console.log('actions.ALREADY_FETCH_PROVIDER', e);
 
             return e
+        }
+        case actions.SET_PROVIDER_DETAIL: {
+            var f = {
+                ...state,
+                providerDetails : action.payload
+            }
+            
+            // console.log('actions.SET_PROVIDER_DETAIL', f);
+
+            return f
+        }
+        case actions.GET_PROVIDER_DETAIL_PENDING: {
+            var e ={
+                ...state,
+                loading: action.payload
+            }
+
+            console.log('actions.GET_PROVIDER_DETAIL_PENDING', e);
+
+            return e
+        }
+        case actions.GET_PROVIDER_DETAIL_FULFILLED: {
+            var g = {
+                ...state,
+                providerDetails: action.data, loading: action.loading
+            }
+
+            console.log('actions.GET_PROVIDER_DETAIL_FULFILLED', g);
+
+            return g
+        }
+        case actions.GET_PROVIDER_DETAIL_REJECTED: {
+            var h = {
+                ...state,
+                errorMessage: action.payload, loading: action.loading
+            }
+
+            console.log('action.GET_PROVIDER_DETAIL_REJECTED', h);
+
+            return h
+            
         }
         default:
             return state
