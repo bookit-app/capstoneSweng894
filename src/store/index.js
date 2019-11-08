@@ -1,10 +1,12 @@
 import { createStore, applyMiddleware } from 'redux'
-import firebase from 'firebase'
+import firebase, { app } from 'firebase'
 import thunk from 'redux-thunk'
 import reducer from '../reducer'
-import { provider, auth, profile, preference } from '../actions'
+import { provider, auth, profile, preference, appointment } from '../actions'
 import api from '../api'
 import utilites from '../utilites'
+import { UpcomingAppointments, PreviousAppointments } from '../constant'
+import date from 'date-and-time'
 
 /**
  * Action Creation - Handles creating the provider search results
@@ -80,6 +82,11 @@ export const logIn = (email, password) => {
                 .then((token) => {
                     // console.log('logIn token', userId);
                     dispatch(auth.tokenSet(token))
+
+                    console.log('login getting appointments');
+                    
+                    dispatch(getAppointment('','','P',token))
+                    dispatch(getAppointment('','','U',token))
         
                     api.getProfileById(userId, token)
                         .then(userData => {
@@ -87,19 +94,17 @@ export const logIn = (email, password) => {
                                 // console.log('logIn profile', profileData);
                                 dispatch(profile.GetProfileFullFilled(profileData))
 
-                                if(profileData.preferences){      
-                                    // console.log('logIn profile preference', profileData.preferences);
+                                if(!utilites.isEmpty(profileData.preferences)){      
                                     dispatch(preference.settingPref(true))
                                     dispatch(preference.GetPreferenceFullFilled(profileData.preferences))
                                 }
 
                                 var hairDresserList = []
                                 var barberList = []
+
                                 api.getConfiguration("styles", token)
                                 .then((sty) => {
-                                    var styles_ = sty.data 
-                                    // console.log('getConfiguration');
-                                    
+                                    var styles_ = sty.data                                     
                                     styles_.hairStyles[1].types.map(i => {
                                         
                                         var single = {}
@@ -130,11 +135,6 @@ export const logIn = (email, password) => {
                                     stylePreference.barberList = barberList
                                     stylePreference.hairDresserList = hairDresserList
 
-                                    // console.log('LogIn', stylePreference.styleSelected);
-                                    // console.log('LogIn', stylePreference.styleOnType);
-                                    // console.log('LogIn', stylePreference.barberList);
-                                    // console.log('LogIn', stylePreference.hairDresserList);
-                                    // dispatch(preference.setStylePreference(StylePreference))
                                     dispatch(preference.GetStylePreferenceFullFilled(stylePreference))
                                 }).catch((error) =>{
                                     console.log('getConfiguration', error);
@@ -305,12 +305,6 @@ export const signUpWithProfile = (email, password, payload) => {
                                 stylePreference.styleOnType = barberList[0].style
                                 stylePreference.barberList = barberList
                                 stylePreference.hairDresserList = hairDresserList
-
-                                // console.log('signUpWithProfile', stylePreference.styleSelected);
-                                // console.log('signUpWithProfile', stylePreference.styleOnType);
-                                // console.log('signUpWithProfile', stylePreference.barberList);
-                                // console.log('signUpWithProfile', stylePreference.hairDresserList);
-                                // dispatch(preference.setStylePreference(StylePreference))'
                                 dispatch(preference.GetStylePreferenceFullFilled(stylePreference))
                             }).catch((error) =>{
                                 console.log('getConfiguration', error);
@@ -346,6 +340,74 @@ export const signOut = () =>{
         dispatch(auth.userSet(''))
         dispatch(auth.tokenSet(''))
         dispatch(auth.userAuthError(''))
+    }
+}
+
+export const getAppointment = (startDt, endDt, type, token) => {
+    return async dispatch => {
+        const now = new Date()
+
+        var error ={
+            message: 'No appointments found'
+        }
+
+        if(type == 'P'){
+            // console.log('getAppointment', 'Previous');
+            dispatch(appointment.SetPreviousAppointment({}))
+            dispatch(appointment.GetPreviousAppointment(true))
+
+            try {
+                const startDate = date.addMonths(now, -2)
+                const endDate = now
+        
+                var dateRange = {
+                    start: startDate,
+                    end: endDate
+                }
+        
+                var filter = utilites.filterGenerate(dateRange)
+                var previousAppointment = await api.searchAppointmentByFilter(filter, token)
+
+                if(!utilites.isEmpty(previousAppointment)){
+                    // console.log('getAppointment', 'previous fullfilled');
+                    dispatch(appointment.GetPreviousAppointmentFullFilled(previousAppointment))
+                } else {
+                    // console.log('getAppointment', 'previous reject');
+                    dispatch(appointment.GetPreviousAppointmentReject(error))
+                }
+            } catch (error) {
+                // console.log('getAppointment', 'set previous');
+                dispatch(appointment.SetPreviousAppointment(PreviousAppointments))
+            }
+        } else {
+            // console.log('getAppointment', 'Upcoming');
+            dispatch(appointment.SetUpcomingAppointment({}))
+            dispatch(appointment.GetUpcomingAppointment(true))
+
+            try {
+                const startDate = now
+                const endDate = date.addMonths(now, 2)
+        
+                var dateRange = {
+                    start: startDate,
+                    end: endDate
+                }
+        
+                var filter = utilites.filterGenerate(dateRange)
+                var upcomingAppointment = await api.searchAppointmentByFilter(filter, token)
+
+                if(!utilites.isEmpty(previousAppointment)){
+                    // console.log('getAppointment', 'upcoming fullfilled');
+                    dispatch(appointment.GetUpcomingAppointmentFullFilled(upcomingAppointment))
+                } else {
+                    // console.log('getAppointment', 'upcoming reject');
+                    dispatch(appointment.GetUpcomingAppointmentReject(error))
+                }
+            } catch (error) {
+                // console.log('getAppointment', 'set upcoming');
+                dispatch(appointment.SetUpcomingAppointment(UpcomingAppointments))
+            }
+        }
     }
 }
 

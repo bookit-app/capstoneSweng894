@@ -1,108 +1,45 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Text, View } from 'react-native'
-import { Spinner } from '../../components/common'
-import date from 'date-and-time';
-import 'date-and-time/plugin/ordinal'
-
-import styles from '../styles/AppointmentDashboard.styles'
+import { Modal } from 'react-native'
+import utilites from '../../utilites'
+import { AppointmentDetailView } from '../../components/appointment'
 
 /**
- * Temp Object can be changes as necessary or removed
- * @param {*} props 
+ * Appointment Detail page
  */
-const DetailView = (props) =>{        
-    date.plugin('ordinal');
-
-    if(!props.edit){
-        const { date, time, status, businessName, stylist, serviceList, address} = props
-        
-        return (
-            <View style={styles.Column}>
-                <View style={styles.Column}>
-                    {/* <Text>{'Date:'}{date.format(date.parse(this.state.details.date, 'MM-DD-YYYY'), 'MMM DDD, YYYY')}</Text> */}
-                    <View style={styles.Row}>
-                        <Text>{'Date:'}</Text>
-                        <Text>{date}</Text>
-                    </View>
-                    <View style={styles.Row}>
-                        <Text>{'Time:'}</Text>
-                        <Text>{time}</Text>
-                    </View>
-                </View>
-                <View style={styles.Row}>
-                    <Text>{'Status:'}</Text>
-                    <Text>{status}</Text>
-                </View>
-                <View style={styles.Row}>
-                    <Text>{'Shop Name:'}</Text>
-                    <Text>{businessName}</Text>
-                </View>
-                <View style={styles.Row}>
-                    <Text>{'Stylist:'}</Text>
-                    <Text>{stylist}</Text>
-                </View>
-                <View style={styles.Row}>
-                    <Text>{'Services:'}</Text>
-                    <Text>{serviceList}</Text>
-                </View>
-                <View style={styles.Row}>
-                    <Text>{'Address:'}</Text>
-                    <View style={styles.Column}>
-                        <Text>{address}</Text>
-                        {/* <Text>{'Oxford, PA 19352'}</Text> */}
-                    </View>
-                </View>
-            </View>
-        )
-
-    } else {
-        return (
-            <View />
-        )
-    }
-}
-
 class AppointmentDetail extends React.Component {
-    constructor(props){
-        super(props)
-
-        this.state = {
-            details: {}
-        }
-    }
-
-    componentDidMount(){
-        const { navigation } = this.props
+    render(){               
         
-        this.setState({
-            details: navigation.getParam('item', {})
-        })
-    }
-
-    render(){        
+        if(!utilites.isEmpty(this.props.item.styleAddress)){
+            var address = utilites.isEmpty(this.props.item.styleAddress.streetAddress) ? '' : this.props.item.styleAddress.streetAddress
+            var city = utilites.isEmpty(this.props.item.styleAddress.city) ? '' : this.props.item.styleAddress.city
+            var state = utilites.isEmpty(this.props.item.styleAddress.state) ? '' : this.props.item.styleAddress.state
+            var zipCode = utilites.isEmpty(this.props.item.styleAddress.zipCode) ? '' : this.props.item.styleAddress.zipCode
+        } else {
+            var address = ''
+            var city = ''
+            var state = ''
+            var zipCode = ''
+        }
+        
         return (
-            <DetailView
-                edit={false}
-                date={this.state.details.date}   
-                time={this.state.details.time}
-                status={this.state.details.status}
-                businessName={this.state.details.businessName}
-                stylist={'Jennifer Creed'}
-                serviceList={this.state.details.style == "FADE" ? "Barber" : this.state.details.style == "UPDO" ? "Hair Dresser" : this.state.details.style}
-                address={'1570 Baltimore Pike,Oxford, PA 19352'}
-            />
+            <Modal visible={this.props.display} animationType='fade'>
+                <this.props.onClose/>
+                <AppointmentDetailView
+                    edit={false}
+                    date={this.props.item.date}   
+                    time={this.props.item.time}
+                    status={this.props.item.status}
+                    businessName={this.props.item.businessName}
+                    stylist={this.props.item.stylist}
+                    serviceList={this.props.item.style == "FADE" ? "Barber" : this.props.item.style == "UPDO" ? "Hair Dresser" : this.props.item.style}
+                    address={address}
+                    city={city}
+                    state={state}
+                    zipCode={zipCode}
+                />
+            </Modal>
         )
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        loadingProfile: state.profile.loading,
-        profile: state.profile.profile,
-        preference: state.preference.preference,
-        prefSet: state.preference.pref
-    }
-}
-
-export default connect(mapStateToProps,null)(AppointmentDetail)
+export default AppointmentDetail

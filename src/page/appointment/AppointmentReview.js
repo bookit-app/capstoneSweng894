@@ -1,37 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Text, View } from 'react-native'
-import { Spinner } from '../../components/common'
+import { Spinner, ImageButton } from '../../components/common'
 import { AppointmentList, AppointmentItem } from '../../components/appointment'
-import styles from '../styles/AppointmentDashboard.styles'
+import AppointmentDetail from './AppointmentDetail'
+import styles from '../styles/Appointment.styles'
 import utilites from '../../utilites'
-
-/**
- * Temp Object can be changes as necessary or removed
- * @param {*} props 
- */
-const UserInfo = (props) =>{
-    if(props.prefSet && props.preferInfo && props.profInfo){
-        const { firstName, lastName, email } = props.profInfo
-        const { staffClassification, time} = props.preferInfo
-        
-        return (
-            <View>
-                <Text>{'Profile setting: ' }</Text>
-                <Text>{`Name: ${firstName} ${lastName}`}</Text>
-                <Text>{`email: ${email}`}</Text>
-                <Text>{'Preference Setting: '}</Text>
-                <Text>{`Classification: ${staffClassification}`}</Text>
-                <Text>{`time: ${time}`}</Text>
-            </View>
-        )
-
-    } else {
-        return (
-            <View />
-        )
-    }
-}
 
 class AppointmentReview extends React.Component {
     constructor(props){
@@ -39,7 +13,9 @@ class AppointmentReview extends React.Component {
 
         this.state = {
             list: [],
-            header: ''
+            header: '',
+            display: false,
+            item: {}
         }
 
         this.isEmpty = utilites.isEmpty.bind(this)
@@ -56,7 +32,6 @@ class AppointmentReview extends React.Component {
 
     UNSAFE_componentWillReceiveProps(nextProps){
         var list = navigation.getParam('list', [])
-        // console.log('UNSAFE_componentWillReceiveProps', list);
 
         if(this.isEmpty(this.state.list) && !this.isEmpty(list)){
             this.setState({
@@ -64,6 +39,24 @@ class AppointmentReview extends React.Component {
                 header: navigation.getParam('headertitle', '')
             })
         }
+    }
+
+    onDetailClose(){
+        return (
+            <ImageButton
+                onPress={() => {
+                    this.setState({ display: false })
+                }}
+                imageSource={require('../../image/close-x-icon.png')}
+            />
+        )
+    }
+    
+    onDetailClick(item){
+        this.setState({
+            item: item,
+            display: true
+        });
     }
 
     renderItem = (item) => {
@@ -75,9 +68,7 @@ class AppointmentReview extends React.Component {
                     date={item.item.date}
                     time={item.item.time}
                     status={item.item.status}
-                    onClick={() => this.props.navigation.navigate('Detail',{
-                        item: item.item
-                    })}
+                    onClick={() => this.onDetailClick(item.item)}
                 />
             </View>
         )
@@ -128,6 +119,11 @@ class AppointmentReview extends React.Component {
                     separator={this.listSeparator}
                     scrollEnabled={true}
                     listEmpty={this.listEmpty}
+                />
+                <AppointmentDetail
+                    item={this.state.item} 
+                    display={this.state.display}
+                    onClose={() => this.onDetailClose()}
                 />
             </View>
         )

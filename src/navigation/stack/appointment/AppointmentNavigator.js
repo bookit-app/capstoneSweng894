@@ -15,7 +15,7 @@ import {LogOutNav, LogoNav} from '../../navButtons'
 const AppointmentNavigator = createStackNavigator(
     {
         Dashboard: AppointmentDashboard,
-        Detail: AppointmentDetail,
+        // Detail: AppointmentDetail,
         Reivew: AppointmentReview
     }, { 
         defaultNavigationOptions: {

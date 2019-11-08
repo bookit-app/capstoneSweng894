@@ -338,6 +338,13 @@ export const UpcomingAppointments = [
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "3",
+        "stylist": "Jeremy3 Smith3",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
         "style": "FADE",
         "price": "$",
         "comment": ""
@@ -351,6 +358,13 @@ export const UpcomingAppointments = [
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "2",
+        "stylist": "Jeremy2 Smith2",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
         "style": "CUSTOM",
         "price": "$",
         "comment": ""
@@ -364,6 +378,13 @@ export const UpcomingAppointments = [
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "1",
+        "stylist": "Jeremy1 Smith1",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
         "style": "UPDO",
         "price": "$",
         "comment": ""
@@ -377,13 +398,20 @@ export const UpcomingAppointments = [
         "businessName":  "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "1",
+        "stylist": "Jeremy1 Smith1",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
         "style": "UPDO",
         "price": "$",
         "comment": ""
     }
 ]
 
-export const ReviewAppointments = [
+export const PreviousAppointments = [
     {
         "aid": "10001",
         "uid": "99999",
@@ -393,6 +421,13 @@ export const ReviewAppointments = [
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "3",
+        "stylist": "Jeremy3 Smith3",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
         "style": "FADE",
         "price": "$",
         "comment": "Amazing Fade"
@@ -406,6 +441,13 @@ export const ReviewAppointments = [
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "1",
+        "stylist": "Jeremy1 Smith1",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
         "style": "UPDO",
         "price": "$",
         "comment": " I look lovely"
@@ -419,6 +461,13 @@ export const ReviewAppointments = [
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "2",
+        "stylist": "Jeremy2 Smith2",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
         "style": "CUSTOM",
         "price": "$",
         "comment": "Fade and Updo combine"
@@ -432,6 +481,92 @@ export const ReviewAppointments = [
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "2",
+        "stylist": "Jeremy2 Smith2",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
+        "style": "CUSTOM",
+        "price": "$",
+        "comment": ""
+    },    {
+        "aid": "10005",
+        "uid": "99999",
+        "time": "12:30",
+        "date": "11-01-2019",
+        "status": "On-Line",
+        "businessName": "Island Design Natural Hair Salon",
+        "providerId":"10001",
+        "serviceId": "3",
+        "stylist": "Jeremy3 Smith3",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
+        "style": "FADE",
+        "price": "$",
+        "comment": "Amazing Fade"
+    },
+    {
+        "aid": "10006",
+        "uid": "99999",
+        "time": "1:30",
+        "date": "11-02-2019",
+        "status": "Late",
+        "businessName": "Island Design Natural Hair Salon",
+        "providerId":"10001",
+        "serviceId": "1",
+        "stylist": "Jeremy1 Smith1",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
+        "style": "UPDO",
+        "price": "$",
+        "comment": " I look lovely"
+    },
+    {
+        "aid": "10007",
+        "uid": "99999",
+        "time": "5:30",
+        "date": "11-02-2019",
+        "status": "Early",
+        "businessName": "Island Design Natural Hair Salon",
+        "providerId":"10001",
+        "serviceId": "2",
+        "stylist": "Jeremy2 Smith2",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
+        "style": "CUSTOM",
+        "price": "$",
+        "comment": "Fade and Updo combine"
+    },
+    {
+        "aid": "10008",
+        "uid": "99999",
+        "time": "6:30",
+        "date": "11-04-2019",
+        "status": "On-Line",
+        "businessName": "Island Design Natural Hair Salon",
+        "providerId":"10001",
+        "serviceId": "2",
+        "stylist": "Jeremy2 Smith2",
+        "styleAddress": {
+            "city": "Philadelphia",
+            "state": "PA",
+            "streetAddress": "1230 N 32nd St",
+            "zipCode": 19131
+        },
         "style": "CUSTOM",
         "price": "$",
         "comment": ""
@@ -581,6 +716,6 @@ export default {
     DayOfWeek,
     serviceProvider,
     UpcomingAppointments,
-    ReviewAppointments,
+    PreviousAppointments,
     Services
 }
