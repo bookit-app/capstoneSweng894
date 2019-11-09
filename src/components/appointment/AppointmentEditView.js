@@ -6,17 +6,11 @@ import moment from 'moment'
 
 const AppointmentEditView = (props) => {
     const [startDt, setStartDt] = useState('')
-    const [endDt, setEndDt] = useState('')
     const minDate = new Date()
     const maxDate = new Date(2020, 10, 11);
     
     onDateChange = (date, type) => {
-        if(type == 'END_DATE'){
-            setEndDt(date)
-        } else {
-            setStartDt(date)
-            setEndDt(null)
-        }
+        setStartDt(date)
     }
 
     return (

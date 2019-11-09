@@ -49,6 +49,59 @@ export const GetProviderDetails = (id, token) => {
 }
 
 /**
+ * Action Creation - Handle retrieving styles information for preference
+ * @param {*} token 
+ */
+export const GetStyleInfo = (token) => {
+    return async dispatch => {
+        dispatch(preference.GetStylePreference(true))
+        dispatch(preference.setStyles({}))
+        
+        var hairDresserList = []
+        var barberList = []
+
+        api.getConfiguration("styles", token)
+        .then((sty) => {
+            var styles_ = sty.data                                     
+            styles_.hairStyles[1].types.map(i => {
+                
+                var single = {}
+                single['Id'] = hairDresserList.length
+                single['Name'] = i
+                single['Value'] = i
+                single['style'] =  styles_.hairStyles[1].style
+                single['staffclassification'] = 'Hair Dresser'  
+
+                hairDresserList.push(single)
+            })
+
+            styles_.hairStyles[0].types.map(i => {
+                
+                var single = {}
+                single['Id'] = barberList.length
+                single['Name'] = i
+                single['Value'] = i
+                single['style'] =  styles_.hairStyles[0].style
+                single['staffclassification'] = 'Barber'                      
+
+                barberList.push(single)
+            })
+
+            var stylePreference = {}
+            stylePreference.styleSelected = barberList
+            stylePreference.styleOnType = barberList[0].style
+            stylePreference.barberList = barberList
+            stylePreference.hairDresserList = hairDresserList
+
+            dispatch(preference.GetStylePreferenceFullFilled(stylePreference))
+        }).catch((error) =>{
+            console.log('getConfiguration', error);
+            dispatch(preference.GetStylePreferenceReject(error))
+        })
+    }
+}
+
+/**
  * Action Creation - Handles logging in the user account, profile, and retrieving the styles infor
  * @param {*} email 
  * @param {*} password 
@@ -62,9 +115,6 @@ export const logIn = (email, password) => {
     dispatch(preference.GetPreference(true))
     dispatch(preference.settingPref(false))
     dispatch(preference.setPreference({}))
-
-    dispatch(preference.GetStylePreference(true))
-    dispatch(preference.setStyles({}))
 
     dispatch(auth.userSet(''))
     dispatch(auth.tokenSet(''))
@@ -98,48 +148,8 @@ export const logIn = (email, password) => {
                                     dispatch(preference.settingPref(true))
                                     dispatch(preference.GetPreferenceFullFilled(profileData.preferences))
                                 }
-
-                                var hairDresserList = []
-                                var barberList = []
-
-                                api.getConfiguration("styles", token)
-                                .then((sty) => {
-                                    var styles_ = sty.data                                     
-                                    styles_.hairStyles[1].types.map(i => {
-                                        
-                                        var single = {}
-                                        single['Id'] = hairDresserList.length
-                                        single['Name'] = i
-                                        single['Value'] = i
-                                        single['style'] =  styles_.hairStyles[1].style
-                                        single['staffclassification'] = 'Hair Dresser'  
-                        
-                                        hairDresserList.push(single)
-                                    })
-                        
-                                    styles_.hairStyles[0].types.map(i => {
-                                        
-                                        var single = {}
-                                        single['Id'] = barberList.length
-                                        single['Name'] = i
-                                        single['Value'] = i
-                                        single['style'] =  styles_.hairStyles[0].style
-                                        single['staffclassification'] = 'Barber'                      
-                        
-                                        barberList.push(single)
-                                    })
-
-                                    var stylePreference = {}
-                                    stylePreference.styleSelected = barberList
-                                    stylePreference.styleOnType = barberList[0].style
-                                    stylePreference.barberList = barberList
-                                    stylePreference.hairDresserList = hairDresserList
-
-                                    dispatch(preference.GetStylePreferenceFullFilled(stylePreference))
-                                }).catch((error) =>{
-                                    console.log('getConfiguration', error);
-                                    dispatch(preference.GetStylePreferenceReject(error))
-                                })
+                                
+                                dispatch(GetStyleInfo(token))
                             }
                         ).catch((error) => {      
                             dispatch(auth.userAuthError(error))      
@@ -266,50 +276,8 @@ export const signUpWithProfile = (email, password, payload) => {
                                 }).catch(f => {
                                     console.log('Failed to update dispaly name');
                                 })
-
-                            // console.log('getConfiguration', 'before');        
-                            var hairDresserList = []
-                            var barberList = []
-
-                            api.getConfiguration("styles", token)
-                            .then((sty) => {
-                                var styles_ = sty.data 
-                                // console.log('getConfiguration');
                                 
-                                styles_.hairStyles[1].types.map(i => {
-                                    
-                                    var single = {}
-                                    single['Id'] = hairDresserList.length
-                                    single['Name'] = i
-                                    single['Value'] = i
-                                    single['style'] =  styles_.hairStyles[1].style
-                                    single['staffclassification'] = 'Hair Dresser'  
-                    
-                                    hairDresserList.push(single)
-                                })
-                    
-                                styles_.hairStyles[0].types.map(i => {
-                                    
-                                    var single = {}
-                                    single['Id'] = barberList.length
-                                    single['Name'] = i
-                                    single['Value'] = i
-                                    single['style'] =  styles_.hairStyles[0].style
-                                    single['staffclassification'] = 'Barber'              
-                    
-                                    barberList.push(single)
-                                })
-
-                                var stylePreference = {}
-                                stylePreference.styleSelected = barberList
-                                stylePreference.styleOnType = barberList[0].style
-                                stylePreference.barberList = barberList
-                                stylePreference.hairDresserList = hairDresserList
-                                dispatch(preference.GetStylePreferenceFullFilled(stylePreference))
-                            }).catch((error) =>{
-                                console.log('getConfiguration', error);
-                                dispatch(preference.GetStylePreferenceReject(error))
-                            })
+                            dispatch(GetStyleInfo(token))
                         })
                         .catch((error) => {
                             dispatch(auth.userAuthError(error))  
@@ -323,8 +291,6 @@ export const signUpWithProfile = (email, password, payload) => {
             .catch((error) => {
                 dispatch(auth.userAuthError(error))
                 dispatch(profile.GetProfileReject(error))
-                dispatch(profile.GetProfileReject(error)) 
-                dispatch(preference.GetStylePreferenceReject(error))
             })        
     }
 }
@@ -340,6 +306,8 @@ export const signOut = () =>{
         dispatch(auth.userSet(''))
         dispatch(auth.tokenSet(''))
         dispatch(auth.userAuthError(''))
+        dispatch(appointment.SetPreviousAppointment([]))
+        dispatch(appointment.SetUpcomingAppointment([]))
     }
 }
 
@@ -352,8 +320,8 @@ export const getAppointment = (startDt, endDt, type, token) => {
         }
 
         if(type == 'P'){
-            // console.log('getAppointment', 'Previous');
-            dispatch(appointment.SetPreviousAppointment({}))
+            console.log('getAppointment', 'Previous');
+            dispatch(appointment.SetPreviousAppointment([]))
             dispatch(appointment.GetPreviousAppointment(true))
 
             try {
@@ -380,8 +348,8 @@ export const getAppointment = (startDt, endDt, type, token) => {
                 dispatch(appointment.SetPreviousAppointment(PreviousAppointments))
             }
         } else {
-            // console.log('getAppointment', 'Upcoming');
-            dispatch(appointment.SetUpcomingAppointment({}))
+            console.log('getAppointment', 'Upcoming');
+            dispatch(appointment.SetUpcomingAppointment([]))
             dispatch(appointment.GetUpcomingAppointment(true))
 
             try {

@@ -26,7 +26,7 @@ export const createHeader = (token) => {
 }
 
 /**
- * Handle inserting payload data to the profile collection in firestore
+ * Handle's inserting payload data to the profile collection in firestore
  * @param {*} payload
  * @param {*} token 
  */
@@ -48,7 +48,7 @@ export const insertProfile = (payload, token) => {
 }
 
 /**
- * Handle inserting payload data to the provider collection in firestore
+ * Handle's inserting payload data to the provider collection in firestore
  * @param {*} payload 
  * @param {*} token 
  */
@@ -70,7 +70,7 @@ export const insertServiceProvider = (payload, token) => {
 }
 
 /**
- * Handles retriving profile information for specific account profile
+ * Handle'ss retriving profile information for specific account profile
  * @param {*} id
  * @param {*} token 
  */
@@ -111,7 +111,7 @@ export const getConfiguration = (configType, token) => {
 }
 
 /**
- * Handles update profile information for specific account profile
+ * Handle'ss update profile information for specific account profile
  * @param {*} payload 
  * @param {*} token 
  */
@@ -133,7 +133,7 @@ export const updateProfileById = (payload, token) => {
 }
 
 /**
- * Handles deleting profile informaiton for specific account profile
+ * Handle'ss deleting profile informaiton for specific account profile
  * @param {*} id
  * @param {*} token 
  */
@@ -153,7 +153,7 @@ export const deletedProfileById = (id, token) => {
 }
 
 /**
- * Handles retreving Provider information based on filter
+ * Handle'ss retreving Provider information based on filter
  * @param {*} filter 
  * @param {*} token 
  */
@@ -174,7 +174,7 @@ export const searchProviderByFilter = (filter, token) => {
 }
 
 /**
- * Handles retreving specific provider details
+ * Handle'ss retreving specific provider details
  * @param {*} id 
  * @param {*} token 
  */
@@ -195,7 +195,7 @@ export const getProviderDetails = (id, token) =>{
 }
 
 /**
- * Handles retreving appointment based on the below
+ * Handle'ss retreving appointment based on the below
  * @param {*} filter
  * @param {*} token 
  */
@@ -215,6 +215,100 @@ export const searchAppointmentByFilter = async (filter, token) => {
     )
 }
 
+/**
+ * Handle's inserting payload data to the appointment collection in firestore
+ * @param {*} payload 
+ * @param {*} token 
+ */
+export const insertAppointments = (payload, token) => {
+    const headers = createHeaderContent(token)
+    const url = baseURL + '/appointments'
+
+    console.log('insertAppointments', headers);
+    console.log('url', url);
+    
+    return (
+        axios({
+            method: 'POST',
+            url:url,
+            headers: headers,
+            data: payload
+        })
+    )
+    
+}
+
+/**
+ * Handle's updating payload data to the appointment collection in firestore
+ * @param {*} payload 
+ * @param {*} id 
+ * @param {*} token 
+ */
+export const updateAppointmentById = (payload, id, token) => {
+    const headers = createHeaderContent(token)
+    const url = baseURL +' /appointments/'+id
+
+    console.log('updateAppointmentById', headers);
+    console.log('url', url);
+
+    return (
+        axios({
+            method: 'PATCH',
+            url: url,
+            headers: headers,
+            data: payload
+        })
+    )
+    
+}
+
+/**
+ * Handle's getting appointment data from the appointment collection in firestore
+ * @param {*} payload 
+ * @param {*} id 
+ * @param {*} token 
+ */
+export const getAppointmentById = (payload, id, token) => {
+    const headers = createHeader(token)
+    const url = baseURL + '/appointments/'+ id
+
+    console.log('getAppointmentById', headers);
+    console.log('url', url);
+
+    return (
+        axios({
+            method: 'GET',
+            url: url,
+            headers: headers,
+            data: payload
+        })
+    )
+    
+    
+}
+
+/**
+ * Handle's deleting appointment data from the appointment collection in firestore
+ * @param {*} id 
+ * @param {*} token 
+ */
+export const deleteAppointmentById = (id, token) => {
+    const headers = createHeader(token)
+    const url = baseURL + '/appointments/'+ id
+
+    console.log('deleteAppointmentById', headers);
+    console.log('url', url);
+
+    return (
+        axios({
+            method: 'DELETE',
+            url: url,
+            headers: headers,
+        })
+    )
+    
+}
+
 const apis = {
     insertProfile,
     getProfileById,
@@ -223,6 +317,10 @@ const apis = {
     deletedProfileById,
     searchProviderByFilter,
     getProviderDetails,
+    insertAppointments,
+    updateAppointmentById,
+    getAppointmentById,
+    deleteAppointmentById,
     searchAppointmentByFilter
 }
 

@@ -33,7 +33,10 @@ class AppointmentDashboard extends React.Component {
             display: false,
             item: {},
             previousAppointment: [],
-            upcomingAppointment: []
+            upcomingAppointment: [],
+            previousAppLoading: false,
+            upcomingAppLoading: false
+            
         }
 
         this.isEmpty = utilites.isEmpty.bind(this)
@@ -44,8 +47,13 @@ class AppointmentDashboard extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
+        // console.log('UNSAFE_componentWillReceiveProps', this.props.previousAppointment);
+        // console.log('UNSAFE_componentWillReceiveProps', this.props.previousAppLoading);
+        
         if((this.isEmpty(this.state.previousAppointment) && !this.isEmpty(this.props.previousAppointment)) ||
             (this.isEmpty(this.state.upcomingAppointment) && !this.isEmpty(this.props.upcomingAppointment))){
+            // if((this.state.previousAppLoading !== this.props.previousAppLoading) ||
+                // ((this.state.upcomingAppLoading !== this.props.upcomingAppLoading) )){
             this.AppointmentDashboardRefresh()
         }
     }
@@ -60,6 +68,8 @@ class AppointmentDashboard extends React.Component {
             display: false,
             previousAppointment: this.props.previousAppointment,
             upcomingAppointment: this.props.upcomingAppointment,
+            previousAppLoading: this.props.previousAppLoading,
+            upcomingAppLoading: this.props.upcomingAppLoading
         }) 
     }
 
@@ -163,7 +173,8 @@ class AppointmentDashboard extends React.Component {
     }
 
     render(){
-        if(this.isEmpty(this.state.upcomingAppointment) || this.isEmpty(this.state.previousAppointment)){
+        if(this.isEmpty(this.state.upcomingAppointment) 
+            || this.isEmpty(this.state.previousAppointment)){
             return <Spinner size="large" />
         }
            
@@ -202,6 +213,8 @@ class AppointmentDashboard extends React.Component {
 }
 
 const mapStateToProps = (state) => {   
+    // console.log('AppointmentDashboard mapStateToProps', state);
+    
     return {
         loadingProfile: state.profile.loading,
         loadingPreference: state.preference.loading,
@@ -209,7 +222,9 @@ const mapStateToProps = (state) => {
         preference: state.preference.preference,
         prefSet: state.preference.pref,
         previousAppointment: state.appointment.previousAppointment,
-        upcomingAppointment: state.appointment.upcomingAppointment
+        upcomingAppointment: state.appointment.upcomingAppointment,
+        previousAppLoading: state.appointment.paloading,
+        upcomingAppLoading: state.appointment.ualoading
     }
 }
 

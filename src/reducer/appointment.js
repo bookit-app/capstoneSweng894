@@ -8,11 +8,13 @@ const initalState = {
 }
 
 export default (state = initalState, action ) => {
+    // console.log('appointment', action);
+    
     switch (action.type) {
         case actions.SET_PREVIOUS_APPOINTMENT:{
             var a = {
                 ...state,
-                previousAppointment: action.payload
+                previousAppointment: action.payload, paloading: false
             }
 
             // console.log('actions.SET_PREVIOUS_APPOINTMENT', a);
@@ -22,7 +24,7 @@ export default (state = initalState, action ) => {
         case actions.GET_PREVIOUS_APPOINTMENT_PENDING: {
             var b = {
                 ...state,
-                loading: action.payload
+                paloading: action.payload
             }
 
             // console.log('actions.GET_PREVIOUS_APPOINTMENT_PENDING', b)
@@ -32,7 +34,7 @@ export default (state = initalState, action ) => {
         case actions.GET_PREVIOUS_APPOINTMENT_FULFILLED: {
             var c = {
                 ...state,
-                previousAppointment: action.payload, loading: action.loading
+                previousAppointment: action.payload, paloading: action.loading
             }
 
             // console.log('actions.GET_PREVIOUS_APPOINTMENT_FULFILLED', c);
@@ -40,9 +42,11 @@ export default (state = initalState, action ) => {
             return c            
         }
         case actions.GET_PREVIOUS_APPOINTMENT_REJECTED:{
+            
+            // console.log('actions.GET_PREVIOUS_APPOINTMENT_REJECTED', action.loading);
             var d = {
                 ...state,
-                errorMessage: action.payload, loading: action.loading
+                errorMessage: action.payload, paloading: action.loading
             }
 
             // console.log('actions.GET_PREVIOUS_APPOINTMENT_REJECTED', d);
@@ -52,7 +56,7 @@ export default (state = initalState, action ) => {
         case actions.SET_UPCOMING_APPOINTMENT:{
             var e = {
                 ...state,
-                upcomingAppointment: action.payload
+                upcomingAppointment: action.payload, ualoading: false
             }
 
             // console.log('actions.SET_UPCOMING_APPOINTMENT', e);
@@ -62,7 +66,7 @@ export default (state = initalState, action ) => {
         case actions.GET_UPCOMING_APPOINTMENT_PENDING: {
             var f = {
                 ...state,
-                loading: action.payload
+                ualoading: action.payload
             }
 
             // console.log('actions.GET_UPCOMING_APPOINTMENT_PENDING', f)
@@ -72,7 +76,7 @@ export default (state = initalState, action ) => {
         case actions.GET_UPCOMING_APPOINTMENT_FULFILLED: {
             var g = {
                 ...state,
-                upcomingAppointment: action.payload, loading: action.loading
+                upcomingAppointment: action.payload, ualoading: action.loading
             }
 
             // console.log('actions.GET_UPCOMING_APPOINTMENT_FULFILLED', g);
@@ -82,7 +86,7 @@ export default (state = initalState, action ) => {
         case actions.GET_UPCOMING_APPOINTMENT_REJECTED:{
             var h = {
                 ...state,
-                errorMessage: action.payload, loading: action.loading
+                errorMessage: action.payload, ualoading: action.loading
             }
 
             // console.log('actions.GET_UPCOMING_APPOINTMENT_REJECTED', h);

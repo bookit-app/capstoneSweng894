@@ -112,8 +112,7 @@ async function onLogInSub(type){
             this.setState({ error: '', loading: true})
 
             this.props.settingPref(true)
-            await this.props.loggingIn(email,password)
-            this.onLogInSuccess(type)
+            await this.props.loggingIn(email,password)                        
         } else {
             if(!email){
                 this.setState({
@@ -170,7 +169,6 @@ async function onLogInSub(type){
 
             this.props.settingPref(false)
             await this.props.signUpWithProfile(email,password, payload)
-            this.onLogInSuccess(type)
         } else {       
             
             // console.log('onLogInSub - Error');

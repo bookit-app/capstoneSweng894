@@ -75,8 +75,12 @@ class SignUpEmail extends React.Component {
             this.onLogInFail(nextProps.error.message)
             this.props.settingPref(false)
          } else {
-            this.onLogInSuccess('S')
-            this.props.settingPref(false)
+            if(!nextProps.error && nextProps.userId){
+                this.onLogInSuccess('S')
+                this.props.settingPref(false)
+             } else {
+                this.props.userAuthError('')
+             }
          }
      }
 
@@ -134,13 +138,15 @@ class SignUpEmail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        error: state.auth.error
+        error: state.auth.error,
+        userId: state.auth.userId
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         userSet: (user) => dispatch(auth.userSet(user)),
+        userAuthError: (error) => dispatch(auth.userAuthError(error)),
         settingPref: (pref) => dispatch(preference.settingPref(pref)),
         signingUp: (email,password) => dispatch(signUp(email, password)),
         signUpWithProfile: (email, password, payload) => dispatch(signUpWithProfile(email, password, payload))
