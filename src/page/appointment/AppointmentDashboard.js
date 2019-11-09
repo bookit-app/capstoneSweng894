@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Text, View, ScrollView } from 'react-native'
-import { Spinner, ImageButton } from '../../components/common'
+import { Spinner, ImageButton, ButtonCustom } from '../../components/common'
 import { AppointmentList, AppointmentItem } from '../../components/appointment'
 import styles from '../styles/Appointment.styles'
 import utilites from '../../utilites'
@@ -195,7 +195,6 @@ class AppointmentDashboard extends React.Component {
                     item={this.state.item} 
                     display={this.state.display}
                     onClose={() => this.onDetailClose()}
-                    navigation={this.props.navigation}
                 />
             </ScrollView>
         )

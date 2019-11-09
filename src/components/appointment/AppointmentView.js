@@ -1,18 +1,29 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import styles from '../../page/styles/Appointment.styles'
+import date from 'date-and-time';
+import 'date-and-time/plugin/ordinal'
 
 /**
  * Appointment View -  readonly view
  * @param {*} props 
  */
 const AppointmentView = (props) => {
+    date.plugin('ordinal')
+
     return (
-        <View style={styles.Column}>
+        <View style={styles.Column, {paddingTop: 15}}>
             <View style={styles.Column}>
                 <View style={styles.Row}>
-                    <Text style={{color: '#724FFD'}}>{'Date:'}</Text>
-                    <Text>{props.date}</Text>
+                    <View style={{alignItems: 'flex-start'}}>
+                        <View style={styles.Row}>
+                            <Text style={{color: '#724FFD'}}>{'Date:'}</Text>
+                            <Text>{props.date}</Text>
+                        </View>
+                    </View>
+                    <View style={{alignItems: 'flex-end'}}>    
+                        <props.onEditClick/>
+                    </View>
                 </View>
                 <View style={styles.Row}>
                     <Text style={{color: '#724FFD'}}>{'Time:'}</Text>

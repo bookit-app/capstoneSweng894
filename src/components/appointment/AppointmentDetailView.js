@@ -1,20 +1,31 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View } from 'react-native'
-import { AppointmentView } from '../appointment'
-import date from 'date-and-time';
-import 'date-and-time/plugin/ordinal'
+import { AppointmentView, AppointmentEditView } from '../appointment'
+
+import { ButtonCustom } from '../common'
 
 /**
  * Appointment Detail View - handle switch between edit and read-only view of appointment details
  * @param {*} props 
  */
 const AppointmentDetailView = (props) => {
-    date.plugin('ordinal')
+    const [editable, setEditable] = useState(false)
 
-    if(!props.edit){
+    onEditClick = () =>{
+        return (
+            <ButtonCustom
+                onPress={() => setEditable(!editable)}
+            >
+                {'Edit'}
+            </ButtonCustom>
+        )
+    }
+
+    if(!editable){
         const { date, time, status, businessName, stylist, serviceList, address, state, city, zipcode} = props
         return (
             <AppointmentView
+                onEditClick={onEditClick}
                 date={date}
                 time={time}
                 status={status}
@@ -29,7 +40,9 @@ const AppointmentDetailView = (props) => {
         )
     } else {
         return (
-            <View />
+            <AppointmentEditView
+                onEditClick={onEditClick}
+            />
         )
     }    
 }
