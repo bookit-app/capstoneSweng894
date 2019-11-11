@@ -166,7 +166,7 @@ const AppointmentEditView = (props) => {
                             minute={minute}
                         />
                     </View>
-                    <View style={styles.Row}> // Add logic to 
+                    <View style={styles.Row}>
                         <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Status:'}</Text>
                         {/* <CustomPicker
                             defaultValue={status}
