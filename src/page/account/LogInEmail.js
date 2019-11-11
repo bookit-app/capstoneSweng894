@@ -71,7 +71,7 @@ class LogInEmail extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log('mapToProps', state.auth);
+    // console.log('mapToProps', state.auth);
     
     return {
         error: state.auth.error,

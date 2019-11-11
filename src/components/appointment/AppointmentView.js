@@ -9,19 +9,15 @@ import 'date-and-time/plugin/ordinal'
  * @param {*} props 
  */
 const AppointmentView = (props) => {
-    date.plugin('ordinal')
-
     return (
         <View style={styles.Column, {paddingTop: 15}}>
             <View style={styles.Column}>
-                <View style={styles.Row}>
-                    <View style={{alignItems: 'flex-start'}}>
-                        <View style={styles.Row}>
-                            <Text style={{color: '#724FFD'}}>{'Date:'}</Text>
-                            <Text>{props.date}</Text>
-                        </View>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View style={styles.Row}>
+                        <Text style={{color: '#724FFD'}}>{'Date:'}</Text>
+                        <Text>{date.format(date.parse(props.date, 'MM-DD-YYYY'), 'MMM DDD YYYY')}</Text>
                     </View>
-                    <View style={{alignItems: 'flex-end'}}>    
+                    <View style={{paddingEnd: 5}}>   
                         <props.onEditClick/>
                     </View>
                 </View>

@@ -148,7 +148,7 @@ class PrefeenceForm extends React.Component {
                         onDayChge={day => this.setState({ day: DayOfWeek.filter(i => i.Name == day)[0].Name })}
                         errorDay={this.state.errorDay}
                         onDaySelected={this.state.day}
-                        onDayItems={DayOfWeek.map(a => a.Name)}
+                        onDayItems={DayOfWeek.map(a => a.Name)} //== undefined ? DayOfWeek.map(a => DayOfWeek[0].name) : DayOfWeek.map(a => a.Name)}
                         onTimeChge={time => this.setState({ time })}
                         errorTime={this.state.errorTime}
                         onTimeSelected={this.state.time}

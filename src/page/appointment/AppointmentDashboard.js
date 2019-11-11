@@ -24,7 +24,7 @@ class AppointmentDashboard extends React.Component {
     constructor(props){
         super(props)
 
-        this.state ={
+        this.state = {
             profile: {},
             preference: {},
             prefSet: true,
@@ -36,7 +36,6 @@ class AppointmentDashboard extends React.Component {
             upcomingAppointment: [],
             previousAppLoading: false,
             upcomingAppLoading: false
-            
         }
 
         this.isEmpty = utilites.isEmpty.bind(this)
@@ -213,8 +212,6 @@ class AppointmentDashboard extends React.Component {
 }
 
 const mapStateToProps = (state) => {   
-    // console.log('AppointmentDashboard mapStateToProps', state);
-    
     return {
         loadingProfile: state.profile.loading,
         loadingPreference: state.preference.loading,

@@ -5,6 +5,31 @@ import CustomInputStyles from '../styles/CustomInputStyles'
 import { CustomPicker } from 'react-native-custom-picker'
 
 /**
+ * CustomPicker - Individual field component
+ * @param {*} settings 
+ */
+const renderPickerField = (settings) => { 
+    const { selectedItem, defaultText, getLabel} = settings
+
+    return (
+        <View>
+            <View style={CustomInputStyles.containerStyleRight}>
+            {!selectedItem && <Text style={styles.inputStyle, { color: 'grey' }}>{defaultText}</Text>}
+            {selectedItem && (
+                <View style={Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}>
+                    <Text>
+                        {getLabel(selectedItem)}
+                    </Text>
+                    <Text/>{/* Not necessary but makes the form match City, State may want to remove  */}
+                </View>
+            )}
+            </View>
+        </View>
+    )
+}
+
+
+/**
  * Account Log-In/Sign-Up user & password fields 
  * 
  * @param {*} props 
@@ -90,6 +115,7 @@ const  AccountSignUp = (props) => {
                     <Text>{"Gender: "}</Text>
                     <CustomPicker
                         placeholder={"i.e. Male"}
+                        fieldTemplate={renderPickerField}
                         options={props.genderItem}
                         onValueChange={props.genderOnChge}
                         defaultValue={"i.e. Male"}
