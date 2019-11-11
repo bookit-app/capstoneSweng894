@@ -10,7 +10,6 @@ import { ButtonCustom } from '../common'
  */
 const AppointmentDetailView = (props) => {
     const [editable, setEditable] = useState(false)
-    const [availDtList, setAvailDt] = useState([])
 
     onEditClick = () =>{
         return (

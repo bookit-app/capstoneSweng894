@@ -28,7 +28,6 @@ const renderPickerField = (settings) => {
     )
 }
 
-
 /**
  * Account Log-In/Sign-Up user & password fields 
  * 
