@@ -11,4 +11,4 @@ export * from './ButtonCustom';
 export * from './CheckBox';
 export * from './PickerList';
 export * from './InputNumberCustom'
-export * from './Time'
+export * from '../appointment/Time'

@@ -707,6 +707,48 @@ export const Stuff = [
 export const BusinessImage = [
 ]
 
+export const AvailableSlot = [
+    {   
+        "style": "CUSTOM",
+        "time": "12:30",
+        "date": "10-10-2019",
+    }, 
+    {
+        "style": "CUSTOM",
+        "time": "1:30",
+        "date": "10-10-2019",
+    },
+    {   
+        "style": "FADE",
+        "time": "10:30",
+        "date": "10-10-2019",
+    }, 
+    {
+        "style": "FADE",
+        "time": "11:30",
+        "date": "10-10-2019",
+    },
+    {   
+        "style": "CUSTOM",
+        "time": "12:30",
+        "date": "10-11-2019",
+    }, 
+    {
+        "style": "CUSTOM",
+        "time": "1:30",
+        "date": "10-11-2019",
+    },
+    {   
+        "style": "UPDO",
+        "time": "10:30",
+        "date": "10-12-2019",
+    }, 
+    {
+        "style": "UPDO",
+        "time": "11:30",
+        "date": "10-12-2019",
+    }
+]
 
 export default {
     Gender,
@@ -718,5 +760,6 @@ export default {
     serviceProvider,
     UpcomingAppointments,
     PreviousAppointments,
-    Services
+    Services,
+    AvailableSlot
 }

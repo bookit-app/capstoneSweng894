@@ -7,8 +7,7 @@ import { AppointmentDetailView } from '../../components/appointment'
  * Appointment Detail page
  */
 class AppointmentDetail extends React.Component {
-    render(){               
-        
+    render(){                       
         if(!utilites.isEmpty(this.props.item.styleAddress)){
             var address = utilites.isEmpty(this.props.item.styleAddress.streetAddress) ? '' : this.props.item.styleAddress.streetAddress
             var city = utilites.isEmpty(this.props.item.styleAddress.city) ? '' : this.props.item.styleAddress.city
@@ -36,6 +35,9 @@ class AppointmentDetail extends React.Component {
                     city={city}
                     state={state}
                     zipCode={zipCode}
+                    profile={this.props.profile}
+                    preference={this.props.preference}
+                    token={this.props.token}
                 />
             </Modal>
         )

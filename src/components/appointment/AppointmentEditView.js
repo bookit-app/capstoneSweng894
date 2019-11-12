@@ -1,12 +1,12 @@
-import React, {useState} from 'react'
-import { View, Text, Platform} from 'react-native'
+import React, {useState, useEffect} from 'react'
+import { View, Text, Platform, ScrollView} from 'react-native'
+import api from '../../api'
 import styles from '../../page/styles/Appointment.styles'
-import CalendarPicker from 'react-native-calendar-picker'
 import date from 'date-and-time'
 import 'date-and-time/plugin/ordinal'
-import moment from 'moment'
 import { CustomPicker } from 'react-native-custom-picker'
-import {Time} from '../common'
+import { Time, Calendar } from './index'
+import utilites from '../../utilites'
 
 /**
  * CustomPicker - Individual field component
@@ -29,42 +29,6 @@ const renderPickerField = (settings) => {
     )
 }
 
-/**
- * Calender 
- * @param {*} props 
- */
-const Calendar = (props) => {
-    const minDate = new Date()
-    const maxDate = date.addMonths(new Date(), 2);
-    const { status, setStartDt } = props
-    
-    const onDateChange = (date_, type) => {
-        setStartDt(moment(date_).format('MMM Do YYYY'))
-    }
-
-    if(status){
-        return (
-            <View>
-                <Text>{'Non-Calendar'}</Text>
-            </View>
-        )
-    } else {
-        return (
-            <View>
-                <CalendarPicker
-                    startFromMonday={true}
-                    allowRangeSelection={false}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    todayBackgroundColor="#f2e6ff"
-                    selectedDayColor="#7300e6"
-                    selectedDayTextColor="#FFFFFF"
-                    onDateChange={onDateChange}
-                />
-            </View>
-        )
-    }
-}
 
 /**
  * Generators the production time arraies based on limit
@@ -109,38 +73,84 @@ const StatusList = [
  * @param {*} props 
  */
 const StatusHandler = (props) => {
-    const { status, onSetStatus} = props
+    const {status, onSetStatus} = props
 
-    if(status) {
-        <View>
-            <Text>{'Status Can not be Change'}</Text>
-        </View>
+    if(!status) {
+        return (
+            <View>
+                <Text>{'Status can not be Changed'}</Text>
+            </View>
+        )
     } else {
-        <View>
-            <CustomPicker
-                defaultValue={status}
-                fieldTemplate={renderPickerField}
-                options={StatusList.map(a => a.Name)}
-                onValueChange={onSetStatus}
-                value={status}
-            />
-        </View>
+        return (
+            <View>
+                <CustomPicker
+                    defaultValue={status}
+                    fieldTemplate={renderPickerField}
+                    options={StatusList.map(a => a.Name)}
+                    onValueChange={st => onSetStatus(st)}
+                    value={status}
+                />
+            </View>
+        )
     }
 }
+
+const ShopNameHandler = (props) => {
+    const { status, businessName, onSetShopName } = props
+
+    if(!status){
+        return(
+            <View>
+
+            </View>
+        )
+    } else {
+        return (
+            <View>
+                <CustomPicker
+                    defaultValue={businessName}
+                    fieldTemplate={renderPickerField}
+                    options={[]}
+                    onValueChange={b => onSetShopName(b)}
+                    value={businessName}
+                />
+            </View>
+        )
+    }
+}
+
 
 /**
  * Appointment Edit View - Edit View for Appointments
  * @param {*} props 
  */
 const AppointmentEditView = (props) => {
+    const {time, profile, preference} = props
+    console.log('AppointmentEditView', profile);
+    console.log('AppointmentEditView', preference);
+    
     const [startDt, setStartDt] = useState(date.format(date.parse(props.date, 'MM-DD-YYYY'), 'MMM DDD YYYY'))
-    const [hour, setHour] = useState(props.time.toString().split(':')[0])
-    const [minute, setMinute] = useState(props.time.toString().split(':')[1])
+    const [hour, setHour] = useState(time.toString().split(':')[0])
+    const [minute, setMinute] = useState(time.toString().split(':')[1])
     const [status, setStatus] = useState(props.status)
+
+    // useEffect(() => {
+                
+    //     var ft = {
+    //         city: props.,
+    //         state: state_,
+    //         // styles: styleOn
+    //     }
+        
+    //     var filter = utilites.filterGenerate(ft)
+    //     api.searchProviderByFilter(filter, props.token)
+    //         .then()
+    // },[])
     
     return (
-        <View style={styles.Row,{justifyContent: 'center', paddingTop: 15}}>
-            <View>
+        <ScrollView>
+            <View style={styles.Row,{justifyContent: 'center', paddingTop: 15}}>
                 <View style={styles.Column}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View style={styles.Row}>
@@ -168,25 +178,22 @@ const AppointmentEditView = (props) => {
                     </View>
                     <View style={styles.Row}>
                         <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Status:'}</Text>
-                        {/* <CustomPicker
-                            defaultValue={status}
-                            fieldTemplate={renderPickerField}
-                            options={StatusList.map(a => a.Name)}
-                            onValueChange={s => setStatus(s)}
-                            value={status}
-                        />
                         <StatusHandler
                             status={status}
                             onSetStatus={s => setStatus(s)}
-                        /> */}
+                        />
+                    </View>
+                    <View style={styles.Row}>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Shop Name:'}</Text>
                     </View>
                 </View>
                 <Calendar
                     status={props.status}
                     setStartDt={setStartDt}
+                    appDt={props.date}
                 />
             </View>
-        </View>
+        </ScrollView>
     )
 }
 

@@ -27,21 +27,25 @@ class AppointmentDashboard extends React.Component {
         this.state = {
             profile: {},
             preference: {},
-            prefSet: true,
             loadingProfile: true,
             loadingPreference: true,
+            prefSet: true,
             display: false,
             item: {},
             previousAppointment: [],
             upcomingAppointment: [],
             previousAppLoading: false,
-            upcomingAppLoading: false
+            upcomingAppLoading: false,
+            token: ''
         }
 
         this.isEmpty = utilites.isEmpty.bind(this)
     }
 
     componentDidMount(){
+        // console.log('componentDidMount',this.props.profile);
+        // console.log('componentDidMount',this.props.preference);
+
         this.AppointmentDashboardRefresh()
     }
 
@@ -50,9 +54,8 @@ class AppointmentDashboard extends React.Component {
         // console.log('UNSAFE_componentWillReceiveProps', this.props.previousAppLoading);
         
         if((this.isEmpty(this.state.previousAppointment) && !this.isEmpty(this.props.previousAppointment)) ||
-            (this.isEmpty(this.state.upcomingAppointment) && !this.isEmpty(this.props.upcomingAppointment))){
-            // if((this.state.previousAppLoading !== this.props.previousAppLoading) ||
-                // ((this.state.upcomingAppLoading !== this.props.upcomingAppLoading) )){
+            (this.isEmpty(this.state.upcomingAppointment) && !this.isEmpty(this.props.upcomingAppointment)) ||
+            (this.state.profile != this.props.profile)){
             this.AppointmentDashboardRefresh()
         }
     }
@@ -68,7 +71,8 @@ class AppointmentDashboard extends React.Component {
             previousAppointment: this.props.previousAppointment,
             upcomingAppointment: this.props.upcomingAppointment,
             previousAppLoading: this.props.previousAppLoading,
-            upcomingAppLoading: this.props.upcomingAppLoading
+            upcomingAppLoading: this.props.upcomingAppLoading,
+            token: this.props.token
         }) 
     }
 
@@ -105,7 +109,8 @@ class AppointmentDashboard extends React.Component {
         )
     }
 
-    listUpcomingHeader = () => {        
+    listUpcomingHeader = () => { 
+        // console.log('listUpcomingHeader', this.state.token);
         return (
             <View style={styles.headerRow}>
                 <View style={{alignItems:'flex-start'}}>
@@ -113,9 +118,12 @@ class AppointmentDashboard extends React.Component {
                 </View>
                 <View style={{alignItems: 'flex-end'}}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Reivew',{
-                        list: UpcomingAppointments,
+                        list: this.state.upcomingAppointment,
                         headertitle: 'Upcoming',
-                        navigation: this.props.navigation
+                        navigation: this.props.navigation,
+                        profile: this.state.profile,
+                        preference: this.state.preference,
+                        token: this.state.token
                     })}>
                         <Text style={styles.headerText}>{"View More"}</Text>
                     </TouchableOpacity>
@@ -124,7 +132,8 @@ class AppointmentDashboard extends React.Component {
         )
     }
 
-    listReviewHeader = () => {        
+    listReviewHeader = () => {  
+        // console.log('listReviewHeader', this.state.token);
         return (
             <View style={styles.headerRow}>
                 <View style={{alignItems:'flex-start'}}>
@@ -132,9 +141,12 @@ class AppointmentDashboard extends React.Component {
                 </View>
                 <View style={{alignItems: 'flex-end'}}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Reivew', {
-                        list: PreviousAppointments,
+                        list: this.state.previousAppointment,
                         headertitle: 'Previous',
-                        navigation: this.props.navigation
+                        navigation: this.props.navigation,
+                        profile: this.state.profile,
+                        preference: this.state.preference,
+                        token: this.state.token
                     })}>
                         <Text style={styles.headerText}>{"View More"}</Text>
                     </TouchableOpacity>
@@ -205,13 +217,18 @@ class AppointmentDashboard extends React.Component {
                     item={this.state.item} 
                     display={this.state.display}
                     onClose={() => this.onDetailClose()}
+                    profile={this.state.profile}
+                    preference={this.state.preference}
+                    token={this.state.token}
                 />
             </ScrollView>
         )
     }
 }
 
-const mapStateToProps = (state) => {   
+const mapStateToProps = (state) => {    
+    // console.log('AppointmentDashboard mapStateToProps', state.auth.token);
+       
     return {
         loadingProfile: state.profile.loading,
         loadingPreference: state.preference.loading,
@@ -221,7 +238,8 @@ const mapStateToProps = (state) => {
         previousAppointment: state.appointment.previousAppointment,
         upcomingAppointment: state.appointment.upcomingAppointment,
         previousAppLoading: state.appointment.paloading,
-        upcomingAppLoading: state.appointment.ualoading
+        upcomingAppLoading: state.appointment.ualoading,
+        token: state.auth.token,
     }
 }
 

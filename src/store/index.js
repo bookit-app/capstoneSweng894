@@ -133,8 +133,7 @@ export const logIn = (email, password) => {
                     // console.log('logIn token', userId);
                     dispatch(auth.tokenSet(token))
 
-                    console.log('login getting appointments');
-                    
+                    // console.log('login getting appointments');
                     dispatch(getAppointment('','','P',token))
                     dispatch(getAppointment('','','U',token))
         
@@ -142,13 +141,9 @@ export const logIn = (email, password) => {
                         .then(userData => {
                                 var profileData = userData.data
                                 // console.log('logIn profile', profileData);
-                                dispatch(profile.GetProfileFullFilled(profileData))
-
-                                if(!utilites.isEmpty(profileData.preferences)){      
-                                    dispatch(preference.settingPref(true))
-                                    dispatch(preference.GetPreferenceFullFilled(profileData.preferences))
-                                }
-                                
+                                dispatch(profile.GetProfileFullFilled(profileData))      
+                                dispatch(preference.settingPref(true))
+                                dispatch(preference.GetPreferenceFullFilled(profileData.preferences))                                
                                 dispatch(GetStyleInfo(token))
                             }
                         ).catch((error) => {      
@@ -259,24 +254,21 @@ export const signUpWithProfile = (email, password, payload) => {
 
                         user.sendEmailVerification()
                             .then(a => {
-                                // console.log('signUpWithProfile', 'Email Verification');
                                 console.log('Email Verification send');
                             }).catch(e => {
                                 console.log('Failed to verification email'); 
                             })
+                            
+                        user.updateProfile({
+                                displayName: payload.firstName + ' ' + payload.lastName
+                            }).then(b => {
+                                console.log('Display Name is Updated');
+                            }).catch(f => {
+                                console.log('Failed to update dispaly name');
+                            })
 
                         api.insertProfile(payload, token)
                         .then((data) => {
-                            
-                            // console.log('signUpWithProfile', 'Insert Profile');
-                            user.updateProfile({
-                                    displayName: payload.firstName + ' ' + payload.lastName
-                                }).then(b => {
-                                    console.log('Display Name is Updated');
-                                }).catch(f => {
-                                    console.log('Failed to update dispaly name');
-                                })
-                                
                             dispatch(GetStyleInfo(token))
                         })
                         .catch((error) => {
@@ -320,7 +312,7 @@ export const getAppointment = (startDt, endDt, type, token) => {
         }
 
         if(type == 'P'){
-            console.log('getAppointment', 'Previous');
+            // console.log('getAppointment', 'Previous');
             dispatch(appointment.SetPreviousAppointment([]))
             dispatch(appointment.GetPreviousAppointment(true))
 
@@ -348,7 +340,7 @@ export const getAppointment = (startDt, endDt, type, token) => {
                 dispatch(appointment.SetPreviousAppointment(PreviousAppointments))
             }
         } else {
-            console.log('getAppointment', 'Upcoming');
+            // console.log('getAppointment', 'Upcoming');
             dispatch(appointment.SetUpcomingAppointment([]))
             dispatch(appointment.GetUpcomingAppointment(true))
 

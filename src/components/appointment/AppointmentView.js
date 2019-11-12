@@ -8,7 +8,7 @@ import 'date-and-time/plugin/ordinal'
  * Appointment View -  readonly view
  * @param {*} props 
  */
-const AppointmentView = (props) => {
+const AppointmentView = (props) => {    
     return (
         <View style={styles.Column, {paddingTop: 15}}>
             <View style={styles.Column}>

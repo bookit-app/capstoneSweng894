@@ -10,6 +10,7 @@ import { ButtonCustom } from '../common'
  */
 const AppointmentDetailView = (props) => {
     const [editable, setEditable] = useState(false)
+    const {date, time, status, businessName, stylist, serviceList, address, state, city, zipcode, profile, preference, token} = props
 
     onEditClick = () =>{
         return (
@@ -19,8 +20,7 @@ const AppointmentDetailView = (props) => {
                 {'Edit'}
             </ButtonCustom>
         )
-    }
-    const { date, time, status, businessName, stylist, serviceList, address, state, city, zipcode} = props
+    }  
 
     if(!editable){
         return (
@@ -36,6 +36,9 @@ const AppointmentDetailView = (props) => {
                 city={city}
                 state={state}
                 zipcode={zipcode}
+                profile={profile}
+                preference={preference}
+                token={token}
             />
         )
     } else {
@@ -52,6 +55,9 @@ const AppointmentDetailView = (props) => {
                 city={city}
                 state={state}
                 zipcode={zipcode}
+                profile={profile}
+                preference={preference}
+                token={token}
             />
         )
     }    

@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Text, View } from 'react-native'
 import { Spinner, ImageButton } from '../../components/common'
 import { AppointmentList, AppointmentItem } from '../../components/appointment'
@@ -15,7 +14,10 @@ class AppointmentReview extends React.Component {
             list: [],
             header: '',
             display: false,
-            item: {}
+            item: {},
+            profile: {},
+            preference: {},
+            token: ''
         }
 
         this.isEmpty = utilites.isEmpty.bind(this)
@@ -24,17 +26,29 @@ class AppointmentReview extends React.Component {
     componentDidMount(){
         this.setState({
             list: this.props.navigation.getParam('list', []),
-            header: this.props.navigation.getParam('headertitle', '')
+            header: this.props.navigation.getParam('headertitle', ''),
+            profile: this.props.navigation.getParam('profile', {}),
+            preference: this.props.navigation.getParam('preference', {}),
+            token: this.props.navigation.getParam('token', '') 
         })
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
         var list = this.props.navigation.getParam('list', [])
+        var profile = this.props.navigation.getParam('profile', {})
+        var preference = this.props.navigation.getParam('preference', {})
+        var token =  this.props.navigation.getParam('token', '') 
 
-        if(this.isEmpty(this.state.list) && !this.isEmpty(list)){
+        if((this.isEmpty(this.state.list) && !this.isEmpty(list)) ||
+            (this.isEmpty(this.state.profile) && !this.isEmpty(profile)) ||
+            (this.isEmpty(this.state.preference) && !this.isEmpty(preference))){
+
             this.setState({
                 list: list,
-                header: this.props.navigation.getParam('headertitle', '')
+                header: this.props.navigation.getParam('headertitle', ''),
+                profile: profile,
+                preference: preference,
+                token: token
             })
         }
     }
@@ -122,19 +136,13 @@ class AppointmentReview extends React.Component {
                     item={this.state.item} 
                     display={this.state.display}
                     onClose={() => this.onDetailClose()}
+                    profile={this.state.profile}
+                    preference={this.state.preference}
+                    token={this.state.token}
                 />
             </View>
         )
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        loadingProfile: state.profile.loading,
-        profile: state.profile.profile,
-        preference: state.preference.preference,
-        prefSet: state.preference.pref
-    }
-}
-
-export default connect(mapStateToProps,null)(AppointmentReview)
+export default AppointmentReview
