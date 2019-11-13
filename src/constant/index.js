@@ -750,6 +750,24 @@ export const AvailableSlot = [
     }
 ]
 
+export const StatusList = [
+    {
+        Id:0,
+        Name: 'Early',
+        Value: 'Early'
+    },
+    {
+        Id:1,
+        Name: 'On-Time',
+        Value: 'On-Time'
+    },
+    {
+        Id:2,
+        Name: 'Late',
+        Value: 'Late'
+    }
+]
+
 export default {
     Gender,
     GenderV2,
@@ -761,5 +779,6 @@ export default {
     UpcomingAppointments,
     PreviousAppointments,
     Services,
-    AvailableSlot
+    AvailableSlot,
+    StatusList
 }

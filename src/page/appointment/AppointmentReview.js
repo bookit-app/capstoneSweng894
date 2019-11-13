@@ -16,7 +16,6 @@ class AppointmentReview extends React.Component {
             display: false,
             item: {},
             profile: {},
-            preference: {},
             token: ''
         }
 
@@ -28,7 +27,6 @@ class AppointmentReview extends React.Component {
             list: this.props.navigation.getParam('list', []),
             header: this.props.navigation.getParam('headertitle', ''),
             profile: this.props.navigation.getParam('profile', {}),
-            preference: this.props.navigation.getParam('preference', {}),
             token: this.props.navigation.getParam('token', '') 
         })
     }
@@ -36,18 +34,15 @@ class AppointmentReview extends React.Component {
     UNSAFE_componentWillReceiveProps(nextProps){
         var list = this.props.navigation.getParam('list', [])
         var profile = this.props.navigation.getParam('profile', {})
-        var preference = this.props.navigation.getParam('preference', {})
         var token =  this.props.navigation.getParam('token', '') 
 
         if((this.isEmpty(this.state.list) && !this.isEmpty(list)) ||
-            (this.isEmpty(this.state.profile) && !this.isEmpty(profile)) ||
-            (this.isEmpty(this.state.preference) && !this.isEmpty(preference))){
+            (this.isEmpty(this.state.profile) && !this.isEmpty(profile))){
 
             this.setState({
                 list: list,
                 header: this.props.navigation.getParam('headertitle', ''),
                 profile: profile,
-                preference: preference,
                 token: token
             })
         }
@@ -137,7 +132,6 @@ class AppointmentReview extends React.Component {
                     display={this.state.display}
                     onClose={() => this.onDetailClose()}
                     profile={this.state.profile}
-                    preference={this.state.preference}
                     token={this.state.token}
                 />
             </View>

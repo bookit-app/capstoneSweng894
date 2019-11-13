@@ -7,6 +7,7 @@ import 'date-and-time/plugin/ordinal'
 import { CustomPicker } from 'react-native-custom-picker'
 import { Time, Calendar } from './index'
 import utilites from '../../utilites'
+import { StatusList } from '../../constant'
 
 /**
  * CustomPicker - Individual field component
@@ -50,24 +51,6 @@ const TimeGene = (limit) => {
     return ret
 }
 
-const StatusList = [
-    {
-        Id:0,
-        Name: 'Early',
-        Value: 'Early'
-    },
-    {
-        Id:1,
-        Name: 'On-Time',
-        Value: 'On-Time'
-    },
-    {
-        Id:2,
-        Name: 'Late',
-        Value: 'Late'
-    }
-]
-
 /**
  * Status handler
  * @param {*} props 
@@ -96,23 +79,30 @@ const StatusHandler = (props) => {
     }
 }
 
+/**
+ * Shop Name handler
+ * @param {*} props 
+ */
 const ShopNameHandler = (props) => {
-    const { status, businessName, onSetShopName } = props
+    const { status, businessName,  onbusinessList, onSetProvider, onSetShopName } = props
 
     if(!status){
         return(
             <View>
-
+                <Text>{businessName}</Text>
             </View>
         )
     } else {
         return (
             <View>
                 <CustomPicker
-                    defaultValue={businessName}
+                    defaultValue={"i.e. Salon"}
                     fieldTemplate={renderPickerField}
-                    options={[]}
-                    onValueChange={b => onSetShopName(b)}
+                    options={onbusinessList.map(b => b.Name)}
+                    onValueChange={b => {
+                        onSetShopName(b)
+                        onSetProvider(onbusinessList.filter(b => b.Name == b)[0].providerId)
+                    }}
                     value={businessName}
                 />
             </View>
@@ -120,34 +110,93 @@ const ShopNameHandler = (props) => {
     }
 }
 
+const StylistHandler = (props) => {
+    const { status, stylist, stylistList, onSetStylist } = props
+    console.log('StylistHandler',stylist);
+    
+    if(!status){
+        return (
+            <View>
+                <Text>{stylist}</Text>
+            </View>
+        )
+    } else {
+        return (
+            <View>
+                <CustomPicker
+                    defaultValue={"i.e Stylist"}
+                    fieldTemplate={renderPickerField}
+                    options={stylistList.map(s => s.Name)}
+                    onValueChange={s => onSetStylist(s)}
+                    value={stylist}
+                />
+            </View>
+        )
+    }
+}
 
 /**
  * Appointment Edit View - Edit View for Appointments
  * @param {*} props 
  */
 const AppointmentEditView = (props) => {
-    const {time, profile, preference} = props
-    console.log('AppointmentEditView', profile);
-    console.log('AppointmentEditView', preference);
+    const {businessName, time, profile, token} = props
+    const { preferences } = profile
     
     const [startDt, setStartDt] = useState(date.format(date.parse(props.date, 'MM-DD-YYYY'), 'MMM DDD YYYY'))
     const [hour, setHour] = useState(time.toString().split(':')[0])
     const [minute, setMinute] = useState(time.toString().split(':')[1])
     const [status, setStatus] = useState(props.status)
+    const [businName, setBusinessName] = useState(businessName)
+    const [businessList, setBusinessList] = useState([])
+    const [provId, setProvider] = useState(props.providerId)
+    const [stylist, setStylist] = useState(props.stylist)
+    const [stylistList, setStylistList] = useState([])
 
-    // useEffect(() => {
-                
-    //     var ft = {
-    //         city: props.,
-    //         state: state_,
-    //         // styles: styleOn
-    //     }
+    useEffect(() => {
+        const { city, state, hairStyle } = preferences
+        const style = hairStyle.style
+
+        var ft = {
+            city: city,
+            state: state,
+            styles: style
+        }
         
-    //     var filter = utilites.filterGenerate(ft)
-    //     api.searchProviderByFilter(filter, props.token)
-    //         .then()
-    // },[])
+        var filter = utilites.filterGenerate(ft)
+        api.searchProviderByFilter(filter, token)
+            .then((re) => {  
+                var busList = [] 
+                re.data.map(i => {
+                    var businessItem = {} 
+                    businessItem['Id'] = i.providerId
+                    businessItem['Name'] = i.businessName
+                    businessItem['Value'] = i.businessName
+                    businessItem['Address'] = i.address
+
+                    busList.push(businessItem)
+                })
+                setBusinessList(busList)
+            })
+    },[businName])
     
+    useEffect(()=>{
+        api.getProviderDetails(provId, token)
+            .then((re) => {
+                var stylistNameList = []
+                re.data.staff.map(i => {
+                    var stylistItem = {}
+                    stylistItem['Id'] = i.staffMemberId
+                    stylistItem['Name'] = i.name
+
+                    stylistNameList.push(stylistItem)
+                })
+                console.log('stylist', stylistNameList);
+                
+                setStylistList(stylistNameList)
+            })
+    },[provId])
+
     return (
         <ScrollView>
             <View style={styles.Row,{justifyContent: 'center', paddingTop: 15}}>
@@ -185,6 +234,22 @@ const AppointmentEditView = (props) => {
                     </View>
                     <View style={styles.Row}>
                         <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Shop Name:'}</Text>
+                        <ShopNameHandler
+                            status={status}
+                            businessName={businName}
+                            onbusinessList={businessList}
+                            onSetShopName={setBusinessName}
+                            onSetProvider={setProvider}
+                        />
+                    </View>
+                    <View style={styles.Row}>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Stylist:'}</Text>
+                        <StylistHandler
+                            status={status}
+                            stylist={stylist}
+                            stylistList={stylistList}
+                            onSetStylist={setStylist}
+                        />
                     </View>
                 </View>
                 <Calendar

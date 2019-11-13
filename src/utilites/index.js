@@ -680,7 +680,7 @@ function onPreferencePage1Confirmed(navNext){
                 this.props.alreadyFetch(true)
 
                 var newProfile = this.props.profile
-                newProfile.preference = payload.preferences
+                newProfile.preferences = payload.preferences
                 // console.log('onPreferencePage1Confirmed new profile', newProfile);
                 
                 var filterType = {

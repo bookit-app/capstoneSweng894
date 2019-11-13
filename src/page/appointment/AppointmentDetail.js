@@ -19,7 +19,9 @@ class AppointmentDetail extends React.Component {
             var state = ''
             var zipCode = ''
         }
-        
+
+        // console.log('appointmentDetails', this.props.item);
+
         return (
             <Modal visible={this.props.display} animationType='fade'>
                 <this.props.onClose/>
@@ -29,6 +31,7 @@ class AppointmentDetail extends React.Component {
                     time={this.props.item.time}
                     status={this.props.item.status}
                     businessName={this.props.item.businessName}
+                    providerId={this.props.item.providerId}
                     stylist={this.props.item.stylist}
                     serviceList={this.props.item.style == "FADE" ? "Barber" : this.props.item.style == "UPDO" ? "Hair Dresser" : this.props.item.style}
                     address={address}
@@ -36,7 +39,6 @@ class AppointmentDetail extends React.Component {
                     state={state}
                     zipCode={zipCode}
                     profile={this.props.profile}
-                    preference={this.props.preference}
                     token={this.props.token}
                 />
             </Modal>

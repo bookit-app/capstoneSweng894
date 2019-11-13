@@ -43,16 +43,10 @@ class AppointmentDashboard extends React.Component {
     }
 
     componentDidMount(){
-        // console.log('componentDidMount',this.props.profile);
-        // console.log('componentDidMount',this.props.preference);
-
         this.AppointmentDashboardRefresh()
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        // console.log('UNSAFE_componentWillReceiveProps', this.props.previousAppointment);
-        // console.log('UNSAFE_componentWillReceiveProps', this.props.previousAppLoading);
-        
         if((this.isEmpty(this.state.previousAppointment) && !this.isEmpty(this.props.previousAppointment)) ||
             (this.isEmpty(this.state.upcomingAppointment) && !this.isEmpty(this.props.upcomingAppointment)) ||
             (this.state.profile != this.props.profile)){
@@ -122,7 +116,6 @@ class AppointmentDashboard extends React.Component {
                         headertitle: 'Upcoming',
                         navigation: this.props.navigation,
                         profile: this.state.profile,
-                        preference: this.state.preference,
                         token: this.state.token
                     })}>
                         <Text style={styles.headerText}>{"View More"}</Text>
@@ -145,7 +138,6 @@ class AppointmentDashboard extends React.Component {
                         headertitle: 'Previous',
                         navigation: this.props.navigation,
                         profile: this.state.profile,
-                        preference: this.state.preference,
                         token: this.state.token
                     })}>
                         <Text style={styles.headerText}>{"View More"}</Text>
@@ -218,7 +210,6 @@ class AppointmentDashboard extends React.Component {
                     display={this.state.display}
                     onClose={() => this.onDetailClose()}
                     profile={this.state.profile}
-                    preference={this.state.preference}
                     token={this.state.token}
                 />
             </ScrollView>
