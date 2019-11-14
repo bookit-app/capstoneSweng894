@@ -9,6 +9,7 @@ import 'date-and-time/plugin/ordinal'
  * @param {*} props 
  */
 const AppointmentView = (props) => {    
+    
     return (
         <View style={styles.Column, {paddingTop: 15}}>
             <View style={styles.Column}>
@@ -39,15 +40,23 @@ const AppointmentView = (props) => {
                 <Text>{props.stylist}</Text>
             </View>
             <View style={styles.Row}>
-                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Services:'}</Text>
-                <Text>{props.serviceList}</Text>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Service:'}</Text>
+                <Text>{props.service}</Text>
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Address:'}</Text>
                 <View style={styles.Column}>
                     <Text>{props.address}</Text>
-                    <Text>{props.city+" "+props.state+" "+props.zipcode}</Text>
+                    <Text>{props.city+" "+props.state+" "+props.zipCode}</Text>
                 </View>
+            </View>
+            <View style={styles.Row}>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Note:'}</Text>
+                <Text>{props.note}</Text>
+            </View>
+            <View style={styles.Row}>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Comment:'}</Text>
+                <Text>{props.comment}</Text>
             </View>
         </View>
     )

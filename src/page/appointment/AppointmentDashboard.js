@@ -217,9 +217,7 @@ class AppointmentDashboard extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {    
-    // console.log('AppointmentDashboard mapStateToProps', state.auth.token);
-       
+const mapStateToProps = (state) => {           
     return {
         loadingProfile: state.profile.loading,
         loadingPreference: state.preference.loading,

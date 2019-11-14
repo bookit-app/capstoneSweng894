@@ -1,28 +1,10 @@
 import React from 'react'
-import { View, Text, Platform } from 'react-native'
+import { View, Text } from 'react-native'
 import { CustomPicker } from 'react-native-custom-picker'
 import styles from '../styles/General.styles'
+import { AppointmentRenderPickerField } from '../appointment'
 
-/**
- * CustomPicker - Individual field component
- * @param {*} settings 
- */
-const renderPickerField = (settings) => { 
-    const { selectedItem, defaultText, getLabel} = settings
 
-    return (
-        <View>
-            {!selectedItem && <Text style={{ color: 'grey', alignSelf: 'center' }}>{defaultText}</Text>}
-            {selectedItem && (
-                <View style={{alignSelf: 'center'}}>
-                    <Text style={{alignSelf: 'center'}}>
-                        {getLabel(selectedItem)}
-                    </Text>
-                </View>
-            )}
-        </View>
-    )
-}
 
 const Time = ({placeHour, defaultHour, optionsHour, onHourChange, hour,
     placeMinute, defaultMinute, optionsMinute, onMinuteChange, minute}) => {
@@ -34,7 +16,7 @@ const Time = ({placeHour, defaultHour, optionsHour, onHourChange, hour,
                     <CustomPicker
                         placeholder={placeHour}
                         defaultValue={defaultHour}
-                        fieldTemplate={renderPickerField}
+                        fieldTemplate={AppointmentRenderPickerField}
                         options={optionsHour}
                         onValueChange={onHourChange}
                         value={hour}
@@ -46,7 +28,7 @@ const Time = ({placeHour, defaultHour, optionsHour, onHourChange, hour,
                     <CustomPicker
                         placeholder={placeMinute}
                         defaultValue={defaultMinute}
-                        fieldTemplate={renderPickerField}
+                        fieldTemplate={AppointmentRenderPickerField}
                         options={optionsMinute}
                         onValueChange={onMinuteChange}
                         value={minute}

@@ -937,6 +937,26 @@ function onFailuredLogOut(){
     alert('Failure to Log out of Account')
 }
 
+/**
+ * Generators the production time arraies based on limit
+ * @param {*} limit 
+ */
+const TimeGene = (limit) => {
+    var ret = []
+
+    for(var i = 0; i <= limit; i++){
+        var timeComponent = {
+            Id: i,
+            Name: i < 10 ? '0' + i.toString() : i.toString(),
+            Value: i < 10 ? '0' + i.toString() : i.toString()
+        }
+
+        ret.push(timeComponent)
+    }
+
+    return ret
+}
+
 export default {
     onOtherAccount,
     onLogInButton,
@@ -971,5 +991,6 @@ export default {
     onPasswordReset,
     onPasswordResetClick,
     onSuccessfullLogOut,
-    onFailuredLogOut
+    onFailuredLogOut,
+    TimeGene
 }

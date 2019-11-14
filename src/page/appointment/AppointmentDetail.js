@@ -9,18 +9,16 @@ import { AppointmentDetailView } from '../../components/appointment'
 class AppointmentDetail extends React.Component {
     render(){                       
         if(!utilites.isEmpty(this.props.item.styleAddress)){
-            var address = utilites.isEmpty(this.props.item.styleAddress.streetAddress) ? '' : this.props.item.styleAddress.streetAddress
-            var city = utilites.isEmpty(this.props.item.styleAddress.city) ? '' : this.props.item.styleAddress.city
-            var state = utilites.isEmpty(this.props.item.styleAddress.state) ? '' : this.props.item.styleAddress.state
-            var zipCode = utilites.isEmpty(this.props.item.styleAddress.zipCode) ? '' : this.props.item.styleAddress.zipCode
-        } else {
+            var address = this.props.item.styleAddress.streetAddress
+            var city = this.props.item.styleAddress.city
+            var state = this.props.item.styleAddress.state
+            var zipCode = this.props.item.styleAddress.zipCode
+    } else {
             var address = ''
             var city = ''
             var state = ''
             var zipCode = ''
         }
-
-        // console.log('appointmentDetails', this.props.item);
 
         return (
             <Modal visible={this.props.display} animationType='fade'>
@@ -33,13 +31,15 @@ class AppointmentDetail extends React.Component {
                     businessName={this.props.item.businessName}
                     providerId={this.props.item.providerId}
                     stylist={this.props.item.stylist}
-                    serviceList={this.props.item.style == "FADE" ? "Barber" : this.props.item.style == "UPDO" ? "Hair Dresser" : this.props.item.style}
+                    service={this.props.item.style}// == "FADE" ? "Barber" : this.props.item.style == "UPDO" ? "Hair Dresser" : this.props.item.style}
                     address={address}
                     city={city}
                     state={state}
                     zipCode={zipCode}
                     profile={this.props.profile}
                     token={this.props.token}
+                    comment={this.props.item.comment}
+                    note={this.props.item.note}
                 />
             </Modal>
         )

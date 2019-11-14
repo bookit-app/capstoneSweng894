@@ -1,158 +1,42 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, Platform, ScrollView} from 'react-native'
+import { View, Text, ScrollView} from 'react-native'
 import api from '../../api'
 import styles from '../../page/styles/Appointment.styles'
+import CustomInputStyles from '../styles/CustomInputStyles'
 import date from 'date-and-time'
 import 'date-and-time/plugin/ordinal'
-import { CustomPicker } from 'react-native-custom-picker'
-import { Time, Calendar } from './index'
+import { Time, Calendar, Status, BusinessName, Stylist, Service } from './index'
+import { InputCustom, ButtonCustom } from '../common'
 import utilites from '../../utilites'
-import { StatusList } from '../../constant'
-
-/**
- * CustomPicker - Individual field component
- * @param {*} settings 
- */
-const renderPickerField = (settings) => { 
-    const { selectedItem, defaultText, getLabel} = settings
-
-    return (
-        <View>
-            {!selectedItem && <Text style={{ color: 'grey', alignSelf: 'center' }}>{defaultText}</Text>}
-            {selectedItem && (
-                <View style={{alignSelf: 'center'}}>
-                    <Text style={{alignSelf: 'center'}}>
-                        {getLabel(selectedItem)}
-                    </Text>
-                </View>
-            )}
-        </View>
-    )
-}
-
-
-/**
- * Generators the production time arraies based on limit
- * @param {*} limit 
- */
-const TimeGene = (limit) => {
-    var ret = []
-
-    for(var i = 0; i <= limit; i++){
-        var timeComponent = {
-            Id: i,
-            Name: i < 10 ? '0' + i.toString() : i.toString(),
-            Value: i < 10 ? '0' + i.toString() : i.toString()
-        }
-
-        ret.push(timeComponent)
-    }
-
-    return ret
-}
-
-/**
- * Status handler
- * @param {*} props 
- */
-const StatusHandler = (props) => {
-    const {status, onSetStatus} = props
-
-    if(!status) {
-        return (
-            <View>
-                <Text>{'Status can not be Changed'}</Text>
-            </View>
-        )
-    } else {
-        return (
-            <View>
-                <CustomPicker
-                    defaultValue={status}
-                    fieldTemplate={renderPickerField}
-                    options={StatusList.map(a => a.Name)}
-                    onValueChange={st => onSetStatus(st)}
-                    value={status}
-                />
-            </View>
-        )
-    }
-}
-
-/**
- * Shop Name handler
- * @param {*} props 
- */
-const ShopNameHandler = (props) => {
-    const { status, businessName,  onbusinessList, onSetProvider, onSetShopName } = props
-
-    if(!status){
-        return(
-            <View>
-                <Text>{businessName}</Text>
-            </View>
-        )
-    } else {
-        return (
-            <View>
-                <CustomPicker
-                    defaultValue={"i.e. Salon"}
-                    fieldTemplate={renderPickerField}
-                    options={onbusinessList.map(b => b.Name)}
-                    onValueChange={b => {
-                        onSetShopName(b)
-                        onSetProvider(onbusinessList.filter(b => b.Name == b)[0].providerId)
-                    }}
-                    value={businessName}
-                />
-            </View>
-        )
-    }
-}
-
-const StylistHandler = (props) => {
-    const { status, stylist, stylistList, onSetStylist } = props
-    console.log('StylistHandler',stylist);
-    
-    if(!status){
-        return (
-            <View>
-                <Text>{stylist}</Text>
-            </View>
-        )
-    } else {
-        return (
-            <View>
-                <CustomPicker
-                    defaultValue={"i.e Stylist"}
-                    fieldTemplate={renderPickerField}
-                    options={stylistList.map(s => s.Name)}
-                    onValueChange={s => onSetStylist(s)}
-                    value={stylist}
-                />
-            </View>
-        )
-    }
-}
+import LoginButton from '../styles/LoginButton.styles'
 
 /**
  * Appointment Edit View - Edit View for Appointments
  * @param {*} props 
  */
 const AppointmentEditView = (props) => {
-    const {businessName, time, profile, token} = props
-    const { preferences } = profile
-    
+    const { businessName, time, profile, token } = props    
     const [startDt, setStartDt] = useState(date.format(date.parse(props.date, 'MM-DD-YYYY'), 'MMM DDD YYYY'))
+    const [startNonDt, setstartNonDt] = useState(props.date)
     const [hour, setHour] = useState(time.toString().split(':')[0])
     const [minute, setMinute] = useState(time.toString().split(':')[1])
     const [status, setStatus] = useState(props.status)
+    const [comment, setComment] = useState('')
+    const [error, setError] = useState('')
+
+    {/* Sets the BusinessName, business name list, and etc for useEffect below
     const [businName, setBusinessName] = useState(businessName)
     const [businessList, setBusinessList] = useState([])
     const [provId, setProvider] = useState(props.providerId)
     const [stylist, setStylist] = useState(props.stylist)
     const [stylistList, setStylistList] = useState([])
+    const [service, setService] = useState(props.service)
+    const [serviceList, setServiceList] = useState([])
+    const [address1, setAddress1] = useState(props.address)
+    const [address2, setAddress2] = useState(props.city + " " + props.state + " " + props.zipCode)
+    */}
 
+{/* UseEffect to retrieve business and update address, stylist, and etc.. Not neccessary in Edit
     useEffect(() => {
         const { city, state, hairStyle } = preferences
         const style = hairStyle.style
@@ -164,38 +48,103 @@ const AppointmentEditView = (props) => {
         }
         
         var filter = utilites.filterGenerate(ft)
+        var busList = [] 
         api.searchProviderByFilter(filter, token)
             .then((re) => {  
-                var busList = [] 
                 re.data.map(i => {
                     var businessItem = {} 
                     businessItem['Id'] = i.providerId
                     businessItem['Name'] = i.businessName
                     businessItem['Value'] = i.businessName
-                    businessItem['Address'] = i.address
+
+                    const {streetAddress, city, state, zipCode} = i.address
+
+                    setAddress1(streetAddress)
+                    businessItem['Address1'] = streetAddress
+
+                    setAddress2(city + " " + state + " " + zipCode)
+                    businessItem['Address2'] = city + " " + state + " " + zipCode
 
                     busList.push(businessItem)
                 })
                 setBusinessList(busList)
             })
-    },[businName])
+            .catch((err)=>{
+                var businessItem = {} 
+                businessItem['Id'] = provId
+                businessItem['Name'] = businessName
+                businessItem['Value'] = businessName
+                
+                setAddress1(props.address)
+                businessItem['Address1'] = props.address
+
+                setAddress2(props.city + " " + props.state + " " + props.zipcode)
+                businessItem['Address2'] = props.city + " " + props.state + " " + props.zipcode
+
+                busList.push(businessItem)
+                setBusinessList(busList)
+            })
+    },[businessName])
     
     useEffect(()=>{
+        var stylistNameList = []
+        var serviceList = []
         api.getProviderDetails(provId, token)
             .then((re) => {
-                var stylistNameList = []
-                re.data.staff.map(i => {
+                // console.log('useEffect then', re.data);
+                if(re.data.staff.length >= 1){
+                    re.data.staff.map(i => {
+                        var stylistItem = {}
+                        stylistItem['Id'] = i.staffMemberId
+                        stylistItem['Name'] = i.name
+                        stylistNameList.push(stylistItem)
+                    })
+                } else {           
                     var stylistItem = {}
-                    stylistItem['Id'] = i.staffMemberId
-                    stylistItem['Name'] = i.name
-
+                    stylistItem['Id'] = 0
+                    stylistItem['Name'] = 'No Stylist'
                     stylistNameList.push(stylistItem)
-                })
-                console.log('stylist', stylistNameList);
-                
+                }            
+                setStylistList(stylistNameList)
+                if(re.data.services.length >= 1){
+                    re.data.services.map(i => {
+                        var serviceItem = {}
+                        serviceItem['Id'] = i.serviceId
+                        serviceItem['Name'] = i.styleId + ' ' + i.price
+                        serviceList.push(serviceItem)
+                    })
+                } else {
+                    var serviceItem = {}
+                    serviceItem['Id'] = 0
+                    serviceItem['Name'] = 'No Services to offer'
+                    serviceList.push(serviceItem)
+                }
+                setServiceList(serviceList)
+            }).catch((err) =>{
+                // console.log('useEffect catch', err);
+                var stylistItem = {}
+                stylistItem['Id'] = 0
+                stylistItem['Name'] = props.stylist
+                stylistNameList.push(stylistItem)
                 setStylistList(stylistNameList)
             })
-    },[provId])
+    },[provId, service]) 
+*/}
+    const updateAppointment = () =>{
+        const payload = {
+            "date": date.format(date.parse(startNonDt,'MM-DD-YYYY'),'YYYY-MM-DD'),
+            "note": "",
+            "state": "BOOKED",
+            "status": {
+              "code": status,
+              "comment": comment
+            },
+            "time": hour + ':' + minute
+          }
+
+        console.log('Update Appointment',payload);
+        // api.updateAppointmentById()
+    }
 
     return (
         <ScrollView>
@@ -215,48 +164,99 @@ const AppointmentEditView = (props) => {
                         <Time
                             placeHour={hour}
                             defaultHour={hour}
-                            optionsHour={TimeGene(24).map(a => a.Name)}
+                            optionsHour={utilites.TimeGene(24).map(a => a.Name)}
                             onHourChange={hr => setHour(hr)}
                             hour={hour}
                             placeMinute={minute}
                             defaultMinute={minute}
-                            optionsMinute={TimeGene(60).map(a => a.Name)}
+                            optionsMinute={utilites.TimeGene(60).map(a => a.Name)}
                             onMinuteChange={mn => setMinute(mn)}
                             minute={minute}
                         />
                     </View>
                     <View style={styles.Row}>
                         <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Status:'}</Text>
-                        <StatusHandler
+                        <Status
                             status={status}
                             onSetStatus={s => setStatus(s)}
                         />
                     </View>
                     <View style={styles.Row}>
                         <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Shop Name:'}</Text>
-                        <ShopNameHandler
+                        {/* BusinessName component with drop-down or just BusinessName
+                        <BusinessName
                             status={status}
                             businessName={businName}
                             onbusinessList={businessList}
                             onSetShopName={setBusinessName}
                             onSetProvider={setProvider}
-                        />
+                            onSetAddress1={setAddress1}
+                            onSetAddress2={setAddress2}
+                        /> */}
+                        <Text>{businessName}</Text>
                     </View>
                     <View style={styles.Row}>
                         <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Stylist:'}</Text>
-                        <StylistHandler
+                        {/* Stylist componemtn with drop down or just stylist
+                        <Stylist
                             status={status}
                             stylist={stylist}
                             stylistList={stylistList}
                             onSetStylist={setStylist}
+                        /> */}
+                        <Text>{props.stylist}</Text>
+                    </View>
+                    <View style={styles.Row}>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Service:'}</Text>
+                        {/* 
+                        <Service
+                            status={status}
+                            service={service}
+                            serviceList={serviceList}
+                            onSetServiceList={setService}
+                        /> */}
+                        <Text>{props.service}</Text>
+                    </View>
+                    <View style={styles.Row}>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Address:'}</Text>
+                        <View style={styles.Column}>
+                            <Text>{props.address}</Text>
+                            <Text>{props.city + " " + props.state + " " + props.zipCode}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.Row}>
+                        <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Note:'}</Text>
+                        <Text>{props.note}</Text>
+                    </View>
+                    <View>
+                        <InputCustom
+                            placeholder="i.e. Comment"
+                            label="Comment: "     
+                            value={comment}
+                            onChangeText={c => setComment(c)}
+                            error={error}
+                            inputStyle = {CustomInputStyles.inputStyleLeft}
+                            containerStyle = {CustomInputStyles.containerStyleLeft}      
+                            labelStyle = {{color: '#724FFD', paddingEnd: 5}}
+                            errorStyle = {CustomInputStyles.error} 
                         />
                     </View>
                 </View>
                 <Calendar
                     status={props.status}
                     setStartDt={setStartDt}
+                    setStartDtnF={setstartNonDt}
                     appDt={props.date}
                 />
+                <View>
+                    <ButtonCustom
+                        onPress={updateAppointment}
+                        buttonStyle={LoginButton.buttonStyle}
+                        textStyle={LoginButton.textStyle}
+                    >
+                        {'Update Appointment'}
+                    </ButtonCustom>
+                </View>
             </View>
         </ScrollView>
     )

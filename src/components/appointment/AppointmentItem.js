@@ -13,7 +13,9 @@ const AppointmentItem = (props) => {
             <TouchableOpacity onPress={props.onClick}>
                 <View style={styles.Row}>
                     <View style={styles.Row}>
-                        <View style={{justifyContent: 'center', paddingStart: 10, paddingEnd: 1}}>
+                        <View style={{justifyContent: 'center', 
+                                    paddingStart: 10, 
+                                    paddingEnd: 1}}>
                             <Image
                                 style={{
                                     width: 45,
@@ -22,6 +24,7 @@ const AppointmentItem = (props) => {
                                 }}
                                 source={require('../../image/Placeholder150.png')}
                             />  
+                            {/* <Text style={{color: '#724FFD', fontSize: 35}}>{props.shopName.substring(0,1)}</Text> */}
                         </View>
                     </View>
                     <View style={styles.Column}>

@@ -342,12 +342,13 @@ export const UpcomingAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "FADE",
         "price": "$",
-        "comment": ""
+        "comment": "Comment",
+        "note": "Note"
     },
     {
         "aid": "10002",
@@ -362,12 +363,13 @@ export const UpcomingAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": ""
+        "comment": "Comment",
+        "note": "Note"
     },
     {
         "aid": "10003",
@@ -382,12 +384,13 @@ export const UpcomingAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "UPDO",
         "price": "$",
-        "comment": ""
+        "comment": "Comment",
+        "note": "Note"
     },
     {
         "aid": "10004",
@@ -402,12 +405,13 @@ export const UpcomingAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "UPDO",
         "price": "$",
-        "comment": ""
+        "comment": "Comment",
+        "note": "Note"
     }
 ]
 
@@ -425,12 +429,13 @@ export const PreviousAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "FADE",
         "price": "$",
-        "comment": "Amazing Fade"
+        "comment": "Amazing Fade",
+        "note": "Note"
     },
     {
         "aid": "10002",
@@ -445,12 +450,13 @@ export const PreviousAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "UPDO",
         "price": "$",
-        "comment": " I look lovely"
+        "comment": " I look lovely",
+        "note": "Note"
     },
     {
         "aid": "10003",
@@ -465,12 +471,13 @@ export const PreviousAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": "Fade and Updo combine"
+        "comment": "Fade and Updo combine",
+        "note": "Note"
     },
     {
         "aid": "10004",
@@ -485,13 +492,15 @@ export const PreviousAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": ""
-    },    {
+        "comment": "",
+        "note": "Note"
+    },    
+    {
         "aid": "10005",
         "uid": "99999",
         "time": "12:30",
@@ -504,12 +513,13 @@ export const PreviousAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "FADE",
         "price": "$",
-        "comment": "Amazing Fade"
+        "comment": "Amazing Fade",
+        "note": "Note"
     },
     {
         "aid": "10006",
@@ -524,12 +534,13 @@ export const PreviousAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "UPDO",
         "price": "$",
-        "comment": " I look lovely"
+        "comment": " I look lovely",
+        "note": "Note"
     },
     {
         "aid": "10007",
@@ -544,12 +555,13 @@ export const PreviousAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": "Fade and Updo combine"
+        "comment": "Fade and Updo combine",
+        "note": "Note"
     },
     {
         "aid": "10008",
@@ -564,12 +576,13 @@ export const PreviousAppointments = [
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
-            "streetAddress": "1230 N 32nd St",
-            "zipCode": 19131
+            "streetAddress": "1716 Samson St",
+            "zipCode": 19103
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": ""
+        "comment": "",
+        "note": "Note"
     }
 ]
 
@@ -753,18 +766,36 @@ export const AvailableSlot = [
 export const StatusList = [
     {
         Id:0,
-        Name: 'Early',
-        Value: 'Early'
+        Name: 'Ready',
+        Value: 'READY'
     },
     {
         Id:1,
         Name: 'On-Time',
-        Value: 'On-Time'
+        Value: 'ON-TIME'
     },
     {
         Id:2,
-        Name: 'Late',
-        Value: 'Late'
+        Name: 'Delayed',
+        Value: 'DELAYED'
+    }
+]
+
+export const StateList = [
+    {
+        Id: 0,
+        Name: "Booked",
+        Value: "BOOKED"
+    },
+    {
+        Id: 1,
+        Name: "Canceled",
+        Value: "CANCELED"
+    },
+    {
+        Id: 2,
+        Name: "Completed",
+        Value: "COMPLETED"
     }
 ]
 
@@ -780,5 +811,6 @@ export default {
     PreviousAppointments,
     Services,
     AvailableSlot,
-    StatusList
+    StatusList,
+    StateList
 }

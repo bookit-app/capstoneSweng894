@@ -1,8 +1,7 @@
 import React, {useState} from 'react'
-import { View } from 'react-native'
 import { AppointmentView, AppointmentEditView } from '../appointment'
-
 import { ButtonCustom } from '../common'
+import LoginButton from '../styles/LoginButton.styles'
 
 /**
  * Appointment Detail View - handle switch between edit and read-only view of appointment details
@@ -10,12 +9,16 @@ import { ButtonCustom } from '../common'
  */
 const AppointmentDetailView = (props) => {
     const [editable, setEditable] = useState(false)
-    const {date, time, status, businessName, stylist, serviceList, address, state, city, zipcode, profile, preference, token, providerId} = props
+    const {date, time, status, businessName, stylist, service, address, 
+        state, city, zipCode, profile, preference, token, providerId, 
+        comment, note} = props    
 
     onEditClick = () =>{
         return (
             <ButtonCustom
                 onPress={() => setEditable(!editable)}
+                buttonStyle={LoginButton.buttonStyle}
+                textStyle={LoginButton.textStyle}
             >
                 {'Edit'}
             </ButtonCustom>
@@ -32,14 +35,16 @@ const AppointmentDetailView = (props) => {
                 businessName={businessName}
                 providerId={providerId}
                 stylist={stylist}
-                serviceList={serviceList}
+                service={service}
                 address={address}
                 city={city}
                 state={state}
-                zipcode={zipcode}
+                zipCode={zipCode}
                 profile={profile}
                 preference={preference}
                 token={token}
+                comment={comment}
+                note={note}
             />
         )
     } else {
@@ -52,14 +57,16 @@ const AppointmentDetailView = (props) => {
                 businessName={businessName}
                 providerId={providerId}
                 stylist={stylist}
-                serviceList={serviceList}
+                service={service}
                 address={address}
                 city={city}
                 state={state}
-                zipcode={zipcode}
+                zipCode={zipCode}
                 profile={profile}
                 preference={preference}
                 token={token}
+                comment={comment}
+                note={note}
             />
         )
     }    
