@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, Alert } from 'react-native'
 import { Spinner, ImageButton, ButtonCustom } from '../../components/common'
 import { AppointmentList, AppointmentItem } from '../../components/appointment'
 import styles from '../styles/Appointment.styles'
@@ -10,6 +10,8 @@ import { PreviousAppointments, UpcomingAppointments, Services } from '../../cons
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import AppointmentDetail from './AppointmentDetail'
 import { appointment } from '../../actions'
+import api from '../../api'
+
 /**
  * Appointment Dashboard show upcoming and most recent appointments for the client
  */
@@ -36,6 +38,8 @@ class AppointmentDashboard extends React.Component {
             upcomingAppointment: [],
             previousAppLoading: false,
             upcomingAppLoading: false,
+            previousViewMore: false,
+            upcomingViewMore: false,
             token: ''
         }
 
@@ -47,9 +51,8 @@ class AppointmentDashboard extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
-        if((this.isEmpty(this.state.previousAppointment) && !this.isEmpty(this.props.previousAppointment)) ||
-            (this.isEmpty(this.state.upcomingAppointment) && !this.isEmpty(this.props.upcomingAppointment)) ||
-            (this.state.profile != this.props.profile)){
+        if(!utilites.isEmpty(this.props.previousAppointment)
+            || !utilites.isEmpty(this.props.upcomingAppointment)){
             this.AppointmentDashboardRefresh()
         }
     }
@@ -66,6 +69,8 @@ class AppointmentDashboard extends React.Component {
             upcomingAppointment: this.props.upcomingAppointment,
             previousAppLoading: this.props.previousAppLoading,
             upcomingAppLoading: this.props.upcomingAppLoading,
+            previousViewMore: !utilites.isEmpty(this.props.previousAppointment),
+            upcomingViewMore: !utilites.isEmpty(this.props.upcomingAppointment),
             token: this.props.token
         }) 
     }
@@ -94,42 +99,63 @@ class AppointmentDashboard extends React.Component {
         })
     }
     
+    onDetailHoldClickDelete(item){
+        const { appointmentId, listType } = item
+        Alert.alert(
+            'Delete Appointment',
+            'Are you sure you want to delete this Appointment ? ',
+            [
+                {text: 'Cancel', onPress: () => {return null}},
+                {text: 'Confirm', onPress: () => {                
+                    api.deleteAppointmentById(appointmentId)
+                        .then (a => {
+                            this.props.deleteItem(item, listType)
+                        })
+                        .catch(error => {
+                            console.log('error: ', error);
+                        })
+                }}
+            ]
+        )
+    }
+
     renderItem = (item) => {
-        // console.log('renderItem', item.item.listType);
-                
         return (
             <View>        
                 <AppointmentItem
                     shopName={item.item.businessName}
-                    service={item.item.style == "FADE" ? "Barber" : item.item.style == "UPDO" ? "Hair Dresser" : item.item.style }
+                    service={item.item.styleId == "FADE" ? "Barber" : item.item.styleId == "UPDO" ? "Hair Dresser" : item.item.styleId }
                     date={item.item.date}
                     time={item.item.time}
                     status={item.item.status.code}
                     onClick={() => this.onDetailClick(item.item)}
+                    onHoldClick={() => this.onDetailHoldClickDelete(item.item)}
                 /> 
             </View>
         )
     }
 
     listUpcomingHeader = () => { 
-        // console.log('listUpcomingHeader', this.state.token);
         return (
             <View style={styles.headerRow}>
                 <View style={{alignItems:'flex-start'}}>
                     <Text style={styles.headerText}>{"Upcoming"}</Text>
                 </View>
-                <View style={{alignItems: 'flex-end'}}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Reivew',{
-                        list: this.state.upcomingAppointment,
-                        headertitle: 'Upcoming',
-                        navigation: this.props.navigation,
-                        profile: this.state.profile,
-                        token: this.state.token,
-                        replaceItem: this.props.replaceItem
-                    })}>
-                        <Text style={styles.headerText}>{"View More"}</Text>
-                    </TouchableOpacity>
-                </View>
+                {this.state.upcomingViewMore && 
+                    <View style={{alignItems: 'flex-end'}}>
+                        <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('Reivew',{
+                                list: this.state.upcomingAppointment,
+                                headertitle: 'Upcoming',
+                                navigation: this.props.navigation,
+                                profile: this.state.profile,
+                                token: this.state.token,
+                                replaceItem: this.props.replaceItem
+                            })}>
+                            <Text style={styles.headerText}>{"View More"}</Text>
+                        </TouchableOpacity>
+                    </View> 
+                }
             </View>
         )
     }
@@ -141,18 +167,21 @@ class AppointmentDashboard extends React.Component {
                 <View style={{alignItems:'flex-start'}}>
                     <Text style={styles.headerText}>{"Previous"}</Text>
                 </View>
-                <View style={{alignItems: 'flex-end'}}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Reivew', {
-                        list: this.state.previousAppointment,
-                        headertitle: 'Previous',
-                        navigation: this.props.navigation,
-                        profile: this.state.profile,
-                        token: this.state.token,
-                        replaceItem: this.props.replaceItem
-                    })}>
-                        <Text style={styles.headerText}>{"View More"}</Text>
-                    </TouchableOpacity>
-                </View>
+                {this.state.previousViewMore &&
+                    <View style={{alignItems: 'flex-end'}}>
+                        <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('Reivew', {
+                                list: this.state.previousAppointment,
+                                headertitle: 'Previous',
+                                navigation: this.props.navigation,
+                                profile: this.state.profile,
+                                token: this.state.token,
+                                replaceItem: this.props.replaceItem
+                            })}>
+                            <Text style={styles.headerText}>{"View More"}</Text>
+                        </TouchableOpacity>
+                    </View>
+                }
             </View>
         )
     }
@@ -172,7 +201,7 @@ class AppointmentDashboard extends React.Component {
     listEmptyReview = () => {
         return (
             <View style={styles.Column}>
-                <Text style={styles.headerText}>{'No previous appointments'}</Text>
+                <Text style={styles.headerNoAppointment}>{'No previous appointments'}</Text>
             </View>
         )
     }
@@ -180,14 +209,17 @@ class AppointmentDashboard extends React.Component {
     listEmptyUpcoming = () => {
         return (
             <View style={styles.Column}>
-                <Text style={styles.headerText}>{'No upcoming appointments'}</Text>
+                <Text style={styles.headerNoAppointment}>{'No upcoming appointments'}</Text>
             </View>
         )
     }
 
     render(){
-        if(this.isEmpty(this.state.upcomingAppointment) 
-            || this.isEmpty(this.state.previousAppointment)){
+        // console.log('AppointmentDashboard render', this.state.previousAppLoading);
+        // console.log('AppointmentDashboard render', this.state.upcomingAppLoading);
+        
+        if(this.state.previousAppLoading
+            && this.state.upcomingAppLoading){
             return <Spinner size="large" />
         }
            
@@ -218,7 +250,7 @@ class AppointmentDashboard extends React.Component {
                 <AppointmentDetail
                     item={this.state.item} 
                     display={this.state.display}
-                    onClose={() => this.onDetailClose()}
+                    OnClose={() => this.onDetailClose()}
                     profile={this.state.profile}
                     token={this.state.token}
                     replaceItem={this.props.replaceItem}
@@ -246,7 +278,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        replaceItem: (newItem, oldItem, listType) => dispatch(appointment.ReplaceAppointment(newItem, oldItem, listType))
+        replaceItem: (newItem, oldItem, listType) => dispatch(appointment.ReplaceAppointment(newItem, oldItem, listType)),
+        deleteItem: (deleteItem, listType) => dispatch(appointment.DeleteAppointment(deleteItem, listType))
     }
 }
 

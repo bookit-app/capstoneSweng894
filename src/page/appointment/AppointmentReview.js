@@ -1,12 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, View } from 'react-native'
+import { Text, View, Alert } from 'react-native'
 import { Spinner, ImageButton } from '../../components/common'
 import { AppointmentList, AppointmentItem } from '../../components/appointment'
 import AppointmentDetail from './AppointmentDetail'
 import styles from '../styles/Appointment.styles'
 import utilites from '../../utilites'
 import { appointment } from '../../actions'
+import api from '../../api'
 
 class AppointmentReview extends React.Component {
     constructor(props){
@@ -50,9 +51,9 @@ class AppointmentReview extends React.Component {
         }
     }
 
-    onDisplay(dis){
+    onDisplay(){
         this.setState({
-            display: dis
+            display: !this.state.display
         })
     }
 
@@ -73,17 +74,38 @@ class AppointmentReview extends React.Component {
             display: true
         });
     }
+    
+    onDetailHoldClickDelete(item){
+        const { appointmentId, listType } = item
+        Alert.alert(
+            'Delete Appointment',
+            'Are you sure you want to delete this Appointment ? ',
+            [
+                {text: 'Cancel', onPress: () => {return null}},
+                {text: 'Confirm', onPress: () => {                
+                    api.deleteAppointmentById(appointmentId)
+                        .then (a => {
+                            this.props.deleteItem(item, listType)
+                        })
+                        .catch(error => {
+                            console.log('error: ', error);
+                        })
+                }}
+            ]
+        )
+    }
 
     renderItem = (item) => {
         return (
             <View>    
                 <AppointmentItem
                     shopName={item.item.businessName}
-                    service={item.item.style == "FADE" ? "Barber" : item.item.style == "UPDO" ? "Hair Dresser" : item.item.style }
+                    service={item.item.styleId == "FADE" ? "Barber" : item.item.styleId == "UPDO" ? "Hair Dresser" : item.item.styleId }
                     date={item.item.date}
                     time={item.item.time}
                     status={item.item.status.code}
                     onClick={() => this.onDetailClick(item.item)}
+                    onHoldClick={() => this.onDetailHoldClickDelete(item.item)}
                 />
             </View>
         )
@@ -138,7 +160,7 @@ class AppointmentReview extends React.Component {
                 <AppointmentDetail
                     item={this.state.item} 
                     display={this.state.display}
-                    onClose={() => this.onDetailClose()}
+                    OnClose={() => this.onDetailClose()}
                     profile={this.state.profile}
                     token={this.state.token}
                     replaceItem={this.props.replaceItem}
@@ -151,7 +173,8 @@ class AppointmentReview extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        replaceItem: (newItem, oldItem) => dispatch(appointment.ReplaceUpcomingAppointment(newItem, oldItem))
+        replaceItem: (newItem, oldItem, listType) => dispatch(appointment.ReplaceAppointment(newItem, oldItem, listType)),
+        deleteItem: (deleteItem, listType) => dispatch(appointment.DeleteAppointment(deleteItem, listType))
     }
 }
 

@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 import styles from '../../page/styles/Appointment.styles'
 import date from 'date-and-time';
 import 'date-and-time/plugin/ordinal'
+import { StateList, StatusList } from '../../constant'
 
 /**
  * Appointment View -  readonly view
@@ -17,7 +18,7 @@ const AppointmentView = (props) => {
         <View style={styles.Column, {paddingTop: 15}}>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'State:'}</Text>
-                <Text>{state}</Text>
+                <Text>{StateList.filter(i => i.Value == state.trim())[0].Name}</Text>
             </View>
             <View style={styles.Column}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -36,7 +37,7 @@ const AppointmentView = (props) => {
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Status:'}</Text>
-                <Text>{code}</Text>
+                <Text>{StatusList.filter(i => i.Value == code.trim())[0].Name}</Text>
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Shop Name:'}</Text>

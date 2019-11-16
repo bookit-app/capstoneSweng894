@@ -343,14 +343,7 @@ export const UpcomingAppointments = [
         "serviceId": "3",
         "staffMemberName": "Jeremy3 Smith3",
         "staffMemberId": "98Fz6yH4NhzafnNkBY4J",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "FADE",
-        "price": "$",
         "note": "Note"
     },
     {
@@ -368,14 +361,7 @@ export const UpcomingAppointments = [
         "serviceId": "2",
         "staffMemberName": "Jeremy2 Smith2",
         "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "CUSTOM",
-        "price": "$",
         "note": "Note"
     },
     {
@@ -393,14 +379,7 @@ export const UpcomingAppointments = [
         "serviceId": "1",
         "staffMemberName": "Jeremy1 Smith1",
         "staffMemberId": "2jiHf3dvlHjsN2Z65fue",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "UPDO",
-        "price": "$",
         "note": "Note"
     },
     {
@@ -418,14 +397,7 @@ export const UpcomingAppointments = [
         "serviceId": "1",
         "staffMemberName": "Jeremy1 Smith1",
         "staffMemberId": "2jiHf3dvlHjsN2Z65fue",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "UPDO",
-        "price": "$",
         "note": "Note"
     }
 ]
@@ -446,14 +418,7 @@ export const PreviousAppointments = [
         "serviceId": "3",
         "staffMemberName": "Jeremy3 Smith3",
         "staffMemberId": "98Fz6yH4NhzafnNkBY4J",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "FADE",
-        "price": "$",
         "note": "Note"
     },
     {
@@ -471,14 +436,7 @@ export const PreviousAppointments = [
         "serviceId": "1",
         "staffMemberName": "Jeremy1 Smith1",
         "staffMemberId": "2jiHf3dvlHjsN2Z65fue",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "UPDO",
-        "price": "$",
         "note": "Note"
     },
     {
@@ -496,14 +454,7 @@ export const PreviousAppointments = [
         "serviceId": "2",
         "staffMemberName": "Jeremy2 Smith2",
         "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "CUSTOM",
-        "price": "$",
         "note": "Note"
     },
     {
@@ -521,14 +472,7 @@ export const PreviousAppointments = [
         "serviceId": "2",
         "staffMemberName": "Jeremy2 Smith2",
         "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "CUSTOM",
-        "price": "$",
         "note": "Note"
     },    
     {
@@ -546,14 +490,7 @@ export const PreviousAppointments = [
         "serviceId": "3",
         "staffMemberName": "Jeremy3 Smith3",
         "staffMemberId": "98Fz6yH4NhzafnNkBY4J",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "FADE",
-        "price": "$",
         "note": "Note"
     },
     {
@@ -571,14 +508,7 @@ export const PreviousAppointments = [
         "serviceId": "1",
         "staffMemberName": "Jeremy1 Smith1",
         "staffMemberId": "2jiHf3dvlHjsN2Z65fue",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "UPDO",
-        "price": "$",
         "note": "Note"
     },
     {
@@ -596,14 +526,7 @@ export const PreviousAppointments = [
         "serviceId": "2",
         "staffMemberName": "Jeremy2 Smith2",
         "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "CUSTOM",
-        "price": "$",
         "note": "Note"
     },
     {
@@ -621,14 +544,7 @@ export const PreviousAppointments = [
         "serviceId": "2",
         "staffMemberName": "Jeremy2 Smith2",
         "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
-        "styleAddress": {
-            "city": "Philadelphia",
-            "state": "PA",
-            "streetAddress": "1716 Samson St",
-            "zipCode": 19103
-        },
         "style": "CUSTOM",
-        "price": "$",
         "note": "Note"
     }
 ]

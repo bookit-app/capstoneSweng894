@@ -201,7 +201,7 @@ export const getProviderDetails = (id, token) =>{
  */
 export const searchAppointmentByFilter = async (filter, token) => {
     const headers = createHeader(token)
-    const url = baseURL + '/search/appointment?' + filter
+    const url = baseURL + '/search/appointments?' + filter
 
     console.log('getAppointmentList', headers);
     console.log('url', url);

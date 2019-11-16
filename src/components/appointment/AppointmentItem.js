@@ -10,7 +10,7 @@ const AppointmentItem = (props) => {
     
     return (
         <View>
-            <TouchableOpacity onPress={props.onClick}>
+            <TouchableOpacity onPress={props.onClick} onLongPress={props.onHoldClick}>
                 <View style={styles.Row}>
                     <View style={styles.Row}>
                         <View style={{justifyContent: 'center', 

@@ -50,3 +50,9 @@ export const ReplaceAppointment = (newItem, oldItem, listType) => ({
     oldItem,
     listType
 })
+
+export const DeleteAppointment = (deleteItem, listType) => ({
+    type: actions.DELETE_APPOINTMENT,
+    deleteItem,
+    listType
+})

@@ -12,7 +12,6 @@ import LoginButton from '../styles/LoginButton.styles'
 import { CustomPicker } from 'react-native-custom-picker'
 import { AppointmentRenderPickerField } from '../appointment'
 import { StateList, StatusList } from '../../constant'
-import moment from 'moment'
 
 /**
  * Appointment Edit View - Edit View for Appointments
@@ -172,10 +171,8 @@ const [address2, setAddress2] = useState(props.city + " " + props.state + " " + 
             
             replaceItem(newItem, oldItem, listType)
             setLoading(false)
-            onDisplay()
           })
           .catch((err) => {
-            console.log('err', err);
             setErrorOnSubmission(err.message)
             setLoading(false)
           })

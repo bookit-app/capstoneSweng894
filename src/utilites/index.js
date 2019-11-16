@@ -831,7 +831,7 @@ function filterGenerate(filterType){
         // console.log('filterGenerate value',value);
 
         if(value){
-            filter = label + '=' + value.replace(/ /g, '%20')
+            filter = label + '=' + encodeURIComponent(value)
             // console.log('filterGenerate filter', filter);
             
             filters = !filters ? filter : filters + '&' + filter
@@ -839,7 +839,7 @@ function filterGenerate(filterType){
         }
     }  
     
-    console.log('filterGenerate filters final',filters);
+    console.log('filterGenerate filters final', filters);
 
     return filters
 }

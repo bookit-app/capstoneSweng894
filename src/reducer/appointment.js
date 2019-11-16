@@ -15,7 +15,7 @@ export default (state = initalState, action ) => {
                 previousAppointment: action.payload.map(obj => ({...obj, 'listType': 'previous'})), paloading: false
             }
 
-            // console.log('actions.SET_PREVIOUS_APPOINTMENT', a.previousAppointment);
+            console.log('actions.SET_PREVIOUS_APPOINTMENT', a);
          
             return a
         }
@@ -35,7 +35,7 @@ export default (state = initalState, action ) => {
                 previousAppointment: action.payload.map(obj => ({...obj, 'listType': 'previous'})), paloading: action.loading
             }
 
-            // console.log('actions.GET_PREVIOUS_APPOINTMENT_FULFILLED', c.previousAppointment);
+            console.log('actions.GET_PREVIOUS_APPOINTMENT_FULFILLED', c);
 
             return c            
         }
@@ -57,7 +57,7 @@ export default (state = initalState, action ) => {
                 upcomingAppointment: action.payload.map(obj => ({...obj, 'listType': 'upcoming'})), ualoading: false
             }
 
-            // console.log('actions.SET_UPCOMING_APPOINTMENT', e.upcomingAppointment);
+            console.log('actions.SET_UPCOMING_APPOINTMENT', e);
          
             return e
         }
@@ -77,7 +77,7 @@ export default (state = initalState, action ) => {
                 upcomingAppointment: action.payload.map(obj => ({...obj, 'listType': 'upcoming'})), ualoading: action.loading
             }
 
-            // console.log('actions.GET_UPCOMING_APPOINTMENT_FULFILLED', g.upcomingAppointment);
+            console.log('actions.GET_UPCOMING_APPOINTMENT_FULFILLED', g);
 
             return g            
         }
