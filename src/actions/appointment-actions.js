@@ -43,3 +43,10 @@ export const GetUpcomingAppointmentReject = (error) => ({
     payload: error,
     loading: false
 })
+
+export const ReplaceAppointment = (newItem, oldItem, listType) => ({
+    type: actions.REPLACE_APPOINTMENT,
+    newItem,
+    oldItem,
+    listType
+})

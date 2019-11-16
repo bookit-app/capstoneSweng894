@@ -20,26 +20,22 @@ class AppointmentDetail extends React.Component {
             var zipCode = ''
         }
 
+        console.log('AppointmentDetail', this.props.item);
+        
         return (
             <Modal visible={this.props.display} animationType='fade'>
                 <this.props.onClose/>
                 <AppointmentDetailView
                     edit={false}
-                    date={this.props.item.date}   
-                    time={this.props.item.time}
-                    status={this.props.item.status}
-                    businessName={this.props.item.businessName}
-                    providerId={this.props.item.providerId}
-                    stylist={this.props.item.stylist}
-                    service={this.props.item.style}// == "FADE" ? "Barber" : this.props.item.style == "UPDO" ? "Hair Dresser" : this.props.item.style}
+                    item={this.props.item}
                     address={address}
                     city={city}
                     state={state}
                     zipCode={zipCode}
                     profile={this.props.profile}
                     token={this.props.token}
-                    comment={this.props.item.comment}
-                    note={this.props.item.note}
+                    replaceItem={this.props.replaceItem}
+                    onDisplay={this.props.onDisplay}
                 />
             </Modal>
         )

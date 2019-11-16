@@ -8,12 +8,12 @@ import { AppointmentRenderPickerField } from '../appointment'
  * @param {*} props 
  */
 const Stylist = (props) => {
-    const { status, stylist, stylistList, onSetStylist } = props
+    const { status, staffMemberName, stylistList, onSetStylist } = props
     
     if(!status){
         return (
             <View>
-                <Text>{stylist}</Text>
+                <Text>{staffMemberName}</Text>
             </View>
         )
     } else {
@@ -24,7 +24,7 @@ const Stylist = (props) => {
                     fieldTemplate={AppointmentRenderPickerField}
                     options={stylistList.map(s => s.Name)}
                     onValueChange={s => onSetStylist(s)}
-                    value={stylist}
+                    value={staffMemberName}
                 />
             </View>
         )

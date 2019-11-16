@@ -246,7 +246,7 @@ export const insertAppointments = (payload, token) => {
  */
 export const updateAppointmentById = (payload, id, token) => {
     const headers = createHeaderContent(token)
-    const url = baseURL +' /appointments/'+id
+    const url = baseURL +'/appointments/'+id
 
     console.log('updateAppointmentById', headers);
     console.log('url', url);

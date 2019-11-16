@@ -9,14 +9,21 @@ import 'date-and-time/plugin/ordinal'
  * @param {*} props 
  */
 const AppointmentView = (props) => {    
+    const { item } = props
+    const { state, status, businessName, staffMemberName, style, note, time } = item
+    const { comment, code } = status
     
     return (
         <View style={styles.Column, {paddingTop: 15}}>
+            <View style={styles.Row}>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'State:'}</Text>
+                <Text>{state}</Text>
+            </View>
             <View style={styles.Column}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={styles.Row}>
                         <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Date:'}</Text>
-                        <Text>{date.format(date.parse(props.date, 'MM-DD-YYYY'), 'MMM DDD YYYY')}</Text>
+                        <Text>{date.format(date.parse(props.item.date, 'YYYY-MM-DD'), 'MMM DDD YYYY')}</Text>
                     </View>
                     <View style={{paddingEnd: 5}}>   
                         <props.onEditClick/>
@@ -24,24 +31,24 @@ const AppointmentView = (props) => {
                 </View>
                 <View style={styles.Row}>
                     <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Time:'}</Text>
-                    <Text>{props.time}</Text>
+                    <Text>{time}</Text>
                 </View>
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Status:'}</Text>
-                <Text>{props.status}</Text>
+                <Text>{code}</Text>
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Shop Name:'}</Text>
-                <Text>{props.businessName}</Text>
+                <Text>{businessName}</Text>
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Stylist:'}</Text>
-                <Text>{props.stylist}</Text>
+                <Text>{staffMemberName}</Text>
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Service:'}</Text>
-                <Text>{props.service}</Text>
+                <Text>{style}</Text>
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Address:'}</Text>
@@ -52,11 +59,11 @@ const AppointmentView = (props) => {
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Note:'}</Text>
-                <Text>{props.note}</Text>
+                <Text>{note}</Text>
             </View>
             <View style={styles.Row}>
                 <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Comment:'}</Text>
-                <Text>{props.comment}</Text>
+                <Text>{comment}</Text>
             </View>
         </View>
     )

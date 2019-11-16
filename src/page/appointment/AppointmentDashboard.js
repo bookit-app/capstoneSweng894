@@ -9,7 +9,7 @@ import { NavigationEvents } from 'react-navigation'
 import { PreviousAppointments, UpcomingAppointments, Services } from '../../constant'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import AppointmentDetail from './AppointmentDetail'
-
+import { appointment } from '../../actions'
 /**
  * Appointment Dashboard show upcoming and most recent appointments for the client
  */
@@ -88,7 +88,15 @@ class AppointmentDashboard extends React.Component {
         });
     }
 
+    onDisplay(){
+        this.setState({
+            display: !this.state.display
+        })
+    }
+    
     renderItem = (item) => {
+        // console.log('renderItem', item.item.listType);
+                
         return (
             <View>        
                 <AppointmentItem
@@ -96,7 +104,7 @@ class AppointmentDashboard extends React.Component {
                     service={item.item.style == "FADE" ? "Barber" : item.item.style == "UPDO" ? "Hair Dresser" : item.item.style }
                     date={item.item.date}
                     time={item.item.time}
-                    status={item.item.status}
+                    status={item.item.status.code}
                     onClick={() => this.onDetailClick(item.item)}
                 /> 
             </View>
@@ -116,7 +124,8 @@ class AppointmentDashboard extends React.Component {
                         headertitle: 'Upcoming',
                         navigation: this.props.navigation,
                         profile: this.state.profile,
-                        token: this.state.token
+                        token: this.state.token,
+                        replaceItem: this.props.replaceItem
                     })}>
                         <Text style={styles.headerText}>{"View More"}</Text>
                     </TouchableOpacity>
@@ -138,7 +147,8 @@ class AppointmentDashboard extends React.Component {
                         headertitle: 'Previous',
                         navigation: this.props.navigation,
                         profile: this.state.profile,
-                        token: this.state.token
+                        token: this.state.token,
+                        replaceItem: this.props.replaceItem
                     })}>
                         <Text style={styles.headerText}>{"View More"}</Text>
                     </TouchableOpacity>
@@ -211,6 +221,8 @@ class AppointmentDashboard extends React.Component {
                     onClose={() => this.onDetailClose()}
                     profile={this.state.profile}
                     token={this.state.token}
+                    replaceItem={this.props.replaceItem}
+                    onDisplay={this.onDisplay}
                 />
             </ScrollView>
         )
@@ -232,4 +244,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,null)(AppointmentDashboard);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        replaceItem: (newItem, oldItem, listType) => dispatch(appointment.ReplaceAppointment(newItem, oldItem, listType))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AppointmentDashboard);

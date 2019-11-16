@@ -10,6 +10,7 @@ import { StatusList } from '../../constant'
  */
 const Status = (props) => {
     const {status, onSetStatus} = props
+    const list = StatusList.filter(x => x.Id != -1)    
 
     if(!status) {
         return (
@@ -23,7 +24,7 @@ const Status = (props) => {
                 <CustomPicker
                     defaultValue={status}
                     fieldTemplate={AppointmentRenderPickerField}
-                    options={StatusList.map(a => a.Name)}
+                    options={list.map(a => a.Name)}
                     onValueChange={st => onSetStatus(st)}
                     value={status}
                 />

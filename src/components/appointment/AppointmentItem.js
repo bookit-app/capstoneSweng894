@@ -35,7 +35,7 @@ const AppointmentItem = (props) => {
                     </View>
                     <View style={styles.Column}>
                         <View style={{alignSelf: 'flex-end'}}>
-                            <Text style={{color: '#724FFD'}}>{date.format(date.parse(props.date, 'MM-DD-YYYY'), 'MMM DDD')+ '|' + props.time}</Text>
+                            <Text style={{color: '#724FFD'}}>{date.format(date.parse(props.date, 'YYYY-MM-DD'), 'MMM DDD')+ '|' + props.time}</Text>
                             <Text style={{color: '#724FFD'}}>{props.status}</Text>
                         </View>
                     </View>

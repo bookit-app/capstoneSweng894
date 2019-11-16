@@ -330,15 +330,19 @@ export const serviceProvider = [
 
 export const UpcomingAppointments = [
     {
-        "aid": "10001",
-        "uid": "99999",
+        "appointmentId": "10001",
         "time": "12:30",
-        "date": "12-10-2019",
-        "status": "",
+        "date": "2019-12-10",
+        "status": {
+            "code":"",
+            "comment": "Comment",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "3",
-        "stylist": "Jeremy3 Smith3",
+        "staffMemberName": "Jeremy3 Smith3",
+        "staffMemberId": "98Fz6yH4NhzafnNkBY4J",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -347,19 +351,23 @@ export const UpcomingAppointments = [
         },
         "style": "FADE",
         "price": "$",
-        "comment": "Comment",
         "note": "Note"
     },
     {
-        "aid": "10002",
+        "appointmentId": "10002",
         "uid": "99999",
         "time": "1:30",
-        "date": "12-11-2019",
-        "status": "",
+        "date": "2019-12-11",
+        "status": {
+            "code":"",
+            "comment": "Comment",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "2",
-        "stylist": "Jeremy2 Smith2",
+        "staffMemberName": "Jeremy2 Smith2",
+        "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -368,19 +376,23 @@ export const UpcomingAppointments = [
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": "Comment",
         "note": "Note"
     },
     {
-        "aid": "10003",
+        "appointmentId": "10003",
         "uid": "99999",
         "time": "5:30",
-        "date": "12-15-2019",
-        "status": "",
+        "date": "2019-12-15",
+        "status": {
+            "code":"",
+            "comment": "Comment",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "1",
-        "stylist": "Jeremy1 Smith1",
+        "staffMemberName": "Jeremy1 Smith1",
+        "staffMemberId": "2jiHf3dvlHjsN2Z65fue",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -389,19 +401,23 @@ export const UpcomingAppointments = [
         },
         "style": "UPDO",
         "price": "$",
-        "comment": "Comment",
         "note": "Note"
     },
     {
-        "aid": "10004",
+        "appointmentId": "10004",
         "uid": "99999",
         "time": "6:30",
-        "date": "12-20-2019",
-        "status": "",
+        "date": "2019-12-20",
+        "status": {
+            "code":"",
+            "comment": "Comment",
+        },
+        "state": "BOOKED",
         "businessName":  "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "1",
-        "stylist": "Jeremy1 Smith1",
+        "staffMemberName": "Jeremy1 Smith1",
+        "staffMemberId": "2jiHf3dvlHjsN2Z65fue",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -410,22 +426,26 @@ export const UpcomingAppointments = [
         },
         "style": "UPDO",
         "price": "$",
-        "comment": "Comment",
         "note": "Note"
     }
 ]
 
 export const PreviousAppointments = [
     {
-        "aid": "10001",
+        "appointmentId": "9LZd58kfGr7GNKtAkjKh",
         "uid": "99999",
         "time": "12:30",
-        "date": "10-10-2019",
-        "status": "On-Line",
+        "date": "2019-10-10",
+        "status": {
+            "code":"ON-TIME",
+            "comment": "Amazing Fade",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "3",
-        "stylist": "Jeremy3 Smith3",
+        "staffMemberName": "Jeremy3 Smith3",
+        "staffMemberId": "98Fz6yH4NhzafnNkBY4J",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -434,19 +454,23 @@ export const PreviousAppointments = [
         },
         "style": "FADE",
         "price": "$",
-        "comment": "Amazing Fade",
         "note": "Note"
     },
     {
-        "aid": "10002",
+        "appointmentId": "10002",
         "uid": "99999",
         "time": "1:30",
-        "date": "10-11-2019",
-        "status": "Late",
+        "date": "2019-10-11",
+        "status": {
+            "code":"DELAYED",
+            "comment": " I look lovely",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "1",
-        "stylist": "Jeremy1 Smith1",
+        "staffMemberName": "Jeremy1 Smith1",
+        "staffMemberId": "2jiHf3dvlHjsN2Z65fue",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -455,19 +479,23 @@ export const PreviousAppointments = [
         },
         "style": "UPDO",
         "price": "$",
-        "comment": " I look lovely",
         "note": "Note"
     },
     {
-        "aid": "10003",
+        "appointmentId": "10003",
         "uid": "99999",
         "time": "5:30",
-        "date": "10-15-2019",
-        "status": "Early",
+        "date": "2019-10-15",
+        "status": {
+            "code":"READY",
+            "comment": "Fade and Updo combine",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "2",
-        "stylist": "Jeremy2 Smith2",
+        "staffMemberName": "Jeremy2 Smith2",
+        "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -476,19 +504,23 @@ export const PreviousAppointments = [
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": "Fade and Updo combine",
         "note": "Note"
     },
     {
-        "aid": "10004",
+        "appointmentId": "10004",
         "uid": "99999",
         "time": "6:30",
-        "date": "10-20-2019",
-        "status": "On-Line",
+        "date": "2019-10-20",
+        "status": {
+            "code":"ON-TIME",
+            "comment": "",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "2",
-        "stylist": "Jeremy2 Smith2",
+        "staffMemberName": "Jeremy2 Smith2",
+        "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -497,19 +529,23 @@ export const PreviousAppointments = [
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": "",
         "note": "Note"
     },    
     {
-        "aid": "10005",
+        "appointmentId": "10005",
         "uid": "99999",
         "time": "12:30",
-        "date": "11-01-2019",
-        "status": "On-Line",
+        "date": "2019-11-01",
+        "status": {
+            "code":"ON-TIME",
+            "comment": "Amazing Fade",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "3",
-        "stylist": "Jeremy3 Smith3",
+        "staffMemberName": "Jeremy3 Smith3",
+        "staffMemberId": "98Fz6yH4NhzafnNkBY4J",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -518,19 +554,23 @@ export const PreviousAppointments = [
         },
         "style": "FADE",
         "price": "$",
-        "comment": "Amazing Fade",
         "note": "Note"
     },
     {
-        "aid": "10006",
+        "appointmentId": "10006",
         "uid": "99999",
         "time": "1:30",
-        "date": "11-02-2019",
-        "status": "Late",
+        "date": "2019-11-02",
+        "status": {
+            "code":"DELAYED",
+            "comment": " I look lovely",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "1",
-        "stylist": "Jeremy1 Smith1",
+        "staffMemberName": "Jeremy1 Smith1",
+        "staffMemberId": "2jiHf3dvlHjsN2Z65fue",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -539,19 +579,23 @@ export const PreviousAppointments = [
         },
         "style": "UPDO",
         "price": "$",
-        "comment": " I look lovely",
         "note": "Note"
     },
     {
-        "aid": "10007",
+        "appointmentId": "10007",
         "uid": "99999",
         "time": "5:30",
-        "date": "11-02-2019",
-        "status": "Early",
+        "date": "2019-11-02",
+        "status": {
+            "code":"READY",
+            "comment": "Fade and Updo combine",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "2",
-        "stylist": "Jeremy2 Smith2",
+        "staffMemberName": "Jeremy2 Smith2",
+        "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -560,19 +604,23 @@ export const PreviousAppointments = [
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": "Fade and Updo combine",
         "note": "Note"
     },
     {
-        "aid": "10008",
+        "appointmentId": "10008",
         "uid": "99999",
         "time": "6:30",
-        "date": "11-04-2019",
-        "status": "On-Line",
+        "date": "2019-11-04",
+        "status": {
+            "code":"ON-TIME",
+            "comment": "",
+        },
+        "state": "BOOKED",
         "businessName": "Island Design Natural Hair Salon",
         "providerId":"10001",
         "serviceId": "2",
-        "stylist": "Jeremy2 Smith2",
+        "staffMemberName": "Jeremy2 Smith2",
+        "staffMemberId": "KeFtRqa2NkjGty5kNb5r",
         "styleAddress": {
             "city": "Philadelphia",
             "state": "PA",
@@ -581,7 +629,6 @@ export const PreviousAppointments = [
         },
         "style": "CUSTOM",
         "price": "$",
-        "comment": "",
         "note": "Note"
     }
 ]
@@ -765,6 +812,11 @@ export const AvailableSlot = [
 
 export const StatusList = [
     {
+        Id:-1,
+        Name: '',
+        Value: ''
+    },
+    {
         Id:0,
         Name: 'Ready',
         Value: 'READY'
@@ -789,8 +841,8 @@ export const StateList = [
     },
     {
         Id: 1,
-        Name: "Canceled",
-        Value: "CANCELED"
+        Name: "Cancelled",
+        Value: "CANCELLED"
     },
     {
         Id: 2,

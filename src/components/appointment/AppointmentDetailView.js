@@ -9,11 +9,10 @@ import LoginButton from '../styles/LoginButton.styles'
  */
 const AppointmentDetailView = (props) => {
     const [editable, setEditable] = useState(false)
-    const {date, time, status, businessName, stylist, service, address, 
-        state, city, zipCode, profile, preference, token, providerId, 
-        comment, note} = props    
-
-    onEditClick = () =>{
+    const { address, state, city, zipCode, profile, preference, token,
+        replaceItem, item, onDisplay} = props  
+    
+    const onEditClick = () =>{
         return (
             <ButtonCustom
                 onPress={() => setEditable(!editable)}
@@ -23,19 +22,13 @@ const AppointmentDetailView = (props) => {
                 {'Edit'}
             </ButtonCustom>
         )
-    }  
+    } 
 
     if(!editable){
         return (
             <AppointmentView
                 onEditClick={onEditClick}
-                date={date}
-                time={time}
-                status={status}
-                businessName={businessName}
-                providerId={providerId}
-                stylist={stylist}
-                service={service}
+                item={item}
                 address={address}
                 city={city}
                 state={state}
@@ -43,21 +36,13 @@ const AppointmentDetailView = (props) => {
                 profile={profile}
                 preference={preference}
                 token={token}
-                comment={comment}
-                note={note}
             />
         )
     } else {
         return (
             <AppointmentEditView
                 onEditClick={onEditClick}
-                date={date}
-                time={time}
-                status={status}
-                businessName={businessName}
-                providerId={providerId}
-                stylist={stylist}
-                service={service}
+                item={item}
                 address={address}
                 city={city}
                 state={state}
@@ -65,8 +50,8 @@ const AppointmentDetailView = (props) => {
                 profile={profile}
                 preference={preference}
                 token={token}
-                comment={comment}
-                note={note}
+                replaceItem={replaceItem}
+                onDisplay={onDisplay}
             />
         )
     }    

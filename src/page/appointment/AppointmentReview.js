@@ -1,10 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Text, View } from 'react-native'
 import { Spinner, ImageButton } from '../../components/common'
 import { AppointmentList, AppointmentItem } from '../../components/appointment'
 import AppointmentDetail from './AppointmentDetail'
 import styles from '../styles/Appointment.styles'
 import utilites from '../../utilites'
+import { appointment } from '../../actions'
 
 class AppointmentReview extends React.Component {
     constructor(props){
@@ -48,6 +50,12 @@ class AppointmentReview extends React.Component {
         }
     }
 
+    onDisplay(dis){
+        this.setState({
+            display: dis
+        })
+    }
+
     onDetailClose(){
         return (
             <ImageButton
@@ -74,7 +82,7 @@ class AppointmentReview extends React.Component {
                     service={item.item.style == "FADE" ? "Barber" : item.item.style == "UPDO" ? "Hair Dresser" : item.item.style }
                     date={item.item.date}
                     time={item.item.time}
-                    status={item.item.status}
+                    status={item.item.status.code}
                     onClick={() => this.onDetailClick(item.item)}
                 />
             </View>
@@ -133,10 +141,19 @@ class AppointmentReview extends React.Component {
                     onClose={() => this.onDetailClose()}
                     profile={this.state.profile}
                     token={this.state.token}
+                    replaceItem={this.props.replaceItem}
+                    onDisplay={this.onDisplay}
                 />
             </View>
         )
     }
 }
 
-export default AppointmentReview
+const mapDispatchToProps = (dispatch) => {
+    return {
+        replaceItem: (newItem, oldItem) => dispatch(appointment.ReplaceUpcomingAppointment(newItem, oldItem))
+    }
+}
+
+
+export default connect(null, mapDispatchToProps) (AppointmentReview)

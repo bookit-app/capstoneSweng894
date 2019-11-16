@@ -12,11 +12,13 @@ import CalendarPicker from 'react-native-calendar-picker'
 const Calendar = (props) => {
     const minDate = new Date()
     const maxDate = date.addMonths(new Date(), 2);
-    const { status, setStartDt, appDt,setStartDtnF } = props
+    const { status, setStartDt, setStartNonDt, setErrorOnSubmission } = props
     
     const onDateChange = (date_, type) => {
+        console.log('onDateChange', moment(date_).format('YYYY-MM-DD'));
         setStartDt(moment(date_).format('MMM Do YYYY'))
-        setStartDtnF(date_)
+        setStartNonDt(moment(date_).format('YYYY-MM-DD'))
+        setErrorOnSubmission('')
     }
 
     if(status){

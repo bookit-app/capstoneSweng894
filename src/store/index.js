@@ -324,6 +324,14 @@ export const getAppointment = (startDt, endDt, type, token) => {
                     start: startDate,
                     end: endDate
                 }
+
+                var payload = {
+                    mine: true,
+                    fromDate: startDate,
+                    toDate: endDate,
+                }
+
+                console.log('UpcomingAppointment', payload);
         
                 var filter = utilites.filterGenerate(dateRange)
                 var previousAppointment = await api.searchAppointmentByFilter(filter, token)
@@ -352,6 +360,15 @@ export const getAppointment = (startDt, endDt, type, token) => {
                     start: startDate,
                     end: endDate
                 }
+
+                var payload = {
+                    mine: true,
+                    fromDate: startDate,
+                    toDate: endDate,
+                }
+
+                console.log('UpcomingAppointment', payload);
+                
         
                 var filter = utilites.filterGenerate(dateRange)
                 var upcomingAppointment = await api.searchAppointmentByFilter(filter, token)
