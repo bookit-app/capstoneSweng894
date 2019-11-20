@@ -9,10 +9,10 @@ import { StatusList } from '../../constant'
  * @param {*} props 
  */
 const Status = (props) => {
-    const {status, onSetStatus} = props
+    const {status, onSetStatus, listType} = props
     const list = StatusList.filter(x => x.Id != -1)    
 
-    if(!status) {
+    if(listType.toUpperCase().trim() == "PREVIOUS") {
         return (
             <View>
                 <Text>{'Status can not be Changed'}</Text>

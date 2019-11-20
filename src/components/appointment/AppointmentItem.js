@@ -7,6 +7,10 @@ import styles from '../styles/General.styles'
 
 const AppointmentItem = (props) => {
     date.plugin('ordinal');
+    var image_ = {
+        barber: require("../../image/barber.png"),
+        hairDress: require("../../image/hair-dresser.png")
+    }    
     
     return (
         <View>
@@ -22,9 +26,8 @@ const AppointmentItem = (props) => {
                                     height: 45,
                                     borderRadius: 25
                                 }}
-                                source={require('../../image/Placeholder150.png')}
+                                source={props.service == "Barber" ? image_.barber : image_.hairDress}
                             />  
-                            {/* <Text style={{color: '#724FFD', fontSize: 35}}>{props.shopName.substring(0,1)}</Text> */}
                         </View>
                     </View>
                     <View style={styles.Column}>

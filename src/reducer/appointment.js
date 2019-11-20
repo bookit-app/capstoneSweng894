@@ -15,7 +15,7 @@ export default (state = initalState, action ) => {
                 previousAppointment: action.payload.map(obj => ({...obj, 'listType': 'previous'})), paloading: false
             }
 
-            console.log('actions.SET_PREVIOUS_APPOINTMENT', a);
+            // console.log('actions.SET_PREVIOUS_APPOINTMENT', a);
          
             return a
         }
@@ -35,7 +35,7 @@ export default (state = initalState, action ) => {
                 previousAppointment: action.payload.map(obj => ({...obj, 'listType': 'previous'})), paloading: action.loading
             }
 
-            console.log('actions.GET_PREVIOUS_APPOINTMENT_FULFILLED', c);
+            // console.log('actions.GET_PREVIOUS_APPOINTMENT_FULFILLED', c);
 
             return c            
         }
@@ -57,7 +57,7 @@ export default (state = initalState, action ) => {
                 upcomingAppointment: action.payload.map(obj => ({...obj, 'listType': 'upcoming'})), ualoading: false
             }
 
-            console.log('actions.SET_UPCOMING_APPOINTMENT', e);
+            // console.log('actions.SET_UPCOMING_APPOINTMENT', e);
          
             return e
         }
@@ -77,7 +77,7 @@ export default (state = initalState, action ) => {
                 upcomingAppointment: action.payload.map(obj => ({...obj, 'listType': 'upcoming'})), ualoading: action.loading
             }
 
-            console.log('actions.GET_UPCOMING_APPOINTMENT_FULFILLED', g);
+            // console.log('actions.GET_UPCOMING_APPOINTMENT_FULFILLED', g);
 
             return g            
         }
@@ -105,6 +105,61 @@ export default (state = initalState, action ) => {
             // console.log('actions.REPLACE_APPOINTMENT', i);            
             
             return i
+        }
+        case actions.DELETE_APPOINTMENT: {
+            var list = action.listType == 'upcoming' ? state.upcomingAppointment : state.previousAppointment
+            
+            list.splice(list.indexOf(action.deleteItem),1);
+
+            var k = {
+                ...state,
+                upcomingAppointment: action.listType == 'upcoming' ? list : state.upcomingAppointment,
+                previousAppointment: action.listType == 'upcoming' ? state.previousAppointment : list
+            }
+
+            // console.log('actions.DELETE_APPOINTMENT', k);            
+            
+            return k
+        }
+        case actions.SET_ALL_APPOINTMENT:{
+            var j = {
+                ...state,
+                allAppointment: action.payload.map(obj => ({...obj, 'listType': 'All'})), allloading: false
+            }
+
+            // console.log('actions.SET_UPCOMING_APPOINTMENT', j);
+         
+            return j
+        }
+        case actions.GET_ALL_APPOINTMENT_PENDING: {
+            var k = {
+                ...state,
+                allloading: action.payload
+            }
+
+            // console.log('actions.GET_UPCOMING_APPOINTMENT_PENDING', k)
+            
+            return k
+        }
+        case actions.GET_ALL_APPOINTMENT_FULFILLED: {
+            var l = {
+                ...state,
+                allAppointment: action.payload.map(obj => ({...obj, 'listType': 'all'})), allloading: action.loading
+            }
+
+            // console.log('actions.GET_UPCOMING_APPOINTMENT_FULFILLED', l);
+
+            return l          
+        }
+        case actions.GET_ALL_APPOINTMENT_REJECTED:{
+            var m = {
+                ...state,
+                errorMessage: action.payload, allloading: action.loading
+            }
+
+            // console.log('actions.GET_UPCOMING_APPOINTMENT_REJECTED', m);
+            
+            return m
         }
         default:
             return state;

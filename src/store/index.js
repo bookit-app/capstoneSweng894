@@ -301,6 +301,7 @@ export const signOut = () =>{
         dispatch(auth.userAuthError(''))
         dispatch(appointment.SetPreviousAppointment([]))
         dispatch(appointment.SetUpcomingAppointment([]))
+        dispatch(appointment.SetAllAppointment([]))
     }
 }
 
@@ -317,88 +318,58 @@ export const getAppointment = (type, token) => {
             dispatch(appointment.SetPreviousAppointment([]))
             dispatch(appointment.GetPreviousAppointment(true))
 
-            // try {
-                const startDate = date.addMonths(now, -2)
-                const endDate = date.addDays(now, -1)
-        
-                var dateRange = {
-                    start: startDate,
-                    end: endDate
-                }
+            const startDate = date.addMonths(now, -2)
+            const endDate = date.addDays(now, -1)
 
-                var payload = {
-                    mine: true,
-                    fromDate: moment(startDate).format('YYYY-MM-DD'),
-                    toDate: moment(endDate).format('YYYY-MM-DD'),
-                }
+            var payload = {
+                mine: true,
+                fromDate: moment(startDate).format('YYYY-MM-DD'),
+                toDate: moment(endDate).format('YYYY-MM-DD'),
+            }
 
-                console.log('UpcomingAppointment', payload);
-        
-                var filter = utilites.filterGenerate(payload)
-                api.searchAppointmentByFilter(filter,token)
-                    .then((data) => {
-                        var previousAppointment = data.data
-                        console.log('getAppointment', 'previous fullfilled');
-                        dispatch(appointment.GetPreviousAppointmentFullFilled(previousAppointment))
-                    })
-                    .catch((err) => {
-                        console.log('getAppointment', 'previous reject');
-                        dispatch(appointment.GetPreviousAppointmentReject(error))
-                        dispatch(appointment.SetPreviousAppointment(PreviousAppointments))
-                    })
-            //     var previousAppointment = await api.searchAppointmentByFilter(filter, token)
-
-            //     if(!utilites.isEmpty(previousAppointment)){
-            //         console.log('getAppointment', 'previous fullfilled');
-            //         dispatch(appointment.GetPreviousAppointmentFullFilled(previousAppointment))
-            //     } else {
-            //         console.log('getAppointment', 'previous reject');
-            //         dispatch(appointment.GetPreviousAppointmentReject(error))
-            //     }
-            // } catch (error) {
-            //     console.log('getAppointment error ', error);
-            //     dispatch(appointment.SetPreviousAppointment(PreviousAppointments))
-            // }
+            console.log('UpcomingAppointment', payload);
+    
+            var filter = utilites.filterGenerate(payload)
+            api.searchAppointmentByFilter(filter,token)
+                .then((data) => {
+                    var previousAppointment = data.data
+                    console.log('getAppointment', 'previous fullfilled');
+                    dispatch(appointment.GetPreviousAppointmentFullFilled(previousAppointment))
+                })
+                .catch((err) => {
+                    console.log('getAppointment', 'previous reject');
+                    dispatch(appointment.GetPreviousAppointmentReject(error))
+                    dispatch(appointment.SetPreviousAppointment(PreviousAppointments))
+                })
         } else {
             // console.log('getAppointment', 'Upcoming');
             dispatch(appointment.SetUpcomingAppointment([]))
             dispatch(appointment.GetUpcomingAppointment(true))
 
-            // try {
-                const startDate = now
-                const endDate = date.addMonths(now, 2)
-        
-                var dateRange = {
-                    start: startDate,
-                    end: endDate
-                }
+            const startDate = now
+            const endDate = date.addMonths(now, 2)
 
-                var payload = {
-                    mine: true,
-                    fromDate: moment(startDate).format('YYYY-MM-DD'),
-                    toDate: moment(endDate).format('YYYY-MM-DD'),
-                }
+            var payload = {
+                mine: true,
+                fromDate: moment(startDate).format('YYYY-MM-DD'),
+                toDate: moment(endDate).format('YYYY-MM-DD'),
+            }
 
-                console.log('UpcomingAppointment', payload);
-                
-                var filter = utilites.filterGenerate(payload)
-                api.searchAppointmentByFilter(filter, token)
-                    .then((data) => {
-                        var upcomingAppointment = data.data
-                        console.log('getAppointment', 'upcoming fullfilled');
-                        dispatch(appointment.GetUpcomingAppointmentFullFilled(upcomingAppointment))
-                    })
-                    .catch((err) =>{
-                        console.log('getAppointment', 'upcoming reject');
-                        dispatch(appointment.GetUpcomingAppointmentReject(error))
-                        dispatch(appointment.SetUpcomingAppointment(UpcomingAppointments))
-                    })
-
-            // } catch (error) {
-            //     console.log('getAppointment error ', error);
-            //     dispatch(appointment.SetUpcomingAppointment(UpcomingAppointments))
-            // }
-        }
+            console.log('UpcomingAppointment', payload);
+            
+            var filter = utilites.filterGenerate(payload)
+            api.searchAppointmentByFilter(filter, token)
+                .then((data) => {
+                    var upcomingAppointment = data.data
+                    console.log('getAppointment', 'upcoming fullfilled');
+                    dispatch(appointment.GetUpcomingAppointmentFullFilled(upcomingAppointment))
+                })
+                .catch((err) =>{
+                    console.log('getAppointment', 'upcoming reject');
+                    dispatch(appointment.GetUpcomingAppointmentReject(error))
+                    dispatch(appointment.SetUpcomingAppointment(UpcomingAppointments))
+                })
+        } 
     }
 }
 

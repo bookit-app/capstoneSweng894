@@ -36,8 +36,8 @@ class AppointmentDashboard extends React.Component {
             item: {},
             previousAppointment: [],
             upcomingAppointment: [],
-            previousAppLoading: false,
-            upcomingAppLoading: false,
+            previousAppLoading: true,
+            upcomingAppLoading: true,
             previousViewMore: false,
             upcomingViewMore: false,
             token: ''
@@ -50,14 +50,33 @@ class AppointmentDashboard extends React.Component {
         this.AppointmentDashboardRefresh()
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        if(!utilites.isEmpty(this.props.previousAppointment)
-            || !utilites.isEmpty(this.props.upcomingAppointment)){
+    UNSAFE_componentWillReceiveProps(nextProps){   
+        if(nextProps.previousAppointment.length > 0 ||
+            nextProps.upcomingAppointment.length > 0){
+    
+                this.setState({
+                    prefSet: nextProps.prefSet ,
+                    loadingProfile: nextProps.loadingProfile,
+                    loadingPreference: nextProps.loadingPreference,
+                    profile: nextProps.profile ,
+                    preference: nextProps.profile.preferences,
+                    display: false,
+                    previousAppointment: nextProps.previousAppointment,
+                    upcomingAppointment: nextProps.upcomingAppointment,
+                    previousAppLoading: nextProps.previousAppLoading,
+                    upcomingAppLoading: nextProps.upcomingAppLoading,
+                    previousViewMore: !utilites.isEmpty(nextProps.previousAppointment),
+                    upcomingViewMore: !utilites.isEmpty(nextProps.upcomingAppointment),
+                    token: nextProps.token
+                })
+        } else {
             this.AppointmentDashboardRefresh()
         }
     }
 
     AppointmentDashboardRefresh(){
+        // console.log('AppointmentDashboardRefresh');
+        
         this.setState({
             prefSet: this.props.prefSet ,
             loadingProfile: this.props.loadingProfile,
@@ -101,15 +120,19 @@ class AppointmentDashboard extends React.Component {
     
     onDetailHoldClickDelete(item){
         const { appointmentId, listType } = item
+        const { token } = this.state
+        console.log('Delete Appointment', appointmentId);
         Alert.alert(
             'Delete Appointment',
             'Are you sure you want to delete this Appointment ? ',
             [
                 {text: 'Cancel', onPress: () => {return null}},
-                {text: 'Confirm', onPress: () => {                
-                    api.deleteAppointmentById(appointmentId)
+                {text: 'Confirm', onPress: () => {             
+                       
+                    api.deleteAppointmentById(appointmentId, token)
                         .then (a => {
                             this.props.deleteItem(item, listType)
+                            this.props.navigation.navigate('Dashboard')
                         })
                         .catch(error => {
                             console.log('error: ', error);
@@ -215,10 +238,7 @@ class AppointmentDashboard extends React.Component {
     }
 
     render(){
-        // console.log('AppointmentDashboard render', this.state.previousAppLoading);
-        // console.log('AppointmentDashboard render', this.state.upcomingAppLoading);
-        
-        if(this.state.previousAppLoading
+        if(this.state.previousAppLoading 
             && this.state.upcomingAppLoading){
             return <Spinner size="large" />
         }
@@ -261,7 +281,7 @@ class AppointmentDashboard extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {           
+const mapStateToProps = (state) => {     
     return {
         loadingProfile: state.profile.loading,
         loadingPreference: state.preference.loading,

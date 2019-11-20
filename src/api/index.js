@@ -203,8 +203,8 @@ export const searchAppointmentByFilter = async (filter, token) => {
     const headers = createHeader(token)
     const url = baseURL + '/search/appointments?' + filter
 
-    console.log('getAppointmentList', headers);
-    console.log('url', url);
+    // console.log('getAppointmentList', headers);
+    // console.log('url', url);
 
     return (
         axios({
@@ -224,8 +224,8 @@ export const insertAppointments = (payload, token) => {
     const headers = createHeaderContent(token)
     const url = baseURL + '/appointments'
 
-    console.log('insertAppointments', headers);
-    console.log('url', url);
+    // console.log('insertAppointments', headers);
+    // console.log('url', url);
     
     return (
         axios({
@@ -248,8 +248,8 @@ export const updateAppointmentById = (payload, id, token) => {
     const headers = createHeaderContent(token)
     const url = baseURL +'/appointments/'+id
 
-    console.log('updateAppointmentById', headers);
-    console.log('url', url);
+    // console.log('updateAppointmentById', headers);
+    // console.log('url', url);
 
     return (
         axios({
@@ -272,8 +272,8 @@ export const getAppointmentById = (payload, id, token) => {
     const headers = createHeader(token)
     const url = baseURL + '/appointments/'+ id
 
-    console.log('getAppointmentById', headers);
-    console.log('url', url);
+    // console.log('getAppointmentById', headers);
+    // console.log('url', url);
 
     return (
         axios({
@@ -296,8 +296,8 @@ export const deleteAppointmentById = (id, token) => {
     const headers = createHeader(token)
     const url = baseURL + '/appointments/'+ id
 
-    console.log('deleteAppointmentById', headers);
-    console.log('url', url);
+    // console.log('deleteAppointmentById', headers);
+    // console.log('url', url);
 
     return (
         axios({

@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, ScrollView} from 'react-native'
+import {View, Text, ScrollView, Alert} from 'react-native'
 import api from '../../api'
 import styles from '../../page/styles/Appointment.styles'
 import CustomInputStyles from '../styles/CustomInputStyles'
 import _date from 'date-and-time'
 import 'date-and-time/plugin/ordinal'
+import moment from 'moment'
 import { Time, Calendar, Status, BusinessName, Stylist, Service } from './index'
 import { InputCustom, ButtonCustom, Spinner } from '../common'
 import utilites from '../../utilites'
@@ -19,7 +20,7 @@ import { StateList, StatusList } from '../../constant'
  */
 const AppointmentEditView = (props) => {
     const {token, replaceItem, item, onDisplay } = props    
-    const {state, status, businessName, staffMemberName, style, note, date, time, appointmentId, listType} = item
+    const {state, status, businessName, staffMemberName, style, note, date, time, appointmentId, listType, providerId} = item
     const {code, comment } = status
 
     const [startDt, setStartDt] = useState(_date.format(_date.parse(date, 'YYYY-MM-DD'), 'MMM DDD YYYY'))
@@ -32,111 +33,46 @@ const AppointmentEditView = (props) => {
     const [error, setError] = useState('')
     const [errorOnSubmission, setErrorOnSubmission] = useState('')
     const [loading, setLoading] = useState(false)
+    const constHours = utilites.TimeGene(12).filter(a => a.Value >= 1 && a.Value <= 12).map(b => b.Name)
+    const [existAppointments, setExistAppointments] = useState([])
+    const [eaLoading, seteaLoading] = useState(true)
+    const [isTimeValid, setIsTimeValid] = useState(true)
 
-{/* Sets the BusinessName, business name list, and etc for useEffect below
-const [businName, setBusinessName] = useState(businessName)
-const [businessList, setBusinessList] = useState([])
-const [provId, setProvider] = useState(props.providerId)
-const [staffMemberName, setStylist] = useState(props.staffMemberName)
-const [stylistList, setStylistList] = useState([])
-const [service, setService] = useState(props.service)
-const [serviceList, setServiceList] = useState([])
-const [address1, setAddress1] = useState(props.address)
-const [address2, setAddress2] = useState(props.city + " " + props.state + " " + props.zipCode)
-//UseEffect to retrieve business and update address, staffMemberName, and etc.. Not neccessary in Edit
     useEffect(() => {
-        const { city, state, hairStyle } = preferences
-        const style = hairStyle.style
-
-        var ft = {
-            city: city,
-            state: state,
-            styles: style
+        seteaLoading(true)
+        var payload = {
+            providerId: providerId
         }
-        
-        var filter = utilites.filterGenerate(ft)
-        var busList = [] 
-        api.searchProviderByFilter(filter, token)
-            .then((re) => {  
-                re.data.map(i => {
-                    var businessItem = {} 
-                    businessItem['Id'] = i.providerId
-                    businessItem['Name'] = i.businessName
-                    businessItem['Value'] = i.businessName
 
-                    const {streetAddress, city, state, zipCode} = i.address
+        // console.log('useEffect', payload);
 
-                    setAddress1(streetAddress)
-                    businessItem['Address1'] = streetAddress
+        var filter = utilites.filterGenerate(payload)
+        api.searchAppointmentByFilter(filter, token)
+            .then( (data) => {
+                var allAppointmentForProvider = data.data
+                allAppointmentForProvider.map(({date, time}) => ({date, time}))
+                var aap = []
 
-                    setAddress2(city + " " + state + " " + zipCode)
-                    businessItem['Address2'] = city + " " + state + " " + zipCode
-
-                    busList.push(businessItem)
-                })
-                setBusinessList(busList)
-            })
-            .catch((err)=>{
-                var businessItem = {} 
-                businessItem['Id'] = provId
-                businessItem['Name'] = businessName
-                businessItem['Value'] = businessName
-                
-                setAddress1(props.address)
-                businessItem['Address1'] = props.address
-
-                setAddress2(props.city + " " + props.state + " " + props.zipcode)
-                businessItem['Address2'] = props.city + " " + props.state + " " + props.zipcode
-
-                busList.push(businessItem)
-                setBusinessList(busList)
-            })
-    },[businessName])
-    
-    useEffect(()=>{
-        var stylistNameList = []
-        var serviceList = []
-        api.getProviderDetails(provId, token)
-            .then((re) => {
-                // console.log('useEffect then', re.data);
-                if(re.data.staff.length >= 1){
-                    re.data.staff.map(i => {
-                        var stylistItem = {}
-                        stylistItem['Id'] = i.staffMemberId
-                        stylistItem['Name'] = i.name
-                        stylistNameList.push(stylistItem)
-                    })
-                } else {           
-                    var stylistItem = {}
-                    stylistItem['Id'] = 0
-                    stylistItem['Name'] = 'No Stylist'
-                    stylistNameList.push(stylistItem)
-                }            
-                setStylistList(stylistNameList)
-                if(re.data.services.length >= 1){
-                    re.data.services.map(i => {
-                        var serviceItem = {}
-                        serviceItem['Id'] = i.serviceId
-                        serviceItem['Name'] = i.styleId + ' ' + i.price
-                        serviceList.push(serviceItem)
-                    })
-                } else {
-                    var serviceItem = {}
-                    serviceItem['Id'] = 0
-                    serviceItem['Name'] = 'No Services to offer'
-                    serviceList.push(serviceItem)
+                for (let index = 0; index < allAppointmentForProvider.length; index++) {
+                    var element = {};
+                    element.time = allAppointmentForProvider[index].time 
+                    element.date = allAppointmentForProvider[index].date
+                    element.style = {backgroundColor: '#4FA6FD'}
+                    element.textStyle = { color: 'white'}
+                    element.containerStyle = []
+                    aap.push(element)
                 }
-                setServiceList(serviceList)
-            }).catch((err) =>{
-                // console.log('useEffect catch', err);
-                var stylistItem = {}
-                stylistItem['Id'] = 0
-                stylistItem['Name'] = props.staffMemberName
-                stylistNameList.push(stylistItem)
-                setStylistList(stylistNameList)
+                // console.log('useEffect', aap);
+                
+                setExistAppointments(aap)
+                seteaLoading(false)
             })
-    },[provId, service]) 
-*/}
+            .catch((err) => {
+                console.log('searchAppointmentByFilter failure', err);
+                seteaLoading(false)
+            })
+    },[providerId])
+
     const updateAppointment = () =>{
         setLoading(true)
         var date_ = startNonDt
@@ -144,38 +80,121 @@ const [address2, setAddress2] = useState(props.city + " " + props.state + " " + 
         var code_ = StatusList.filter(i => i.Name == status_.trim())[0].Value
         var time_ = hour + ':' + minute + ':00'
 
-        const payload = {
-            "date":date_,
-            "note": note,
-            "state": state_,
-            "status": {
-              "code": code_,
-              "comment": comment_
-            },
-            "time": time_
-          }
+        const payload = {}
 
-        api.updateAppointmentById(payload, appointmentId, token)
-          .then((app) => {
-            var oldItem = item
+        payload.date = date_
+        payload.note = note
 
-            var newItem = Object.assign({}, item)
-            newItem.date = startNonDt
-            newItem.note = note
-            newItem.state = state_
-            newItem.status = {
-                "code": code_,
-                "comment": comment_
-            }
-            newItem.time = time_
-            
-            replaceItem(newItem, oldItem, listType)
+        if(state_ != 'BOOKED'){
+            payload.state = state_
+        }
+
+        if(code_){
+            payload.status.code = code_
+        }
+
+        if(comment_){
+            payload.status.comment = comment_
+        }
+
+        payload.time = time_
+    
+        // console.log('updateAppointment', payload);
+        // console.log('updateAppointment', appointmentId);
+          
+        if(isListValid(date_, time_)){
+            setErrorOnSubmission("This appointment slot is already booked " + date_ + " at " + time_)
             setLoading(false)
-          })
-          .catch((err) => {
-            setErrorOnSubmission(err.message)
-            setLoading(false)
-          })
+        } else {
+            api.updateAppointmentById(payload, appointmentId, token)
+            .then((app) => {
+                var oldItem = item
+
+                var newItem = Object.assign({}, item)
+                newItem.date = startNonDt
+                newItem.note = note
+                newItem.state = state_
+                newItem.status = {
+                    "code": code_,
+                    "comment": comment_
+                }
+                newItem.time = time_
+                
+                replaceItem(newItem, oldItem, listType)
+                setLoading(false)
+            })
+            .catch((err) => {
+                setErrorOnSubmission(err.message)
+                setLoading(false)
+            })
+        }
+    }
+
+    const onSelectingSameDateTime = (date, dateFormat, time) => {
+        // console.log('onDateChange', date);
+        // console.log('onDateChange', time);
+        // var list = Object.assign([], existAppointments.filter(ea => ea.date == date && ea.time == time))
+        // console.log('onDateChange', list)
+        
+        if(isListValid(date, time)){
+            Alert.alert(
+                'Appointment',
+                'This appointment slot is already booked '+dateFormat + ' at  ' + time,
+                [
+                    {text: 'OK ', onPress: () => { return null}}
+                ]
+            )
+            setIsTimeValid(false)
+        } else {
+            setIsTimeValid(true)
+        }
+    }
+
+    function isListValid(date, time){
+        var list = Object.assign([], existAppointments.filter(ea => ea.date == date && ea.time == time))
+        console.log('onDateChange', list)
+        
+        return list.length >= 1
+    }
+
+    const onDateChange = (date_, type) => {
+        var selectedDte =  moment(date_).format('YYYY-MM-DD')
+        var selectedDteFormat = moment(date_).format('MMM Do YYYY')
+        var selectedTime = hour + ":" + minute + ":00"
+
+        onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
+
+        if(isTimeValid){
+            setStartDt(selectedDteFormat)
+            setStartNonDt(selectedDte)
+            setErrorOnSubmission('')
+        }
+    }
+
+    const onHourChange = (hour) => {
+        var selectedDte = startNonDt
+        var selectedDteFormat = startDt
+        var selectedTime = hour + ":" + minute + ":00"
+
+        onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
+        
+        if(isTimeValid){
+            setHour(hour)
+            setErrorOnSubmission('')
+        }
+    }
+
+    const onMinuteChange = (minute) => {
+        var selectedDte = startNonDt
+        var selectedDteFormat = startDt
+        var selectedTime = hour + ":" + minute + ":00"
+
+        onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
+        
+        if(isTimeValid){
+            setMinute(minute)
+            setErrorOnSubmission('')
+        }
     }
 
     const OnUpdateBtnClick = () => {
@@ -184,7 +203,7 @@ const [address2, setAddress2] = useState(props.city + " " + props.state + " " + 
         }
 
         return (  
-            <View>
+            <View style={{alignItems: 'center'}}>
                 <View style={styles.Column}>
                     <Text style={CustomInputStyles.error}>
                         {errorOnSubmission}
@@ -199,6 +218,10 @@ const [address2, setAddress2] = useState(props.city + " " + props.state + " " + 
                 </ButtonCustom>
             </View>
         )
+    }
+
+    if(eaLoading){
+        return <Spinner size='small' />
     }
 
     return (
@@ -232,19 +255,13 @@ const [address2, setAddress2] = useState(props.city + " " + props.state + " " + 
                         <Time
                             placeHour={hour}
                             defaultHour={hour}
-                            optionsHour={utilites.TimeGene(24).map(a => a.Name)}
-                            onHourChange={hr => {
-                                setHour(hr)
-                                setErrorOnSubmission('')
-                            }}
+                            optionsHour={constHours}
+                            onHourChange={hr => onHourChange(hr)}
                             hour={hour}
                             placeMinute={minute}
                             defaultMinute={minute}
                             optionsMinute={utilites.TimeGene(60).map(a => a.Name)}
-                            onMinuteChange={mn => {
-                                setMinute(mn)
-                                setErrorOnSubmission('')
-                            }}
+                            onMinuteChange={mn => onMinuteChange(mn)}
                             minute={minute}
                         />
                     </View>
@@ -252,6 +269,7 @@ const [address2, setAddress2] = useState(props.city + " " + props.state + " " + 
                         <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Status:'}</Text>
                         <Status
                             status={status_}
+                            listType={listType}
                             onSetStatus={s => {
                                 setStatus(s)
                                 setErrorOnSubmission('')
@@ -299,10 +317,10 @@ const [address2, setAddress2] = useState(props.city + " " + props.state + " " + 
                     </View>
                 </View>
                 <Calendar
-                    status={status_}
-                    setStartDt={setStartDt}
-                    setStartNonDt={setStartNonDt}
-                    setErrorOnSubmission={setErrorOnSubmission}
+                    state={appState}
+                    existAppointments={existAppointments}
+                    listType={listType}
+                    onDateChange={(d,t) => onDateChange(d,t)}
                 />
                 <OnUpdateBtnClick />
             </View>

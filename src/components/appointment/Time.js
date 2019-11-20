@@ -4,8 +4,6 @@ import { CustomPicker } from 'react-native-custom-picker'
 import styles from '../styles/General.styles'
 import { AppointmentRenderPickerField } from '../appointment'
 
-
-
 const Time = ({placeHour, defaultHour, optionsHour, onHourChange, hour,
     placeMinute, defaultMinute, optionsMinute, onMinuteChange, minute}) => {
     
