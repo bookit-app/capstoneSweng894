@@ -1,9 +1,7 @@
 import React, { useState, useEffect} from 'react'
-import { View } from 'react-native'
 import { AppointmentView, AppointmentEditView } from '../appointment'
 import { ButtonCustom, Spinner } from '../common'
 import LoginButton from '../styles/LoginButton.styles'
-import styles from '../../page/styles/Appointment.styles'
 import api from '../../api'
 
 /**
