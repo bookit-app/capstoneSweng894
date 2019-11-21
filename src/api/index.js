@@ -52,22 +52,22 @@ export const insertProfile = (payload, token) => {
  * @param {*} payload 
  * @param {*} token 
  */
-export const insertServiceProvider = (payload, token) => {
-    var headers = createHeaderContent(token)
+// export const insertServiceProvider = (payload, token) => {
+//     var headers = createHeaderContent(token)
 
-    // console.log('insertServiceProvider ', headers);
-    // console.log('url ', baseURL + `/provider`);
-    // console.log('payload ', payload);
+//     // console.log('insertServiceProvider ', headers);
+//     // console.log('url ', baseURL + `/provider`);
+//     // console.log('payload ', payload);
     
-    return (
-        axios({
-            method: 'POST',
-            url: baseURL + `/provider`,
-            payload: payload,
-            headers: headers
-        })
-    )
-}
+//     return (
+//         axios({
+//             method: 'POST',
+//             url: baseURL + `/provider`,
+//             payload: payload,
+//             headers: headers
+//         })
+//     )
+// }
 
 /**
  * Handle'ss retriving profile information for specific account profile
