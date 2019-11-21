@@ -4,7 +4,7 @@ import {ButtonCustom} from '../../../src/components/common/'
 import {create} from 'react-test-renderer'
 
 describe('Account ForgotPassword correctly', () => {
-    test('Matches the snapshot', () => {
+    test('Account ForgotPassword renders without crashing', () => {
         const onPasswordResetClick = () => {
             return (
                 <ButtonCustom>
@@ -22,6 +22,6 @@ describe('Account ForgotPassword correctly', () => {
                 onPasswordReset={() => onPasswordResetClick()}
             />
         );
-        expect(forgotPassword.toJSON()).toMatchSnapshot();
+        expect(forgotPassword.toJSON()).toBeTruthy();
     })
 })

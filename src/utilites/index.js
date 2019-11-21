@@ -839,7 +839,7 @@ function filterGenerate(filterType){
         }
     }  
     
-    console.log('filterGenerate filters final', filters);
+    // console.log('filterGenerate filters final', filters);
 
     return filters
 }

@@ -4,7 +4,7 @@ import {ButtonCustom} from '../../../src/components/common/'
 import {create} from 'react-test-renderer';
 
 describe('Account Form correctly renderer', () => {
-    test('Matches to snapshot', () => {
+    test('Account Form renders without creashing', () => {
         const onOtherAccount = (type) => {
             return (
                 <ButtonCustom>
@@ -41,6 +41,6 @@ describe('Account Form correctly renderer', () => {
                 otherAccountTxt={'Create an Account'}
             />
         )
-        expect (accountForm.toJSON()).toMatchSnapshot();
+        expect (accountForm.toJSON()).toBeTruthy();
     })
 })

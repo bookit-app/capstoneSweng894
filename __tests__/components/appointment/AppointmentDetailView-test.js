@@ -1,14 +1,14 @@
 import React from 'react'
 import {AppointmentDetailView} from '../../../src/components/appointment'
-import {create} from 'react-test-renderer';
+import randerer from 'react-test-renderer';
 import { UpcomingAppointments } from '../../../src/constant'
 
 describe('Appointment Detail View correctly renderer', () => {
-    test('Matches to snapshot', () => {
+    test('Appointment Detail View renderer without crashing', () => {
         const replaceItem = () => {}
         const onDisplay = () => {}
 
-        const appointmentDetailView = create(
+        const appointmentDetailView = randerer.create(
             <AppointmentDetailView
                 edit={false}
                 item={UpcomingAppointments[0]}
@@ -17,7 +17,9 @@ describe('Appointment Detail View correctly renderer', () => {
                 replaceItem={() => replaceItem()}
                 onDisplay={() => onDisplay()}
             />
-        )
-        expect(appointmentDetailView.toJSON()).toMatchSnapshot();
+        ).toJSON()
+        expect(appointmentDetailView).toBeTruthy();
     })
+
+
 })

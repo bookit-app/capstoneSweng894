@@ -1,11 +1,11 @@
 import React from 'react'
 import AccountSignUpForm from '../../../src/components/account/AccountSignUpForm'
 import {ButtonCustom} from '../../../src/components/common/'
-import {create} from 'react-test-renderer';
+import renderer from 'react-test-renderer';
 import { GenderV2 } from '../../../src/constant'
 
-describe('Account Image correctly renders', () => {
-    test('Matches the snapshot', () => {
+describe('Account Sign Form correctly renders', () => {
+    test('Account Sign Form renders without crashing', () => {
         const onOtherAccount = (type) => {
             return (
                 <ButtonCustom>
@@ -22,7 +22,7 @@ describe('Account Image correctly renders', () => {
             )
         }
 
-        const accountSignForm = create(
+        const accountSignForm = renderer.create(
             <AccountSignUpForm
                 imageHolder={false}
                 placeholder={require('../../../src/image/Placeholder150.png')}
@@ -67,7 +67,7 @@ describe('Account Image correctly renders', () => {
                 onOtherAccountOptionClick={() => onOtherAccount("L")}
                 otherAccountTxt={'Test'}  
             />
-        )
-        expect(accountSignForm.toJSON()).toMatchSnapshot();
+        ).toJSON()
+        expect(accountSignForm).toBeTruthy();
     })
 })

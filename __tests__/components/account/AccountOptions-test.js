@@ -1,10 +1,10 @@
 import React from 'react'
 import AccountOptions from '../../../src/components/account/AccountOptions'
-import {create} from 'react-test-renderer';
+import renderer from 'react-test-renderer';
 
-describe('Account Image correctly renders', () => {
-    test('Matches the snapshot', () => {
-        const accountOption = create(
+describe('Account Options correctly renders', () => {
+    test('Account Options renders without crashing', () => {
+        const accountOption = renderer.create(
             <AccountOptions
                 onPress={() => {}}
                 buttonStyle={{}}
@@ -12,7 +12,7 @@ describe('Account Image correctly renders', () => {
                 viewStyle={{}}
                 children={'Test'}
             />  
-        )
-        expect(accountOption.toJSON()).toMatchSnapshot();
+        ).toJSON()
+        expect(accountOption).toBeTruthy()
     })
 })

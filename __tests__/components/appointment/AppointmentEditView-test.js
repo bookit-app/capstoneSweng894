@@ -1,12 +1,8 @@
-
 import {AppointmentEditView} from '../../../src/components/appointment'
 import React from 'react'
 import {ButtonCustom} from '../../../src/components/common/'
 import renderer from 'react-test-renderer';
-import {shallow, mount, render} from "enzyme";
 import {UpcomingAppointments} from '../../../src/constant'
-import {act} from 'react-dom/test-utils'
-import { exportAllDeclaration } from '@babel/types';
 
 describe('appointment edit view correctly render', () => {
     let props;
@@ -29,7 +25,7 @@ describe('appointment edit view correctly render', () => {
     const preference={}
     const token='Test'
 
-    it('should render the appointment edit view without crashing', () => {
+    test('appointment edit view without crashing', () => {
         props = {
             onEditClick:onEditClick(),
             item:item,

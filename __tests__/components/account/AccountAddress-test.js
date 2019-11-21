@@ -3,8 +3,8 @@ import AccountAddress from '../../../src/components/account/AccountAddress'
 import {create} from 'react-test-renderer';
 
 describe("AccountAddress correctly", () => {
-    test("Matches the snapshot", () => {
+    test("AccountAddress renders without crashing", () => {
         const address = create(<AccountAddress />);
-        expect (address.toJSON()).toMatchSnapshot();
+        expect (address.toJSON()).toBeTruthy();
     })
   });

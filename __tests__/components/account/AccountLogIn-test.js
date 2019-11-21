@@ -2,8 +2,8 @@ import React from 'react'
 import AccountLogIn from '../../../src/components/account/AccountLogIn'
 import {create} from 'react-test-renderer';
 
-describe('Account Image correctly renders', () => {
-    test('Matches the snapshot', () => {
+describe('Account Login correctly renders', () => {
+    test('Account Login renders without crashing', () => {
         const accountLogin = create(
             <AccountLogIn
                 emailValue={"Test"}
@@ -14,6 +14,6 @@ describe('Account Image correctly renders', () => {
                 errorPassword={"Test"}
             />   
         )
-        expect(accountLogin.toJSON()).toMatchSnapshot();
+        expect(accountLogin.toJSON()).toBeTruthy()
     })
 })
