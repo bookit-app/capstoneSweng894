@@ -68,7 +68,7 @@ const AppointmentEditView = (props) => {
                 seteaLoading(false)
             })
             .catch((err) => {
-                console.log('searchAppointmentByFilter failure', err);
+                // console.log('searchAppointmentByFilter failure', err);
                 seteaLoading(false)
             })
     },[providerId])
