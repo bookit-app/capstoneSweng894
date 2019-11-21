@@ -5,8 +5,8 @@ import { UpcomingAppointments } from '../../../src/constant'
 
 describe('Appointment Detail View correctly renderer', () => {
     test('Appointment Detail View renderer without crashing', () => {
-        const replaceItem = () => {}
-        const onDisplay = () => {}
+        // const replaceItem = () => {}
+        // const onDisplay = () => {}
 
         const appointmentDetailView = randerer.create(
             <AppointmentDetailView
@@ -14,8 +14,8 @@ describe('Appointment Detail View correctly renderer', () => {
                 item={UpcomingAppointments[0]}
                 profile={''}
                 token={''}
-                replaceItem={() => replaceItem()}
-                onDisplay={() => onDisplay()}
+                replaceItem={() => {}}
+                onDisplay={() => {}}
             />
         ).toJSON()
         expect(appointmentDetailView).toBeTruthy();

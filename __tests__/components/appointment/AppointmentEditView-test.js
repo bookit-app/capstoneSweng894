@@ -5,27 +5,29 @@ import renderer from 'react-test-renderer';
 import {UpcomingAppointments} from '../../../src/constant'
 
 describe('appointment edit view correctly render', () => {
-    let props;
 
-    const replaceItem = () => {}
-    const onDisplay = () => {}
-    const onEditClick = () => {
-        return (
-            <ButtonCustom>
-                {'Edit'}
-            </ButtonCustom>
-        )
-    }
-    const item = UpcomingAppointments[0]
-    const street_ = 'Test'
-    const city_ = 'Test'
-    const state_ = 'Test'
-    const zipCode_ = 'Test'
-    const profile={}
-    const preference={}
-    const token='Test'
 
     test('appointment edit view without crashing', () => {
+        let props;
+
+        const replaceItem = () => {}
+        const onDisplay = () => {}
+        const onEditClick = () => {
+            return (
+                <ButtonCustom>
+                    {'Edit'}
+                </ButtonCustom>
+            )
+        }
+        const item = UpcomingAppointments[0]
+        const street_ = 'Test'
+        const city_ = 'Test'
+        const state_ = 'Test'
+        const zipCode_ = 'Test'
+        const profile={}
+        const preference={}
+        const token='Test'
+        
         props = {
             onEditClick:onEditClick(),
             item:item,
