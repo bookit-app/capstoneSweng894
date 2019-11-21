@@ -1,8 +1,8 @@
-import {AppointmentEditView} from '../../../src/components/appointment'
+import {AppointmentEditView} from '../src/components/appointment'
 import React from 'react'
-import {ButtonCustom} from '../../../src/components/common/'
+import {ButtonCustom} from '../src/components/common'
 import renderer from 'react-test-renderer';
-import {UpcomingAppointments} from '../../../src/constant'
+import {UpcomingAppointments} from '../src/constant'
 
 describe('appointment edit view correctly render', () => {
 
