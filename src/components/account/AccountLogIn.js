@@ -18,11 +18,11 @@ const  AccountLogIn = (props) => {
                     value={props.emailValue}
                     onChangeText={props.emailOnChge}
                     error={props.errorEmail}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = { CustomInputStyles.inputStyleOsNormal}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
-                  
+                    errorStyle = {CustomInputStyles.error} 
+
                 />
             </View>
             <View>
@@ -33,10 +33,12 @@ const  AccountLogIn = (props) => {
                     value={props.passwordValue}
                     onChangeText={props.passwordOnChge}
                     error={props.errorPassword}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = {CustomInputStyles.inputStyleOsNormal}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
+                    errorStyle = {CustomInputStyles.error } 
+               
+
                 />
             </View>
         </View>
