@@ -18,7 +18,7 @@ export default {
       borderColor: '#fff',
       justifyContent: 'center',
       alignItems: 'center',
-      width: 293,
+      width: 302,
       height: 54,
     }
   }; 

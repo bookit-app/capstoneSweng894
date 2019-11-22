@@ -22,6 +22,7 @@ const  AccountLogIn = (props) => {
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {CustomInputStyles.error} 
+                    textAlign = {CustomInputStyles.inputTextAlignment}
 
                 />
             </View>
@@ -37,7 +38,8 @@ const  AccountLogIn = (props) => {
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {CustomInputStyles.error } 
-               
+                    textAlign = {CustomInputStyles.inputTextAlignment}
+
 
                 />
             </View>

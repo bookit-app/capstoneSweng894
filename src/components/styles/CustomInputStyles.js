@@ -1,41 +1,42 @@
 export default {
+
+
+
     inputStyleOsLeft: {
         color: '#000',
         backgroundColor:  '#fff',
-        fontSize: 18,
-        lineHeight: 3,
+        paddingRight: 5,
+        paddingLeft: 5,
+        fontSize: 14,
         flex: 2,
-        width: 200,
+        width: 155,
         height: 48,
         alignItems: 'flex-start',
-        shadowColor: '#fff',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.3,
-        shadowRadius: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
     },
     inputStyleOsRight: {
       color: '#000',
       backgroundColor:  '#fff',
       paddingRight: 5,
       paddingLeft: 5,
-      paddingBottom: 20,
-      fontSize: 18,
-      lineHeight: 48,
+      fontSize: 14,
       flex: 2,
-      width: 166,
-      height: 38,
+      width: 155,
+      height: 48,
       alignItems: 'flex-start',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
+      shadowOpacity: 0.2,
       shadowRadius: 2,
-      textAlign: 'center'
-    },
+        },
+
   inputStyleOsNormal: {
     color: '#000',
     backgroundColor:  '#fff',
-    fontSize: 18,
-    lineHeight: 48,
+    fontSize: 14,
     flex: 2,
     backgroundColor:  '#fff',
     width: 302,
@@ -43,12 +44,26 @@ export default {
     alignItems: 'flex-start',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 2,
 
   },
 
+  inputStyleOsLong: {
+    color: '#000',
+    backgroundColor:  '#fff',
+    fontSize: 14,
+    flex: 2,
+    backgroundColor:  '#fff',
+    width: 327,
+    height: 48,
+    alignItems: 'flex-start',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
 
+  },
 
     labelStyle: {
       fontSize: 16,

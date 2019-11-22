@@ -47,6 +47,8 @@ const  AccountSignUp = (props) => {
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {CustomInputStyles.error} 
+                    textAlign= {CustomInputStyles.inputTextAlignment}
+
                 />
                  <InputCustom
                     placeholder="i.e. Jackson"
@@ -58,21 +60,11 @@ const  AccountSignUp = (props) => {
                     containerStyle = {CustomInputStyles.containerStyleRight}      
                     labelStyle = {CustomInputStyles.labelStyleRight}
                     errorStyle = {CustomInputStyles.error } 
+                    textAlign= {CustomInputStyles.inputTextAlignment}
+
                 />
             </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-                <InputCustom
-                    placeholder="i.e. 1987-01-01"
-                    label={"Date of Birth: "}
-                    value={props.dobValue}
-                    onChangeText={props.dobChge}
-                    error={props.errordob}
-                    inputStyle = {CustomInputStyles.inputStyleOsRight }
-                    containerStyle = {CustomInputStyles.containerStyleRight}      
-                    labelStyle = {CustomInputStyles.labelStyleRight}
-                    errorStyle = {CustomInputStyles.error } 
-               />
-            </View>
+            
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom
                     placeholder="i.e. e@dummy.com"
@@ -80,10 +72,12 @@ const  AccountSignUp = (props) => {
                     value={props.emailValue}
                     onChangeText={props.emailOnChge}
                     error={props.errorEmail}   
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
+                    inputStyle = {CustomInputStyles.inputStyleOsLeft}
                     containerStyle = {CustomInputStyles.containerStyleLeft}       
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {CustomInputStyles.error} 
+                    textAlign= {CustomInputStyles.inputTextAlignment}
+
                 />
                  <InputCustom
                     secureTextEntry
@@ -105,10 +99,12 @@ const  AccountSignUp = (props) => {
                     value={props.telephoneValue}
                     onChangeText={props.telephoneOnChge}
                     error={props.errorTelephone}        
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
+                    inputStyle = {CustomInputStyles.inputStyleOsLeft}
                     containerStyle = {CustomInputStyles.containerStyleLeft}       
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {CustomInputStyles.error } 
+                    textAlign= {CustomInputStyles.inputTextAlignment}
+
                 />
                 <View style={CustomInputStyles.containerStyleRight}>
                     <Text>{"Gender: "}</Text>
@@ -131,19 +127,21 @@ const  AccountSignUp = (props) => {
                     value={props.streetValue}
                     onChangeText={props.streetOnChge}
                     error={props.errorStreet}
-                    inputStyle = {CustomInputStyles.inputStyleLeft }
+                    inputStyle = {CustomInputStyles.inputStyleOsLeft }
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {CustomInputStyles.error } 
+                    textAlign= {CustomInputStyles.inputTextAlignment}
+
 
                 />
                  <InputCustom
-                    placeholder="i.e. Philadelphia"
+                    placeholder="i.e. Miami"
                     label={"City:"}
                     value={props.cityValue}
                     onChangeText={props.cityOnChge}
                     error={props.errorCity}
-                    inputStyle = {CustomInputStyles.inputStyleLeft}
+                    inputStyle = {CustomInputStyles.inputStyleOsLeft}
                     containerStyle = {CustomInputStyles.containerStyleRight}      
                     labelStyle = {CustomInputStyles.labelStyleRight}
                     errorStyle = {CustomInputStyles.error} 
@@ -157,10 +155,12 @@ const  AccountSignUp = (props) => {
                     value={props.stateValue}
                     onChangeText={props.stateOnChge}
                     error={props.errorState}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleOsRight : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = { CustomInputStyles.inputStyleOsLeft }
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
+                    errorStyle = {CustomInputStyles.error } 
+                    textAlign= {CustomInputStyles.inputTextAlignment}
+
 
                 />
                 <InputNumberCustom
@@ -169,11 +169,28 @@ const  AccountSignUp = (props) => {
                     value={props.zip}
                     onChangeText={props.onZipChge}
                     error={props.errorZip}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleOsRight : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = {CustomInputStyles.inputStyleOsRight}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
+                    errorStyle = {CustomInputStyles.error} 
+                    textAlign= {CustomInputStyles.inputTextAlignment}
+
                 />
+            </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                <InputCustom
+                    placeholder="i.e. 1987-01-01"
+                    label={"Date of Birth: "}
+                    value={props.dobValue}
+                    onChangeText={props.dobChge}
+                    error={props.errordob}
+                    inputStyle = {CustomInputStyles.inputStyleOsLong }
+                    containerStyle = {CustomInputStyles.containerStyleRight}      
+                    labelStyle = {CustomInputStyles.labelStyleRight}
+                    errorStyle = {CustomInputStyles.error } 
+                    textAlign= {CustomInputStyles.inputTextAlignment}
+
+               />
             </View>
         </View>
     )
