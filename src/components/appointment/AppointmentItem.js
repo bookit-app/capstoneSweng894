@@ -7,20 +7,26 @@ import styles from '../styles/General.styles'
 
 const AppointmentItem = (props) => {
     date.plugin('ordinal');
+    var image_ = {
+        barber: require("../../image/barber.png"),
+        hairDress: require("../../image/hair-dresser.png")
+    }    
     
     return (
         <View>
-            <TouchableOpacity onPress={props.onClick}>
+            <TouchableOpacity onPress={props.onClick} onLongPress={props.onHoldClick}>
                 <View style={styles.Row}>
                     <View style={styles.Row}>
-                        <View style={{justifyContent: 'center', paddingStart: 10, paddingEnd: 1}}>
+                        <View style={{justifyContent: 'center', 
+                                    paddingStart: 10, 
+                                    paddingEnd: 1}}>
                             <Image
                                 style={{
                                     width: 45,
                                     height: 45,
                                     borderRadius: 25
                                 }}
-                                source={require('../../image/Placeholder150.png')}
+                                source={props.service == "Barber" ? image_.barber : image_.hairDress}
                             />  
                         </View>
                     </View>
@@ -32,7 +38,7 @@ const AppointmentItem = (props) => {
                     </View>
                     <View style={styles.Column}>
                         <View style={{alignSelf: 'flex-end'}}>
-                            <Text style={{color: '#724FFD'}}>{date.format(date.parse(props.date, 'MM-DD-YYYY'), 'MMM DDD')+ '|' + props.time}</Text>
+                            <Text style={{color: '#724FFD'}}>{date.format(date.parse(props.date, 'YYYY-MM-DD'), 'MMM DDD')+ '|' + props.time}</Text>
                             <Text style={{color: '#724FFD'}}>{props.status}</Text>
                         </View>
                     </View>

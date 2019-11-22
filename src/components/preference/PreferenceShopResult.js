@@ -145,12 +145,8 @@ class PreferenceShopResult extends React.Component {
             [
                 {text: 'Cancel', onPress: () => {return null}},
                 {text: 'Confirm', onPress: () => {      
-                    // console.log('Preference Provider',this.props.profile.preferences);
-                    // console.log('Preference Provider',this.props.preference);
 
                     var preference = this.isEmpty(this.props.preference) ? this.props.profile.preferences : this.props.preference
-                    // console.log('Preference Provider',preference);
-                    preference.providerId = item.providerId
 
                     var payload = {
                         "preferences":{

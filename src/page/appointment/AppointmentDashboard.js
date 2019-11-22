@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, View, ScrollView } from 'react-native'
-import { Spinner, ImageButton } from '../../components/common'
+import { Text, View, ScrollView, Alert } from 'react-native'
+import { Spinner, ImageButton, ButtonCustom } from '../../components/common'
 import { AppointmentList, AppointmentItem } from '../../components/appointment'
 import styles from '../styles/Appointment.styles'
 import utilites from '../../utilites'
@@ -9,6 +9,8 @@ import { NavigationEvents } from 'react-navigation'
 import { PreviousAppointments, UpcomingAppointments, Services } from '../../constant'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import AppointmentDetail from './AppointmentDetail'
+import { appointment } from '../../actions'
+import api from '../../api'
 
 /**
  * Appointment Dashboard show upcoming and most recent appointments for the client
@@ -24,16 +26,21 @@ class AppointmentDashboard extends React.Component {
     constructor(props){
         super(props)
 
-        this.state ={
+        this.state = {
             profile: {},
             preference: {},
-            prefSet: true,
             loadingProfile: true,
             loadingPreference: true,
+            prefSet: true,
             display: false,
             item: {},
             previousAppointment: [],
-            upcomingAppointment: []
+            upcomingAppointment: [],
+            previousAppLoading: true,
+            upcomingAppLoading: true,
+            previousViewMore: false,
+            upcomingViewMore: false,
+            token: ''
         }
 
         this.isEmpty = utilites.isEmpty.bind(this)
@@ -43,14 +50,33 @@ class AppointmentDashboard extends React.Component {
         this.AppointmentDashboardRefresh()
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        if((this.isEmpty(this.state.previousAppointment) && !this.isEmpty(this.props.previousAppointment)) ||
-            (this.isEmpty(this.state.upcomingAppointment) && !this.isEmpty(this.props.upcomingAppointment))){
+    UNSAFE_componentWillReceiveProps(nextProps){   
+        if(nextProps.previousAppointment.length > 0 ||
+            nextProps.upcomingAppointment.length > 0){
+    
+                this.setState({
+                    prefSet: nextProps.prefSet ,
+                    loadingProfile: nextProps.loadingProfile,
+                    loadingPreference: nextProps.loadingPreference,
+                    profile: nextProps.profile ,
+                    preference: nextProps.profile.preferences,
+                    display: false,
+                    previousAppointment: nextProps.previousAppointment,
+                    upcomingAppointment: nextProps.upcomingAppointment,
+                    previousAppLoading: nextProps.previousAppLoading,
+                    upcomingAppLoading: nextProps.upcomingAppLoading,
+                    previousViewMore: !utilites.isEmpty(nextProps.previousAppointment),
+                    upcomingViewMore: !utilites.isEmpty(nextProps.upcomingAppointment),
+                    token: nextProps.token
+                })
+        } else {
             this.AppointmentDashboardRefresh()
         }
     }
 
     AppointmentDashboardRefresh(){
+        // console.log('AppointmentDashboardRefresh');
+        
         this.setState({
             prefSet: this.props.prefSet ,
             loadingProfile: this.props.loadingProfile,
@@ -60,6 +86,11 @@ class AppointmentDashboard extends React.Component {
             display: false,
             previousAppointment: this.props.previousAppointment,
             upcomingAppointment: this.props.upcomingAppointment,
+            previousAppLoading: this.props.previousAppLoading,
+            upcomingAppLoading: this.props.upcomingAppLoading,
+            previousViewMore: !utilites.isEmpty(this.props.previousAppointment),
+            upcomingViewMore: !utilites.isEmpty(this.props.upcomingAppointment),
+            token: this.props.token
         }) 
     }
 
@@ -81,55 +112,99 @@ class AppointmentDashboard extends React.Component {
         });
     }
 
+    onDisplay(){
+        this.setState({
+            display: !this.state.display
+        })
+    }
+    
+    onDetailHoldClickDelete(item){
+        const { appointmentId, listType } = item
+        const { token } = this.state
+        console.log('Delete Appointment', appointmentId);
+        Alert.alert(
+            'Delete Appointment',
+            'Are you sure you want to delete this Appointment ? ',
+            [
+                {text: 'Cancel', onPress: () => {return null}},
+                {text: 'Confirm', onPress: () => {             
+                       
+                    api.deleteAppointmentById(appointmentId, token)
+                        .then (a => {
+                            this.props.deleteItem(item, listType)
+                            this.props.navigation.navigate('Dashboard')
+                        })
+                        .catch(error => {
+                            console.log('error: ', error);
+                        })
+                }}
+            ]
+        )
+    }
+
     renderItem = (item) => {
         return (
             <View>        
                 <AppointmentItem
                     shopName={item.item.businessName}
-                    service={item.item.style == "FADE" ? "Barber" : item.item.style == "UPDO" ? "Hair Dresser" : item.item.style }
+                    service={item.item.styleId == "FADE" ? "Barber" : item.item.styleId == "UPDO" ? "Hair Dresser" : item.item.styleId }
                     date={item.item.date}
                     time={item.item.time}
-                    status={item.item.status}
+                    status={item.item.status.code}
                     onClick={() => this.onDetailClick(item.item)}
+                    onHoldClick={() => this.onDetailHoldClickDelete(item.item)}
                 /> 
             </View>
         )
     }
 
-    listUpcomingHeader = () => {        
+    listUpcomingHeader = () => { 
         return (
             <View style={styles.headerRow}>
                 <View style={{alignItems:'flex-start'}}>
                     <Text style={styles.headerText}>{"Upcoming"}</Text>
                 </View>
-                <View style={{alignItems: 'flex-end'}}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Reivew',{
-                        list: UpcomingAppointments,
-                        headertitle: 'Upcoming',
-                        navigation: this.props.navigation
-                    })}>
-                        <Text style={styles.headerText}>{"View More"}</Text>
-                    </TouchableOpacity>
-                </View>
+                {this.state.upcomingViewMore && 
+                    <View style={{alignItems: 'flex-end'}}>
+                        <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('Reivew',{
+                                list: this.state.upcomingAppointment,
+                                headertitle: 'Upcoming',
+                                navigation: this.props.navigation,
+                                profile: this.state.profile,
+                                token: this.state.token,
+                                replaceItem: this.props.replaceItem
+                            })}>
+                            <Text style={styles.headerText}>{"View More"}</Text>
+                        </TouchableOpacity>
+                    </View> 
+                }
             </View>
         )
     }
 
-    listReviewHeader = () => {        
+    listReviewHeader = () => {  
+        // console.log('listReviewHeader', this.state.token);
         return (
             <View style={styles.headerRow}>
                 <View style={{alignItems:'flex-start'}}>
                     <Text style={styles.headerText}>{"Previous"}</Text>
                 </View>
-                <View style={{alignItems: 'flex-end'}}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Reivew', {
-                        list: PreviousAppointments,
-                        headertitle: 'Previous',
-                        navigation: this.props.navigation
-                    })}>
-                        <Text style={styles.headerText}>{"View More"}</Text>
-                    </TouchableOpacity>
-                </View>
+                {this.state.previousViewMore &&
+                    <View style={{alignItems: 'flex-end'}}>
+                        <TouchableOpacity 
+                            onPress={() => this.props.navigation.navigate('Reivew', {
+                                list: this.state.previousAppointment,
+                                headertitle: 'Previous',
+                                navigation: this.props.navigation,
+                                profile: this.state.profile,
+                                token: this.state.token,
+                                replaceItem: this.props.replaceItem
+                            })}>
+                            <Text style={styles.headerText}>{"View More"}</Text>
+                        </TouchableOpacity>
+                    </View>
+                }
             </View>
         )
     }
@@ -149,7 +224,7 @@ class AppointmentDashboard extends React.Component {
     listEmptyReview = () => {
         return (
             <View style={styles.Column}>
-                <Text style={styles.headerText}>{'No previous appointments'}</Text>
+                <Text style={styles.headerNoAppointment}>{'No previous appointments'}</Text>
             </View>
         )
     }
@@ -157,13 +232,14 @@ class AppointmentDashboard extends React.Component {
     listEmptyUpcoming = () => {
         return (
             <View style={styles.Column}>
-                <Text style={styles.headerText}>{'No upcoming appointments'}</Text>
+                <Text style={styles.headerNoAppointment}>{'No upcoming appointments'}</Text>
             </View>
         )
     }
 
     render(){
-        if(this.isEmpty(this.state.upcomingAppointment) || this.isEmpty(this.state.previousAppointment)){
+        if(this.state.previousAppLoading 
+            && this.state.upcomingAppLoading){
             return <Spinner size="large" />
         }
            
@@ -194,15 +270,18 @@ class AppointmentDashboard extends React.Component {
                 <AppointmentDetail
                     item={this.state.item} 
                     display={this.state.display}
-                    onClose={() => this.onDetailClose()}
-                    navigation={this.props.navigation}
+                    OnClose={() => this.onDetailClose()}
+                    profile={this.state.profile}
+                    token={this.state.token}
+                    replaceItem={this.props.replaceItem}
+                    onDisplay={this.onDisplay}
                 />
             </ScrollView>
         )
     }
 }
 
-const mapStateToProps = (state) => {   
+const mapStateToProps = (state) => {     
     return {
         loadingProfile: state.profile.loading,
         loadingPreference: state.preference.loading,
@@ -210,8 +289,18 @@ const mapStateToProps = (state) => {
         preference: state.preference.preference,
         prefSet: state.preference.pref,
         previousAppointment: state.appointment.previousAppointment,
-        upcomingAppointment: state.appointment.upcomingAppointment
+        upcomingAppointment: state.appointment.upcomingAppointment,
+        previousAppLoading: state.appointment.paloading,
+        upcomingAppLoading: state.appointment.ualoading,
+        token: state.auth.token,
     }
 }
 
-export default connect(mapStateToProps,null)(AppointmentDashboard);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        replaceItem: (newItem, oldItem, listType) => dispatch(appointment.ReplaceAppointment(newItem, oldItem, listType)),
+        deleteItem: (deleteItem, listType) => dispatch(appointment.DeleteAppointment(deleteItem, listType))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AppointmentDashboard);

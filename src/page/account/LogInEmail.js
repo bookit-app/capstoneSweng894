@@ -34,14 +34,15 @@ class LogInEmail extends React.Component {
      }
 
      UNSAFE_componentWillReceiveProps(nextProps){
-        //  console.log('UNSAFE_componentWillReceiveProps', nextProps.loading);
-        //  console.log('UNSAFE_componentWillReceiveProps', nextProps.error);
-        //  console.log('UNSAFE_componentWillReceiveProps', this.props.error);
-         
          if(!nextProps.loading && nextProps.error){
              this.onLogInFail(nextProps.error.message)
+             this.props.userAuthError('')
          } else {
-             this.onLogInSuccess('L')
+             if(!nextProps.error && nextProps.userId){
+                this.onLogInSuccess('L')
+             } else {
+                this.props.userAuthError('')
+             }
          }
      }
 
@@ -70,8 +71,11 @@ class LogInEmail extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    // console.log('mapToProps', state.auth);
+    
     return {
-        error: state.auth.error
+        error: state.auth.error,
+        userId: state.auth.userId
     }
 }
 

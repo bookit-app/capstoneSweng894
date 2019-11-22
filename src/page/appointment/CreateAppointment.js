@@ -1,7 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, View } from 'react-native'
+import { Text, View, ScrollView } from 'react-native'
 import { Spinner } from '../../components/common'
+import CalendarPicker from 'react-native-calendar-picker'
+import styles from '../styles/Appointment.styles'
+import date from 'date-and-time'
+import 'date-and-time/plugin/ordinal'
+import moment from 'moment'
 
 /**
  * Temp Object can be changes as necessary or removed
@@ -39,6 +44,9 @@ class CreateAppointment extends React.Component {
             preference: {},
             prefSet: false,
             loadingProfile: false,
+            minDate: new Date(),
+            maxDate: date.addMonths(new Date(), 2),
+            selectDt: ''
         }
     }
 
@@ -64,24 +72,43 @@ class CreateAppointment extends React.Component {
         }
     }
 
+    onDateChange = (date_, type) => {      
+        this.setState({
+            selectDt: moment(date_).format('MMM Do YYYY'),//date.format(date_,'MMM. DDD YYYY')
+        })
+    }
+
     render(){
         if(this.state.prefSet){
             if(this.state.loadingProfile){
                 return <Spinner size="large" />
             }
-            // console.log('Appointment Detail', this.state.profile);
-            // console.log('Appointment Detail', this.state.preference); 
         }
 
         return (
-            <View>
-                <Text>{'CreateAppointment'}</Text>
-                <UserInfo
-                    prefSet={this.state.prefSet} 
-                    preferInfo={this.state.preference}
-                    profInfo={this.state.profile}
-                />
-            </View>
+            <ScrollView>
+                <View style={styles.Column}>
+                    <View style={styles.Column}>
+                        <View style={styles.Row}>
+                            {/* <View style={{alignItems: 'flex-start'}}> */}
+                                <Text style={{color: '#724FFD', paddingStart: 5}}>{'Date:'}</Text>
+                                <Text style={{paddingStart: 5}}>{this.state.selectDt}</Text>
+                            {/* </View> */}
+                        </View>
+                    </View>
+                    <CalendarPicker
+                        startFromMonday={true}
+                        allowRangeSelection={false}
+                        minDate={new Date()}
+                        maxDate={date.addMonths(new Date(), 2)}
+                        todayBackgroundColor="#f2e6ff"
+                        selectedDayColor="#7300e6"
+                        selectedDayTextColor="#FFFFFF"
+                        onDateChange={this.onDateChange}
+                    />
+                </View>
+   
+            </ScrollView>
         )
     }
 }

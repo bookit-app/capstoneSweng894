@@ -58,5 +58,8 @@ export default {
     },
     headerText: {
         color: 'white'
+    },
+    headerNoAppointment: {
+        color: '#724FFD'
     }
 }

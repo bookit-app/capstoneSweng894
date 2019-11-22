@@ -43,3 +43,38 @@ export const GetUpcomingAppointmentReject = (error) => ({
     payload: error,
     loading: false
 })
+
+export const ReplaceAppointment = (newItem, oldItem, listType) => ({
+    type: actions.REPLACE_APPOINTMENT,
+    newItem,
+    oldItem,
+    listType
+})
+
+export const DeleteAppointment = (deleteItem, listType) => ({
+    type: actions.DELETE_APPOINTMENT,
+    deleteItem,
+    listType
+})
+
+export const SetAllAppointment = (data) => ({
+    type: actions.SET_ALL_APPOINTMENT,
+    payload: data
+})
+
+export const GetAllAppointment = (bool) => ({
+    type: actions.GET_ALL_APPOINTMENT_PENDING,
+    payload: bool
+})
+
+export const GetAllAppointmentFullFilled = (data) => ({
+    type: actions.GET_ALL_APPOINTMENT_FULFILLED,
+    payload: data,
+    loading: false
+})
+
+export const GetAllAppointmentReject = (error) => ({
+    type: actions.GET_ALL_APPOINTMENT_REJECTED,
+    payload: error,
+    loading: false
+})

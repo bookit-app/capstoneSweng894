@@ -112,8 +112,7 @@ async function onLogInSub(type){
             this.setState({ error: '', loading: true})
 
             this.props.settingPref(true)
-            await this.props.loggingIn(email,password)
-            this.onLogInSuccess(type)
+            await this.props.loggingIn(email,password)                        
         } else {
             if(!email){
                 this.setState({
@@ -170,7 +169,6 @@ async function onLogInSub(type){
 
             this.props.settingPref(false)
             await this.props.signUpWithProfile(email,password, payload)
-            this.onLogInSuccess(type)
         } else {       
             
             // console.log('onLogInSub - Error');
@@ -682,7 +680,7 @@ function onPreferencePage1Confirmed(navNext){
                 this.props.alreadyFetch(true)
 
                 var newProfile = this.props.profile
-                newProfile.preference = payload.preferences
+                newProfile.preferences = payload.preferences
                 // console.log('onPreferencePage1Confirmed new profile', newProfile);
                 
                 var filterType = {
@@ -833,7 +831,7 @@ function filterGenerate(filterType){
         // console.log('filterGenerate value',value);
 
         if(value){
-            filter = label + '=' + value.replace(/ /g, '%20')
+            filter = label + '=' + encodeURIComponent(value)
             // console.log('filterGenerate filter', filter);
             
             filters = !filters ? filter : filters + '&' + filter
@@ -841,7 +839,7 @@ function filterGenerate(filterType){
         }
     }  
     
-    console.log('filterGenerate filters final',filters);
+    // console.log('filterGenerate filters final', filters);
 
     return filters
 }
@@ -939,6 +937,26 @@ function onFailuredLogOut(){
     alert('Failure to Log out of Account')
 }
 
+/**
+ * Generators the production time arraies based on limit
+ * @param {*} limit 
+ */
+const TimeGene = (limit) => {
+    var ret = []
+
+    for(var i = 0; i <= limit; i++){
+        var timeComponent = {
+            Id: i,
+            Name: i < 10 ? '0' + i.toString() : i.toString(),
+            Value: i < 10 ? '0' + i.toString() : i.toString()
+        }
+
+        ret.push(timeComponent)
+    }
+
+    return ret
+}
+
 export default {
     onOtherAccount,
     onLogInButton,
@@ -973,5 +991,6 @@ export default {
     onPasswordReset,
     onPasswordResetClick,
     onSuccessfullLogOut,
-    onFailuredLogOut
+    onFailuredLogOut,
+    TimeGene
 }
