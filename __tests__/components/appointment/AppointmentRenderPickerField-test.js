@@ -6,13 +6,14 @@ import {AppointmentRenderPickerField} from '../../../src/components/appointment'
 import JestMock from 'jest-mock';
 
 describe('Appointment render picker field correctly renders', () => {
-    function getLabel(item){}
+    function getLabel(item){ return 'k'}
 
-    let props = {
-        selectedItem: '',
-        defaultText: 'default'
-    }
     test('Appointment Render Picker field renders correctly', () => {
+
+        let props = {
+            selectedItem: '',
+            defaultText: 'default'
+        }
         const appointmentRenderPickerField = shallow(
             <AppointmentRenderPickerField
                 {...props}
@@ -21,4 +22,20 @@ describe('Appointment render picker field correctly renders', () => {
 
         expect(appointmentRenderPickerField).toBeTruthy()
     })
+
+    // test('Appointment Render Picker field renders correctly select populated', () => {
+
+    //     let props = {
+    //         selectedItem: 'dkdkl',
+    //         defaultText: 'default',
+    //         getLabel: getLabel()
+    //     }
+    //     const appointmentRenderPickerField = shallow(
+    //         <AppointmentRenderPickerField
+    //             {...props}
+    //         />
+    //     )
+
+    //     expect(appointmentRenderPickerField).toBeTruthy()
+    // })
 })

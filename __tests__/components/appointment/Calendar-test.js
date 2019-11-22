@@ -57,4 +57,42 @@ describe('Calendar correctly render', () =>{
         )
         expect(calendar).toBeTruthy()
     })
+
+    it('Calendar renders without crashing with state populated with upcoming populated', () => {
+        props = {
+            state: 'BOOKED',
+            existAppointments: [
+                '2019-11-20',
+                '2019-11-21',
+                '2019-11-22',
+            ],
+            listType: 'upcoming',
+            onDateChange: () => onDateChange()
+        }
+        let calendar = shallow(
+            <Calendar
+                {...props}
+            />
+        )
+        expect(calendar).toBeTruthy()
+    })
+
+    it('Calendar renders without crashing with state blank with upcoming populated', () => {
+        props = {
+            state: '',
+            existAppointments: [
+                '2019-11-20',
+                '2019-11-21',
+                '2019-11-22',
+            ],
+            listType: 'upcoming',
+            onDateChange: () => onDateChange()
+        }
+        let calendar = shallow(
+            <Calendar
+                {...props}
+            />
+        )
+        expect(calendar).toBeTruthy()
+    })
 })
