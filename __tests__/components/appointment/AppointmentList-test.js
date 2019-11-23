@@ -22,7 +22,8 @@ describe('appointment list correctly renders', () => {
             renderItem: renderItem(),
             listHeader: listHeader(),
             listSeparater: listSeparater(),
-            listEmpty: listEmpty()
+            listEmpty: listEmpty(),
+            keyExtractor: item => item.appointmentId
         }
 
         appointmentList = shallow(<AppointmentList {...props}/>)
@@ -68,7 +69,8 @@ describe('appointment list correctly renders', () => {
             renderItem: renderItem(),
             listHeader: listHeader(),
             listSeparater: listSeparater(),
-            listEmpty: listEmpty()
+            listEmpty: listEmpty(),
+            keyExtractor: item => item.appointmentId
         }
         
         appointmentList = shallow(<AppointmentList {...props}/>)

@@ -23,7 +23,7 @@ const Stylist = (props) => {
                     defaultValue={"i.e. Stylist"}
                     fieldTemplate={AppointmentRenderPickerField}
                     options={stylistList.map(s => s.Name)}
-                    onValueChange={s => onSetStylist(s)}
+                    onValueChange={onSetStylist}//s => onSetStylist(s)}
                     value={staffMemberName}
                 />
             </View>

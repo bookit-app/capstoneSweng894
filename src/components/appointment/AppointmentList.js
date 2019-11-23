@@ -15,7 +15,7 @@ const AppointmentList = (props) => {
                     ListHeaderComponent={props.listHeader}
                     ListEmptyComponent={props.listEmpty}
                     ItemSeparatorComponent={props.separator}
-                    keyExtractor={item => item.appointmentId}
+                    keyExtractor={props.keyExtractor}
                     onEndReachedThreshold={0.1}
                     initialScrollIndex={0}
                 />

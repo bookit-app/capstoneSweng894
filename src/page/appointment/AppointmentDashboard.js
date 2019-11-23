@@ -261,6 +261,7 @@ class AppointmentDashboard extends React.Component {
                     separator={this.listSeparator}
                     scrollEnabled={false}
                     listEmpty={this.listEmptyUpcoming}
+                    keyExtractor={item => item.appointmentId}
                 />
                 <AppointmentList
                     currentData={this.state.previousAppointment.slice(0,3)}
@@ -270,6 +271,7 @@ class AppointmentDashboard extends React.Component {
                     separator={this.listSeparator}
                     scrollEnabled={false}
                     listEmpty={this.listEmptyReview}
+                    keyExtractor={item => item.appointmentId}
                 />
                 <AppointmentDetail
                     item={this.state.item} 
