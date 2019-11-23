@@ -22,9 +22,8 @@ const DisplayResults = (props) => {
                         contentContainerStyle={{ paddingBottom: 100}}
                         data={props.currentData}
                         extraData={props.extraData}
-                        renderItem={item => props.renderItem(item)}
+                        renderItem={props.renderItem}//item => props.renderItem(item)}
                         ListHeaderComponent={props.listHeader}
-                        keyExtractor = { item => item.providerId }
                         onEndReachedThreshold={0.1}
                         onEndReached={props.onEndReached}
                     />
