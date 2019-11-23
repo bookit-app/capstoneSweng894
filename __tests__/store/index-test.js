@@ -29,7 +29,7 @@ describe('should dispatch action', () => {
       fetchMock.restore()
     })
 
-    test('should dispatch action Get Provider Search Result', () => {
+    test('should dispatch action Get Provider Search Result', async () => {
         // fetchMock.getOnce('/search/provider?', {
         //     body: { data: [{a: '1', b: '2'},{c: '1', d: '2'}] },
         //     headers: { 'content-type': 'application/json' }
@@ -55,12 +55,47 @@ describe('should dispatch action', () => {
         
     })
 
-    test('should dispatch action Get Provider details', () => {
-        // fetchMock.getOnce('provider/', {
-        //     body: { data: {a: '1', b: '2'}},
-        //     headers: { 'content-type': 'application/json' }
-        //   })
+    test('should dispatch action Get Provider Search Result on successful', async () => {
+        const expectedActions = undefined
 
+        const store = mockStore({
+            providerSearchResult:{},
+            loading: false,
+            searchResult: {},
+            errorMessage: ''
+        })
+
+        var filter = 'city=Philadelphia&state=PA'
+        return store.dispatch(GetProviderSearchResult(filter, ''))
+            .then(() => {
+                expect(store.getActions()[2]).toEqual(expectedActions)
+            })
+        
+    })
+
+    test('should dispatch action Get Provider Search Result in catch', async () => {
+        const expectedActions = [
+            provider.SetProviderSearch({}),
+            provider.GetProvider(true),
+            provider.GetProviderReject('error')
+        ]
+
+        const store = mockStore({
+            providerSearchResult:{},
+            loading: false,
+            searchResult: {},
+            errorMessage: ''
+        })
+
+        var filter = 'city=Philadelphia&state=PA'
+        return store.dispatch(GetProviderSearchResult(filter, ''))
+            .catch(() => {
+                expect(store.getActions()).toEqual(expectedActions)
+            })
+        
+    })
+
+    test('should dispatch action Get Provider details', async () => {
         const expectedActions = [
             provider.SetProviderDetails({}),
             provider.GetProviderDetails(true)
@@ -78,8 +113,39 @@ describe('should dispatch action', () => {
                 expect(store.getActions()).toEqual(expectedActions)
             })
     })
+    
+    test('should dispatch action Get Provider details on success', async () => {
+        const expectedActions = undefined
 
-    test('should dispatch action Get style', () => {
+        const store = mockStore({
+            providerSearchResult:{},
+            loading: false,
+            searchResult: {},
+            errorMessage: ''
+        })
+
+        return store.dispatch(GetProviderDetails('lksjdflksjdflskj', 'safdsdfsdf'))
+            .then(() => {
+                expect(store.getActions()[2]).toEqual(expectedActions)
+            })
+    })
+
+    test('should dispatch action Get Provider details', async () => {
+        const expectedActions = [
+            provider.SetProviderDetails({}),
+            provider.GetProviderDetails(true),
+            provider.GetProviderDetailsReject('error')
+        ]
+
+        const store = mockStore({})
+
+        return store.dispatch(GetProviderDetails('lksjdflksjdflskj', 'safdsdfsdf'))
+            .catch(() => {
+                expect(store.getActions()).toEqual(expectedActions)
+            })
+    })
+
+    test('should dispatch action Get style', async () => {
         // fetchMock.getOnce('provider/', {
         //     body: { data: {a: '1', b: '2'}},
         //     headers: { 'content-type': 'application/json' }
@@ -98,7 +164,7 @@ describe('should dispatch action', () => {
             })
     })
 
-    test('should dispatch action upcoming appointments', () => {
+    test('should dispatch action upcoming appointments', async () => {
         const expectedActions = [
             appointment.SetUpcomingAppointment([]),
             appointment.GetUpcomingAppointment(true)
@@ -112,7 +178,7 @@ describe('should dispatch action', () => {
             })
     })
 
-    test('should dispatch action previous appointments', () => {
+    test('should dispatch action previous appointments', async () => {
         const expectedActions = [
             appointment.SetPreviousAppointment([]),
             appointment.GetPreviousAppointment(true)
@@ -126,7 +192,7 @@ describe('should dispatch action', () => {
             })
     })
 
-    test('should dispatch action sign out', () => {
+    test('should dispatch action sign out', async () => {
         const expectedActions = [
             profile.setProfile({}),
             preference.setPreference({}),

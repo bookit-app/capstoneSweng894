@@ -96,7 +96,7 @@ export const GetStyleInfo = (token) => {
 
             dispatch(preference.GetStylePreferenceFullFilled(stylePreference))
         }).catch((error) =>{
-            console.log('getConfiguration', error);
+            // console.log('getConfiguration', error);
             dispatch(preference.GetStylePreferenceReject(error))
         })
     }
@@ -158,7 +158,7 @@ export const logIn = (email, password) => {
                 })
         })
         .catch((error) => {
-            console.log('Log In',error);
+            // console.log('Log In',error);
             dispatch(auth.userAuthError(error))
             dispatch(profile.GetProfileReject(error))
             dispatch(preference.GetPreferenceReject(error))
