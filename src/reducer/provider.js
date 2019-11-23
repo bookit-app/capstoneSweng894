@@ -75,17 +75,17 @@ export default (state = initialState, action) => {
                 loading: action.payload
             }
 
-            console.log('actions.GET_PROVIDER_DETAIL_PENDING', e);
+            // console.log('actions.GET_PROVIDER_DETAIL_PENDING', e);
 
             return e
         }
         case actions.GET_PROVIDER_DETAIL_FULFILLED: {
             var g = {
                 ...state,
-                providerDetails: action.data, loading: action.loading
+                providerDetails: action.payload, loading: action.loading
             }
 
-            console.log('actions.GET_PROVIDER_DETAIL_FULFILLED', g);
+            // console.log('actions.GET_PROVIDER_DETAIL_FULFILLED', g);
 
             return g
         }
@@ -95,7 +95,7 @@ export default (state = initialState, action) => {
                 errorMessage: action.payload, loading: action.loading
             }
 
-            console.log('action.GET_PROVIDER_DETAIL_REJECTED', h);
+            // console.log('action.GET_PROVIDER_DETAIL_REJECTED', h);
 
             return h
             
