@@ -205,7 +205,7 @@ describe('appointment reducer', () => {
         )
     })
 
-    test('should replace item in list', () => {
+    test('should replace item in list based on listType', () => {
         expect(
             appointment_(
                 {
@@ -216,6 +216,22 @@ describe('appointment reducer', () => {
             {
                 upcomingAppointment: [{a:'a'},{c:'c'},{b:'b'}],
                 previousAppointment: undefined
+            }
+        )
+    })
+
+    test('should replace item in list based on listType other upcoming', () => {
+        expect(
+            appointment_(
+                {
+                    upcomingAppointment: [{a:'a'},{b:'b'}],
+                    previousAppointment: [{a:'a'},{b:'b'}]
+                }, 
+                appointment.ReplaceAppointment({c:'c'},{a:'a'}, '')
+        )).toEqual(
+            {
+                upcomingAppointment: [{a:'a'},{b:'b'}],
+                previousAppointment: [{a:'a'},{c:'c'},{b:'b'}]
             }
         )
     })
@@ -231,6 +247,22 @@ describe('appointment reducer', () => {
             {
                 upcomingAppointment: [{a:'a'},{c:'c'}],
                 previousAppointment: undefined
+            }
+        )
+    })
+
+    test('should delete item in listtype other this upcomning', () => {
+        expect(
+            appointment_(
+                {
+                    upcomingAppointment: [{a:'a'},{b:'b'},{c:'c'}],
+                    previousAppointment: [{a:'a'},{b:'b'},{c:'c'}]
+                }, 
+                appointment.DeleteAppointment({b:'b'}, '')
+        )).toEqual(
+            {
+                upcomingAppointment: [{a:'a'},{b:'b'},{c:'c'}],
+                previousAppointment: [{a:'a'},{c:'c'}]
             }
         )
     })
