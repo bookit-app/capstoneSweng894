@@ -22,7 +22,9 @@ describe('appointment edit view correctly render', () => {
 
     beforeEach(() => {
         useEffect = jest.spyOn(React, "useEffect").mockImplementation(f => f());
-        
+    })
+
+    test('appointment edit view without crashing', () => {
         props = {
             onEditClick:onEditClick(),
             item: UpcomingAppointments[0],
@@ -38,9 +40,6 @@ describe('appointment edit view correctly render', () => {
         }
 
         appointEditView = shallow(<AppointmentEditView {...props}/>)
-    })
-
-    test('appointment edit view without crashing', () => {
         expect(appointEditView).toBeTruthy();
     })
 })

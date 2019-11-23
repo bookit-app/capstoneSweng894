@@ -1,35 +1,24 @@
 import '../../../src/setupTests'
 import React from 'react'
 import { shallow } from 'enzyme';
-import {create} from 'react-test-renderer'
 import {Calendar} from '../../../src/components/appointment'
 
 describe('Calendar correctly render', () =>{
     let props;
 
     const onDateChange = (date, type) => {}
+    const isFalse = () => {return false}
+    const isTrue = () => {return true}
 
-    props = {
-        state: 'BOOKED',
-        existAppointments: [
-            '2019-11-20',
-            '2019-11-21',
-            '2019-11-22',
-        ],
-        listType: 'previous',
-        onDateChange: () => onDateChange()
-    }
-
-    it('Calendar renders without crashing with state populated', () => {
+    it('Calendar renders without crashing with isCalendarDispaly false populated', () => {
         props = {
-            state: 'BOOKED',
             existAppointments: [
                 '2019-11-20',
                 '2019-11-21',
                 '2019-11-22',
             ],
-            listType: 'previous',
-            onDateChange: () => onDateChange()
+            onDateChange: () => onDateChange(),
+            isCalendarDispaly: isFalse
         }
         let calendar = shallow(
             <Calendar
@@ -39,16 +28,15 @@ describe('Calendar correctly render', () =>{
         expect(calendar).toBeTruthy()
     })
 
-    it('Calendar renders without crashing with state blank', () => {
+    it('Calendar renders without crashing  with isCalendarDispaly true', () => {
         props = {
-            state: '',
             existAppointments: [
                 '2019-11-20',
                 '2019-11-21',
                 '2019-11-22',
             ],
             listType: 'previous',
-            onDateChange: () => onDateChange()
+            isCalendarDispaly: isTrue
         }
         let calendar = shallow(
             <Calendar
@@ -60,14 +48,13 @@ describe('Calendar correctly render', () =>{
 
     it('Calendar renders without crashing with state populated with upcoming populated', () => {
         props = {
-            state: 'BOOKED',
             existAppointments: [
                 '2019-11-20',
                 '2019-11-21',
                 '2019-11-22',
             ],
-            listType: 'upcoming',
-            onDateChange: () => onDateChange()
+            onDateChange: () => onDateChange(),
+            isCalendarDispaly: isTrue
         }
         let calendar = shallow(
             <Calendar
@@ -79,14 +66,13 @@ describe('Calendar correctly render', () =>{
 
     it('Calendar renders without crashing with state blank with upcoming populated', () => {
         props = {
-            state: '',
             existAppointments: [
                 '2019-11-20',
                 '2019-11-21',
                 '2019-11-22',
             ],
-            listType: 'upcoming',
-            onDateChange: () => onDateChange()
+            onDateChange: () => onDateChange(),
+            isCalendarDispaly: isTrue
         }
         let calendar = shallow(
             <Calendar

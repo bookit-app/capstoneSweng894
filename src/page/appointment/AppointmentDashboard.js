@@ -97,6 +97,10 @@ class AppointmentDashboard extends React.Component {
     onDetailClose(){
         return (
             <ImageButton
+                style={{
+                    width: 1,
+                    height: 1
+                }}
                 onPress={() => {
                     this.setState({ display: false })
                 }}
@@ -112,7 +116,7 @@ class AppointmentDashboard extends React.Component {
         });
     }
 
-    onDisplay(){
+    onDisplay = () => {
         this.setState({
             display: !this.state.display
         })

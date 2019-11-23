@@ -51,7 +51,7 @@ class AppointmentReview extends React.Component {
         }
     }
 
-    onDisplay(){
+    onDisplay = () => {
         this.setState({
             display: !this.state.display
         })

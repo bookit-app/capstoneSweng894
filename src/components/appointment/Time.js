@@ -5,7 +5,8 @@ import styles from '../styles/General.styles'
 import { AppointmentRenderPickerField } from '../appointment'
 
 const Time = ({placeHour, defaultHour, optionsHour, onHourChange, hour,
-    placeMinute, defaultMinute, optionsMinute, onMinuteChange, minute}) => {
+    placeMinute, defaultMinute, optionsMinute, onMinuteChange, minute,
+    placePeriod, defaultPeriod, optionsPeriod, onPeriodChange,period }) => {
     
     return (
         <View>
@@ -30,6 +31,16 @@ const Time = ({placeHour, defaultHour, optionsHour, onHourChange, hour,
                         options={optionsMinute}
                         onValueChange={onMinuteChange}
                         value={minute}
+                    />
+                </View>
+                <View style={{paddingStart: 10}}>
+                    <CustomPicker
+                        placeholder={placePeriod}
+                        defaultValue={defaultPeriod}
+                        fieldTemplate={AppointmentRenderPickerField}
+                        options={optionsPeriod}
+                        onValueChange={onPeriodChange}
+                        value={period}
                     />
                 </View>
             </View>
