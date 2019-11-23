@@ -78,6 +78,26 @@ describe('provider reducer', () => {
         )
     })
 
+    test('should set aleady fetch provider with false', () => {
+        expect(
+            provider_([],provider.alreadyFetch(false))
+        ).toEqual(
+            {
+                alreadyFetch: false
+            }
+        )
+    })
+
+    test('should set aleady fetch provider with true', () => {
+        expect(
+            provider_([],provider.alreadyFetch(true))
+        ).toEqual(
+            {
+                alreadyFetch: true
+            }
+        )
+    })
+
     test('should set provider detail with empty object', () => {
         expect(
             provider_([], provider.SetProviderDetails({}))
