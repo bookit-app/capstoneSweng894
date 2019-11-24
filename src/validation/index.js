@@ -338,5 +338,16 @@ export default {
     verifyCity,
     verifyState,
     verifyZip,
-    verifyCityState
+    verifyCityState,
+    emailValidator,
+    passwordValidator,
+    nameValidator,
+    telephoneValidator,
+    genderValidator,
+    dateValidator,
+    isProviderValidator,
+    streetValidator,
+    cityValidator,
+    stateValidator,
+    zipValidator,
 }
