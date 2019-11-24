@@ -20,12 +20,6 @@ describe('Profile Pref 1 render correctly', () => {
         profilePref1 = shallow(<ProfilePref1 {...props} />)
         expect(profilePref1).toBeTruthy()
     })
-
-    // test('Log In email should change state when email entered', () => {
-    //     const instanceOf = renderer.create(<LogInEmail {...props} />).getInstance()
-    //     instanceOf.verifyEmail('a@a.com')
-    //     expect(instanceOf.state.email).toEqual('a@a.com')
-    // })
 })
 
 jest.mock("react-redux", () => {
