@@ -1,19 +1,11 @@
 import '../../../src/setupTests'
-import LogInEmail from '../../../src/page/account/LogInEmail'
+import SignUpEmail from '../../../src/page/account/SignUpEmail'
 import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
-const createTestProps = (props) => ({
-    navigation: {
-      navigate: jest.fn()
-    },
-    ...props
-  });
-
-
-describe('Log In Email render correctly', () => {
-    let logInEmail;
+describe('Sign Up Email render correctly', () => {
+    let signUpEmail;
     let props;
 
     beforeEach(() => {
@@ -24,16 +16,10 @@ describe('Log In Email render correctly', () => {
         }
     })
 
-    test('Log In email correctly render', () => {
-        logInEmail = shallow(<LogInEmail {...props} />)
-        expect(logInEmail).toBeTruthy()
+    test('Sign Up Email correctly render', () => {
+        signUpEmail = shallow(<SignUpEmail {...props} />)
+        expect(signUpEmail).toBeTruthy()
     })
-
-    // test('Log In email should change state when email entered', () => {
-    //     const instanceOf = renderer.create(<LogInEmail {...props} />).root()
-    //     instanceOf.verifyEmail('a@a.com')
-    //     expect(instanceOf.state.email).toEqual('a@a.com')
-    // })
 })
 
 jest.mock("react-redux", () => {
@@ -53,11 +39,12 @@ jest.mock("../../../src/actions", () => {
 
 jest.mock("../../../src/store", () => {
     return {
-        logIn:  jest.fn().mockReturnValue('mock loggingIn action'),
+        signUpWithProfile:  jest.fn().mockReturnValue('mock signUpWithProfile action'),
+        signUp:  jest.fn().mockReturnValue('mock signUp action'),
     };
 });
 
-describe('Log In Email map', () => {
+describe('Sign Up With Profile map', () => {
     let mapStateToProps
     let mapDispatchToProps
 
@@ -75,9 +62,9 @@ describe('Log In Email map', () => {
         let dispatch = jest.fn();
   
         let props = mapDispatchToProps(dispatch);
-        props.loggingIn("userName", "password");
+        props.signUpWithProfile("userName", "password", {a:'1', b: '2'});
   
-        expect(dispatch).toBeCalledWith("mock loggingIn action");
-        expect(mockLoginActions.logIn).toBeCalledWith("userName", "password");
+        expect(dispatch).toBeCalledWith("mock signUpWithProfile action");
+        expect(mockLoginActions.signUpWithProfile).toBeCalledWith("userName", "password", {a:'1', b: '2'});
     })
 })
