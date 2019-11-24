@@ -9,7 +9,7 @@ const createTestProps = (props) => ({
       navigate: jest.fn()
     },
     ...props
-  });
+});
 
 describe('forgetPassword correctly renders', () => {
     let forgetPassword;
