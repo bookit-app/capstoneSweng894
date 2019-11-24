@@ -94,7 +94,7 @@ export default (state = initalState, action ) => {
         case actions.REPLACE_APPOINTMENT: {
             var list = action.listType == 'upcoming' ? state.upcomingAppointment : state.previousAppointment
             
-            list.splice(list.indexOf(action.oldItem),0,action.newItem);
+            list.splice(list.indexOf(action.oldItem)-1,1,action.newItem);
 
             var i = {
                 ...state,

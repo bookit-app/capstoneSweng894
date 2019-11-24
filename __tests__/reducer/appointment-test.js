@@ -214,7 +214,7 @@ describe('appointment reducer', () => {
                 appointment.ReplaceAppointment({c:'c'},{a:'a'}, 'upcoming')
         )).toEqual(
             {
-                upcomingAppointment: [{a:'a'},{c:'c'},{b:'b'}],
+                upcomingAppointment: [{c:'c'},{b:'b'}],
                 previousAppointment: undefined
             }
         )
@@ -231,7 +231,7 @@ describe('appointment reducer', () => {
         )).toEqual(
             {
                 upcomingAppointment: [{a:'a'},{b:'b'}],
-                previousAppointment: [{a:'a'},{c:'c'},{b:'b'}]
+                previousAppointment: [{c:'c'},{b:'b'}]
             }
         )
     })
