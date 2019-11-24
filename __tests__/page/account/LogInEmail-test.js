@@ -4,14 +4,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
-const createTestProps = (props) => ({
-    navigation: {
-      navigate: jest.fn()
-    },
-    ...props
-  });
-
-
 describe('Log In Email render correctly', () => {
     let logInEmail;
     let props;
@@ -30,7 +22,7 @@ describe('Log In Email render correctly', () => {
     })
 
     // test('Log In email should change state when email entered', () => {
-    //     const instanceOf = renderer.create(<LogInEmail {...props} />).root()
+    //     const instanceOf = renderer.create(<LogInEmail {...props} />).getInstance()
     //     instanceOf.verifyEmail('a@a.com')
     //     expect(instanceOf.state.email).toEqual('a@a.com')
     // })
