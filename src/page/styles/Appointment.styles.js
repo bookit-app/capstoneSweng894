@@ -51,7 +51,7 @@ export default {
     headerRow: {
         justifyContent: 'space-between', 
         flexDirection: 'row',
-        padding: 5,
+        padding: 10,
         backgroundColor: '#724FFD',
         color: 'white',
         width: '100%'
