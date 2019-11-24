@@ -4,19 +4,16 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
-const createTestProps = (props) => ({
-    navigation: {
-      navigate: jest.fn()
-    },
-    ...props
-});
-
 describe('LogInOptions correctly renders', () => {
     let logInOptions;
     let props;
 
     beforeEach(() => {
-        props = createTestProps({})
+        props = {
+            navigation: {
+                navigate: jest.fn()
+              }
+        }
     })
 
     test('logInOptions renders without crashing', () => {
@@ -27,10 +24,5 @@ describe('LogInOptions correctly renders', () => {
     test('forgetPassword renders Account Forgot Password', () => {
         logInOptions = shallow(<LogInOptions {...props} />)
         expect(logInOptions.find('AccountImage')).toHaveLength(1)
-    })
-
-    test('forgetPassword renders Account Forgot Password', () => {
-        logInOptions = shallow(<LogInOptions {...props} />)
-        expect(logInOptions.find('AccountButtons')).toHaveLength(2)
     })
 })
