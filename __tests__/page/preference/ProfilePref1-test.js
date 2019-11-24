@@ -54,13 +54,13 @@ describe('Profile pref 1 map', () => {
     afterEach(() => {jest.clearAllMocks()})
 
     // test('should map login props to login of profile pref Actions', () => {
-    //     let mockLoginActions = require("../../../src/store");
+    //     let mockLoginActions = require("../../../src/actions");
     //     let dispatch = jest.fn();
   
     //     let props = mapDispatchToProps(dispatch);
-    //     props.loggingIn("userName", "password");
+    //     props.setPreference({a:'a',b:'b'});
   
     //     expect(dispatch).toBeCalledWith("mock loggingIn action");
-    //     expect(mockLoginActions.logIn).toBeCalledWith("userName", "password");
+    //     expect(mockLoginActions.setPreference).toBeCalledWith({a:'a',b:'b'});
     // })
 })
