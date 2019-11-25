@@ -2,7 +2,36 @@ import '../../../src/setupTests'
 import LogInEmail from '../../../src/page/account/LogInEmail'
 import React from 'react'
 import { shallow } from 'enzyme'
-import renderer from 'react-test-renderer';
+import renderer, {create} from 'react-test-renderer';
+
+import thunk from 'redux-thunk'
+import configureStore from 'redux-mock-store'
+const middlewares = [thunk]
+const mockStore = configureStore(middlewares)
+
+jest.mock("react-redux", () => {
+    return {
+        connect: jest.fn().mockReturnValue(() => jest.fn())
+    };
+});
+
+jest.mock("../../../src/actions", () => {
+    return {
+        auth: {
+            userSet: jest.fn().mockReturnValue('mock useSet action'),
+            userAuthError:  jest.fn().mockReturnValue('mock userAuthError action'),
+        },
+        preference: {
+            settingPref:  jest.fn().mockReturnValue('mock settingProf action')
+        }
+    };
+});
+
+jest.mock("../../../src/store", () => {
+    return {
+        logIn:  jest.fn().mockReturnValue('mock loggingIn action'),
+    };
+});
 
 describe('Log In Email render correctly', () => {
     let logInEmail;
@@ -20,34 +49,19 @@ describe('Log In Email render correctly', () => {
         logInEmail = shallow(<LogInEmail {...props} />)
         expect(logInEmail).toBeTruthy()
     })
+    
+    test('should map Log In to props', () => {
+        const initialState = {
+            error: '',
+            userId: ''
+        };
+        store = mockStore(initialState);
+        logInEmail =  shallow(<LogInEmail {...props} store={store}/>)
 
-    // test('Log In email should change state when email entered', () => {
-    //     const instanceOf = renderer.create(<LogInEmail {...props} />).getInstance()
-    //     instanceOf.verifyEmail('a@a.com')
-    //     expect(instanceOf.state.email).toEqual('a@a.com')
-    // })
+        expect(logInEmail.props().error).toBe(undefined);
+        expect(logInEmail.props().userId).toBe(undefined);
+    })
 })
-
-jest.mock("react-redux", () => {
-    return {
-        connect: jest.fn().mockReturnValue(() => jest.fn())
-    };
-});
-
-jest.mock("../../../src/actions", () => {
-    return {
-        userSet: jest.fn().mockReturnValue('mock login action'),
-        userAuthError:  jest.fn().mockReturnValue('mock userAuthError action'),
-        settingPref:  jest.fn().mockReturnValue('mock settingProf action'),
-        loggingIn:  jest.fn().mockReturnValue('mock loggingIn action'),
-    };
-});
-
-jest.mock("../../../src/store", () => {
-    return {
-        logIn:  jest.fn().mockReturnValue('mock loggingIn action'),
-    };
-});
 
 describe('Log In Email map', () => {
     let mapStateToProps
@@ -62,14 +76,33 @@ describe('Log In Email map', () => {
     
     afterEach(() => {jest.clearAllMocks()})
 
-    test('should map login props to login of LoginActions', () => {
-        let mockLoginActions = require("../../../src/store");
+    test('should map login props to login of Actions', () => {
+        let mockStore = require("../../../src/store");
+        let mockActions = require("../../../src/actions");
         let dispatch = jest.fn();
   
         let props = mapDispatchToProps(dispatch);
         props.loggingIn("userName", "password");
   
         expect(dispatch).toBeCalledWith("mock loggingIn action");
-        expect(mockLoginActions.logIn).toBeCalledWith("userName", "password");
+        expect(mockStore.logIn).toBeCalledWith("userName", "password");
+        
+        props = mapDispatchToProps(dispatch);
+        props.userSet("sflkjsdlkfjsdlfk");
+  
+        expect(dispatch).toBeCalledWith('mock useSet action');
+        expect(mockActions.auth.userSet).toBeCalledWith("sflkjsdlkfjsdlfk");
+
+        props = mapDispatchToProps(dispatch);
+        props.userAuthError("sflkjsdlkfjsdlfk");
+  
+        expect(dispatch).toBeCalledWith('mock userAuthError action');
+        expect(mockActions.auth.userAuthError).toBeCalledWith("sflkjsdlkfjsdlfk");
+
+        props = mapDispatchToProps(dispatch);
+        props.settingPref(false);
+  
+        expect(dispatch).toBeCalledWith('mock settingProf action');
+        expect(mockActions.preference.settingPref).toBeCalledWith(false);
     })
 })
