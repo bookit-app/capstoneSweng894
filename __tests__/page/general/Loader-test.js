@@ -37,6 +37,10 @@ jest.mock('firebase', () => {
                   reject({ message: 'error!' });
                 });
               }),
+              currentUser:  {
+                  email: 'a@a.com',
+                  displayName: 'Test'
+              }
             };
           })
         };
