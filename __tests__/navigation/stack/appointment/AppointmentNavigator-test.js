@@ -1,4 +1,4 @@
-import AppointmentNavigator from '../../../../src/navigation/stack/Appointment/AppointmentNavigator'
+import AppointmentNavigator from '../../../../src/navigation/stack/appointment/AppointmentNavigator'
 
 describe('Appointment Navigator testing', () => {
     test('Appointment Navigator testing', () => {
