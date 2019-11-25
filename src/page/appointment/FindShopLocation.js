@@ -8,20 +8,30 @@ import date from 'date-and-time'
 import 'date-and-time/plugin/ordinal'
 import moment from 'moment'
 import FindShopForm from '../../components/appointment/FindShopForm'
+import Header from '../../components/common/Header'
+import CustomInput  from '../../components/common/CustomInput'
+import CustomInputStyles from '../../components/styles/CustomInputStyles'
+
 /**
  * Temp Object can be changes as necessary or removed
  * @param {*} props 
  */
 class FindShopLocation extends React.Component {
-    render(){
-        return(
-          <FindShopForm
-          />
-        )
-    
-     }
-    }
 
+    render() {
+        return (
+            <View>
+                <View style={styles.headerRow}>
+                    <View style={{ alignItems: 'flex-start' }}>
+                        <Text style={styles.headerText}>{"Enter Your Location"}</Text>
+                    </View>
+                </View>
+
+        
+            </View>
+        )
+    }
+}
 
 
 
@@ -35,4 +45,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,null)(FindShopLocation)
+export default connect(mapStateToProps, null)(FindShopLocation)
