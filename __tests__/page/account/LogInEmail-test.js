@@ -2,31 +2,7 @@ import '../../../src/setupTests'
 import LogInEmail from '../../../src/page/account/LogInEmail'
 import React from 'react'
 import { shallow } from 'enzyme'
-import renderer from 'react-test-renderer';
-
-describe('Log In Email render correctly', () => {
-    let logInEmail;
-    let props;
-
-    beforeEach(() => {
-        props = {
-            navigation: {
-                navigate: jest.fn()
-              },
-        }
-    })
-
-    test('Log In email correctly render', () => {
-        logInEmail = shallow(<LogInEmail {...props} />)
-        expect(logInEmail).toBeTruthy()
-    })
-
-    // test('Log In email should change state when email entered', () => {
-    //     const instanceOf = renderer.create(<LogInEmail {...props} />).getInstance()
-    //     instanceOf.verifyEmail('a@a.com')
-    //     expect(instanceOf.state.email).toEqual('a@a.com')
-    // })
-})
+import renderer, {create} from 'react-test-renderer';
 
 jest.mock("react-redux", () => {
     return {
@@ -48,6 +24,24 @@ jest.mock("../../../src/store", () => {
         logIn:  jest.fn().mockReturnValue('mock loggingIn action'),
     };
 });
+
+describe('Log In Email render correctly', () => {
+    let logInEmail;
+    let props;
+
+    beforeEach(() => {
+        props = {
+            navigation: {
+                navigate: jest.fn()
+              },
+        }
+    })
+
+    test('Log In email correctly render', () => {
+        logInEmail = shallow(<LogInEmail {...props} />)
+        expect(logInEmail).toBeTruthy()
+    })
+})
 
 describe('Log In Email map', () => {
     let mapStateToProps

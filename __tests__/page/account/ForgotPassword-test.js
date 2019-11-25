@@ -4,13 +4,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
-// const createTestProps = (props) => ({
-//     navigation: {
-//       navigate: jest.fn()
-//     },
-//     ...props
-// });
-
 describe('forgetPassword correctly renders', () => {
     let forgetPassword;
     let props;
