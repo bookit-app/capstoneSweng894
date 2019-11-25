@@ -4,6 +4,10 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
+import thunk from 'redux-thunk'
+import configureStore from 'redux-mock-store'
+const middlewares = [thunk]
+const mockStore = configureStore(middlewares)
 
 jest.mock("react-redux", () => {
     return {
@@ -41,6 +45,31 @@ describe('Preference Shop Result renders correctly', () => {
     test('Preference Shop Result correctly render', () => {
         prefShopResult = shallow(<PreferenceShopResult {...props}/>)
         expect(prefShopResult).toBeTruthy()
+    })
+    
+    test('should map Preference Shop Result to props', () => {
+        const initialState = {
+            profile: {},
+            preference: {},
+            providerResults: [],
+            alreadyFetch: false,
+            searchResult: [],
+            errorMessage: '',
+            loading: false,
+            token: ''
+        };
+
+        store = mockStore(initialState);
+        prefShopResult =  shallow(<PreferenceShopResult {...props} store={store}/>)
+
+        expect(prefShopResult.props().profile).toBe(undefined);
+        expect(prefShopResult.props().preference).toBe(undefined);
+        expect(prefShopResult.props().providerResults).toBe(undefined);
+        expect(prefShopResult.props().alreadyFetch).toBe(undefined);
+        expect(prefShopResult.props().searchResult).toBe(undefined);
+        expect(prefShopResult.props().errorMessage).toBe(undefined);
+        expect(prefShopResult.props().loading).toBe(undefined);
+        expect(prefShopResult.props().token).toBe(undefined);
     })
 })
 
