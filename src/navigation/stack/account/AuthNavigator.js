@@ -6,7 +6,6 @@ import SignUpOptions from '../../../page/account/SignUpOptions'
 import LogInEmail from '../../../page/account/LogInEmail'
 import ForgotPassword from '../../../page/account/ForgotPassword'
 import SignUpEmail from '../../../page/account/SignUpEmail'
-import SignUpStuff from '../../../page/account/SignUpStuff'
 
 import SettingPrefNavigator from './SettingPrefNavigator'
 
@@ -21,9 +20,6 @@ const AuthNavigator = createStackNavigator(
         "Sign Up With Email": SignUpEmail,
         "Login": LogInOptions,
         "Setting": SettingPrefNavigator,
-        "Sign Up staff": {
-            screen: SignUpStuff
-        }
     }
     , {
         initialRouteName: "Login"

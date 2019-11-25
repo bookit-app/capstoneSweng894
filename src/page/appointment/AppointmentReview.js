@@ -51,7 +51,7 @@ class AppointmentReview extends React.Component {
         }
     }
 
-    onDisplay(){
+    onDisplay = () => {
         this.setState({
             display: !this.state.display
         })
@@ -160,6 +160,7 @@ class AppointmentReview extends React.Component {
                     separator={this.listSeparator}
                     scrollEnabled={true}
                     listEmpty={this.listEmpty}
+                    keyExtractor={item => item.appointmentId}
                 />
                 <AppointmentDetail
                     item={this.state.item} 

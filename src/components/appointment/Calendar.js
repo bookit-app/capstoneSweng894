@@ -11,9 +11,9 @@ import CalendarPicker from 'react-native-calendar-picker'
 const Calendar = (props) => {
     const minDate = new Date()
     const maxDate = date.addMonths(new Date(), 2);
-    const { state, existAppointments, listType, onDateChange } = props
+    const { existAppointments, onDateChange, isCalendarDispaly } = props
 
-    if(state.toUpperCase() != "BOOKED" || listType.toUpperCase().trim() == "PREVIOUS"){
+    if(isCalendarDispaly()){
         return (
             <View/>
         )

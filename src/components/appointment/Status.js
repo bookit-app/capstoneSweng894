@@ -25,7 +25,7 @@ const Status = (props) => {
                     defaultValue={status}
                     fieldTemplate={AppointmentRenderPickerField}
                     options={list.map(a => a.Name)}
-                    onValueChange={st => onSetStatus(st)}
+                    onValueChange={onSetStatus}//st => onSetStatus(st)}
                     value={status}
                 />
             </View>

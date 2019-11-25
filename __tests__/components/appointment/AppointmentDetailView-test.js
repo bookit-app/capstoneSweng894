@@ -1,9 +1,10 @@
 
 import '../../../src/setupTests'
 import React from 'react'
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import {AppointmentDetailView} from '../../../src/components/appointment'
 import JestMock from 'jest-mock';
+import renderer from 'react-test-renderer';
 
 describe('Appointment Detail View correctly renderer', () => {
     let appointmentDetailView
@@ -27,25 +28,22 @@ describe('Appointment Detail View correctly renderer', () => {
         listType: 'upcoming', 
         providerId: '10001'
     }
+    props = {
+        edit: false,
+        item: item,
+        profile:{},
+        token: '',
+        replaceItem:replaceItem(),
+        onDisplay:onDisplay()
+    }
 
     beforeEach(() => {
         useEffect = JestMock.spyOn(React, "useEffect").mockImplementation(f => f())
-
-        props = {
-            edit:false,
-            item:item,
-            profile:{},
-            token: '',
-            replaceItem:replaceItem(),
-            onDisplay:onDisplay()
-        }
-
-        appointmentDetailView = shallow(<AppointmentDetailView {...props}/>)
     })
 
     test('Appointment Detail View renderer without crashing', () => {
+        appointmentDetailView = shallow(<AppointmentDetailView {...props}/>)
         expect(appointmentDetailView).toBeTruthy();
     })
-
 
 })

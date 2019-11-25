@@ -1,12 +1,13 @@
 
 import '../../../src/setupTests'
 import React from 'react'
+import { Text } from 'react-native'
 import { shallow } from 'enzyme';
 import {AppointmentRenderPickerField} from '../../../src/components/appointment'
 import JestMock from 'jest-mock';
 
 describe('Appointment render picker field correctly renders', () => {
-    function getLabel(item){ return 'k'}
+    const getLabel = (item) => { return ( <Text>{item}</Text>)}
 
     test('Appointment Render Picker field renders correctly', () => {
 
@@ -23,19 +24,18 @@ describe('Appointment render picker field correctly renders', () => {
         expect(appointmentRenderPickerField).toBeTruthy()
     })
 
-    // test('Appointment Render Picker field renders correctly select populated', () => {
+    test('Appointment Render Picker field renders correctly select populated', () => {
+        let props = {
+            selectedItem: 'dkdkl',
+            defaultText: 'default',
+            getLabel: selectedItem => getLabel(selectedItem)
+        }
+        const appointmentRenderPickerField = shallow(
+            <AppointmentRenderPickerField
+                {...props}
+            />
+        )
 
-    //     let props = {
-    //         selectedItem: 'dkdkl',
-    //         defaultText: 'default',
-    //         getLabel: getLabel()
-    //     }
-    //     const appointmentRenderPickerField = shallow(
-    //         <AppointmentRenderPickerField
-    //             {...props}
-    //         />
-    //     )
-
-    //     expect(appointmentRenderPickerField).toBeTruthy()
-    // })
+        expect(appointmentRenderPickerField).toBeTruthy()
+    })
 })

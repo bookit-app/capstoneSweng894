@@ -767,6 +767,18 @@ export const StateList = [
     }
 ]
 
+export const Period = [
+    {
+        Id: 0,
+        Name: "am",
+        Value: "AM"
+    },
+    {
+        Id: 1,
+        Name: "pm",
+        Value: "AM"
+    }
+]
 export default {
     Gender,
     GenderV2,
@@ -780,5 +792,6 @@ export default {
     Services,
     AvailableSlot,
     StatusList,
-    StateList
+    StateList,
+    Period
 }

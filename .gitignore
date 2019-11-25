@@ -75,3 +75,5 @@ android/app/src/main/res/values/ids.xml
 
 coverage
 .nyc_output
+
+src/config
