@@ -1,11 +1,11 @@
 import '../../../src/setupTests'
-import configureStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
 import ProfilePref2 from '../../../src/page/preference/ProfilePref2'
 import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
+import thunk from 'redux-thunk'
+import configureStore from 'redux-mock-store'
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 
