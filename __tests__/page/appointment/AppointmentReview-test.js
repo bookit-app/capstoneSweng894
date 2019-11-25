@@ -60,7 +60,6 @@ describe('Replace/Delete Appointment Dashboard map', () => {
         expect(dispatch).toBeCalledWith('mock ReplaceAppointment action');
         expect(mockLoginActions.appointment.ReplaceAppointment).toBeCalledWith({a:'1'},{b:'2'},'P');
 
-        
         let props2 = mapDispatchToProps(dispatch);
         props2.deleteItem({a:'1'},'P');
   

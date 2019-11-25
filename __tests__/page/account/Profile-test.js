@@ -12,8 +12,12 @@ jest.mock("react-redux", () => {
 
 jest.mock("../../../src/actions", () => {
     return {
-        settingPref:  jest.fn().mockReturnValue('mock settingProf action'),
-        setProfile:  jest.fn().mockReturnValue('mock setProfile action'),
+        preference: {
+            setPreference:  jest.fn().mockReturnValue('mock set preferences action'),
+        },
+        profile: {
+            setProfile:  jest.fn().mockReturnValue('mock set profile action'),
+        }
     };
 });
 
@@ -39,9 +43,42 @@ describe('Profile render correctly', () =>{
         profile = shallow(<Profile {...props} />)
         expect(profile).toBeTruthy()
     })
+})
 
-    // test('profile renders ScrollView', () => {
-    //     profile = shallow(<Profile {...props} />)
-    //     expect(profile.find('ScrollView')).toHaveLength(1)
-    // })
+describe('Profile map', () => {
+    let mapStateToProps
+    let mapDispatchToProps
+
+    beforeEach(() => {
+    let mockConnect = require("react-redux").connect;
+
+    mapStateToProps = mockConnect.mock.calls[0][0];
+    mapDispatchToProps = mockConnect.mock.calls[0][1];
+    });
+    
+    afterEach(() => {jest.clearAllMocks()})
+
+    test('should map login props to Profile of Actions', () => {
+        let mockStore = require("../../../src/store");
+        let mockActions = require("../../../src/actions");
+        let dispatch = jest.fn();
+
+        let props = mapDispatchToProps(dispatch);
+        props.signOut();
+
+        expect(dispatch).toBeCalledWith('mock signOut action');
+        expect(mockStore.signOut).toBeCalledWith();
+        
+        props = mapDispatchToProps(dispatch);
+        props.setPreference({a: '1'});
+
+        expect(dispatch).toBeCalledWith('mock set preferences action');
+        expect(mockActions.preference.setPreference).toBeCalledWith({a: '1'});
+
+        props = mapDispatchToProps(dispatch);
+        props.setProfile({a: '1'});
+
+        expect(dispatch).toBeCalledWith('mock set profile action');
+        expect(mockActions.profile.setProfile).toBeCalledWith({a: '1'});
+    })
 })

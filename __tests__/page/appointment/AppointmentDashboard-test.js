@@ -2,6 +2,8 @@ import '../../../src/setupTests'
 import AppointmentDashboard from '../../../src/page/appointment/AppointmentDashboard'
 import React from 'react'
 import { shallow } from 'enzyme'
+import { PreviousAppointments, UpcomingAppointments } from '../../../src/constant'
+
 import renderer, {create} from 'react-test-renderer';
 
 jest.mock("react-redux", () => {
@@ -27,13 +29,36 @@ describe('Appointment Dashboard render correctly', () => {
         props = {
             navigation: {
                 navigate: jest.fn()
-              },
+              }
         }
     })
 
     test('Appointment Dashboard correctly render', () => {
         aDashboard = shallow(<AppointmentDashboard {...props} />)
         expect(aDashboard).toBeTruthy()
+    })
+
+    test('Appointment Dashboard with instance of null', () => {
+        props = {
+            loadingProfile: true,
+            loadingPreference: true,
+            profile: {
+                a: 1,
+                b: 2
+            },
+            preference: {
+                a: 1,
+                b: 2
+            },
+            prefSet: true,
+            previousAppointment: PreviousAppointments,
+            upcomingAppointment: UpcomingAppointments,
+            previousAppLoading: true,
+            upcomingAppLoading: true,
+            token: 'lksjdflksjflksdf',
+        }
+        const instanceOf = shallow(<AppointmentDashboard {...props}/>).instance()
+        expect(instanceOf).toBe(null)
     })
 })
 
