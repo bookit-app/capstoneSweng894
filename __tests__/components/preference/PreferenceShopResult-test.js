@@ -4,6 +4,28 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
+
+jest.mock("react-redux", () => {
+    return {
+        connect: jest.fn().mockReturnValue(() => jest.fn())
+    };
+});
+
+jest.mock("../../../src/actions", () => {
+    return {
+        preference: {
+            settingPref: jest.fn().mockReturnValue('mock setting Pref'),
+            setPreference: jest.fn().mockReturnValue('mock set Preference')
+        }
+    };
+});
+
+jest.mock("../../../src/store", () => {
+    return {
+        GetProviderSearchResult: jest.fn().mockReturnValue('mock set Provider list')
+    };
+});
+
 describe('Preference Shop Result renders correctly', () => {
     let prefShopResult;
     let props;
@@ -22,25 +44,6 @@ describe('Preference Shop Result renders correctly', () => {
     })
 })
 
-jest.mock("react-redux", () => {
-    return {
-        connect: jest.fn().mockReturnValue(() => jest.fn())
-    };
-});
-
-jest.mock("../../../src/actions", () => {
-    return {
-        settingPref: jest.fn().mockReturnValue('mock setting Pref'),
-        setProfile: jest.fn().mockReturnValue('mock set Profile')
-    };
-});
-
-jest.mock("../../../src/store", () => {
-    return {
-        getProviderResult: jest.fn().mockReturnValue('mock set Preference')
-    };
-});
-
 describe('Preference Form map', () => {
     let mapStateToProps
     let mapDispatchToProps
@@ -52,5 +55,29 @@ describe('Preference Form map', () => {
       mapDispatchToProps = mockConnect.mock.calls[0][1];
     });
     
-    afterEach(() => {jest.clearAllMocks()})
+    afterEach(() => {jest.clearAllMocks()})    
+
+    test('should map Preference Form props Actions', () => {
+        let mockStore = require("../../../src/store");
+        let mockActions = require("../../../src/actions");
+        let dispatch = jest.fn();
+  
+        let props = mapDispatchToProps(dispatch);
+        props.setPreference({});
+  
+        expect(dispatch).toBeCalledWith('mock set Preference');
+        expect(mockActions.preference.setPreference).toBeCalledWith({});
+        
+        props = mapDispatchToProps(dispatch);
+        props.settingPref(false);
+  
+        expect(dispatch).toBeCalledWith('mock setting Pref');
+        expect(mockActions.preference.settingPref).toBeCalledWith(false);
+
+        props = mapDispatchToProps(dispatch);
+        props.getProviderResult([{a: '1', b: '2'}]);
+  
+        expect(dispatch).toBeCalledWith('mock set Provider list');
+        expect(mockStore.GetProviderSearchResult).toBeCalledWith([{a: '1', b: '2'}], undefined);
+    })
 })
