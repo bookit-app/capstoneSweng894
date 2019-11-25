@@ -4,6 +4,11 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
+import thunk from 'redux-thunk'
+import configureStore from 'redux-mock-store'
+const middlewares = [thunk]
+const mockStore = configureStore(middlewares)
+
 jest.mock('firebase', () => {
     return {
       initializeApp: jest.fn(() => {
@@ -81,6 +86,26 @@ describe('Loader render correctly', () =>{
     test('Loader correctly render', () => {
         loader = shallow(<Loader {...props} />)
         expect(loader).toBeTruthy()
+    })
+    
+    test('should map Loader to props', () => {
+        const initialState = {
+          userId: '',
+          token: '',
+          profile: {},
+          preference: {},
+          loadPreference: false,
+          pref: false
+        };
+        store = mockStore(initialState);
+        loader =  shallow(<Loader {...props} store={store}/>)
+
+        expect(loader.props().userId).toBe(undefined);
+        expect(loader.props().token).toBe(undefined);
+        expect(loader.props().profile).toBe(undefined);
+        expect(loader.props().preference).toBe(undefined);
+        expect(loader.props().loadPreference).toBe(undefined);
+        expect(loader.props().pref).toBe(undefined);
     })
 })
 

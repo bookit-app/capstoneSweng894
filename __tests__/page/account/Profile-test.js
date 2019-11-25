@@ -4,6 +4,11 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
+import thunk from 'redux-thunk'
+import configureStore from 'redux-mock-store'
+const middlewares = [thunk]
+const mockStore = configureStore(middlewares)
+
 jest.mock("react-redux", () => {
     return {
         connect: jest.fn().mockReturnValue(() => jest.fn())
@@ -42,6 +47,28 @@ describe('Profile render correctly', () =>{
     test('profile correctly render', () => {
         profile = shallow(<Profile {...props} />)
         expect(profile).toBeTruthy()
+    })
+    
+    test('should map profile to props', () => {
+        const initialState = {
+            preference: {},
+            profile: {},
+            loadingProfile: false,
+            errorMessage: '',
+            userId: '',
+            token: '',
+            pref: false
+        };
+        store = mockStore(initialState);
+        profile =  shallow(<Profile {...props} store={store}/>)
+
+        expect(profile.props().preference).toBe(undefined);
+        expect(profile.props().profile).toBe(undefined);
+        expect(profile.props().loadingProfile).toBe(undefined);
+        expect(profile.props().errorMessage).toBe(undefined);
+        expect(profile.props().userId).toBe(undefined);
+        expect(profile.props().token).toBe(undefined);
+        expect(profile.props().pref).toBe(undefined);
     })
 })
 

@@ -64,12 +64,7 @@ describe('Profile pref 1 map', () => {
     beforeEach(() => {
         let mockConnect = require("react-redux").connect;
 
-        mapStateToProps = {
-            token: 'sdfsdfsdf',
-            preference: {},
-            profile: {},
-            providerResults: []
-        }
+        mapStateToProps = mockConnect.mock.calls[0][0]
         mapDispatchToProps = mockConnect.mock.calls[0][1];
     });
     

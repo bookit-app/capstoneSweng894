@@ -4,6 +4,11 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer, {create} from 'react-test-renderer';
 
+import thunk from 'redux-thunk'
+import configureStore from 'redux-mock-store'
+const middlewares = [thunk]
+const mockStore = configureStore(middlewares)
+
 jest.mock("react-redux", () => {
     return {
         connect: jest.fn().mockReturnValue(() => jest.fn())
@@ -43,6 +48,18 @@ describe('Log In Email render correctly', () => {
     test('Log In email correctly render', () => {
         logInEmail = shallow(<LogInEmail {...props} />)
         expect(logInEmail).toBeTruthy()
+    })
+    
+    test('should map Log In to props', () => {
+        const initialState = {
+            error: '',
+            userId: ''
+        };
+        store = mockStore(initialState);
+        logInEmail =  shallow(<LogInEmail {...props} store={store}/>)
+
+        expect(logInEmail.props().error).toBe(undefined);
+        expect(logInEmail.props().userId).toBe(undefined);
     })
 })
 

@@ -4,6 +4,11 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer';
 
+import thunk from 'redux-thunk'
+import configureStore from 'redux-mock-store'
+const middlewares = [thunk]
+const mockStore = configureStore(middlewares)
+
 describe('Sign Up Email render correctly', () => {
     let signUpEmail;
     let props;
@@ -19,6 +24,18 @@ describe('Sign Up Email render correctly', () => {
     test('Sign Up Email correctly render', () => {
         signUpEmail = shallow(<SignUpEmail {...props} />)
         expect(signUpEmail).toBeTruthy()
+    })
+    
+    test('should map Sign Up to props', () => {
+        const initialState = {
+            error: '',
+            userId: ''
+        };
+        store = mockStore(initialState);
+        signUpEmail =  shallow(<SignUpEmail {...props} store={store}/>)
+
+        expect(signUpEmail.props().error).toBe(undefined);
+        expect(signUpEmail.props().userId).toBe(undefined);
     })
 })
 

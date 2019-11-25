@@ -48,7 +48,6 @@ class Loader extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    // console.log('Loader mapStateToProps', state);
       return {
         userId: state.auth.userId,
         token: state.auth.token,

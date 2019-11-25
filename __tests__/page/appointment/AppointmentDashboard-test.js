@@ -6,6 +6,11 @@ import { PreviousAppointments, UpcomingAppointments } from '../../../src/constan
 
 import renderer, {create} from 'react-test-renderer';
 
+import thunk from 'redux-thunk'
+import configureStore from 'redux-mock-store'
+const middlewares = [thunk]
+const mockStore = configureStore(middlewares)
+
 jest.mock("react-redux", () => {
     return {
         connect: jest.fn().mockReturnValue(() => jest.fn())
@@ -59,6 +64,35 @@ describe('Appointment Dashboard render correctly', () => {
         }
         const instanceOf = shallow(<AppointmentDashboard {...props}/>).instance()
         expect(instanceOf).toBe(null)
+    })
+    
+    test('should map Appointment Dashboard to props', () => {
+        const initialState = {        
+            loadingProfile: false,
+            loadingPreference: false,
+            profile: {},
+            preference: {},
+            prefSet: false,
+            previousAppointment: [],
+            upcomingAppointment: [],
+            previousAppLoading: false,
+            upcomingAppLoading: false,
+            token: '',
+        };
+        
+        store = mockStore(initialState);
+        aDashboard =  shallow(<AppointmentDashboard {...props} store={store}/>)
+
+        expect(aDashboard.props().loadingProfile).toBe(undefined);
+        expect(aDashboard.props().loadingPreference).toBe(undefined);
+        expect(aDashboard.props().profile).toBe(undefined);
+        expect(aDashboard.props().preference).toBe(undefined);
+        expect(aDashboard.props().prefSet).toBe(undefined);
+        expect(aDashboard.props().previousAppointment).toBe(undefined);
+        expect(aDashboard.props().upcomingAppointment).toBe(undefined);
+        expect(aDashboard.props().previousAppLoading).toBe(undefined);
+        expect(aDashboard.props().upcomingAppLoading).toBe(undefined);
+        expect(aDashboard.props().token).toBe(undefined);
     })
 })
 
