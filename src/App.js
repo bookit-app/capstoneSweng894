@@ -16,14 +16,9 @@ import NavigationService from './navigation/custom/NavigationService'
 
 const MainApp = createAppContainer(RootStack)
 
-import firebase from 'firebase'
-import { config } from '../src/config'
+import config from '../src/config'
 
-class App extends React.Component {
-  UNSAFE_componentWillMount(){
-    firebase.initializeApp(config)
-  }
-  
+class App extends React.Component {  
   render(){
     return(
       <Provider store={store}>
