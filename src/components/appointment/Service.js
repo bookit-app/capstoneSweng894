@@ -23,7 +23,7 @@ const Service = (props) => {
                     defaultValue={"i.e. Service"}
                     fieldTemplate={AppointmentRenderPickerField}
                     options={serviceList.map(l => l.Name)}
-                    onValueChange={l => onSetServiceList(l)}
+                    onValueChange={onSetServiceList}//l => onSetServiceList(l)}
                     value={service}
                 />
             </View>

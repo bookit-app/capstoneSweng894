@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import { View, ScrollView } from 'react-native'
 import styles from '../styles/LogInOptions.styles'
 import LogInBtn from '../../components/styles/LogInBtn.styles'
-import BottomBtn from '../../components/styles/BottomBtn.styles'
 import AccountImage from '../../components/account/AccountImage'
 import AccountButtons from '../../components/account/AccountButtons'
-import AccountOptions from '../../components/account/AccountOptions'
 
 /**
  * Log-In Option Page

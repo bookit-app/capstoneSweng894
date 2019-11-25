@@ -96,7 +96,7 @@ export const GetStyleInfo = (token) => {
 
             dispatch(preference.GetStylePreferenceFullFilled(stylePreference))
         }).catch((error) =>{
-            console.log('getConfiguration', error);
+            // console.log('getConfiguration', error);
             dispatch(preference.GetStylePreferenceReject(error))
         })
     }
@@ -158,7 +158,7 @@ export const logIn = (email, password) => {
                 })
         })
         .catch((error) => {
-            console.log('Log In',error);
+            // console.log('Log In',error);
             dispatch(auth.userAuthError(error))
             dispatch(profile.GetProfileReject(error))
             dispatch(preference.GetPreferenceReject(error))
@@ -327,17 +327,17 @@ export const getAppointment = (type, token) => {
                 toDate: moment(endDate).format('YYYY-MM-DD'),
             }
 
-            console.log('UpcomingAppointment', payload);
+            // console.log('UpcomingAppointment', payload);
     
             var filter = utilites.filterGenerate(payload)
             api.searchAppointmentByFilter(filter,token)
                 .then((data) => {
                     var previousAppointment = data.data
-                    console.log('getAppointment', 'previous fullfilled');
+                    // console.log('getAppointment', 'previous fullfilled');
                     dispatch(appointment.GetPreviousAppointmentFullFilled(previousAppointment))
                 })
                 .catch((err) => {
-                    console.log('getAppointment', 'previous reject');
+                    // console.log('getAppointment', 'previous reject');
                     dispatch(appointment.GetPreviousAppointmentReject(error))
                     dispatch(appointment.SetPreviousAppointment(PreviousAppointments))
                 })
@@ -355,17 +355,17 @@ export const getAppointment = (type, token) => {
                 toDate: moment(endDate).format('YYYY-MM-DD'),
             }
 
-            console.log('UpcomingAppointment', payload);
+            // console.log('UpcomingAppointment', payload);
             
             var filter = utilites.filterGenerate(payload)
             api.searchAppointmentByFilter(filter, token)
                 .then((data) => {
                     var upcomingAppointment = data.data
-                    console.log('getAppointment', 'upcoming fullfilled');
+                    // console.log('getAppointment', 'upcoming fullfilled');
                     dispatch(appointment.GetUpcomingAppointmentFullFilled(upcomingAppointment))
                 })
                 .catch((err) =>{
-                    console.log('getAppointment', 'upcoming reject');
+                    // console.log('getAppointment', 'upcoming reject');
                     dispatch(appointment.GetUpcomingAppointmentReject(error))
                     dispatch(appointment.SetUpcomingAppointment(UpcomingAppointments))
                 })

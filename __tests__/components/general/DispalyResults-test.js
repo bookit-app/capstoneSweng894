@@ -5,6 +5,7 @@ import {create} from 'react-test-renderer'
 import {DisplayResults} from '../../../src/components/general'
 
 describe('Display results correctly', () => {
+    const renderItem = (item) => {}
     test('Display results renders without crashing with error not populated', () => {
         let props = {
             headerText: 'Header Text',
@@ -12,7 +13,7 @@ describe('Display results correctly', () => {
             errorMessage: '',
             currentData: [{a: 1, b: 2, providerId: 'lkjlkjkjsdf'}, {a: 3, b: 4, providerId: 'salkjsldfkj'}],
             extraData:{},
-            renderItem: () => {},
+            renderItem: item => renderItem(item),
             onEndReached: () => {},
             listHeader: () => {}
         }
@@ -27,7 +28,7 @@ describe('Display results correctly', () => {
             errorMessage: 'Error Message',
             currentData: [{a: 1, b: 2, providerId: 'lkjlkjkjsdf'}, {a: 3, b: 4, providerId: 'salkjsldfkj'}],
             extraData:{},
-            renderItem: () => {},
+            renderItem: item => renderItem(item),
             onEndReached: () => {},
             listHeader: () => {}
         }

@@ -205,9 +205,10 @@ class PreferenceShopResult extends React.Component {
                 errorMessage={errorMessage}
                 currentData={this.state.currentProviders}
                 extraData={this.state}
-                renderItem={this.renderItem}
+                renderItem={item => this.renderItem(item)}
                 onEndReached={() => this.onLoadNext()}
                 listHeader={this.listHeader}
+                keyExtractor = { item => item.providerId }
             />
         )
     }

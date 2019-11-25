@@ -3,30 +3,8 @@ import { View, Text } from 'react-native'
 import styles from '../styles/PrefResult.styles'
 import { InputCustom } from '../common'
 import { CustomPicker } from 'react-native-custom-picker'
+import {PreferenceRenderPickerField} from '../preference'
 
-/**
- * CustomPicker - Individual field component
- * @param {*} settings 
- */
-const renderPickerField = (settings) => { 
-    const { selectedItem, defaultText, getLabel} = settings
-
-    return (
-        <View>
-            <View style={styles.containerStyle}>
-            {!selectedItem && <Text style={styles.inputStyle, { color: 'grey' }}>{defaultText}</Text>}
-            {selectedItem && (
-                <View style={styles.inputStyle}>
-                    <Text>
-                        {getLabel(selectedItem)}
-                    </Text>
-                    <Text/>{/* Not necessary but makes the form match City, State may want to remove  */}
-                </View>
-            )}
-            </View>
-        </View>
-    )
-}
 
 /**
  * Preference - Results of User peferences (bad name)
@@ -54,7 +32,7 @@ const PrefResult = (props) => {
                     </Text>    
                     <CustomPicker
                         placeholder={"i.e. Fade"}
-                        fieldTemplate={renderPickerField}
+                        fieldTemplate={PreferenceRenderPickerField}
                         options={props.onStyleTypeItems}
                         onValueChange={props.onStyleTypeChge}
                         defaultValue={"i.e. Fade"}
@@ -68,7 +46,7 @@ const PrefResult = (props) => {
                     </Text>                        
                     <CustomPicker
                         placeholder={"i.e. Monday"}
-                        fieldTemplate={renderPickerField}
+                        fieldTemplate={PreferenceRenderPickerField}
                         options={props.onDayItems}
                         onValueChange={props.onDayChge}
                         defaultValue={"i.e. Monday"}
@@ -82,7 +60,7 @@ const PrefResult = (props) => {
                     </Text>
                     <CustomPicker
                         placeholder={"i.e. Morning"}
-                        fieldTemplate={renderPickerField}
+                        fieldTemplate={PreferenceRenderPickerField}
                         options={props.onTimeItems}
                         onValueChange={props.onTimeChge}
                         defaultValue={"i.e. Morning"}

@@ -205,18 +205,65 @@ describe('appointment reducer', () => {
         )
     })
 
-    // test('should replace item in list', () => {
-    //     expect(
-    //         appointment_(
-    //             {
-    //                 upcomingAppointment: [{a:'a'},{b:'b'}]
-    //             }, 
-    //             appointment.ReplaceAppointment({c:'c'},{a: 'a'}, 'upcoming')
-    //     )).toEqual(
-    //         {
-    //             upcomingAppointment: [{b:'b'},{c:'c'}],
-    //             previousAppointment: undefined
-    //         }
-    //     )
-    // })
+    test('should replace item in list based on listType', () => {
+        expect(
+            appointment_(
+                {
+                    upcomingAppointment: [{a:'a'},{b:'b'}]
+                }, 
+                appointment.ReplaceAppointment({c:'c'},{a:'a'}, 'upcoming')
+        )).toEqual(
+            {
+                upcomingAppointment: [{c:'c'},{b:'b'}],
+                previousAppointment: undefined
+            }
+        )
+    })
+
+    test('should replace item in list based on listType other upcoming', () => {
+        expect(
+            appointment_(
+                {
+                    upcomingAppointment: [{a:'a'},{b:'b'}],
+                    previousAppointment: [{a:'a'},{b:'b'}]
+                }, 
+                appointment.ReplaceAppointment({c:'c'},{a:'a'}, '')
+        )).toEqual(
+            {
+                upcomingAppointment: [{a:'a'},{b:'b'}],
+                previousAppointment: [{c:'c'},{b:'b'}]
+            }
+        )
+    })
+
+    test('should delete item in list', () => {
+        expect(
+            appointment_(
+                {
+                    upcomingAppointment: [{a:'a'},{b:'b'},{c:'c'}]
+                }, 
+                appointment.DeleteAppointment({b:'b'}, 'upcoming')
+        )).toEqual(
+            {
+                upcomingAppointment: [{a:'a'},{c:'c'}],
+                previousAppointment: undefined
+            }
+        )
+    })
+
+    test('should delete item in listtype other this upcomning', () => {
+        expect(
+            appointment_(
+                {
+                    upcomingAppointment: [{a:'a'},{b:'b'},{c:'c'}],
+                    previousAppointment: [{a:'a'},{b:'b'},{c:'c'}]
+                }, 
+                appointment.DeleteAppointment({b:'b'}, '')
+        )).toEqual(
+            {
+                upcomingAppointment: [{a:'a'},{b:'b'},{c:'c'}],
+                previousAppointment: [{a:'a'},{c:'c'}]
+            }
+        )
+    })
 })

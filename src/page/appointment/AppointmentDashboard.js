@@ -97,6 +97,10 @@ class AppointmentDashboard extends React.Component {
     onDetailClose(){
         return (
             <ImageButton
+                style={{
+                    width: 1,
+                    height: 1
+                }}
                 onPress={() => {
                     this.setState({ display: false })
                 }}
@@ -112,7 +116,7 @@ class AppointmentDashboard extends React.Component {
         });
     }
 
-    onDisplay(){
+    onDisplay = () => {
         this.setState({
             display: !this.state.display
         })
@@ -257,6 +261,7 @@ class AppointmentDashboard extends React.Component {
                     separator={this.listSeparator}
                     scrollEnabled={false}
                     listEmpty={this.listEmptyUpcoming}
+                    keyExtractor={item => item.appointmentId}
                 />
                 <AppointmentList
                     currentData={this.state.previousAppointment.slice(0,3)}
@@ -266,6 +271,7 @@ class AppointmentDashboard extends React.Component {
                     separator={this.listSeparator}
                     scrollEnabled={false}
                     listEmpty={this.listEmptyReview}
+                    keyExtractor={item => item.appointmentId}
                 />
                 <AppointmentDetail
                     item={this.state.item} 
