@@ -1,5 +1,5 @@
 import '../../../src/setupTests'
-import AppointmentDashboard from '../../../src/page/appointment/AppointmentDashboard'
+import AppointmentReview from '../../../src/page/appointment/AppointmentReview'
 import React from 'react'
 import { shallow } from 'enzyme'
 import renderer, {create} from 'react-test-renderer';
@@ -20,7 +20,7 @@ jest.mock("../../../src/actions", () => {
 });
 
 describe('Appointment Dashboard render correctly', () => {
-    let aDashboard;
+    let areview;
     let props;
 
     beforeEach(() => {
@@ -32,8 +32,8 @@ describe('Appointment Dashboard render correctly', () => {
     })
 
     test('Appointment Dashboard correctly render', () => {
-        aDashboard = shallow(<AppointmentDashboard {...props} />)
-        expect(aDashboard).toBeTruthy()
+        areview = shallow(<AppointmentReview {...props} />)
+        expect(areview).toBeTruthy()
     })
 })
 
