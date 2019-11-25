@@ -58,7 +58,7 @@ describe('Profile map', () => {
     
     afterEach(() => {jest.clearAllMocks()})
 
-    test('should map login props to Profile of Actions', () => {
+    test('should map Profile props to Actions', () => {
         let mockStore = require("../../../src/store");
         let mockActions = require("../../../src/actions");
         let dispatch = jest.fn();
