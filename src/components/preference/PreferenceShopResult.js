@@ -215,7 +215,6 @@ class PreferenceShopResult extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    // console.log('mapStateToProps Preference', state);
     return {
         profile: state.profile.profile,
         preference: state.preference.preference,
