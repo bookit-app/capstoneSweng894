@@ -2,25 +2,66 @@ import React from 'react'
 import {
     View, Text, ScrollView,
 } from 'react-native'
-import styles from '../styles/AccountForm.styles'
-import CustomInput  from '../../components/common/CustomInput'
-import CustomInputStyles from '../../components/styles/CustomInputStyles'
+import styles from '../../page/styles/Appointment.styles'
+import ShopLocater from './ShopLocater'
+import { ButtonCustom } from '../common'
+import ShopType from './ShopType'
+import LogInBtnStyles from '../styles/LogInBtn.styles'
 
+
+{/*Setups the Input Field for User Location */}
 
 const FindShopForm = (props) => {
     return (
+        <ScrollView style={styles.scrollView}>
+        
+        {/*Location Header*/}
+        <View style={styles.headerRow}>
+        <View style={{ alignItems: 'flex-start' }}>
+            <Text style={styles.headerText}>{"Enter Your Location"}</Text>
+        </View>                
+        </View>
+       
+        {/*Shop Locater User Input Field*/}
         <View>
-        <View>
-        <CustomInput
-        placeholder ="Zip,City,or Sate"
-        value={this.props.userLocationInput}
-        onChangeText={props.locationOnChge}
-        inputStyle = {CustomInputStyles.inputStyleOsLong}
-        containerStyle={CustomInputStyles.containerStyleLeft}
-        textAlign = {CustomInputStyles.inputTextAlignment}
+        <ShopLocater
+        userLocationInput={props.userLocation}   
+        locationOnChg={props.onLocationChge}
         />
-    </View>
-    </View>
+        </View>
+         
+        {/*Shop Type Header*/}
+        <View style={styles.headerRow}>
+        <View style={{ alignItems: 'flex-start' }}>
+            <Text style={styles.headerText}>{"Would you prefer a hair dresser or barber?"}</Text>
+        </View>                
+        </View>
+        
+       {/*Shop Preference Button*/}
+       <View style={{flex: 1, flexDirection: 'row'}}>
+           <ShopType
+          onPress={props.onShopStyleClickOption}
+           shopBtnStyle={LogInBtnStyles.smallButtonStylePurple}
+           textStyle={LogInBtnStyles.whiteFillTextStyle}
+           text={'Hair Dresser'}
+       />
+       <ShopType
+           onPress={props.onShopStyleClickOption}
+           shopBtnStyle={LogInBtnStyles.smallButtonStylePurple}
+           textStyle={LogInBtnStyles.whiteFillTextStyle}
+           text={'Barber'}
+       />
+       
+       </View>
+       {/*Shop Type Header*/}
+       <View style={styles.headerRow}>
+        <View style={{ alignItems: 'flex-start' }}>
+            <Text style={styles.headerText}>{"Please select your preferred date:"}</Text>
+        </View>                
+        </View>
+        
+           
+     </ScrollView>
     )
 }
 

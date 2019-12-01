@@ -47,6 +47,8 @@ class LogInEmail extends React.Component {
      }
 
     render(){
+        console.log("PROPS AND OBJECTS:" + this.props);
+
         return(
             <AccountForm
                 imageHolder={false}

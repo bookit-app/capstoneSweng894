@@ -7,6 +7,9 @@ import styles from '../styles/Appointment.styles'
 import date from 'date-and-time'
 import 'date-and-time/plugin/ordinal'
 import moment from 'moment'
+import FindShopForm from '../../components/appointment/FindShopForm'
+import ShopType from '../../components/appointment/ShopType'
+import LogInBtnStyles from '../../components/styles/LogInBtn.styles'
 
 /**
  * Temp Object can be changes as necessary or removed
@@ -86,16 +89,22 @@ class CreateAppointment extends React.Component {
         }
 
         return (
+            
             <ScrollView>
-                <View style={styles.Column}>
-                    <View style={styles.Column}>
+                <FindShopForm
+                location={this.state.userLocationInput}
+                locationOnChg={location => onChangeText(location)}
+
+            />
+               <View style={styles.Column}>
+                   {/*   <View style={styles.Column}>
                         <View style={styles.Row}>
                             {/* <View style={{alignItems: 'flex-start'}}> */}
-                                <Text style={{color: '#724FFD', paddingStart: 5}}>{'Date:'}</Text>
-                                <Text style={{paddingStart: 5}}>{this.state.selectDt}</Text>
+                                {/* <Text style={{color: '#724FFD', paddingStart: 5}}>{'Date:'}</Text>
+                                <Text style={{paddingStart: 5}}>{this.state.selectDt}</Text> */}
                             {/* </View> */}
-                        </View>
-                    </View>
+                        {/* </View>
+                    </View> */} 
                     <CalendarPicker
                         startFromMonday={true}
                         allowRangeSelection={false}
@@ -107,7 +116,14 @@ class CreateAppointment extends React.Component {
                         onDateChange={this.onDateChange}
                     />
                 </View>
-   
+                <View>
+                    <ShopType
+                    shopBtnStyle={LogInBtnStyles.buttonStylePurple}
+                    textStyle={LogInBtnStyles.textStyle}
+                    text={"Next"}
+                    />
+                </View>
+                
             </ScrollView>
         )
     }

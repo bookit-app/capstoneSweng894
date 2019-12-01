@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, View, ScrollView } from 'react-native'
+import {
+    View, Text, ScrollView,
+} from 'react-native'
 import { Spinner } from '../../components/common'
 import CalendarPicker from 'react-native-calendar-picker'
 import styles from '../styles/Appointment.styles'
@@ -9,33 +11,40 @@ import 'date-and-time/plugin/ordinal'
 import moment from 'moment'
 import FindShopForm from '../../components/appointment/FindShopForm'
 import Header from '../../components/common/Header'
-import CustomInput  from '../../components/common/CustomInput'
+import CustomInput from '../../components/common/CustomInput'
 import CustomInputStyles from '../../components/styles/CustomInputStyles'
+import { NavigationEvents } from 'react-navigation'
 
 /**
- * Temp Object can be changes as necessary or removed
+ * Temp Object can be achanges as necessary or removed
  * @param {*} props 
  */
 class FindShopLocation extends React.Component {
+   
+    constructor(props) {
+        super(props)
+        this.state = { location: '', loading: false }
+  
+
+    }
 
     render() {
+        console.log(this.props);
         return (
-            <View>
-                <View style={styles.headerRow}>
-                    <View style={{ alignItems: 'flex-start' }}>
-                        <Text style={styles.headerText}>{"Enter Your Location"}</Text>
-                    </View>
-                </View>
+            <FindShopForm
+                location={this.state.userLocationInput}
+                locationOnChg={location => onChangeText(location)}
 
-        
-            </View>
+            />
+
+            
         )
     }
 }
 
 
 
-
+/* 
 const mapStateToProps = (state) => {
     return {
         loadingProfile: state.profile.loading,
@@ -43,6 +52,6 @@ const mapStateToProps = (state) => {
         preference: state.preference.preference,
         prefSet: state.preference.pref
     }
-}
+} */
 
-export default connect(mapStateToProps, null)(FindShopLocation)
+export default connect(null)(FindShopLocation)
