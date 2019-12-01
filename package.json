@@ -80,5 +80,6 @@
     "assets": [
       "./assets/fonts/"
     ]
-  }
+  },
+  "lint": "eslint *.js **/*.js"
 }

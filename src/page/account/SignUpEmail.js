@@ -88,6 +88,7 @@ class SignUpEmail extends React.Component {
         return(
             <View>
                 <AccountSignUpForm
+                    testID='AccountSignForm'
                     imageHolder={false}
                     placeholder={require('../../image/Placeholder150.png')}
                     image={require('../../image/Placeholder150.png')} 

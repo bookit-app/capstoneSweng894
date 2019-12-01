@@ -18,21 +18,13 @@ class Loader extends React.Component {
     componentDidMount(){
         firebase.auth().onAuthStateChanged((user) => {
             var currentPref = false
-            
-            if(user){
-                //console.log('componentDidMount', user.displayName);
-                currentPref = user.displayName ? true : false  
-                console.log('componentDidMount currentPref', user.displayName ? true : false);
-                this.props.settingPref(true)           
-            } else {
-                console.log('onAuthStateChanged', 'No one logged In');
-            } 
 
-            console.log('Preference Setting: ', currentPref);
+            if(user){
+                currentPref = user.displayName ? true : false  
+                this.props.settingPref(true)           
+            }
             
-            var route = user ? currentPref ? 'App' : 'Preference'  : 'Login' 
-            
-            console.log('Route: ', route);
+            var route = user ? currentPref ? 'App' : 'Preference'  : 'Login'
 
             this.props.navigation.navigate(route)
         })

@@ -14,12 +14,14 @@ class LogInOption extends Component {
             <ScrollView style={styles.scrollView}>
                 <View style={styles.imgSty}>
                     <AccountImage
+                        testID='appIcon'
                         imageHolder={false}
                         placeholder={require('../../image/Placeholder150.png')}
                     />
                 </View>
                 <View style={styles.Column}>
                     <AccountButtons
+                        testID='SignUpBtn'
                         btnOne={() => this.props.navigation.navigate('Sign Up With Email')}
                         txtOne={'Create Account'}
                         btnOneStyle={LogInBtn.buttonStyle}
@@ -28,6 +30,7 @@ class LogInOption extends Component {
                 </View>
                 <View style={styles.Column}>
                     <AccountButtons
+                        testID='LogInBtn'
                         btnOne={() => this.props.navigation.navigate('LogIn with Email')}
                         txtOne={'Login'}
                         btnOneStyle={LogInBtn.buttonStylePurple}

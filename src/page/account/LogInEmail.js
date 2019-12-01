@@ -49,6 +49,7 @@ class LogInEmail extends React.Component {
     render(){
         return(
             <AccountForm
+                testID='AccountForm'
                 imageHolder={false}
                 placeholder={require('../../image/Placeholder150.png')}
                 image={require('../../image/Placeholder150.png')}
@@ -71,8 +72,6 @@ class LogInEmail extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    // console.log('mapToProps', state.auth);
-    
     return {
         error: state.auth.error,
         userId: state.auth.userId

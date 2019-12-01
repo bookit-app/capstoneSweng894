@@ -11,6 +11,7 @@ const AccountButtons = (props) => {
     return (
         <View>
             <ButtonCustom
+                testID='AccountBtn'
                 onPress={props.btnOne}
                 buttonStyle={props.btnOneStyle}
                 textStyle={props.txtOnetyle}

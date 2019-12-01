@@ -42,15 +42,19 @@ const ForgotPassword = (props) => {
  */
 const AccountForm = (props) => {
     return (
-        <ScrollView style={styles.scrollView}>
+        <ScrollView 
+            testID="AccountFnScroll"
+            style={styles.scrollView}>
             <View style={styles.imgSty}>
                 <AccountImage
+                    testID="AccontFnImage"
                     imageHolder={props.imageHolder}
                     placeholder={props.placeholder}
                     image={props.image}
                 />
             </View>
             <AccountLogIn
+                testID="AccountFnLogin"
                 emailValue={props.email}
                 emailOnChge={props.onEmailChge}
                 errorEmail={props.errorEmail}
