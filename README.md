@@ -29,11 +29,51 @@ general style icons.
 
 ### Store/Data
 The application is using redux to manage store of individual domain data. The stores are made-up of 5 domains 
+
 - appointments
+    - SetPreviousAppointment
+    - GetPreviousAppointment
+    - GetPreviousAppointmentFullFilled
+    - GetPreviousAppointmentReject
+    - SetUpcomingAppointment
+    - GetUpcomingAppointment
+    - GetUpcomingAppointmentFullFilled
+    - GetUpcomingAppointmentReject
+    - ReplaceAppointment
+    - DeleteAppointment
+    - SetAllAppointment
+    - GetAllAppointment
+    - GetAllAppointmentFullFilled
+    - GetAllAppointmentReject
 - auth
+    - userSet
+    - tokenSet
+    - userAuthError
 - preference
+    - setPreference
+    - settingPref
+    - setStyles
+    - GetStylePreference
+    - GetStylePreferenceFullFilled
+    - GetStylePreferenceReject
+    - GetPreference
+    - GetPreferenceFullFilled
+    - GetPreferenceReject
 - profile
+    - setProfile
+    - GetProfile
+    - GetProfileFullFilled
+    - GetProfileReject
 - provider
+    - SetProviderSearch
+    - alreadyFetch
+    - GetProvider
+    - GetProviderFullfilled
+    - GetProviderReject
+    - SetProviderDetails
+    - GetProviderDetails
+    - GetProviderDetailFullFilled
+    - GetProviderDetailsReject
 
 Each domain has there our actions that holds that domain specific business logic. This starts with a front-end page/component sending a request for an action (dispatch) that then sends an option to the store that triggers store changes per business logic.
 
