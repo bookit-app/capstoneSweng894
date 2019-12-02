@@ -10,8 +10,7 @@ import moment from 'moment'
 import FindShopForm from '../../components/appointment/FindShopForm'
 import CreateAppointmentBtn from '../../components/appointment/ShopType'
 import LogInBtnStyles from '../../components/styles/LogInBtn.styles'
-import { NavigationEvents } from 'react-navigation'
-import SelectAppointmentDetails from './SelectAppointmentDetails'
+
 
 /**
  * Temp Object can be changes as necessary or removed
