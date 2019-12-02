@@ -75,7 +75,7 @@ The application is using redux to manage store of individual domain data. The st
     - GetProviderDetailFullFilled
     - GetProviderDetailsReject
 
-Each domain has there our actions that holds that domain specific business logic. This starts with a front-end page/component sending a request for an action (dispatch) that then sends an option to the store that triggers store changes per business logic.
+Each domain has there our actions that holds that domain specific business logic. This starts with a front-end page/component sending a request for an action (dispatch) that then sends an object to the store that triggers store changes per business logic.
 
 [![action-store](./docs/images/App-Data-Flow.png)](./docs/images/App-Data-Flow.png)
 
