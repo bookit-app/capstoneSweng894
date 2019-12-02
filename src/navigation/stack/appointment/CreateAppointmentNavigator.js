@@ -1,6 +1,8 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
 import CreateAppointment from '../../../page/appointment/CreateAppointment'
+import SelectAppointmentDetails from '../../../page/appointment/SelectAppointmentDetails'
+
 import {LogOutNav, LogoNav} from '../../navButtons'
 //import FindShopLocation from '../../../page/appointment/FindShopLocation'
 
@@ -9,7 +11,9 @@ import {LogOutNav, LogoNav} from '../../navButtons'
  */
 const CreateAppointmentNavigator = createStackNavigator(
     {
-       Create: CreateAppointment
+       "Create": CreateAppointment,
+       "Next": SelectAppointmentDetails,
+
     }, { 
         defaultNavigationOptions:{
             headerLeft: <LogoNav />,

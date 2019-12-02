@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 
 import Profile from '../../../page/account/Profile'
 import ProfilePrefNavigator from './ProfilePrefNavigator'
-import { LogOutNav } from '../../navButtons'
+import { LogOutNav,LogoNav } from '../../navButtons'
 
 /**
  * Profile stock
@@ -15,7 +15,9 @@ const ProfileNavigator = createStackNavigator(
         "Preference": ProfilePrefNavigator
     }, { 
         defaultNavigationOptions:{
-            headerRight: <LogOutNav />
+            headerRight: <LogOutNav />,
+            headerLeft: <LogoNav />
+
         }
     }
 );

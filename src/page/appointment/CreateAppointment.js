@@ -8,8 +8,10 @@ import date from 'date-and-time'
 import 'date-and-time/plugin/ordinal'
 import moment from 'moment'
 import FindShopForm from '../../components/appointment/FindShopForm'
-import ShopType from '../../components/appointment/ShopType'
+import CreateAppointmentBtn from '../../components/appointment/ShopType'
 import LogInBtnStyles from '../../components/styles/LogInBtn.styles'
+import { NavigationEvents } from 'react-navigation'
+import SelectAppointmentDetails from './SelectAppointmentDetails'
 
 /**
  * Temp Object can be changes as necessary or removed
@@ -116,13 +118,15 @@ class CreateAppointment extends React.Component {
                         onDateChange={this.onDateChange}
                     />
                 </View>
-                <View>
-                    <ShopType
+                <View style={styles.Column}>
+                    <CreateAppointmentBtn
+                    btnAction={() => this.props.navigation.navigate('Next')}
                     shopBtnStyle={LogInBtnStyles.buttonStylePurple}
                     textStyle={LogInBtnStyles.textStyle}
                     text={"Next"}
                     />
                 </View>
+                
                 
             </ScrollView>
         )

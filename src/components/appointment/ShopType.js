@@ -1,18 +1,16 @@
 import React from 'react'
 import {View, Platform} from 'react-native'
-import {InputCustom}  from '../../components/common/InputCustom'
-import CustomInputStyles from '../../components/styles/CustomInputStyles'
 import { Button, ButtonCustom } from '../common'
 
 /*Setups the Input Field for User Location 
  * @param {*} props 
 */
 
-const ShopType = (props) => {
+const CreateAppointmentBtn = (props) => {
     return (
         <View style={props.viewStyle}>
             <ButtonCustom
-            onPress={props.shopBtn}
+            onPress={props.btnAction}
             buttonStyle={props.shopBtnStyle}
             textStyle={props.textStyle}
             >
@@ -23,4 +21,4 @@ const ShopType = (props) => {
     )
 }
 
-export default (ShopType)
+export default (CreateAppointmentBtn)

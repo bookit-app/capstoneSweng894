@@ -5,7 +5,7 @@ import {
 import styles from '../../page/styles/Appointment.styles'
 import ShopLocater from './ShopLocater'
 import { ButtonCustom } from '../common'
-import ShopType from './ShopType'
+import CreateAppointmentBtn from './ShopType'
 import LogInBtnStyles from '../styles/LogInBtn.styles'
 
 
@@ -39,13 +39,13 @@ const FindShopForm = (props) => {
         
        {/*Shop Preference Button*/}
        <View style={{flex: 1, flexDirection: 'row'}}>
-           <ShopType
+           <CreateAppointmentBtn
           onPress={props.onShopStyleClickOption}
            shopBtnStyle={LogInBtnStyles.smallButtonStylePurple}
            textStyle={LogInBtnStyles.whiteFillTextStyle}
            text={'Hair Dresser'}
        />
-       <ShopType
+       <CreateAppointmentBtn
            onPress={props.onShopStyleClickOption}
            shopBtnStyle={LogInBtnStyles.smallButtonStylePurple}
            textStyle={LogInBtnStyles.whiteFillTextStyle}
