@@ -65,14 +65,20 @@ const onUserPreference = (props) => {
 const AccountDetails = (props) => {
     return(
         <View style={styles.Column}>
-            <View style={styles.Row}>
+              {/*Location Header*/}
+        <View style={styles.headerRow}>
+        <View style={{ alignItems: 'flex-start' }}>
+            <Text style={styles.headerText}>{"Enter Your Location"}</Text>
+        </View>                
+        </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom
                     placeholder="i.e. John"
                     label="First Name: "
                     value={props.firstName}
                     onChangeText={props.onFirstNameChge}
                     error={props.errorFirstName}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = {CustomInputStyles.inputStyleOsLeft }
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
@@ -83,21 +89,21 @@ const AccountDetails = (props) => {
                     value={props.lastName}
                     onChangeText={props.onLastNameChge}
                     error={props.errorLastName}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
-                    containerStyle = {CustomInputStyles.containerStyleLeft}      
-                    labelStyle = {CustomInputStyles.labelStyle}
+                    inputStyle = {CustomInputStyles.inputStyleOsRight }
+                    containerStyle = {CustomInputStyles.containerStyleRight}      
+                    labelStyle = {CustomInputStyles.labelStyleRight}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
             {onUserCreation(props)}
-            <View style={styles.Row}>
+            <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom
                     placeholder="i.e. 111-111-1111"
                     label="Telephone: "
                     value={props.telephone}
                     onChangeText={props.onTelephoneChge}
                     error={props.errorTelephone}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = {CustomInputStyles.inputStyleOsLeft }
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
@@ -108,20 +114,20 @@ const AccountDetails = (props) => {
                     value={props.dob}
                     onChangeText={props.ondobChge}
                     error={props.errorDob}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = {CustomInputStyles.inputStyleOsRight}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
-            <View style={styles.Row}>
+            <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom 
                     placeholder="i.e. Male"
                     label="Gender: "
                     value={props.gender}
                     onChangeText={props.onGenderChge}
                     error={props.errorGender}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = {CustomInputStyles.inputStyleOsLeft}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
@@ -133,7 +139,7 @@ const AccountDetails = (props) => {
                     value={props.isProvider}
                     onChangeText={props.onProviderChge}
                     error={props.errorIsProvider}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = {CustomInputStyles.inputStyleOsRight}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 

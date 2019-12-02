@@ -92,20 +92,13 @@ class CreateAppointment extends React.Component {
         return (
             
             <ScrollView>
+                
                 <FindShopForm
                 location={this.state.userLocationInput}
                 locationOnChg={location => onChangeText(location)}
+                 />
 
-            />
                <View style={styles.Column}>
-                   {/*   <View style={styles.Column}>
-                        <View style={styles.Row}>
-                            {/* <View style={{alignItems: 'flex-start'}}> */}
-                                {/* <Text style={{color: '#724FFD', paddingStart: 5}}>{'Date:'}</Text>
-                                <Text style={{paddingStart: 5}}>{this.state.selectDt}</Text> */}
-                            {/* </View> */}
-                        {/* </View>
-                    </View> */} 
                     <CalendarPicker
                         startFromMonday={true}
                         allowRangeSelection={false}
@@ -117,6 +110,7 @@ class CreateAppointment extends React.Component {
                         onDateChange={this.onDateChange}
                     />
                 </View>
+
                 <View style={styles.Column}>
                     <CreateAppointmentBtn
                     btnAction={() => this.props.navigation.navigate('Next')}

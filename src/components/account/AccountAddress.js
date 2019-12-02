@@ -11,14 +11,14 @@ import CustomInputStyles from '../styles/CustomInputStyles'
 const AccountAddress = (props) => {
     return (
         <View>
-            <View style={styles.Row}>
+            <View style={{flex: 1, flexDirection: 'row'}}>
                 <InputCustom
                     placeholder="i.e. 100 Main Street"
                     label="Address: "
                     value={props.address}
                     onChangeText={props.onAddressChge}
                     error={props.errorAddress}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = {CustomInputStyles.inputStyleOsLeft}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
@@ -29,20 +29,20 @@ const AccountAddress = (props) => {
                     value={props.city}
                     onChangeText={props.onCityChge}
                     error={props.errorCity}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
-                    containerStyle = {CustomInputStyles.containerStyleLeft}      
-                    labelStyle = {CustomInputStyles.labelStyle}
+                    inputStyle = {CustomInputStyles.inputStyleOsRight }
+                    containerStyle = {CustomInputStyles.containerStyleRight}      
+                    labelStyle = {CustomInputStyles.labelStyleRight}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>
-             <View style={styles.Row}>   
+             <View style={{flex: 1, flexDirection: 'row'}}>   
                  <InputCustom
                     placeholder="i.e. PA"
                     label="State: "
                     value={props.state}
                     onChangeText={props.onStateChge}
                     error={props.errorState}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
+                    inputStyle = {CustomInputStyles.inputStyleOsLeft}
                     containerStyle = {CustomInputStyles.containerStyleLeft}      
                     labelStyle = {CustomInputStyles.labelStyle}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
@@ -53,9 +53,9 @@ const AccountAddress = (props) => {
                     value={props.zip}
                     onChangeText={props.onZipChge}
                     error={props.errorZip}
-                    inputStyle = {Platform.Os === 'ios' ? CustomInputStyles.inputStyleLeft : CustomInputStyles.inputStyleAndroid}
-                    containerStyle = {CustomInputStyles.containerStyleLeft}      
-                    labelStyle = {CustomInputStyles.labelStyle}
+                    inputStyle = {CustomInputStyles.inputStyleOsRight }
+                    containerStyle = {CustomInputStyles.containerStyleRight}      
+                    labelStyle = {CustomInputStyles.labelStyleRight}
                     errorStyle = {Platform.Os === 'ios' ? CustomInputStyles.error : CustomInputStyles.errorAndroid} 
                 />
             </View>

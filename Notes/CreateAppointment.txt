@@ -1,1 +1,16 @@
 1. Create Appointment Navigation  is under CreateAppointmentNavigator.js 
+
+// Unused Code to Show Date From Calendar Selection 
+ <View style={styles.Column}>
+             <View style={styles.Row}>
+                            {/* <View style={{alignItems: 'flex-start'}}> */}
+                                {/* <Text style={{color: '#724FFD', paddingStart: 5}}>{'Date:'}</Text>
+                                <Text style={{paddingStart: 5}}>{this.state.selectDt}</Text> */}
+                            {/* </View> */}
+                        {/* </View>
+                    </View> 
+
+
+
+
+-- Navigation Back Button needs to be added 

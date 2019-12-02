@@ -9,7 +9,10 @@ import styles from '../styles/Appointment.styles'
 import date from 'date-and-time'
 import 'date-and-time/plugin/ordinal'
 import moment from 'moment'
-import FindShopForm from '../../components/appointment/FindShopForm'
+import AppointmentStyleDetailsForm from '../../components/appointment/AppointmentStyleDetailsForm'
+import {AppointmentList,AppointmentItem} from '../../components/appointment'
+import CreateAppointmentBtn from '../../components/appointment/ShopType'
+import LogInBtnStyles from '../../components/styles/LogInBtn.styles'
 
 
 /**
@@ -25,16 +28,54 @@ class SelectAppointmentDetails extends React.Component {
 
     }
 
+    renderItem = (item) => {
+        return (
+            <View>        
+                <AppointmentItem
+                    shopName={item.item.businessName}
+                    service={item.item.styleId == "FADE" ? "Barber" : item.item.styleId == "UPDO" ? "Hair Dresser" : item.item.styleId }
+                    date={item.item.date}
+                    time={item.item.time}
+                    status={item.item.status.code}
+                    onClick={() => this.onDetailClick(item.item)}
+                    onHoldClick={() => this.onDetailHoldClickDelete(item.item)}
+                /> 
+            </View>
+        )
+    }
+
+    listNoShopsFound= () => {
+        return (
+            <View style={styles.Column}>
+                <Text style={styles.headerNoAppointment}>{'Sorry None of Our Recourds Match Your Search'}</Text>
+            </View>
+        )
+    }
+
     render() {
         console.log(this.props);
         return (
-            <FindShopForm
-                location={this.state.userLocationInput}
-                locationOnChg={location => onChangeText(location)}
+            <ScrollView>
+            <AppointmentStyleDetailsForm>
 
-            />
+            </AppointmentStyleDetailsForm>
 
-            
+          <AppointmentList
+            //  currentData={this.state.returnedShops.slice(0,3)}
+             // extraData={this.state}
+             listEmpty={this.listNoShopsFound}
+          />
+
+            <View style={styles.Column}>
+                    <CreateAppointmentBtn
+                    btnAction={() => this.props.navigation.navigate('Next')}
+                    shopBtnStyle={LogInBtnStyles.buttonStylePurple}
+                    textStyle={LogInBtnStyles.textStyle}
+                    text={"Next"}
+                    />
+                </View>
+
+        </ScrollView> 
         )
     }
 }

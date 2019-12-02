@@ -24,4 +24,4 @@ const AppointmentList = (props) => {
     )
 }
 
-export {AppointmentList}
+export  {AppointmentList}
