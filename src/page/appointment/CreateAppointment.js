@@ -180,19 +180,17 @@ class CreateAppointment extends React.Component {
             filter.zip = zipCode
         }
 
-        // if(styles == 'H'){
-        //     filter.styles = "UPDO"
-        //     this.setState({
-        //         hairDress: !hairDress,
-        //         barber: !barber
-        //     })
-        // } else {
-        //     filter.styles = 'FADE'
-        //     this.setState({
-        //         hairDress: !hairDress,
-        //         barber: !barber
-        //     })
-        // }
+        if(styles == 'H'){
+            // filter.styles = "UPDO"
+            this.setState({
+                hairDress: !hairDress
+            })
+        } else {
+            // filter.styles = 'FADE'
+            this.setState({
+                barber: !barber
+            })
+        }
         console.log('onProviderPopulated', filter.styles);
         
         var filterType = this.filterGenerate(filter)
