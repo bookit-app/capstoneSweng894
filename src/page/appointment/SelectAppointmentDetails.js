@@ -56,9 +56,7 @@ class SelectAppointmentDetails extends React.Component {
         console.log(this.props);
         return (
             <ScrollView>
-            <AppointmentStyleDetailsForm>
-
-            </AppointmentStyleDetailsForm>
+            <AppointmentStyleDetailsForm/>
 
           <AppointmentList
             //  currentData={this.state.returnedShops.slice(0,3)}

@@ -161,8 +161,8 @@ export const searchProviderByFilter = (filter, token) => {
     const headers = createHeader(token)
     const url = baseURL + '/search/provider?'+ filter
 
-    // console.log('searchProviderByFilter',headers);
-    // console.log('url',url);
+    console.log('searchProviderByFilter',headers);
+    console.log('url',url);
     
     return (
         axios({

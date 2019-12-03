@@ -12,14 +12,14 @@ const ShopLocater = (props) => {
         <View>
             <View>
                 <InputCustom
-                    placeholder ="Zip,City,or Sate"
+                    placeholder ="City, State or Zip Code"
                     value={props.userLocationInput}
                     onChangeText={props.locationOnChge}
-                    inputStyle = {CustomInputStyles.inputStyleOsLong}
+                    inputStyle={CustomInputStyles.inputStyleOsLong}
                     containerStyle={CustomInputStyles.containerStyleLeft}
-                    textAlign = {CustomInputStyles.inputTextAlignment}
-        />
-    </View>
+                    textAlign={CustomInputStyles.inputTextAlignment}
+                />
+            </View>
     </View>
     )
 }
