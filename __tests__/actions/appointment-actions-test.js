@@ -202,6 +202,19 @@ describe('delete appointment', () => {
     })
 })
 
+
+describe('add appointment', () => {
+    it('add item to list', () => {
+        const newItem = {a: '1', b: '2'}
+        
+        const expectedAction = {
+            type: actions.ADD_APPOINTMENT,
+            newItem
+        }
+        expect(appointments.AddAppointment(newItem)).toEqual(expectedAction)
+    })
+})
+
 describe('set all appointment with empty actions', () => {
     it('should create an action to set all appointments list with empty list', () => {
         const data = []

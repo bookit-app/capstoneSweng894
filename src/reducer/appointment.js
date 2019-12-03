@@ -121,6 +121,19 @@ export default (state = initalState, action ) => {
             
             return k
         }
+        case actions.ADD_APPOINTMENT: {
+            var list = Object.assign([], state.upcomingAppointment)
+            
+            list.splice(0,0,action.newItem)
+            
+            var z = {
+                ...state,
+                upcomingAppointment: list
+            }
+            // console.log('actions.ADD_APPOINTMENT', k_); 
+
+            return z
+        }
         case actions.SET_ALL_APPOINTMENT:{
             var j = {
                 ...state,

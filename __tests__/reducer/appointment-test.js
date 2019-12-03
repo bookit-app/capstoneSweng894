@@ -266,4 +266,18 @@ describe('appointment reducer', () => {
             }
         )
     })
+
+    test('should add item in list', () => {
+        expect(
+            appointment_(
+                {
+                    upcomingAppointment: [{a:'a'},{b:'b'},{c:'c'}]
+                }, 
+                appointment.AddAppointment({f:'f'})
+        )).toEqual(
+            {
+                upcomingAppointment: [{f:'f'},{a:'a'},{b:'b'},{c:'c'}]
+            }
+        )
+    })
 })

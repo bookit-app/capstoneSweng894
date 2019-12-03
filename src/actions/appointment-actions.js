@@ -57,6 +57,11 @@ export const DeleteAppointment = (deleteItem, listType) => ({
     listType
 })
 
+export const AddAppointment = (newItem) => ({
+    type: actions.ADD_APPOINTMENT,
+    newItem
+})
+
 export const SetAllAppointment = (data) => ({
     type: actions.SET_ALL_APPOINTMENT,
     payload: data
