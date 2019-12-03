@@ -10,8 +10,9 @@ import moment from 'moment'
 import FindShopForm from '../../components/appointment/FindShopForm'
 import CreateAppointmentBtn from '../../components/appointment/ShopType'
 import LogInBtnStyles from '../../components/styles/LogInBtn.styles'
-import SignUpBtn from '../../components/styles/SignUpBtn.styles'
 import apis from '../../api'
+import {Time} from '../../components/appointment/Time'
+
 
 import {InputCustom}  from '../../components/common/InputCustom'
 import CustomInputStyles from '../../components/styles/CustomInputStyles'
@@ -222,6 +223,12 @@ class CreateAppointment extends React.Component {
         } else {
             console.log('onProviderPopulate', this.state.providerList);
             return (
+                <ScrollView>
+                <View style={styles.headerRow}>
+                <View style={{ alignItems: 'flex-start' }}>
+                    <Text style={styles.headerText}>{"We found the following shops for you:"}</Text>
+                </View>                
+            </View> 
                 <AppointmentList
                     currentData={this.state.providerList.slice(0,3)}
                     extraData={this.state}
@@ -230,6 +237,8 @@ class CreateAppointment extends React.Component {
                     listEmpty={this.listNoShopsFound}
                     keyExtractor={item => item.providerId}
                 />
+                </ScrollView>
+                
             )
         }
     }
@@ -241,6 +250,12 @@ class CreateAppointment extends React.Component {
             )
         } else {
             return (
+                <ScrollView>
+                <View style={styles.headerRow}>
+                    <View style={{ alignItems: 'flex-start' }}>
+                        <Text style={styles.headerText}>{"Select a Date:"}</Text>
+                    </View>                
+                </View>    
                 <CalendarPicker
                     startFromMonday={true}
                     allowRangeSelection={false}
@@ -251,6 +266,7 @@ class CreateAppointment extends React.Component {
                     selectedDayTextColor="#FFFFFF"
                     onDateChange={this.onDateChange}
                 />
+                </ScrollView>
             )
         }
     }
@@ -277,7 +293,7 @@ class CreateAppointment extends React.Component {
                         placeholder ="City, State or Zip Code"
                         value={this.state.userLocationInput} //{props.userLocationInput}
                         onChangeText={location => this.onChangeText(location)} //{props.locationOnChge}
-                        inputStyle={CustomInputStyles.inputStyleOsLong}
+                        inputStyle={CustomInputStyles.inputStyleCityandState}
                         containerStyle={CustomInputStyles.containerStyleLeft}
                         textAlign={CustomInputStyles.inputTextAlignment}
                     />
@@ -294,25 +310,23 @@ class CreateAppointment extends React.Component {
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <CreateAppointmentBtn
                     btnAction={() => this.onSearchPopulated('H')}
-                    shopBtnStyle={ this.state.hairDress ? LogInBtnStyles.buttonStylePurple : LogInBtnStyles.smallButtonStylePurple}
+                    shopBtnStyle={ this.state.hairDress ? LogInBtnStyles.smallButtonStyleFillPurple : LogInBtnStyles.smallButtonStylePurple}
                     textStyle={ this.state.hairDress ? LogInBtnStyles.textStyle : LogInBtnStyles.whiteFillTextStyle}
                     text={'Hair Dresser'}
                 />
                 <CreateAppointmentBtn
                     btnAction={() => this.onSearchPopulated('B')}
-                    shopBtnStyle={ this.state.barber ? LogInBtnStyles.buttonStylePurple : LogInBtnStyles.smallButtonStylePurple}
+                    shopBtnStyle={ this.state.barber ? LogInBtnStyles.smallButtonStyleFillPurple : LogInBtnStyles.smallButtonStylePurple}
                     textStyle={ this.state.barber ? LogInBtnStyles.textStyle : LogInBtnStyles.whiteFillTextStyle}
                     text={'Barber'}
                 />
-            
+      
             </View>
+    
             {/*Shop Type Header*/}
-                <View style={styles.headerRow}>
-                    <View style={{ alignItems: 'flex-start' }}>
-                        <Text style={styles.headerText}>{"Please select your provider:"}</Text>
-                    </View>                
-                </View> 
+              
                 <this.OnProviderPopulate />
+                
                 <this.OnCalender />
             </ScrollView>
         )

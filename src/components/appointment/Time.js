@@ -48,4 +48,4 @@ const Time = ({placeHour, defaultHour, optionsHour, onHourChange, hour,
     )
 }
 
-export {Time}
+export default {Time}
