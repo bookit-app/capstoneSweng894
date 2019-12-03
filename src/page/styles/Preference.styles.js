@@ -29,10 +29,12 @@ export default {
         marginHorizontal: 20,
       },
     Item: {
-        borderColor:'black',
-        borderWidth:1,
+        borderColor: '#724FFD',
+        borderWidth:.2,
         borderRadius: 3,
-        margin: 5,
+        //margin: 5,
+        marginRight: -7,
+        marginLeft: 1,
     },
     ItemimgSty: {
         width: 30,
@@ -54,7 +56,7 @@ export default {
         padding: 5,
         margin: 10,
         justifyContent: 'space-between',
-        backgroundColor: 'blue',
+        backgroundColor: '#724FFD',
         color: 'white',
     },
     errorFormTextStyle: {

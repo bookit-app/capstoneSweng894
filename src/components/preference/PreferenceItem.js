@@ -15,6 +15,7 @@ const PreferenceItem = (props) => {
                         source={require('../../image/Placeholder150.png')}
                     />   
                     <Text>{props.businessName ? props.businessName :''}</Text>
+                    {/* TEXT SHOULD GO HERE TO ADD MORE ITEMS TO TABLEVIEW*/}
                 </View>
             </TouchableOpacity> 
         </View>

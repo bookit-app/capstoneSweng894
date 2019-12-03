@@ -13,6 +13,8 @@ const CreateAppointmentBtn = (props) => {
             onPress={props.btnAction}
             buttonStyle={props.shopBtnStyle}
             textStyle={props.textStyle}
+            alignItems= {'center'}
+
             >
                 {props.text}
                 </ButtonCustom>

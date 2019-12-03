@@ -1,0 +1,8 @@
+12/3/2019
+
+- To add items to tableview in CreateAppointment edit the "PreferenceItem" file.
+    - Add the shops address to table. 
+
+- Create a drop down of available dates for an appointment. 
+    - This can be repeated for stylist or another list view ! 
+

@@ -1,7 +1,4 @@
 export default {
-
-
-
     inputStyleOsLeft: {
         color: '#000',
         backgroundColor:  '#fff',
@@ -63,6 +60,20 @@ export default {
     shadowOpacity: 0.2,
     shadowRadius: 2,
 
+  },
+  inputStyleCityandState: {
+    color: '#000',
+    backgroundColor:  '#fff',
+    fontSize: 14,
+    flex: 2,
+    backgroundColor:  '#fff',
+    width: 395,
+    height: 48,
+    alignItems: 'flex-start',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
 
     labelStyle: {
