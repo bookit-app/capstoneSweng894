@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
 import { Text, View, ScrollView, Alert } from 'react-native'
 import { Spinner } from '../../components/common'
@@ -7,17 +7,15 @@ import styles from '../styles/Appointment.styles'
 import date from 'date-and-time'
 import 'date-and-time/plugin/ordinal'
 import moment from 'moment'
-import FindShopForm from '../../components/appointment/FindShopForm'
 import CreateAppointmentBtn from '../../components/appointment/ShopType'
 import LogInBtnStyles from '../../components/styles/LogInBtn.styles'
 import apis from '../../api'
-import {Time} from '../../components/appointment/Time'
-
-
+import {Time} from '../../components/appointment'
+import {appointment} from '../../actions'
+import { StateList, StatusList, Period } from '../../constant'
 import {InputCustom}  from '../../components/common/InputCustom'
 import CustomInputStyles from '../../components/styles/CustomInputStyles'
 import utilites from '../../utilites'
-
 import { PreferenceItem } from '../../components/preference'
 
 import {AppointmentList,AppointmentItem} from '../../components/appointment'
@@ -25,6 +23,7 @@ import {AppointmentList,AppointmentItem} from '../../components/appointment'
 class CreateAppointment extends React.Component {
     constructor(props){
         super(props)
+    
 
         this.state = {
             profile: {},
@@ -41,11 +40,15 @@ class CreateAppointment extends React.Component {
             hairDress: false,
             barber: false ,
             style: '',
-            existAppointment: []
+            existAppointment: [],
+            hour:"12",
+            minute: "00",
+            period: 'AM',
         }
 
         this.filterGenerate = utilites.filterGenerate.bind(this)
     }
+
 
     componentDidMount(){
         this.setState({
@@ -70,10 +73,56 @@ class CreateAppointment extends React.Component {
             })
         }
     }
+     onDateChange = (date_, type) => {
+        var selectedDte =  moment(date_).format('YYYY-MM-DD')
+        var selectedDteFormat = moment(date_).format('MMM Do YYYY')
+        var selectedTime = hour + ":" + minute + ":00"
+
+        onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
+        onSelectingTimeValid(period, selectedDteFormat, selectedTime)
+
+        setStartDt(selectedDteFormat)
+        setStartNonDt(selectedDte)
+        setErrorOnSubmission('')
+    }
+
+     onHourChange = (hr) => {
+        var selectedDte = startNonDt
+        var selectedDteFormat = startDt
+        var selectedTime = hr + ":" + minute + ":00"
+
+        onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
+        onSelectingTimeValid(period, selectedDteFormat, selectedTime)
+
+        setHour(hr)
+        setErrorOnSubmission('')
+    }
+
+     onMinuteChange = (min) => {
+        var selectedDte = startNonDt
+        var selectedDteFormat = startDt
+        var selectedTime = hour + ":" + min + ":00"
+
+        onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
+        onSelectingTimeValid(period, selectedDteFormat, selectedTime)
+        
+        setMinute(min)
+        setErrorOnSubmission('')
+    }
+
+     onPeriodChange = (pe) => {
+        var selectedDteFormat = startDt
+        var selectedTime = hour + ":" + minute + ":00"
+
+        onSelectingTimeValid(pe, selectedDteFormat, selectedTime)
+        
+        setPeriod(pe)
+        setErrorOnSubmission('')
+    }
 
     onDateChange = (date_, type) => {      
         this.setState({
-            selectDt: moment(date_).format('MMM Do YYYY'),//date.format(date_,'MMM. DDD YYYY')
+            selectDt: moment(date_).format('MMM DD YYYY'),//date.format(date_,'MMM. DDD YYYY')
         })
     }
 
@@ -243,6 +292,7 @@ class CreateAppointment extends React.Component {
         }
     }
     
+    
     OnCalender = () => {
         if(!this.state.provider){
             return (
@@ -265,6 +315,25 @@ class CreateAppointment extends React.Component {
                     selectedDayColor="#7300e6"
                     selectedDayTextColor="#FFFFFF"
                     onDateChange={this.onDateChange}
+                    customDatesStyles={this.state.existAppointment}
+                />
+                <Time
+                placeHour={this.state.hour}
+                defaultHour={this.state.hour}
+                optionsHour={this.state.hour}
+                onHourChange={hr => this.onHourChange(hr)}
+                hour={this.state.hour}
+                placeMinute={this.state.minute}
+                defaultMinute={this.state.minute}
+                optionsMinute={utilites.TimeGene(60).map(a => a.Name)}
+                onMinuteChange={mn => this.onMinuteChange(mn)}
+                minute={this.state.minute}
+                period={this.state.period}
+                placePeriod={this.state.period}
+                defaultPeriod={this.state.period}
+                optionsPeriod={Period.map(p => p.Name)}
+                onPeriodChange={p => this.onPeriodChange(p)}
+               
                 />
                 </ScrollView>
             )
@@ -343,4 +412,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,null)(CreateAppointment)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        AddItem: (newItem) => dispatch(appointment.AddAppointment(newItem))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CreateAppointment)
