@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { connect } from 'react-redux'
 import { Text, View, ScrollView, Alert } from 'react-native'
-import { Spinner } from '../../components/common'
+import { Spinner, ButtonCustom } from '../../components/common'
 import CalendarPicker from 'react-native-calendar-picker'
 import styles from '../styles/Appointment.styles'
 import date from 'date-and-time'
@@ -19,6 +19,7 @@ import utilites from '../../utilites'
 import { PreferenceItem } from '../../components/preference'
 
 import {AppointmentList,AppointmentItem} from '../../components/appointment'
+import LoginButtonStyles from '../../components/styles/LoginButton.styles'
 
 const constHours = utilites.TimeGene(12).filter(a => a.Value >= 1 && a.Value <= 12).map(b => b.Name)
 class CreateAppointment extends React.Component {
@@ -182,6 +183,8 @@ class CreateAppointment extends React.Component {
             userLocationInput: loc
         })  
     }
+
+    
 
     renderItem = (item) => {
         return (
@@ -368,6 +371,7 @@ class CreateAppointment extends React.Component {
                     onDateChange={this.onDateChange}
                     customDatesStyles={this.state.existAppointment}
                 />
+                <View>
                 <Time
                     placeHour={this.state.hour}
                     defaultHour={this.state.hour}
@@ -385,6 +389,14 @@ class CreateAppointment extends React.Component {
                     onPeriodChange={p => this.onPeriodChange(p)} 
                     period={this.state.period}              
                 />
+                </View>
+                <View>
+                <ButtonCustom
+                    buttonStyle={LogInBtnStyles.smallButtonStyleFillPurple}
+                    textStyle={LogInBtnStyles.textStyle}
+                    text={'Book It'}
+                    />
+                </View>
                 </ScrollView>
             )
         }
