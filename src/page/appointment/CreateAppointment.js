@@ -20,6 +20,7 @@ import { PreferenceItem } from '../../components/preference'
 
 import {AppointmentList,AppointmentItem} from '../../components/appointment'
 
+const constHours = utilites.TimeGene(12).filter(a => a.Value >= 1 && a.Value <= 12).map(b => b.Name)
 class CreateAppointment extends React.Component {
     constructor(props){
         super(props)
@@ -73,51 +74,101 @@ class CreateAppointment extends React.Component {
             })
         }
     }
-     onDateChange = (date_, type) => {
-        var selectedDte =  moment(date_).format('YYYY-MM-DD')
-        var selectedDteFormat = moment(date_).format('MMM Do YYYY')
-        var selectedTime = hour + ":" + minute + ":00"
 
-        onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
-        onSelectingTimeValid(period, selectedDteFormat, selectedTime)
-
-        setStartDt(selectedDteFormat)
-        setStartNonDt(selectedDte)
-        setErrorOnSubmission('')
+    onSelectingSameDateTime = (date, dateFormat, time) => {        
+        if(isNotListValid(date, time)){
+            Alert.alert(
+                'Appointment',
+                'This appointment slot is already booked ' + dateFormat + ' at ' + time,
+                [
+                    {text: 'OK ', onPress: () => { return null}}
+                ]
+            )
+        }
     }
 
+    /**
+     * Is new data & time of appointment not in the existing appointment list
+     * @param {*} date 
+     * @param {*} time 
+     */
+    isNotListValid = (date, time) => {
+        var list = Object.assign([], this.state.existAppointment
+            .filter(ea => ea.date == date 
+                && ea.time == time 
+                && ea.appointmentId != appointmentId))
+        // console.log('onDateChange', list)
+        
+        return list.length >= 1
+    }
+
+    onSelectingTimeValid = (period, dateFormat, time) => {
+        if(isNotValidTimePeriod(period, time)){
+            Alert.alert(
+                'Appointment',
+                'This appointment time is outside operation business hour on '+dateFormat + ' at ' + time + ' ' + period,
+                [
+                    {text: 'OK ', onPress: () => { return null}}
+                ]
+            )
+        }
+    }
+
+    /**
+     * Is new date and time without valid business hours 9 to 6 - everyday
+     * @param {*} pe 
+     * @param {*} tm 
+     */
+    isNotValidTimePeriod = (pe, tm) => {
+        var hr = parseInt(tm.split(':')[0])
+        // console.log('isNotValidTimePeriod hour', hr);
+        // console.log('isNotValidTimePeriod period', pe);
+        
+        if(hr >= 9 && hr <= 11 && pe == "am"){
+            // console.log('isNotValidTimePeriod 9 to 11 am');
+            return false
+        } else if ((hr == 12 || (hr >= 1 && hr < 6)) && pe == "pm"){
+            // console.log('isNotValidTimePeriod 12 to 6 pm');
+            return false
+        }
+        // console.log('isNotValidTimePeriod not am or pm');
+        return true
+    }
      onHourChange = (hr) => {
-        var selectedDte = startNonDt
-        var selectedDteFormat = startDt
-        var selectedTime = hr + ":" + minute + ":00"
+        // var selectedDte = startNonDt
+        // var selectedDteFormat = startDt
+        // var selectedTime = hr + ":" + minute + ":00"
 
-        onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
-        onSelectingTimeValid(period, selectedDteFormat, selectedTime)
+        // onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
+        // onSelectingTimeValid(period, selectedDteFormat, selectedTime)
 
-        setHour(hr)
-        setErrorOnSubmission('')
+        this.setState({
+            hour: hr
+        })
     }
 
      onMinuteChange = (min) => {
-        var selectedDte = startNonDt
-        var selectedDteFormat = startDt
-        var selectedTime = hour + ":" + min + ":00"
+        // var selectedDte = startNonDt
+        // var selectedDteFormat = startDt
+        // var selectedTime = hour + ":" + min + ":00"
 
-        onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
-        onSelectingTimeValid(period, selectedDteFormat, selectedTime)
+        // onSelectingSameDateTime(selectedDte, selectedDteFormat, selectedTime)
+        // onSelectingTimeValid(period, selectedDteFormat, selectedTime)
         
-        setMinute(min)
-        setErrorOnSubmission('')
+        this.setState({
+            minute: min
+        })
     }
 
      onPeriodChange = (pe) => {
-        var selectedDteFormat = startDt
-        var selectedTime = hour + ":" + minute + ":00"
+        // var selectedDteFormat = startDt
+        // var selectedTime = hour + ":" + minute + ":00"
 
-        onSelectingTimeValid(pe, selectedDteFormat, selectedTime)
+        // onSelectingTimeValid(pe, selectedDteFormat, selectedTime)
         
-        setPeriod(pe)
-        setErrorOnSubmission('')
+        this.setState({
+            period: pe
+        })
     }
 
     onDateChange = (date_, type) => {      
@@ -318,22 +369,21 @@ class CreateAppointment extends React.Component {
                     customDatesStyles={this.state.existAppointment}
                 />
                 <Time
-                placeHour={this.state.hour}
-                defaultHour={this.state.hour}
-                optionsHour={this.state.hour}
-                onHourChange={hr => this.onHourChange(hr)}
-                hour={this.state.hour}
-                placeMinute={this.state.minute}
-                defaultMinute={this.state.minute}
-                optionsMinute={utilites.TimeGene(60).map(a => a.Name)}
-                onMinuteChange={mn => this.onMinuteChange(mn)}
-                minute={this.state.minute}
-                period={this.state.period}
-                placePeriod={this.state.period}
-                defaultPeriod={this.state.period}
-                optionsPeriod={Period.map(p => p.Name)}
-                onPeriodChange={p => this.onPeriodChange(p)}
-               
+                    placeHour={this.state.hour}
+                    defaultHour={this.state.hour}
+                    optionsHour={constHours}
+                    onHourChange={hr => this.onHourChange(hr)}
+                    hour={this.state.hour}
+                    placeMinute={this.state.minute}
+                    defaultMinute={this.state.minute}
+                    optionsMinute={utilites.TimeGene(59).map(a => a.Name)}
+                    onMinuteChange={mn => this.onMinuteChange(mn)}
+                    minute={this.state.minute}
+                    placePeriod={this.state.period}
+                    defaultPeriod={this.state.period}
+                    optionsPeriod={Period.map(p => p.Name)}
+                    onPeriodChange={p => this.onPeriodChange(p)} 
+                    period={this.state.period}              
                 />
                 </ScrollView>
             )
