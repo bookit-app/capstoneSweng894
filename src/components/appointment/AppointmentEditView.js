@@ -104,8 +104,8 @@ const AppointmentEditView = (props) => {
 
         payload.time = time_
           
-        console.log('updateAppointment', period);
-        console.log('updateAppointment', time);
+        // console.log('updateAppointment', period);
+        // console.log('updateAppointment', time);
         
         if(isNotListValid(date_, time_)){
             setErrorOnSubmission("This appointment slot is already booked " + date_ + " at " + time_)
@@ -195,17 +195,17 @@ const AppointmentEditView = (props) => {
      */
     const isNotValidTimePeriod = (pe, tm) => {
         var hr = parseInt(tm.split(':')[0])
-        console.log('isNotValidTimePeriod hour', hr);
-        console.log('isNotValidTimePeriod period', pe);
+        // console.log('isNotValidTimePeriod hour', hr);
+        // console.log('isNotValidTimePeriod period', pe);
         
         if(hr >= 9 && hr <= 11 && pe == "am"){
-            console.log('isNotValidTimePeriod 9 to 11 am');
+            // console.log('isNotValidTimePeriod 9 to 11 am');
             return false
         } else if ((hr == 12 || (hr >= 1 && hr < 6)) && pe == "pm"){
-            console.log('isNotValidTimePeriod 12 to 6 pm');
+            // console.log('isNotValidTimePeriod 12 to 6 pm');
             return false
         }
-        console.log('isNotValidTimePeriod not am or pm');
+        // console.log('isNotValidTimePeriod not am or pm');
         return true
     }
 

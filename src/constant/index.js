@@ -334,7 +334,7 @@ export const UpcomingAppointments = [
         "time": "12:30",
         "date": "2019-12-10",
         "status": {
-            "code":"",
+            "code":"ON-TIME",
             "comment": "Comment",
         },
         "state": "BOOKED",
@@ -352,7 +352,7 @@ export const UpcomingAppointments = [
         "time": "1:30",
         "date": "2019-12-11",
         "status": {
-            "code":"",
+            "code":"ON-TIME",
             "comment": "Comment",
         },
         "state": "BOOKED",
@@ -370,7 +370,7 @@ export const UpcomingAppointments = [
         "time": "5:30",
         "date": "2019-12-15",
         "status": {
-            "code":"",
+            "code":"ON-TIME",
             "comment": "Comment",
         },
         "state": "BOOKED",
@@ -388,7 +388,7 @@ export const UpcomingAppointments = [
         "time": "6:30",
         "date": "2019-12-20",
         "status": {
-            "code":"",
+            "code":"ON-TIME",
             "comment": "Comment",
         },
         "state": "BOOKED",

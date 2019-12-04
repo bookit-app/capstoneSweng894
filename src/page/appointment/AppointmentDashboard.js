@@ -50,7 +50,7 @@ class AppointmentDashboard extends React.Component {
         this.AppointmentDashboardRefresh()
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps){   
+    UNSAFE_componentWillReceiveProps(nextProps){ 
         if(nextProps.previousAppointment.length > 0 ||
             nextProps.upcomingAppointment.length > 0){
     
@@ -125,18 +125,44 @@ class AppointmentDashboard extends React.Component {
     onDetailHoldClickDelete(item){
         const { appointmentId, listType } = item
         const { token } = this.state
-        console.log('Delete Appointment', appointmentId);
+
+        this.setState({
+            previousAppLoading: true,
+            upcomingAppLoading: true,
+        })
+
+        // console.log('Delete Appointment', appointmentId);
         Alert.alert(
             'Delete Appointment',
             'Are you sure you want to delete this Appointment ? ',
             [
-                {text: 'Cancel', onPress: () => {return null}},
-                {text: 'Confirm', onPress: () => {             
-                       
+                {text: 'Cancel', onPress: () => {
+                    // console.log('Delete Appointment Cancel');
+                    
+                    this.setState({
+                        previousAppLoading: false,
+                        upcomingAppLoading: false
+                    })
+
+                    return null
+                }},
+                {text: 'Confirm', onPress: () => {    
+                    // console.log('Delete Appointment delete');         
                     api.deleteAppointmentById(appointmentId, token)
                         .then (a => {
                             this.props.deleteItem(item, listType)
-                            this.props.navigation.navigate('Dashboard')
+
+                            var list = listType == 'upcoming' ? this.state.upcomingAppointment : this.state.previousAppointment
+                            list.splice(list.indexOf(item)-1,1);
+                            
+                            // console.log('Delete Appointment', list);
+                            
+                            this.setState({
+                                previousAppLoading: false,
+                                upcomingAppLoading: false,
+                                upcomingAppointment: listType == 'upcoming' ? list : this.state.upcomingAppointment,
+                                previousAppointment: listType == 'upcoming' ? this.state.previousAppointment : list
+                            })
                         })
                         .catch(error => {
                             console.log('error: ', error);
@@ -252,6 +278,7 @@ class AppointmentDashboard extends React.Component {
                 <NavigationEvents
                     onDidBlur={() => this.AppointmentDashboardRefresh()}
                     onWillBlur={() => this.AppointmentDashboardRefresh()}
+                    onWillFocus={() => this.AppointmentDashboardRefresh()}
                 />
                 <AppointmentList
                     currentData={this.state.upcomingAppointment.slice(0,3)}

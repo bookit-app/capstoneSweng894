@@ -76,20 +76,46 @@ class AppointmentReview extends React.Component {
     }
     
     onDetailHoldClickDelete(item){
-        const { appointmentId, listType } = item
-        const { token } = this.state
-        console.log('Delete Appointment', appointmentId);
+        const { appointmentId, listType} = item
+        const { token, list } = this.state
+
+        var oldList = Object.assign([], list)
+        // console.log('Delete Appointment', oldList);
+
+        this.setState({
+            list: []
+        })
+
+        // console.log('Delete Appointment', appointmentId);
+
         Alert.alert(
             'Delete Appointment',
             'Are you sure you want to delete this Appointment ? ',
             [
-                {text: 'Cancel', onPress: () => {return null}},
+                {text: 'Cancel', onPress: () => {
+                    // console.log('Delete Appointment Cancel', oldList);
+                    
+                    this.setState({
+                        list: oldList
+                    })
+
+                    return null
+                }},
                 {text: 'Confirm', onPress: () => {           
                             
                     api.deleteAppointmentById(appointmentId, token)
                         .then (a => {
                             this.props.deleteItem(item, listType)
-                            this.props.navigation.navigate('Dashboard')
+                            // this.props.navigation.navigate('Dashboard')
+                            
+                            var list = Object.assign([], oldList)
+                            list.splice(list.indexOf(item)-1,1);
+                            
+                            // console.log('Delete Appointment', list);
+                            
+                            this.setState({
+                                list: list
+                            })
                         })
                         .catch(error => {
                             console.log('error: ', error);

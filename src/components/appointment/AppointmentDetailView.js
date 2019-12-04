@@ -26,11 +26,11 @@ const AppointmentDetailView = (props) => {
                 var provider = data.data
                 var address = provider.address
 
-                const {streetAddress, city, state, zipCode} = address
+                const {streetAddress, city, state, zip} = address
                 setStreet(streetAddress)
                 setCity(city)
                 setState(state)
-                setZipCode(zipCode)
+                setZipCode(zip)
                 var services = provider.services.filter(i => i.serviceId == serviceId)[0]
                 item.style = services.styleId == "FADE" ? "Barber" : services.styleId == "UPDO" ? "Hair Dresser" : services.styleId
                 setLoading(false)
