@@ -19,6 +19,12 @@ jest.mock("../../../src/actions", () => {
     };
 });
 
+jest.mock("../../../src/store", () => {
+    return {
+        getAppointment:  jest.fn().mockReturnValue('mock getAppointment action'),
+    };
+});
+
 describe('Appointment Dashboard render correctly', () => {
     let areview;
     let props;
@@ -51,19 +57,19 @@ describe('Replace/Delete Appointment Dashboard map', () => {
     afterEach(() => {jest.clearAllMocks()})
 
     test('should map ReplaceAppointment props to Replacement Appointment Dashboard', () => {
-        let mockLoginActions = require("../../../src/actions");
+        let mockLoginActions = require("../../../src/store");
         let dispatch = jest.fn();
   
         let props = mapDispatchToProps(dispatch);
-        props.replaceItem({a:'1'},{b:'2'},'P');
+        props.refreshAppointment('P', 'jslkjfslkdfj');
   
-        expect(dispatch).toBeCalledWith('mock ReplaceAppointment action');
-        expect(mockLoginActions.appointment.ReplaceAppointment).toBeCalledWith({a:'1'},{b:'2'},'P');
+        expect(dispatch).toBeCalledWith('mock getAppointment action');
+        expect(mockLoginActions.getAppointment).toBeCalledWith('P', 'jslkjfslkdfj');
 
-        let props2 = mapDispatchToProps(dispatch);
-        props2.deleteItem({a:'1'},'P');
+        // let props2 = mapDispatchToProps(dispatch);
+        // props2.deleteItem({a:'1'},'P');
   
-        expect(dispatch).toBeCalledWith('mock DeleteAppointment action');
-        expect(mockLoginActions.appointment.DeleteAppointment).toBeCalledWith({a:'1'},'P');
+        // expect(dispatch).toBeCalledWith('mock DeleteAppointment action');
+        // expect(mockLoginActions.appointment.DeleteAppointment).toBeCalledWith({a:'1'},'P');
     })
 })
