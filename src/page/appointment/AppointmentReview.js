@@ -6,8 +6,8 @@ import { AppointmentList, AppointmentItem } from '../../components/appointment'
 import AppointmentDetail from './AppointmentDetail'
 import styles from '../styles/Appointment.styles'
 import utilites from '../../utilites'
-import { appointment } from '../../actions'
 import api from '../../api'
+import { getAppointment } from '../../store'
 
 class AppointmentReview extends React.Component {
     constructor(props){
@@ -38,23 +38,36 @@ class AppointmentReview extends React.Component {
         var list = this.props.navigation.getParam('list', [])
         var profile = this.props.navigation.getParam('profile', {})
         var token =  this.props.navigation.getParam('token', '') 
+        var header = this.props.navigation.getParam('headertitle', '')
 
         if((this.isEmpty(this.state.list) && !this.isEmpty(list)) ||
             (this.isEmpty(this.state.profile) && !this.isEmpty(profile))){
 
             this.setState({
                 list: list,
-                header: this.props.navigation.getParam('headertitle', ''),
+                header: header,
                 profile: profile,
                 token: token
             })
         }
+
+        if(nextProps.previousAppointment.length > 0 ||
+            nextProps.upcomingAppointment.length > 0){
+                this.setState({
+                    list: header == 'Previous' ? nextProps.previousAppointment : nextProps.upcomingAppointment
+                })
+            }
     }
 
     onDisplay = () => {
         this.setState({
             display: !this.state.display
         })
+
+        if(!this.state.display){
+            this.props.refreshAppointment('P',this.state.token)
+            this.props.refreshAppointment('U',this.state.token)
+        }
     }
 
     onDetailClose(){
@@ -76,25 +89,20 @@ class AppointmentReview extends React.Component {
     }
     
     onDetailHoldClickDelete(item){
-        const { appointmentId, listType} = item
+        const { appointmentId} = item
         const { token, list } = this.state
 
         var oldList = Object.assign([], list)
-        // console.log('Delete Appointment', oldList);
 
         this.setState({
             list: []
         })
-
-        // console.log('Delete Appointment', appointmentId);
 
         Alert.alert(
             'Delete Appointment',
             'Are you sure you want to delete this Appointment ? ',
             [
                 {text: 'Cancel', onPress: () => {
-                    // console.log('Delete Appointment Cancel', oldList);
-                    
                     this.setState({
                         list: oldList
                     })
@@ -105,20 +113,27 @@ class AppointmentReview extends React.Component {
                             
                     api.deleteAppointmentById(appointmentId, token)
                         .then (a => {
-                            this.props.deleteItem(item, listType)
-                            // this.props.navigation.navigate('Dashboard')
+                            this.props.refreshAppointment('U', token)
+                            this.props.refreshAppointment('P', token)
                             
                             var list = Object.assign([], oldList)
-                            list.splice(list.indexOf(item)-1,1);
-                            
-                            // console.log('Delete Appointment', list);
+                            list.splice(list.indexOf(item),1);
                             
                             this.setState({
                                 list: list
                             })
                         })
                         .catch(error => {
-                            console.log('error: ', error);
+                            this.setState({
+                                list: oldList
+                            })
+                            Alert.alert(
+                                'Warning',
+                                'Something went wrong, sorry. Please try again later',
+                                [
+                                    {text: 'OK ', onPress: () => { return null}}
+                                ]
+                            )
                         })
                 }}
             ]
@@ -194,7 +209,7 @@ class AppointmentReview extends React.Component {
                     OnClose={() => this.onDetailClose()}
                     profile={this.state.profile}
                     token={this.state.token}
-                    replaceItem={this.props.replaceItem}
+                    replaceItem={this.props.refreshAppointment}
                     onDisplay={this.onDisplay}
                 />
             </View>
@@ -204,10 +219,15 @@ class AppointmentReview extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        replaceItem: (newItem, oldItem, listType) => dispatch(appointment.ReplaceAppointment(newItem, oldItem, listType)),
-        deleteItem: (deleteItem, listType) => dispatch(appointment.DeleteAppointment(deleteItem, listType))
+        refreshAppointment: (type, token) => dispatch(getAppointment(type, token)),
     }
 }
 
+const mapStateToProps = (state) => {     
+    return {
+        previousAppointment: state.appointment.previousAppointment,
+        upcomingAppointment: state.appointment.upcomingAppointment
+    }
+}
 
-export default connect(null, mapDispatchToProps) (AppointmentReview)
+export default connect(mapStateToProps, mapDispatchToProps) (AppointmentReview)

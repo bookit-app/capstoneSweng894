@@ -9,7 +9,8 @@ const AppointmentItem = (props) => {
     date.plugin('ordinal');
     var image_ = {
         barber: require("../../image/barber.png"),
-        hairDress: require("../../image/hair-dresser.png")
+        hairDress: require("../../image/hair-dresser.png"),
+        custom: require('../../image/custom-hair.png')
     }    
     
     return (
@@ -26,7 +27,7 @@ const AppointmentItem = (props) => {
                                     height: 45,
                                     borderRadius: 25
                                 }}
-                                source={props.service == "Barber" ? image_.barber : image_.hairDress}
+                                source={props.service == "CUSTOM" ? image_.custom : props.service == "Barber" ? image_.barber : image_.hairDress}
                             />  
                         </View>
                     </View>

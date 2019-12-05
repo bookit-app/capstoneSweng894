@@ -6,11 +6,10 @@ import { AppointmentList, AppointmentItem } from '../../components/appointment'
 import styles from '../styles/Appointment.styles'
 import utilites from '../../utilites'
 import { NavigationEvents } from 'react-navigation'
-import { PreviousAppointments, UpcomingAppointments, Services } from '../../constant'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import AppointmentDetail from './AppointmentDetail'
-import { appointment } from '../../actions'
 import api from '../../api'
+import { getAppointment } from '../../store'
 
 /**
  * Appointment Dashboard show upcoming and most recent appointments for the client
@@ -120,6 +119,11 @@ class AppointmentDashboard extends React.Component {
         this.setState({
             display: !this.state.display
         })
+
+        if(!this.state.display){
+            this.props.refreshAppointment('P',this.state.token)
+            this.props.refreshAppointment('U',this.state.token)
+        }
     }
     
     onDetailHoldClickDelete(item){
@@ -130,15 +134,11 @@ class AppointmentDashboard extends React.Component {
             previousAppLoading: true,
             upcomingAppLoading: true,
         })
-
-        // console.log('Delete Appointment', appointmentId);
         Alert.alert(
             'Delete Appointment',
             'Are you sure you want to delete this Appointment ? ',
             [
-                {text: 'Cancel', onPress: () => {
-                    // console.log('Delete Appointment Cancel');
-                    
+                {text: 'Cancel', onPress: () => {                    
                     this.setState({
                         previousAppLoading: false,
                         upcomingAppLoading: false
@@ -146,16 +146,14 @@ class AppointmentDashboard extends React.Component {
 
                     return null
                 }},
-                {text: 'Confirm', onPress: () => {    
-                    // console.log('Delete Appointment delete');         
+                {text: 'Confirm', onPress: () => {            
                     api.deleteAppointmentById(appointmentId, token)
                         .then (a => {
-                            this.props.deleteItem(item, listType)
+                            this.props.refreshAppointment('U', token)
+                            this.props.refreshAppointment('P', token)
 
                             var list = listType == 'upcoming' ? this.state.upcomingAppointment : this.state.previousAppointment
-                            list.splice(list.indexOf(item)-1,1);
-                            
-                            // console.log('Delete Appointment', list);
+                            list.splice(list.indexOf(item),1);
                             
                             this.setState({
                                 previousAppLoading: false,
@@ -165,7 +163,18 @@ class AppointmentDashboard extends React.Component {
                             })
                         })
                         .catch(error => {
-                            console.log('error: ', error);
+                            this.setState({
+                                previousAppLoading: false,
+                                upcomingAppLoading: false
+                            })
+        
+                            Alert.alert(
+                                'Warning',
+                                'Something went wrong, sorry. Please try again later',
+                                [
+                                    {text: 'OK ', onPress: () => { return null}}
+                                ]
+                            )
                         })
                 }}
             ]
@@ -203,7 +212,7 @@ class AppointmentDashboard extends React.Component {
                                 navigation: this.props.navigation,
                                 profile: this.state.profile,
                                 token: this.state.token,
-                                replaceItem: this.props.replaceItem
+                                replaceItem: this.props.refreshAppointment
                             })}>
                             <Text style={styles.headerText}>{"View More"}</Text>
                         </TouchableOpacity>
@@ -229,7 +238,7 @@ class AppointmentDashboard extends React.Component {
                                 navigation: this.props.navigation,
                                 profile: this.state.profile,
                                 token: this.state.token,
-                                replaceItem: this.props.replaceItem
+                                replaceItem: this.props.refreshAppointment
                             })}>
                             <Text style={styles.headerText}>{"View More"}</Text>
                         </TouchableOpacity>
@@ -281,7 +290,7 @@ class AppointmentDashboard extends React.Component {
                     onWillFocus={() => this.AppointmentDashboardRefresh()}
                 />
                 <AppointmentList
-                    currentData={this.state.upcomingAppointment.slice(0,3)}
+                    currentData={this.state.upcomingAppointment.slice(0,4)}
                     extraData={this.state}
                     renderItem={this.renderItem}
                     listHeader={this.listUpcomingHeader}
@@ -291,7 +300,7 @@ class AppointmentDashboard extends React.Component {
                     keyExtractor={item => item.appointmentId}
                 />
                 <AppointmentList
-                    currentData={this.state.previousAppointment.slice(0,3)}
+                    currentData={this.state.previousAppointment.slice(0,4)}
                     extraData={this.state}
                     renderItem={this.renderItem}
                     listHeader={this.listReviewHeader}
@@ -306,7 +315,7 @@ class AppointmentDashboard extends React.Component {
                     OnClose={() => this.onDetailClose()}
                     profile={this.state.profile}
                     token={this.state.token}
-                    replaceItem={this.props.replaceItem}
+                    replaceItem={this.props.refreshAppointment}
                     onDisplay={this.onDisplay}
                 />
             </ScrollView>
@@ -331,8 +340,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        replaceItem: (newItem, oldItem, listType) => dispatch(appointment.ReplaceAppointment(newItem, oldItem, listType)),
-        deleteItem: (deleteItem, listType) => dispatch(appointment.DeleteAppointment(deleteItem, listType))
+        refreshAppointment: (type, token) => dispatch(getAppointment(type, token)),
     }
 }
 

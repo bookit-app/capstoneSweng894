@@ -161,8 +161,14 @@ class PreferenceShopResult extends React.Component {
                             this.props.setPreference(preference)
                             NavigationService.navigate(this.props.onItemConfirmed)
                         }).catch(error =>{
-                            console.log('setProviderPreference error', error);
-                            
+                            // console.log('setProviderPreference error', error);        
+                            Alert.alert(
+                                'Warning',
+                                'Something went wrong, sorry. Please try again later',
+                                [
+                                    {text: 'OK ', onPress: () => { return null}}
+                                ]
+                            )
                         })
                 }}
             ]

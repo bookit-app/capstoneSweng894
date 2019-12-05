@@ -3,6 +3,7 @@ import {View, Text, ScrollView, Alert} from 'react-native'
 import api from '../../api'
 import styles from '../../page/styles/Appointment.styles'
 import CustomInputStyles from '../styles/CustomInputStyles'
+import newStyle from '../../components/styles/LogInBtn.styles'
 import _date from 'date-and-time'
 import 'date-and-time/plugin/ordinal'
 import moment from 'moment'
@@ -27,7 +28,7 @@ const AppointmentEditView = (props) => {
     const [startNonDt, setStartNonDt] = useState(_date.format(_date.parse(date, 'YYYY-MM-DD'), 'YYYY-MM-DD'))
     const [hour, setHour] = useState(time.toString().split(':')[0])
     const [minute, setMinute] = useState(time.toString().split(':')[1])
-    const [period, setPeriod] = useState(time.toString().split(':')[0] > 9 && time.toString().split(':')[0] < 12 ? "am" : "pm")
+    const [period, setPeriod] = useState(time.toString().split(':')[0] >= 9 && time.toString().split(':')[0] < 12 ? "am" : "pm")
     const [status_, setStatus] = useState(StatusList.filter(i => i.Value == code.trim())[0].Name)
     const [appState, setAppState] = useState(StateList.filter(i => i.Value == state.trim())[0].Name )
     const [comment_, setComment] = useState(comment)
@@ -69,7 +70,13 @@ const AppointmentEditView = (props) => {
                 seteaLoading(false)
             })
             .catch((err) => {
-                // console.log('searchAppointmentByFilter failure', err);
+                Alert.alert(
+                    'Warning',
+                    'Something went wrong, sorry. Please try again later',
+                    [
+                        {text: 'OK ', onPress: () => { return null}}
+                    ]
+                )
                 seteaLoading(false)
             })
     },[providerId])
@@ -115,20 +122,7 @@ const AppointmentEditView = (props) => {
             setLoading(false)
         } else {
             api.updateAppointmentById(payload, appointmentId, token)
-            .then((app) => {
-                var oldItem = item
-
-                var newItem = Object.assign({}, item)
-                newItem.date = startNonDt
-                newItem.note = note
-                newItem.state = state_                
-                newItem.status = {
-                    code: code_,
-                    comment: comment_
-                }
-                newItem.time = time_
-                
-                replaceItem(newItem, oldItem, listType)
+            .then((app) => {                
                 setLoading(false)
                 onCompletionUpdate()
             })
@@ -278,8 +272,8 @@ const AppointmentEditView = (props) => {
                 </View>
                 <ButtonCustom
                     onPress={updateAppointment}
-                    buttonStyle={LoginButton.buttonStyle}
-                    textStyle={LoginButton.textStyle}
+                    buttonStyle={newStyle.smallButtonStylePurple}
+                    textStyle={newStyle.whiteFillTextStyle}
                 >
                     {'Update Appointment'}
                 </ButtonCustom>

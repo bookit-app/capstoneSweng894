@@ -61,5 +61,30 @@ export default {
     },
     headerNoAppointment: {
         color: '#724FFD'
+    },
+    Item: {
+        borderColor: '#724FFD',
+        borderWidth:.2,
+        borderRadius: 3,
+        marginRight: -7,
+        marginLeft: 1,
+    },
+    RowItem: {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+        padding: 5,
+        margin: 10,
+        justifyContent: 'space-between'
+    },
+    RowItemSelect: {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row',
+        padding: 5,
+        margin: 10,
+        justifyContent: 'space-between',
+        borderWidth: 1,
+        borderColor: '#007aff',
     }
 }

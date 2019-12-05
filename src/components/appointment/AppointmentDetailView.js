@@ -1,7 +1,9 @@
 import React, { useState, useEffect} from 'react'
+import { Alert } from 'react-native'
 import { AppointmentView, AppointmentEditView } from '../appointment'
 import { ButtonCustom, Spinner } from '../common'
 import LoginButton from '../styles/LoginButton.styles'
+import newStyle from '../../components/styles/LogInBtn.styles'
 import api from '../../api'
 
 /**
@@ -37,7 +39,13 @@ const AppointmentDetailView = (props) => {
             })
             .catch((err) => {
                 setLoading(false)
-                console.log('AppointmentDetailView useEffect Failure', err.message);
+                Alert.alert(
+                    'Warning',
+                    'Something went wrong, sorry. Please try again later',
+                    [
+                        {text: 'OK ', onPress: () => { return null}}
+                    ]
+                )
             })
     },[item])
 
