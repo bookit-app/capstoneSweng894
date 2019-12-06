@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {View, Text, ScrollView, Alert} from 'react-native'
 import api from '../../api'
 import styles from '../../page/styles/Appointment.styles'
+import CustomPickerStyles from '../styles/CustomPickerStyles'
 import CustomInputStyles from '../styles/CustomInputStyles'
 import newStyle from '../../components/styles/LogInBtn.styles'
 import _date from 'date-and-time'
@@ -287,11 +288,12 @@ const AppointmentEditView = (props) => {
 
     return (
         <ScrollView>
-            <View style={styles.Row,{justifyContent: 'center', paddingTop: 15}}>
+         <View style={styles.Row,{justifyContent: 'center', paddingTop: 15}}>
                 <View style={styles.Column}>
                     <View style={styles.Row}>  
-                        <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'State:'}</Text>
+                        <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop:20}}>{'State:'}</Text>
                         <CustomPicker
+                            style={{marginTop:20}}
                             defaultValue={"i.e. Booked"}
                             fieldTemplate={AppointmentRenderPickerField}
                             options={StateList.map(l => l.Name)}
@@ -312,7 +314,7 @@ const AppointmentEditView = (props) => {
                         </View>
                     </View>
                     <View style={styles.Row}>
-                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Time:'}</Text>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop:20}}>{'Time:'}</Text>
                         <Time
                             placeHour={hour}
                             defaultHour={hour}
@@ -332,8 +334,9 @@ const AppointmentEditView = (props) => {
                         />
                     </View>
                     <View style={styles.Row}>
-                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Status:'}</Text>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop:20}}>{'Status:'}</Text>
                         <Status
+                            style={{marginTop: 20}}
                             status={status_}
                             listType={listType}
                             onSetStatus={s => {
@@ -343,30 +346,31 @@ const AppointmentEditView = (props) => {
                         />
                     </View>
                     <View style={styles.Row}>
-                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Shop Name:'}</Text>
-                        <Text>{businessName}</Text>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop:20}}>{'Shop Name:'}</Text>
+                        <Text style={{marginTop: 20}}>{businessName}</Text>
                     </View>
                     <View style={styles.Row}>
-                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Stylist:'}</Text>
-                        <Text>{staffMemberName}</Text>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop:20}}>{'Stylist:'}</Text>
+                        <Text style={{marginTop: 20}}>{staffMemberName}</Text>
                     </View>
                     <View style={styles.Row}>
-                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Service:'}</Text>
-                        <Text>{style}</Text>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop:20}}>{'Service:'}</Text>
+                        <Text style={{marginTop: 20}}>{style}</Text>
                     </View>
                     <View style={styles.Row}>
-                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Address:'}</Text>
+                        <Text style={{color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop:20}}>{'Address:'}</Text>
                         <View style={styles.Column}>
-                            <Text>{props.address}</Text>
+                            <Text style={{marginTop: 20}}>{props.address}</Text>
                             <Text>{props.city + " " + props.state + " " + props.zipCode}</Text>
                         </View>
                     </View>
                     <View style={styles.Row}>
-                        <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Note:'}</Text>
-                        <Text>{note}</Text>
+                        <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop:20}}>{'Note:'}</Text>
+                        <Text style={{marginTop: 20}}>{note}</Text>
                     </View>
                     <View>
                         <InputCustom
+                            style={{marginTop: 20}}
                             placeholder="i.e. Comment"
                             label="Comment: "     
                             value={comment_}

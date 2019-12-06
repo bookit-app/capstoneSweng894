@@ -98,7 +98,8 @@ class AppointmentDashboard extends React.Component {
             <ImageButton
                 style={{
                     width: 1,
-                    height: 1
+                    height: 1,
+                    marginTop: 10
                 }}
                 onPress={() => {
                     this.setState({ display: false })

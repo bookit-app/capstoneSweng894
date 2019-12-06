@@ -25,7 +25,7 @@ const AppointmentItem = (props) => {
                                 style={{
                                     width: 45,
                                     height: 45,
-                                    borderRadius: 25
+                                    borderRadius: 25,
                                 }}
                                 source={props.service == "CUSTOM" ? image_.custom : props.service == "Barber" ? image_.barber : image_.hairDress}
                             />  

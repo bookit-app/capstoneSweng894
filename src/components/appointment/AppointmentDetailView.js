@@ -53,8 +53,8 @@ const AppointmentDetailView = (props) => {
         return (
             <ButtonCustom
                 onPress={() => setEditable(!editable)}
-                buttonStyle={LoginButton.buttonStyle}
-                textStyle={LoginButton.textStyle}
+                buttonStyle={LoginButton.editButtonStyle}
+                textStyle={LoginButton.editTextStyle}
             >
                 {'Edit'}
             </ButtonCustom>
