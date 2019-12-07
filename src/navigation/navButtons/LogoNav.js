@@ -1,5 +1,5 @@
 import React from 'react'
-import { ImageButton } from '../../components/common'
+import { LogoImageButton, ImageButton } from '../../components/common'
 import { NavigationActions } from 'react-navigation'
 
 /**
@@ -16,9 +16,9 @@ class LogoNav extends React.Component {
 
     render(){
         return (
-            <ImageButton
+            <LogoImageButton
                 onPress={() => this.navigateToScreen('Home')}
-                imageSource={require('../../image/Placeholder150.png')}
+                imageSource={require('../../image/BookIt_Tall.png')}
             />
         )
     }

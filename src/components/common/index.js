@@ -4,6 +4,7 @@ export * from './InputCustom';
 export * from './Spinner';
 export * from './InputNumber';
 export * from './ImageButton';
+export * from './LogoImageButton';
 export * from './ButtonCustom';
 export * from './InputNumberCustom'
 export * from '../appointment/Time'

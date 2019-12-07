@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Image } from 'react-native';
 
-const ImageButton = ({ onPress, imageSource }) => {
+const LogoImageButton = ({ onPress, imageSource }) => {
 
 return (
     <TouchableOpacity onPress={onPress} style={styles.viewSty}>
@@ -19,9 +19,9 @@ return (
         height: 30
     },   
     viewSty: {
-        marginTop:60,
+       // marginTop:60,
         marginLeft: 20
     }
 };
 
-export { ImageButton };
+export {LogoImageButton};

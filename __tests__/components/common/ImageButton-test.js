@@ -10,7 +10,7 @@ describe('Image Button render correctly', () => {
     test('Image Button render without crashing', () => {
         props ={
             onPress: () => {},
-            imageSource: require('../../../src/image/Placeholder150.png')
+            imageSource: require('../../../src/image/BookIt_Tall.png')
         }
 
         var imageButton = shallow(<ImageButton {...props} />)

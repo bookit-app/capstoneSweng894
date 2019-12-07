@@ -17,7 +17,7 @@ class SignUpOptions extends React.Component {
                 <View style={styles.imgSty}>
                     <AccountImage
                         imageHolder={false}
-                        placeholder={require('../../image/Placeholder150.png')}
+                        placeholder={require('../../image/BookIt_Tall.png')}
                     />
                 </View>
                 <View style={styles.Column}>

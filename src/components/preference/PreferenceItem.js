@@ -12,7 +12,7 @@ const PreferenceItem = (props) => {
                 <View style={styles.RowItem}>
                     <Image
                         style={styles.ItemimgSty}
-                        source={require('../../image/Placeholder150.png')}
+                        source={require('../../image/BookIt_Tall.png')}
                     />   
                     <Text>{props.businessName ? props.businessName :''}</Text>
                     {/* TEXT SHOULD GO HERE TO ADD MORE ITEMS TO TABLEVIEW*/}

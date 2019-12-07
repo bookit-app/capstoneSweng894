@@ -7,7 +7,7 @@ describe('Account Image correctly renders', () => {
         const accountImage = create(
             <AccountImage
             imageHolder={false}
-            placeholder={require('../../../src/image/Placeholder150.png')}
+            placeholder={require('../../../src/image/BookIt_Tall.png')}
         />
         )
         expect(accountImage.toJSON()).toBeTruthy()
@@ -17,7 +17,7 @@ describe('Account Image correctly renders', () => {
         const accountImage = create(
             <AccountImage
             imageHolder={true}
-            placeholder={require('../../../src/image/Placeholder150.png')}
+            placeholder={require('../../../src/image/BookIt_Tall.png')}
         />
         )
         expect(accountImage.toJSON()).toBeTruthy()

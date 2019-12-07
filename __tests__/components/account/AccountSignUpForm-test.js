@@ -25,8 +25,8 @@ describe('Account Sign Form correctly renders', () => {
         const accountSignForm = renderer.create(
             <AccountSignUpForm
                 imageHolder={false}
-                placeholder={require('../../../src/image/Placeholder150.png')}
-                image={require('../../../src/image/Placeholder150.png')}
+                placeholder={require('../../../src/image/BookIt_Tall.png')}
+                image={require('../../../src/image/BookIt_Tall.png')}
                 firstName = {'Test'}
                 firstNameChge={() => {}}
                 firstNameError = {'Test'}
@@ -75,8 +75,8 @@ describe('Account Sign Form correctly renders', () => {
         const accountSignForm = renderer.create(
             <AccountSignUpForm
                 imageHolder={false}
-                placeholder={require('../../../src/image/Placeholder150.png')}
-                image={require('../../../src/image/Placeholder150.png')}
+                placeholder={require('../../../src/image/BookIt_Tall.png')}
+                image={require('../../../src/image/BookIt_Tall.png')}
                 firstName = {'Test'}
                 firstNameChge={() => {}}
                 firstNameError = {'Test'}

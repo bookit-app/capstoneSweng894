@@ -24,8 +24,8 @@ describe('Account Form correctly renderer', () => {
         const accountForm = create(
             <AccountForm
                 imageHolder={false}
-                placeholder={require('../../../src/image/Placeholder150.png')}
-                image={require('../../../src/image/Placeholder150.png')}
+                placeholder={require('../../../src/image/BookIt_Tall.png')}
+                image={require('../../../src/image/BookIt_Tall.png')}
                 email={'Test'}
                 onEmailChge={() => {}}
                 errorEmail={'Test'}
@@ -63,8 +63,8 @@ describe('Account Form correctly renderer', () => {
         const accountForm = create(
             <AccountForm
                 imageHolder={true}
-                placeholder={require('../../../src/image/Placeholder150.png')}
-                image={require('../../../src/image/Placeholder150.png')}
+                placeholder={require('../../../src/image/BookIt_Tall.png')}
+                image={require('../../../src/image/BookIt_Tall.png')}
                 email={'Test'}
                 onEmailChge={() => {}}
                 errorEmail={'Test'}

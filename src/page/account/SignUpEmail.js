@@ -89,8 +89,8 @@ class SignUpEmail extends React.Component {
             <View>
                 <AccountSignUpForm
                     imageHolder={false}
-                    placeholder={require('../../image/Placeholder150.png')}
-                    image={require('../../image/Placeholder150.png')} 
+                    placeholder={require('../../image/BookIt_Tall.png')}
+                    image={require('../../image/BookIt_Tall.png')} 
                     firstName = {this.state.firstName}
                     firstNameChge={firstName => this.verifyFirstName( firstName)}
                     firstNameError = {this.state.firstNameError}
