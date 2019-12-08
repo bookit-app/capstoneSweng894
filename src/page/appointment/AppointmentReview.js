@@ -77,6 +77,7 @@ class AppointmentReview extends React.Component {
                     this.setState({ display: false })
                 }}
                 imageSource={require('../../image/close-x-icon.png')}
+                
             />
         )
     }

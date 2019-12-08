@@ -375,20 +375,21 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 2242G7297N;
+						DevelopmentTeam = Q38VH57SHY;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 2242G7297N;
+						DevelopmentTeam = Q38VH57SHY;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 2242G7297N;
+						DevelopmentTeam = Q38VH57SHY;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 2242G7297N;
+						DevelopmentTeam = Q38VH57SHY;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
@@ -702,7 +703,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				DEVELOPMENT_TEAM = 2242G7297N;
+				DEVELOPMENT_TEAM = Q38VH57SHY;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -728,7 +729,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 2242G7297N;
+				DEVELOPMENT_TEAM = Q38VH57SHY;
 				INFOPLIST_FILE = capstoneSweng894Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -748,9 +749,11 @@
 			baseConfigurationReference = 1F7F29ABF1C30445F7EDBC03 /* Pods-capstoneSweng894.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 2242G7297N;
+				DEVELOPMENT_TEAM = Q38VH57SHY;
 				INFOPLIST_FILE = capstoneSweng894/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -758,8 +761,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = con.icreatevisions.bookit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.icreatevisions.bookitapp;
 				PRODUCT_NAME = capstoneSweng894;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -769,8 +773,10 @@
 			baseConfigurationReference = CDBD5CF8A434725FDA2366DD /* Pods-capstoneSweng894.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2242G7297N;
+				DEVELOPMENT_TEAM = Q38VH57SHY;
 				INFOPLIST_FILE = capstoneSweng894/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -778,8 +784,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = con.icreatevisions.bookit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.icreatevisions.bookitapp;
 				PRODUCT_NAME = capstoneSweng894;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -795,7 +802,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 2242G7297N;
+				DEVELOPMENT_TEAM = Q38VH57SHY;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "capstoneSweng894-tvOS/Info.plist";
@@ -805,7 +812,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = con.icreatevisions.bookit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.icreatevisions.bookitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -825,7 +832,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 2242G7297N;
+				DEVELOPMENT_TEAM = Q38VH57SHY;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "capstoneSweng894-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -834,7 +841,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = con.icreatevisions.bookit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.icreatevisions.bookitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -852,7 +859,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 2242G7297N;
+				DEVELOPMENT_TEAM = Q38VH57SHY;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "capstoneSweng894-tvOSTests/Info.plist";
@@ -881,7 +888,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 2242G7297N;
+				DEVELOPMENT_TEAM = Q38VH57SHY;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "capstoneSweng894-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

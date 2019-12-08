@@ -10,6 +10,17 @@ export default {
       justifyContent: 'center',
       alignItems: 'center',
     },
+    editTextStyle: {
+      alignSelf: 'center',
+      color: '#fff',
+      fontSize: 16,
+      fontWeight: '600',
+      //fontFamily: 'Diodrum Bold',
+      paddingTop: 5,
+      paddingBottom: 5,        
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     buttonStyle: {
       flex: 1,
       backgroundColor:'#724FFD' ,
@@ -19,6 +30,17 @@ export default {
       justifyContent: 'center',
       alignItems: 'center',
       width: 302,
+      height: 54,
+    },
+    editButtonStyle: {
+      flex: 1,
+      backgroundColor:'#724FFD' ,
+      borderRadius: 5,
+      borderWidth: 1,
+      borderColor: '#724FFD',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 100,
       height: 54,
     }
   }; 

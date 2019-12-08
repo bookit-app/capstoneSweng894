@@ -19,7 +19,8 @@ const styles = {
         height: 30
     },   
     viewSty: {
-        margin: 5
+        marginTop:60,
+        marginLeft: 20
     }
 };
 

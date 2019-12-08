@@ -17,54 +17,54 @@ const AppointmentView = (props) => {
     return (
         <View style={styles.Column, {paddingTop: 15}}>
             <View style={styles.Row}>
-                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'State:'}</Text>
-                <Text>{StateList.filter(i => i.Value == state.trim())[0].Name}</Text>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop: 20}}>{'State:'}</Text>
+                <Text style={{marginTop:20}}>{StateList.filter(i => i.Value == state.trim())[0].Name}</Text>
             </View>
             <View style={styles.Column}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={styles.Row}>
-                        <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Date:'}</Text>
-                        <Text>{date.format(date.parse(props.item.date, 'YYYY-MM-DD'), 'MMM DDD YYYY')}</Text>
+                        <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop: 20}}>{'Date:'}</Text>
+                        <Text style={{marginTop: 20}}>{date.format(date.parse(props.item.date, 'YYYY-MM-DD'), 'MMM DDD YYYY')}</Text>
                     </View>
                     <View style={{paddingEnd: 5}}>   
                         <props.onEditClick/>
                     </View>
                 </View>
                 <View style={styles.Row}>
-                    <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Time:'}</Text>
-                    <Text>{time}</Text>
+                    <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5,marginTop: 20}}>{'Time:'}</Text>
+                    <Text style={{marginTop: 20}}>{time}</Text>
                 </View>
             </View>
             <View style={styles.Row}>
-                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Status:'}</Text>
-                <Text>{StatusList.filter(i => i.Value == code.trim())[0].Name}</Text>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5, marginTop: 20}}>{'Status:'}</Text>
+                <Text style={{marginTop: 20}}>{StatusList.filter(i => i.Value == code.trim())[0].Name}</Text>
             </View>
             <View style={styles.Row}>
-                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Shop Name:'}</Text>
-                <Text>{businessName}</Text>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5,marginTop: 20}}>{'Shop Name:'}</Text>
+                <Text style={{marginTop: 20}}>{businessName}</Text>
             </View>
             <View style={styles.Row}>
-                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Stylist:'}</Text>
-                <Text>{staffMemberName}</Text>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5,marginTop: 20}}>{'Stylist:'}</Text>
+                <Text style={{marginTop: 20}}>{staffMemberName}</Text>
             </View>
             <View style={styles.Row}>
-                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Service:'}</Text>
-                <Text>{style}</Text>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5,marginTop: 20}}>{'Service:'}</Text>
+                <Text style={{marginTop: 20}}>{style}</Text>
             </View>
             <View style={styles.Row}>
-                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Address:'}</Text>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5,marginTop: 20}}>{'Address:'}</Text>
                 <View style={styles.Column}>
-                    <Text>{props.address}</Text>
+                    <Text style={{marginTop: 20}}>{props.address}</Text>
                     <Text>{props.city+" "+props.state+" "+props.zipCode}</Text>
                 </View>
             </View>
             <View style={styles.Row}>
-                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Note:'}</Text>
-                <Text>{note}</Text>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5,marginTop: 20}}>{'Note:'}</Text>
+                <Text style={{marginTop: 20}}>{note}</Text>
             </View>
             <View style={styles.Row}>
-                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5}}>{'Comment:'}</Text>
-                <Text>{comment}</Text>
+                <Text style={{ color: '#724FFD', paddingStart: 5, paddingEnd: 5,marginTop: 20}}>{'Comment:'}</Text>
+                <Text style={{marginTop: 20}}>{comment}</Text>
             </View>
         </View>
     )
