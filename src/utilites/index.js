@@ -789,17 +789,19 @@ function onSubmitPrefPage1(navNext){
  */
 function onSkipClick(onSkip){
 
-    const {styleOn, cityState} = this.state
-
-    var city = !cityState ? this.props.profile.address.city : cityState.split(',')[0].trim() 
-    var state = !cityState ? this.props.profile.address.state : cityState.split(',')[1].trim()
-    var styles = !styleOn ? this.props.preference.hairStyle.style : styleOn
+    // const {styleOn, cityState} = this.state
+    
+    var city = this.props.profile.address.city //!cityState ? this.props.profile.address.city : cityState.split(',')[0].trim() 
+    var state = this.props.profile.address.state //!cityState ? this.props.profile.address.state : cityState.split(',')[1].trim()
+    // var styles = !styleOn ? this.props.preference.hairStyle.style : styleOn
 
     var filterType = {
         city: city,
         state: state,
         // styles: styles
     }
+    
+    console.log('filterType', filterType);
     
     var filter = filterGenerate(filterType)
 
