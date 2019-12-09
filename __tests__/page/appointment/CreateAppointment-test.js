@@ -1,5 +1,5 @@
 import '../../../src/setupTests'
-import AppointmentReview from '../../../src/page/appointment/AppointmentReview'
+import CreateAppointment from '../../../src/page/appointment/CreateAppointment'
 import React from 'react'
 import { shallow } from 'enzyme'
 
@@ -24,7 +24,7 @@ jest.mock("../../../src/store", () => {
     };
 });
 
-describe('Appointment Dashboard render correctly', () => {
+describe('Appointment creation render correctly', () => {
     let areview;
     let props;
 
@@ -36,13 +36,13 @@ describe('Appointment Dashboard render correctly', () => {
         }
     })
 
-    test('Appointment Dashboard correctly render', () => {
-        areview = shallow(<AppointmentReview {...props} />)
+    test('Appointment Creation correctly render', () => {
+        areview = shallow(<CreateAppointment {...props} />)
         expect(areview).toBeTruthy()
     })
 })
 
-describe('Replace/Delete Appointment Dashboard map', () => {
+describe('Create Appointment map', () => {
     let mapStateToProps
     let mapDispatchToProps
 
@@ -55,7 +55,7 @@ describe('Replace/Delete Appointment Dashboard map', () => {
     
     afterEach(() => {jest.clearAllMocks()})
 
-    test('should map ReplaceAppointment props to Replacement Appointment Dashboard', () => {
+    test('should map Create Appointment props to Create Appointment Dashboard', () => {
         let mockLoginActions = require("../../../src/store");
         let dispatch = jest.fn();
   
@@ -64,6 +64,12 @@ describe('Replace/Delete Appointment Dashboard map', () => {
   
         expect(dispatch).toBeCalledWith('mock getAppointment action');
         expect(mockLoginActions.getAppointment).toBeCalledWith('P', 'jslkjfslkdfj');
+  
+        props = mapDispatchToProps(dispatch);
+        props.refreshAppointment('U', 'jslkjfslkdfj');
+  
+        expect(dispatch).toBeCalledWith('mock getAppointment action');
+        expect(mockLoginActions.getAppointment).toBeCalledWith('U', 'jslkjfslkdfj');
 
         // let props2 = mapDispatchToProps(dispatch);
         // props2.deleteItem({a:'1'},'P');
