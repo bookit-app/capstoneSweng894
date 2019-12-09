@@ -93,19 +93,21 @@ const  AccountSignUp = (props) => {
                 />
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
-                <InputCustom
-                    placeholder="i.e. 123-123-1234"
-                    label="Telephone: " 
-                    value={props.telephoneValue}
-                    onChangeText={props.telephoneOnChge}
-                    error={props.errorTelephone}        
-                    inputStyle = {CustomInputStyles.inputStyleOsLeft}
-                    containerStyle = {CustomInputStyles.containerStyleLeft}       
-                    labelStyle = {CustomInputStyles.labelStyle}
-                    errorStyle = {CustomInputStyles.error } 
-                    textAlign= {CustomInputStyles.inputTextAlignment}
+                <View>
+                    <InputCustom
+                        placeholder="i.e. 123-123-1234"
+                        label="Telephone: " 
+                        value={props.telephoneValue}
+                        onChangeText={props.telephoneOnChge}
+                        error={props.errorTelephone}        
+                        inputStyle = {CustomInputStyles.inputStyleOsLeft }
+                        containerStyle = {CustomInputStyles.containerStyleLeft}      
+                        labelStyle = {CustomInputStyles.labelStyle}
+                        errorStyle = {CustomInputStyles.error } 
+                        textAlign= {CustomInputStyles.inputTextAlignment}
 
-                />
+                    />
+                </View>
                 <View style={CustomInputStyles.containerStyleRight}>
                     <Text>{"Gender: "}</Text>
                     <CustomPicker
